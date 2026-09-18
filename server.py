@@ -3,8 +3,6 @@ import socketserver
 import json
 import os
 import sys
-import webbrowser
-import threading
 import urllib.parse
 from datetime import datetime, date
 import openpyxl
@@ -13,12 +11,24 @@ PORT = 8050
 EXCEL_PATH = r"c:\Users\prasa\Desktop\TS-Correspondence Matrix\AP TS-Correspondence MATRIX.xlsx"
 STATIC_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def get_correspondence_data():
+_cached_data = None
+_cached_mtime = None
+
+def get_correspondence_data(force_reload=False):
+    global _cached_data, _cached_mtime
+
     if not os.path.exists(EXCEL_PATH):
         return {"status": "error", "message": "Excel file not found at " + EXCEL_PATH}
 
+    current_mtime = os.path.getmtime(EXCEL_PATH)
+
+    # Return cached data if file hasn't changed on disk
+    if not force_reload and _cached_data is not None and _cached_mtime == current_mtime:
+        # Update server poll timestamp
+        _cached_data['server_time'] = datetime.now().strftime("%I:%M:%S %p")
+        return _cached_data
+
     try:
-        # Load data using openpyxl for raw values and formulas
         wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
         ws_name = 'Correspondence Matrix (Tappals)' if 'Correspondence Matrix (Tappals)' in wb.sheetnames else wb.sheetnames[0]
         ws = wb[ws_name]
@@ -55,7 +65,6 @@ def get_correspondence_data():
                     row_dict[col_name] = ""
 
             if has_substantive_data:
-                # Add calculated aging in days
                 date_recv_str = row_dict.get('Date Received to office', '')
                 date_close_str = row_dict.get('Final Closure Date', '')
                 
@@ -77,7 +86,6 @@ def get_correspondence_data():
                 row_dict['calculated_aging_days'] = aging_days
                 row_dict['calculated_tat_days'] = tat_days
 
-                # Normalized stage category
                 stage = (row_dict.get('Current Stage') or '').strip()
                 if stage in ['Completed', 'Correspondence Closed', 'File Dispatched']:
                     row_dict['status_group'] = 'Completed'
@@ -88,7 +96,6 @@ def get_correspondence_data():
                 else:
                     row_dict['status_group'] = 'Pending' if not stage or stage == 'N/A' else stage
 
-                # Normalized priority
                 priority = (row_dict.get('Priority') or '').strip()
                 if priority not in ['Critical', 'High', 'Normal']:
                     priority = 'Normal'
@@ -96,7 +103,6 @@ def get_correspondence_data():
 
                 records.append(row_dict)
 
-        # Build Analytics Summary
         total_records = len(records)
         completed_count = sum(1 for r in records if r['status_group'] == 'Completed')
         inprogress_count = sum(1 for r in records if r['status_group'] == 'In-Progress')
@@ -104,11 +110,9 @@ def get_correspondence_data():
         critical_count = sum(1 for r in records if r['Priority'] == 'Critical')
         high_count = sum(1 for r in records if r['Priority'] == 'High')
 
-        # Average Turnaround Days for completed tasks
         tat_list = [r['calculated_tat_days'] for r in records if r['status_group'] == 'Completed' and r['calculated_tat_days'] > 0]
         avg_tat = round(sum(tat_list) / len(tat_list), 1) if tat_list else 0
 
-        # Aging distribution for open items (Pending & In-Progress)
         aging_buckets = {"< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0}
         for r in records:
             if r['status_group'] != 'Completed':
@@ -122,7 +126,6 @@ def get_correspondence_data():
                 else:
                     aging_buckets["15+ Days"] += 1
 
-        # Officer breakdown
         officers_map = {}
         for r in records:
             off = r.get('Concerned Officer') or 'Unassigned'
@@ -157,7 +160,6 @@ def get_correspondence_data():
                 'staff': sorted(list(data['staff']))
             })
 
-        # Staff breakdown
         staff_map = {}
         for r in records:
             st = r.get('Concerned Staff') or 'Unassigned'
@@ -183,7 +185,6 @@ def get_correspondence_data():
                 'pending': data['pending']
             })
 
-        # Project breakdown
         projects_map = {}
         for r in records:
             p = r.get('Project') or 'Other / Misc'
@@ -212,7 +213,6 @@ def get_correspondence_data():
                 'critical': data['critical']
             })
 
-        # Channels breakdown
         channels_map = {}
         for r in records:
             ch = r.get('Received Through') or 'Other'
@@ -222,7 +222,6 @@ def get_correspondence_data():
 
         channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-        # Top Sending Departments
         dept_map = {}
         for r in records:
             d = r.get('Received From Department /Wing') or 'Unknown'
@@ -232,9 +231,10 @@ def get_correspondence_data():
         
         dept_analytics = [{'department': k, 'count': v} for k, v in sorted(dept_map.items(), key=lambda x: x[1], reverse=True)[:8]]
 
-        return {
+        _cached_data = {
             'status': 'success',
-            'last_updated': datetime.fromtimestamp(os.path.getmtime(EXCEL_PATH)).strftime("%Y-%m-%d %H:%M:%S"),
+            'file_modified_time': datetime.fromtimestamp(current_mtime).strftime("%Y-%m-%d %I:%M:%S %p"),
+            'server_time': datetime.now().strftime("%I:%M:%S %p"),
             'file_name': os.path.basename(EXCEL_PATH),
             'kpis': {
                 'total': total_records,
@@ -253,6 +253,9 @@ def get_correspondence_data():
             'departments': dept_analytics,
             'records': records
         }
+        _cached_mtime = current_mtime
+
+        return _cached_data
 
     except Exception as e:
         import traceback
@@ -295,6 +298,7 @@ def start_server():
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Network access: http://0.0.0.0:{PORT}")
         print(f" Tracking Excel: {EXCEL_PATH}")
+        print(f" Auto-Sync: Active (Instant Disk Detection)")
         print(f"================================================================")
         httpd.serve_forever()
 

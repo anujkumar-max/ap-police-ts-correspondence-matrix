@@ -92,9 +92,9 @@
                 <div>
                     <div class="flex items-center space-x-2">
                         <span class="text-xs font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
-                        <span id="sync-status-indicator" class="flex items-center text-xs text-emerald-400 font-medium">
+                        <span id="sync-status-badge" class="flex items-center text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
-                            Live Connected
+                            <span>Auto-Sync: 5s Live</span>
                         </span>
                     </div>
                     <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
@@ -107,8 +107,8 @@
             <!-- Header Quick Actions & Live Info -->
             <div class="flex items-center flex-wrap gap-2.5 no-print">
                 <div class="text-right hidden sm:block mr-2">
-                    <div class="text-[11px] text-slate-400">Data Source: <span id="excel-filename" class="text-slate-200 font-semibold">AP TS-Correspondence MATRIX.xlsx</span></div>
-                    <div class="text-[11px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Checking...</span></div>
+                    <div class="text-[11px] text-slate-400">Excel Saved: <span id="excel-saved-time" class="text-amber-400 font-mono font-medium">Checking...</span></div>
+                    <div class="text-[11px] text-slate-400">Dashboard Checked: <span id="dashboard-poll-time" class="text-emerald-400 font-mono font-medium">Just now</span></div>
                 </div>
 
                 <!-- Hidden Excel File Input -->
@@ -119,9 +119,9 @@
                     <span>Upload Excel</span>
                 </button>
 
-                <button onclick="fetchData(true)" title="Refresh data" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <button onclick="fetchData(true)" title="Instant force-refresh from Excel" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-                    <span>Refresh</span>
+                    <span>Refresh Now</span>
                 </button>
 
                 <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-3 py-2 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
@@ -563,11 +563,12 @@
         let chartProjects = null;
         let chartChannels = null;
         let chartAging = null;
+        let lastKnownFileModTime = null;
 
         // Fetch Data: Tries Server API -> Falls back to static data.json (for GitHub Pages)
         async function fetchData(showFeedback = false) {
             const refreshIcon = document.getElementById('refresh-icon');
-            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+            if (refreshIcon && showFeedback) refreshIcon.classList.add('animate-spin');
 
             try {
                 let data = null;
@@ -588,10 +589,20 @@
                 }
 
                 if (data && data.status === 'success') {
+                    const fileModTime = data.file_modified_time || data.last_updated || '2026-09-16 17:34:35';
+                    const serverPollTime = data.server_time || new Date().toLocaleTimeString();
+
+                    // Only re-render if data has changed or first load
+                    const hasChanged = !rawData || lastKnownFileModTime !== fileModTime;
                     rawData = data;
-                    renderDashboard();
-                    document.getElementById('sync-timestamp').innerText = data.last_updated || new Date().toLocaleString();
-                    document.getElementById('excel-filename').innerText = data.file_name || 'AP TS-Correspondence MATRIX.xlsx';
+                    lastKnownFileModTime = fileModTime;
+
+                    if (hasChanged) {
+                        renderDashboard();
+                    }
+
+                    document.getElementById('excel-saved-time').innerText = fileModTime;
+                    document.getElementById('dashboard-poll-time').innerText = serverPollTime;
                 }
             } catch (err) {
                 console.error("Fetch Error:", err);
@@ -621,7 +632,6 @@
                         return;
                     }
 
-                    // Headers
                     const headers = jsonRows[0].map(h => String(h || '').trim());
                     const records = [];
                     const now = new Date();
@@ -648,7 +658,6 @@
                         });
 
                         if (hasData) {
-                            // Calculate aging & TAT
                             const dateRecvStr = rowDict['Date Received to office'] || '';
                             const dateCloseStr = rowDict['Final Closure Date'] || '';
                             let agingDays = 0;
@@ -685,7 +694,6 @@
                         }
                     }
 
-                    // Build Analytics
                     const completed = records.filter(r => r.status_group === 'Completed').length;
                     const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
                     const pending = records.filter(r => r.status_group === 'Pending').length;
@@ -704,7 +712,6 @@
                         else agingBuckets["15+ Days"]++;
                     });
 
-                    // Officers
                     const offMap = {};
                     records.forEach(r => {
                         const off = r['Concerned Officer'] || 'Unassigned';
@@ -718,7 +725,6 @@
                     });
                     const officerAnalytics = Object.values(offMap).map(o => ({ ...o, staff: Array.from(o.staff) })).sort((a, b) => b.total - a.total);
 
-                    // Staff
                     const stMap = {};
                     records.forEach(r => {
                         const st = r['Concerned Staff'] || 'Unassigned';
@@ -730,7 +736,6 @@
                     });
                     const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
 
-                    // Projects
                     const pMap = {};
                     records.forEach(r => {
                         const p = r['Project'] || 'Other / Misc';
@@ -743,7 +748,6 @@
                     });
                     const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
 
-                    // Channels
                     const chMap = {};
                     records.forEach(r => {
                         const ch = r['Received Through'] || 'Other';
@@ -753,7 +757,8 @@
 
                     rawData = {
                         status: 'success',
-                        last_updated: 'Uploaded: ' + new Date().toLocaleTimeString(),
+                        file_modified_time: 'Uploaded File (' + new Date().toLocaleTimeString() + ')',
+                        server_time: new Date().toLocaleTimeString(),
                         file_name: file.name,
                         kpis: {
                             total: records.length,
@@ -773,8 +778,8 @@
                     };
 
                     renderDashboard();
-                    document.getElementById('sync-timestamp').innerText = rawData.last_updated;
-                    document.getElementById('excel-filename').innerText = file.name;
+                    document.getElementById('excel-saved-time').innerText = rawData.file_modified_time;
+                    document.getElementById('dashboard-poll-time').innerText = rawData.server_time;
                     alert(`Successfully loaded ${records.length} correspondence records from "${file.name}"!`);
 
                 } catch (err) {
@@ -789,7 +794,6 @@
         function renderDashboard() {
             if (!rawData) return;
 
-            // 1. Update KPIs
             const kpis = rawData.kpis;
             document.getElementById('kpi-total').innerText = kpis.total;
             document.getElementById('kpi-pending').innerText = kpis.pending;
@@ -804,25 +808,12 @@
             document.getElementById('kpi-completed-pct').innerText = Math.round((kpis.completed / total) * 100) + '%';
             document.getElementById('tab-records-badge').innerText = total;
 
-            // 2. Populate Dropdowns in Filter Toolbar
             populateFilters();
-
-            // 3. Render Charts
             renderCharts();
-
-            // 4. Render Critical Items Panel
             renderCriticalItems();
-
-            // 5. Render Officers & Staff Cards
             renderOfficersTab();
-
-            // 6. Render Projects Tab
             renderProjectsTab();
-
-            // 7. Render Table Explorer
             applyFilters();
-
-            // Re-initialize Lucide icons
             lucide.createIcons();
         }
 
@@ -831,7 +822,6 @@
             Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
-            // 1. Officer Workload Chart (Horizontal Stacked Bar)
             const ctxOff = document.getElementById('chart-officers').getContext('2d');
             if (chartOfficers) chartOfficers.destroy();
 
@@ -876,7 +866,6 @@
                 }
             });
 
-            // 2. Projects Breakdown Chart (Doughnut / Polar)
             const ctxProj = document.getElementById('chart-projects').getContext('2d');
             if (chartProjects) chartProjects.destroy();
 
@@ -902,7 +891,6 @@
                 }
             });
 
-            // 3. Channels Mix Chart
             const ctxChan = document.getElementById('chart-channels').getContext('2d');
             if (chartChannels) chartChannels.destroy();
 
@@ -926,7 +914,6 @@
                 }
             });
 
-            // 4. Aging Buckets Chart
             const ctxAge = document.getElementById('chart-aging').getContext('2d');
             if (chartAging) chartAging.destroy();
 
@@ -958,7 +945,6 @@
             });
         }
 
-        // Render Critical & High Items List in Overview Tab
         function renderCriticalItems() {
             const container = document.getElementById('critical-items-list');
             const criticalRecords = rawData.records.filter(r => r.Priority === 'Critical' || r.Priority === 'High');
@@ -987,7 +973,6 @@
             `).join('');
         }
 
-        // Populate Dropdowns in Explorer Filter Bar
         function populateFilters() {
             const officerSel = document.getElementById('filter-officer');
             const projectSel = document.getElementById('filter-project');
@@ -1009,7 +994,6 @@
             if (currentProj) projectSel.value = currentProj;
         }
 
-        // Render Officers Tab
         function renderOfficersTab() {
             const grid = document.getElementById('officer-cards-grid');
             grid.innerHTML = rawData.officers.map(o => {
@@ -1024,7 +1008,6 @@
                             ${o.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
                         </div>
 
-                        <!-- Mini Stats Grid -->
                         <div class="grid grid-cols-3 gap-2 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
@@ -1040,7 +1023,6 @@
                             </div>
                         </div>
 
-                        <!-- Progress Bar -->
                         <div>
                             <div class="flex justify-between text-[11px] text-slate-400 mb-1">
                                 <span>Completion Rate</span>
@@ -1051,7 +1033,6 @@
                             </div>
                         </div>
 
-                        <!-- Staff List -->
                         <div class="text-xs">
                             <span class="text-slate-400 text-[11px] block mb-1">Allocated Technical Staff:</span>
                             <div class="flex flex-wrap gap-1">
@@ -1059,7 +1040,6 @@
                             </div>
                         </div>
 
-                        <!-- Action Button -->
                         <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-2 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                             <span>View All ${o.officer}'s Tasks</span>
@@ -1068,7 +1048,6 @@
                 `;
             }).join('');
 
-            // Staff Table
             const tbody = document.getElementById('staff-summary-tbody');
             tbody.innerHTML = rawData.staff.map(st => {
                 const pct = st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0;
@@ -1092,7 +1071,6 @@
             }).join('');
         }
 
-        // Render Projects Tab
         function renderProjectsTab() {
             const grid = document.getElementById('project-cards-grid');
             grid.innerHTML = rawData.projects.map(p => {
@@ -1141,7 +1119,6 @@
             }).join('');
         }
 
-        // Apply Filters to Data Table
         function applyFilters() {
             if (!rawData) return;
 
@@ -1181,7 +1158,6 @@
             renderTable();
         }
 
-        // Render Data Explorer Table
         function renderTable() {
             const tbody = document.getElementById('correspondence-tbody');
             if (filteredRecords.length === 0) {
@@ -1190,7 +1166,6 @@
             }
 
             tbody.innerHTML = filteredRecords.map(r => {
-                // Priority Badge
                 let priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-300">Normal</span>`;
                 if (r.Priority === 'Critical') {
                     priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">Critical</span>`;
@@ -1198,7 +1173,6 @@
                     priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">High</span>`;
                 }
 
-                // Stage Badge
                 let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
                 if (r.status_group === 'Completed') {
                     stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Completed</span>`;
@@ -1223,7 +1197,6 @@
             }).join('');
         }
 
-        // Open Detailed Record Modal
         function openModal(id) {
             const r = rawData.records.find(item => item.ID === id);
             if (!r) return;
@@ -1250,7 +1223,6 @@
             document.getElementById('record-modal').classList.add('hidden');
         }
 
-        // Drill-Down Helpers
         function drillDownOfficer(officer) {
             switchTab('explorer');
             resetFilters();
@@ -1290,7 +1262,6 @@
             applyFilters();
         }
 
-        // Tab Switching
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1308,7 +1279,6 @@
             lucide.createIcons();
         }
 
-        // Export Filtered View to CSV
         function exportFilteredCSV() {
             if (!filteredRecords || filteredRecords.length === 0) return;
 
@@ -1331,10 +1301,10 @@
             a.click();
         }
 
-        // Initial Load & Auto Sync interval (every 30s)
+        // Auto Sync: Runs in background every 5 seconds!
         window.addEventListener('DOMContentLoaded', () => {
             fetchData();
-            setInterval(() => fetchData(false), 30000);
+            setInterval(() => fetchData(false), 5000);
         });
     </script>
 </body>
