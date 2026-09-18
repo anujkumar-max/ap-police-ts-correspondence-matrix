@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Police TS - Executive Correspondence Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0a0f1d',
+                            950: '#050814'
+                        },
+                        police: {
+                            blue: '#1e3a8a',
+                            gold: '#f59e0b',
+                            amber: '#d97706',
+                            accent: '#3b82f6',
+                            card: '#131e36',
+                            border: '#22355e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- SheetJS for Client-Side Live Excel Parsing (GitHub Pages Compatible) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(19, 30, 54, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(41, 63, 107, 0.5);
+        }
+        .pulse-critical {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .85; transform: scale(1.02); }
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; color: #000000 !important; }
+            .glass-card { background: #ffffff !important; border: 1px solid #cccccc !important; color: #000000 !important; }
+            .chart-container { page-break-inside: avoid; }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #253966;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 bg-slate-950 flex flex-col selection:bg-blue-600 selection:text-white">
+
+    <!-- TOP EXECUTIVE HEADER BAR -->
+    <header class="sticky top-0 z-40 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 border-b border-blue-900/60 shadow-xl backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- AP Police Brand & Title -->
+            <div class="flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                        <i data-lucide="shield-alert" class="w-6 h-6 text-amber-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
+                        <span id="sync-status-indicator" class="flex items-center text-xs text-emerald-400 font-medium">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
+                            Live Connected
+                        </span>
+                    </div>
+                    <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                        PCS&S Correspondence & Tappals Matrix
+                        <span class="text-xs font-normal text-slate-400 hidden md:inline">| Executive Analytics</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Header Quick Actions & Live Info -->
+            <div class="flex items-center flex-wrap gap-2.5 no-print">
+                <div class="text-right hidden sm:block mr-2">
+                    <div class="text-[11px] text-slate-400">Data Source: <span id="excel-filename" class="text-slate-200 font-semibold">AP TS-Correspondence MATRIX.xlsx</span></div>
+                    <div class="text-[11px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Checking...</span></div>
+                </div>
+
+                <!-- Hidden Excel File Input -->
+                <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden" onchange="handleExcelFileUpload(event)">
+
+                <button onclick="document.getElementById('excel-file-input').click()" title="Load an updated Excel sheet directly from your device" class="px-3 py-2 text-xs font-semibold bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 hover:text-white border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
+                    <span>Upload Excel</span>
+                </button>
+
+                <button onclick="fetchData(true)" title="Refresh data" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
+                    <span>Refresh</span>
+                </button>
+
+                <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-3 py-2 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Export CSV</span>
+                </button>
+
+                <button onclick="window.print()" title="Print Executive Brief" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <span>Print</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
+
+        <!-- EXECUTIVE KPI CARDS -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+            <!-- Total Inflow -->
+            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>Total Correspondence</span>
+                    <i data-lucide="inbox" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-white" id="kpi-total">--</div>
+                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                    <span class="text-blue-400">100%</span> total logged
+                </div>
+            </div>
+
+            <!-- Pending -->
+            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>Pending Action</span>
+                    <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-amber-400" id="kpi-pending">--</div>
+                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> of total
+                </div>
+            </div>
+
+            <!-- In Progress -->
+            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>In-Progress / Draft</span>
+                    <i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-indigo-400" id="kpi-inprogress">--</div>
+                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> of total
+                </div>
+            </div>
+
+            <!-- Completed -->
+            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>Closed / Dispatched</span>
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-emerald-400" id="kpi-completed">--</div>
+                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> resolution rate
+                </div>
+            </div>
+
+            <!-- Critical Priority -->
+            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>Critical Alert</span>
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-rose-400" id="kpi-critical">--</div>
+                <div class="text-[11px] text-rose-300/80 mt-1 flex items-center gap-1 font-semibold">
+                    <span id="kpi-critical-sub">Urgent Attention</span>
+                </div>
+            </div>
+
+            <!-- Average Turnaround Days -->
+            <div class="glass-card rounded-xl p-4 border-l-4 border-l-cyan-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                    <span>Avg Turnaround (TAT)</span>
+                    <i data-lucide="timer" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-sm font-normal text-slate-400">Days</span></div>
+                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                    Receipt to Dispatch
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2 no-print">
+            <div class="flex space-x-2 sm:space-x-4">
+                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-4 py-2 text-sm font-bold rounded-lg bg-blue-600 text-white flex items-center gap-2 shadow transition">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    <span>Executive Analytics</span>
+                </button>
+                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    <span>Officers & Staff</span>
+                </button>
+                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                    <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+                    <span>Projects Deep-Dive</span>
+                </button>
+                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                    <i data-lucide="table-2" class="w-4 h-4"></i>
+                    <span>Live Records Explorer</span>
+                    <span id="tab-records-badge" class="px-1.5 py-0.5 text-xs rounded bg-blue-900/60 text-blue-300 font-mono">48</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= TAB 1: EXECUTIVE ANALYTICS ================= -->
+        <div id="tab-overview" class="tab-content space-y-6">
+
+            <!-- ROW 1 CHARTS: Officer Workload & Project Distribution -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Officer Workload Breakdown (Stacked Bar) -->
+                <div class="lg:col-span-7 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                                <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
+                                Officer Workload & Action Stage Distribution
+                            </h2>
+                            <p class="text-xs text-slate-400">Active task allocation across officers</p>
+                        </div>
+                        <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">By Officer</span>
+                    </div>
+                    <div class="relative h-72 w-full">
+                        <canvas id="chart-officers"></canvas>
+                    </div>
+                </div>
+
+                <!-- Projects Breakdown -->
+                <div class="lg:col-span-5 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                                <i data-lucide="cpu" class="w-4 h-4 text-blue-400"></i>
+                                Top Technical Projects
+                            </h2>
+                            <p class="text-xs text-slate-400">Volume of correspondence per project</p>
+                        </div>
+                        <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">Top Domains</span>
+                    </div>
+                    <div class="relative h-72 w-full flex items-center justify-center">
+                        <canvas id="chart-projects"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 2 CHARTS: Inbound Channels, Aging Radar, Critical Alert Panel -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Inbound Channels -->
+                <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="network" class="w-4 h-4 text-indigo-400"></i>
+                            Receipt Channels Mix
+                        </h2>
+                        <span class="text-xs text-slate-400">Channel %</span>
+                    </div>
+                    <div class="relative h-56 w-full flex items-center justify-center">
+                        <canvas id="chart-channels"></canvas>
+                    </div>
+                </div>
+
+                <!-- Aging & SLA Radar -->
+                <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="hourglass" class="w-4 h-4 text-amber-400"></i>
+                                Correspondence Aging (Open Items)
+                            </h2>
+                            <p class="text-[11px] text-slate-400">Days pending resolution</p>
+                        </div>
+                        <span class="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">SLA Radar</span>
+                    </div>
+                    <div class="relative h-56 w-full">
+                        <canvas id="chart-aging"></canvas>
+                    </div>
+                </div>
+
+                <!-- Urgent Critical Items Quick Panel -->
+                <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="flame" class="w-4 h-4 text-rose-500"></i>
+                            High & Critical Priority Files
+                        </h2>
+                        <span id="critical-badge-count" class="text-xs font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">-- Items</span>
+                    </div>
+                    <div id="critical-items-list" class="space-y-2.5 overflow-y-auto max-h-56 pr-1">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= TAB 2: OFFICERS & STAFF ================= -->
+        <div id="tab-officers" class="tab-content hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
+                        Officer Workload & Staff Assignment Matrix
+                    </h2>
+                    <p class="text-xs text-slate-400">Track task volume, completion rates, and allocated technical staff for each officer</p>
+                </div>
+            </div>
+
+            <!-- Officer Cards Grid -->
+            <div id="officer-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Staff Workload Table -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="user-cog" class="w-4 h-4 text-blue-400"></i>
+                    Staff Allocation & Workload Summary
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-[11px] font-semibold border-b border-slate-800">
+                            <tr>
+                                <th class="py-3 px-4">Concerned Staff Member</th>
+                                <th class="py-3 px-4 text-center">Total Tasks</th>
+                                <th class="py-3 px-4 text-center text-amber-400">Pending</th>
+                                <th class="py-3 px-4 text-center text-indigo-400">In-Progress</th>
+                                <th class="py-3 px-4 text-center text-emerald-400">Completed</th>
+                                <th class="py-3 px-4">Completion %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staff-summary-tbody" class="divide-y divide-slate-800/60">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: PROJECTS DEEP-DIVE ================= -->
+        <div id="tab-projects" class="tab-content hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layers" class="w-5 h-5 text-blue-400"></i>
+                        Technical Projects Portfolio
+                    </h2>
+                    <p class="text-xs text-slate-400">Overview of correspondence volume and progress across all technical domains</p>
+                </div>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div id="project-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: LIVE RECORDS EXPLORER ================= -->
+        <div id="tab-explorer" class="tab-content hidden space-y-4">
+            
+            <!-- Filters & Search Toolbar -->
+            <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    
+                    <!-- Search Input -->
+                    <div class="lg:col-span-2 relative">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Officer, Dept, Project..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                    </div>
+
+                    <!-- Officer Filter -->
+                    <div>
+                        <select id="filter-officer" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="">All Officers</option>
+                        </select>
+                    </div>
+
+                    <!-- Project Filter -->
+                    <div>
+                        <select id="filter-project" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="">All Projects</option>
+                        </select>
+                    </div>
+
+                    <!-- Priority & Status Filter -->
+                    <div class="flex gap-2">
+                        <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="">All Priorities</option>
+                            <option value="Critical">Critical</option>
+                            <option value="High">High</option>
+                            <option value="Normal">Normal</option>
+                        </select>
+                        <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In-Progress">In-Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Active Filter Indicator & Reset -->
+                <div class="flex items-center justify-between text-xs text-slate-400 pt-1 border-t border-slate-800/80">
+                    <div class="flex items-center gap-2">
+                        <span>Showing <span id="filtered-count" class="text-white font-bold">48</span> of <span id="total-count" class="text-white font-bold">48</span> records</span>
+                        <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
+                    </div>
+                    <div class="text-[11px] text-slate-500">Click on any row to view complete file details</div>
+                </div>
+            </div>
+
+            <!-- Correspondence Table -->
+            <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
+                <div class="overflow-x-auto max-h-[600px]">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10.5px] font-bold tracking-wider border-b border-slate-800">
+                            <tr>
+                                <th class="py-3 px-3.5">ID</th>
+                                <th class="py-3 px-3">Received</th>
+                                <th class="py-3 px-3">Channel</th>
+                                <th class="py-3 px-3">Project</th>
+                                <th class="py-3 px-4">Subject / Work Description</th>
+                                <th class="py-3 px-3">Concerned Officer</th>
+                                <th class="py-3 px-3">Staff</th>
+                                <th class="py-3 px-3 text-center">Stage</th>
+                                <th class="py-3 px-3 text-center">Priority</th>
+                                <th class="py-3 px-3 text-right">TAT / Age</th>
+                            </tr>
+                        </thead>
+                        <tbody id="correspondence-tbody" class="divide-y divide-slate-800/70 hover:divide-slate-700/60">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RECORD DETAILS MODAL -->
+    <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card rounded-2xl border border-blue-900/60 max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+                <div>
+                    <span id="modal-id" class="text-xs font-mono font-bold bg-blue-900/60 text-blue-300 px-2.5 py-1 rounded">--</span>
+                    <h3 id="modal-project" class="text-lg font-bold text-white mt-1.5">--</h3>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Subject / Work Description</label>
+                    <p id="modal-subject" class="text-sm text-slate-100 bg-slate-900/90 p-3 rounded-xl border border-slate-800 mt-1 leading-relaxed">--</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Concerned Officer:</span>
+                        <span id="modal-officer" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Concerned Staff:</span>
+                        <span id="modal-staff" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Received Through & Date:</span>
+                        <span id="modal-recv" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">From Dept / Officer:</span>
+                        <span id="modal-from" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Nature of Request:</span>
+                        <span id="modal-nature" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Final Decision:</span>
+                        <span id="modal-decision" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Current Stage:</span>
+                        <span id="modal-stage" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Priority:</span>
+                        <span id="modal-priority" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Dispatched / Closure Date:</span>
+                        <span id="modal-dispatch" class="text-white font-semibold">--</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <span class="text-slate-400 block text-[11px]">Turnaround / Aging (Days):</span>
+                        <span id="modal-tat" class="text-cyan-400 font-bold font-mono">--</span>
+                    </div>
+                </div>
+
+                <div id="modal-remarks-container" class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                    <span class="text-slate-400 block text-[11px]">Remarks:</span>
+                    <span id="modal-remarks" class="text-slate-300">None</span>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-800">
+                <button onclick="closeModal()" class="px-4 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 no-print">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>Andhra Pradesh Police • Police Computer Services & Standardization (PCS&S)</span>
+            <span>Automated Correspondence Monitoring System • Real-Time Analytics</span>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        let rawData = null;
+        let filteredRecords = [];
+        let chartOfficers = null;
+        let chartProjects = null;
+        let chartChannels = null;
+        let chartAging = null;
+
+        // Fetch Data: Tries Server API -> Falls back to static data.json (for GitHub Pages)
+        async function fetchData(showFeedback = false) {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+
+            try {
+                let data = null;
+                try {
+                    const response = await fetch('/api/data?t=' + Date.now());
+                    if (response.ok) {
+                        data = await response.json();
+                    }
+                } catch (e) {
+                    // Fallback to static data.json if running statically (e.g. on GitHub Pages)
+                }
+
+                if (!data || data.status !== 'success') {
+                    const fallbackResp = await fetch('data.json?t=' + Date.now());
+                    if (fallbackResp.ok) {
+                        data = await fallbackResp.json();
+                    }
+                }
+
+                if (data && data.status === 'success') {
+                    rawData = data;
+                    renderDashboard();
+                    document.getElementById('sync-timestamp').innerText = data.last_updated || new Date().toLocaleString();
+                    document.getElementById('excel-filename').innerText = data.file_name || 'AP TS-Correspondence MATRIX.xlsx';
+                }
+            } catch (err) {
+                console.error("Fetch Error:", err);
+            } finally {
+                if (refreshIcon) {
+                    setTimeout(() => refreshIcon.classList.remove('animate-spin'), 600);
+                }
+            }
+        }
+
+        // Client-Side Excel Upload & Instant Processing using SheetJS
+        function handleExcelFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    if (jsonRows.length < 2) {
+                        alert("The uploaded Excel file does not contain enough data rows.");
+                        return;
+                    }
+
+                    // Headers
+                    const headers = jsonRows[0].map(h => String(h || '').trim());
+                    const records = [];
+                    const now = new Date();
+
+                    for (let r = 1; r < jsonRows.length; r++) {
+                        const row = jsonRows[r];
+                        if (!row || !row[0] || String(row[0]).trim() === '') continue;
+
+                        const rowDict = {};
+                        let hasData = false;
+
+                        headers.forEach((h, colIdx) => {
+                            let val = row[colIdx];
+                            if (val instanceof Date) {
+                                val = val.toISOString().slice(0, 10);
+                                hasData = true;
+                            } else if (val !== undefined && val !== null) {
+                                val = String(val).trim();
+                                if (colIdx > 0 && val !== '' && val !== 'N/A') hasData = true;
+                            } else {
+                                val = '';
+                            }
+                            rowDict[h] = val;
+                        });
+
+                        if (hasData) {
+                            // Calculate aging & TAT
+                            const dateRecvStr = rowDict['Date Received to office'] || '';
+                            const dateCloseStr = rowDict['Final Closure Date'] || '';
+                            let agingDays = 0;
+                            let tatDays = 0;
+
+                            if (dateRecvStr && dateRecvStr !== 'N/A') {
+                                const dRecv = new Date(dateRecvStr);
+                                if (dateCloseStr && dateCloseStr !== 'N/A') {
+                                    const dClose = new Date(dateCloseStr);
+                                    tatDays = Math.max(0, Math.round((dClose - dRecv) / (1000 * 60 * 60 * 24)));
+                                    agingDays = tatDays;
+                                } else {
+                                    agingDays = Math.max(0, Math.round((now - dRecv) / (1000 * 60 * 60 * 24)));
+                                }
+                            }
+
+                            rowDict['calculated_aging_days'] = isNaN(agingDays) ? 0 : agingDays;
+                            rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
+
+                            const stage = (rowDict['Current Stage'] || '').trim();
+                            if (['Completed', 'Correspondence Closed', 'File Dispatched'].includes(stage)) {
+                                rowDict['status_group'] = 'Completed';
+                            } else if (['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies'].includes(stage)) {
+                                rowDict['status_group'] = 'In-Progress';
+                            } else {
+                                rowDict['status_group'] = 'Pending';
+                            }
+
+                            let priority = (rowDict['Priority'] || '').trim();
+                            if (!['Critical', 'High', 'Normal'].includes(priority)) priority = 'Normal';
+                            rowDict['Priority'] = priority;
+
+                            records.push(rowDict);
+                        }
+                    }
+
+                    // Build Analytics
+                    const completed = records.filter(r => r.status_group === 'Completed').length;
+                    const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
+                    const pending = records.filter(r => r.status_group === 'Pending').length;
+                    const critical = records.filter(r => r.Priority === 'Critical').length;
+                    const high = records.filter(r => r.Priority === 'High').length;
+
+                    const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
+                    const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
+
+                    const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
+                    records.filter(r => r.status_group !== 'Completed').forEach(r => {
+                        const age = r.calculated_aging_days;
+                        if (age <= 3) agingBuckets["< 3 Days"]++;
+                        else if (age <= 7) agingBuckets["4 - 7 Days"]++;
+                        else if (age <= 15) agingBuckets["8 - 15 Days"]++;
+                        else agingBuckets["15+ Days"]++;
+                    });
+
+                    // Officers
+                    const offMap = {};
+                    records.forEach(r => {
+                        const off = r['Concerned Officer'] || 'Unassigned';
+                        if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0, staff: new Set() };
+                        offMap[off].total++;
+                        if (r.status_group === 'Completed') offMap[off].completed++;
+                        else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
+                        else offMap[off].pending++;
+                        if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
+                        if (r['Concerned Staff']) offMap[off].staff.add(r['Concerned Staff']);
+                    });
+                    const officerAnalytics = Object.values(offMap).map(o => ({ ...o, staff: Array.from(o.staff) })).sort((a, b) => b.total - a.total);
+
+                    // Staff
+                    const stMap = {};
+                    records.forEach(r => {
+                        const st = r['Concerned Staff'] || 'Unassigned';
+                        if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0 };
+                        stMap[st].total++;
+                        if (r.status_group === 'Completed') stMap[st].completed++;
+                        else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
+                        else stMap[st].pending++;
+                    });
+                    const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
+
+                    // Projects
+                    const pMap = {};
+                    records.forEach(r => {
+                        const p = r['Project'] || 'Other / Misc';
+                        if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0 };
+                        pMap[p].total++;
+                        if (r.status_group === 'Completed') pMap[p].completed++;
+                        else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
+                        else pMap[p].pending++;
+                        if (r.Priority === 'Critical') pMap[p].critical++;
+                    });
+                    const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
+
+                    // Channels
+                    const chMap = {};
+                    records.forEach(r => {
+                        const ch = r['Received Through'] || 'Other';
+                        chMap[ch] = (chMap[ch] || 0) + 1;
+                    });
+                    const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
+
+                    rawData = {
+                        status: 'success',
+                        last_updated: 'Uploaded: ' + new Date().toLocaleTimeString(),
+                        file_name: file.name,
+                        kpis: {
+                            total: records.length,
+                            completed,
+                            inprogress,
+                            pending,
+                            critical,
+                            high,
+                            avg_tat_days: avgTat
+                        },
+                        aging_buckets: agingBuckets,
+                        officers: officerAnalytics,
+                        staff: staffAnalytics,
+                        projects: projectAnalytics,
+                        channels: channelAnalytics,
+                        records: records
+                    };
+
+                    renderDashboard();
+                    document.getElementById('sync-timestamp').innerText = rawData.last_updated;
+                    document.getElementById('excel-filename').innerText = file.name;
+                    alert(`Successfully loaded ${records.length} correspondence records from "${file.name}"!`);
+
+                } catch (err) {
+                    console.error("Client parsing error:", err);
+                    alert("Error parsing Excel file: " + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Render All Dashboard Components
+        function renderDashboard() {
+            if (!rawData) return;
+
+            // 1. Update KPIs
+            const kpis = rawData.kpis;
+            document.getElementById('kpi-total').innerText = kpis.total;
+            document.getElementById('kpi-pending').innerText = kpis.pending;
+            document.getElementById('kpi-inprogress').innerText = kpis.inprogress;
+            document.getElementById('kpi-completed').innerText = kpis.completed;
+            document.getElementById('kpi-critical').innerText = kpis.critical;
+            document.getElementById('kpi-tat').innerText = kpis.avg_tat_days;
+
+            const total = kpis.total || 1;
+            document.getElementById('kpi-pending-pct').innerText = Math.round((kpis.pending / total) * 100) + '%';
+            document.getElementById('kpi-inprogress-pct').innerText = Math.round((kpis.inprogress / total) * 100) + '%';
+            document.getElementById('kpi-completed-pct').innerText = Math.round((kpis.completed / total) * 100) + '%';
+            document.getElementById('tab-records-badge').innerText = total;
+
+            // 2. Populate Dropdowns in Filter Toolbar
+            populateFilters();
+
+            // 3. Render Charts
+            renderCharts();
+
+            // 4. Render Critical Items Panel
+            renderCriticalItems();
+
+            // 5. Render Officers & Staff Cards
+            renderOfficersTab();
+
+            // 6. Render Projects Tab
+            renderProjectsTab();
+
+            // 7. Render Table Explorer
+            applyFilters();
+
+            // Re-initialize Lucide icons
+            lucide.createIcons();
+        }
+
+        // Charts Rendering with Chart.js
+        function renderCharts() {
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+            // 1. Officer Workload Chart (Horizontal Stacked Bar)
+            const ctxOff = document.getElementById('chart-officers').getContext('2d');
+            if (chartOfficers) chartOfficers.destroy();
+
+            const officers = rawData.officers.slice(0, 7);
+            chartOfficers = new Chart(ctxOff, {
+                type: 'bar',
+                data: {
+                    labels: officers.map(o => o.officer),
+                    datasets: [
+                        {
+                            label: 'Completed',
+                            data: officers.map(o => o.completed),
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'In-Progress',
+                            data: officers.map(o => o.inprogress),
+                            backgroundColor: '#6366f1',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Pending',
+                            data: officers.map(o => o.pending),
+                            backgroundColor: '#f59e0b',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { color: '#1e293b' } },
+                        y: { stacked: true, grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+                        tooltip: { backgroundColor: '#0f172a', titleFont: { size: 12 }, bodyFont: { size: 11 } }
+                    }
+                }
+            });
+
+            // 2. Projects Breakdown Chart (Doughnut / Polar)
+            const ctxProj = document.getElementById('chart-projects').getContext('2d');
+            if (chartProjects) chartProjects.destroy();
+
+            const topProjects = rawData.projects.slice(0, 6);
+            chartProjects = new Chart(ctxProj, {
+                type: 'doughnut',
+                data: {
+                    labels: topProjects.map(p => p.project),
+                    datasets: [{
+                        data: topProjects.map(p => p.total),
+                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // 3. Channels Mix Chart
+            const ctxChan = document.getElementById('chart-channels').getContext('2d');
+            if (chartChannels) chartChannels.destroy();
+
+            chartChannels = new Chart(ctxChan, {
+                type: 'pie',
+                data: {
+                    labels: rawData.channels.map(c => c.channel),
+                    datasets: [{
+                        data: rawData.channels.map(c => c.count),
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#6366f1', '#ec4899', '#64748b'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // 4. Aging Buckets Chart
+            const ctxAge = document.getElementById('chart-aging').getContext('2d');
+            if (chartAging) chartAging.destroy();
+
+            const ageLabels = Object.keys(rawData.aging_buckets);
+            const ageVals = Object.values(rawData.aging_buckets);
+
+            chartAging = new Chart(ctxAge, {
+                type: 'bar',
+                data: {
+                    labels: ageLabels,
+                    datasets: [{
+                        label: 'Open Items',
+                        data: ageVals,
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: '#1e293b' }, ticks: { stepSize: 2 } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // Render Critical & High Items List in Overview Tab
+        function renderCriticalItems() {
+            const container = document.getElementById('critical-items-list');
+            const criticalRecords = rawData.records.filter(r => r.Priority === 'Critical' || r.Priority === 'High');
+            
+            document.getElementById('critical-badge-count').innerText = `${criticalRecords.length} Files`;
+
+            if (criticalRecords.length === 0) {
+                container.innerHTML = '<div class="text-xs text-slate-500 py-4 text-center">No critical items pending.</div>';
+                return;
+            }
+
+            container.innerHTML = criticalRecords.map(r => `
+                <div onclick="openModal('${r.ID}')" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-${r.Priority === 'Critical' ? 'rose-500/40' : 'amber-500/40'} cursor-pointer transition flex items-start justify-between gap-2">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-${r.Priority === 'Critical' ? 'rose-500/20 text-rose-300' : 'amber-500/20 text-amber-300'}">${r.Priority}</span>
+                            <span class="text-xs font-bold text-white">${r.ID}</span>
+                            <span class="text-[11px] text-blue-400 font-medium">• ${r.Project || 'Misc'}</span>
+                        </div>
+                        <p class="text-[11.5px] text-slate-300 mt-1 line-clamp-1">${r['Subject / Work Description'] || 'No description'}</p>
+                    </div>
+                    <div class="text-right text-[10.5px] text-slate-400 whitespace-nowrap">
+                        <span class="text-amber-400 font-medium">${r['Current Stage'] || 'Pending'}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate Dropdowns in Explorer Filter Bar
+        function populateFilters() {
+            const officerSel = document.getElementById('filter-officer');
+            const projectSel = document.getElementById('filter-project');
+
+            const currentOff = officerSel.value;
+            const currentProj = projectSel.value;
+
+            officerSel.innerHTML = '<option value="">All Officers</option>';
+            rawData.officers.forEach(o => {
+                officerSel.innerHTML += `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
+            });
+
+            projectSel.innerHTML = '<option value="">All Projects</option>';
+            rawData.projects.forEach(p => {
+                projectSel.innerHTML += `<option value="${p.project}">${p.project} (${p.total})</option>`;
+            });
+
+            if (currentOff) officerSel.value = currentOff;
+            if (currentProj) projectSel.value = currentProj;
+        }
+
+        // Render Officers Tab
+        function renderOfficersTab() {
+            const grid = document.getElementById('officer-cards-grid');
+            grid.innerHTML = rawData.officers.map(o => {
+                const pct = o.total > 0 ? Math.round((o.completed / o.total) * 100) : 0;
+                return `
+                    <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-4">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-base font-bold text-white">${o.officer}</h3>
+                                <p class="text-xs text-slate-400">${o.total} Assigned Tasks</p>
+                            </div>
+                            ${o.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
+                        </div>
+
+                        <!-- Mini Stats Grid -->
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
+                                <div class="text-[10px] text-slate-400">Pending</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-indigo-400 font-bold text-sm">${o.inprogress}</div>
+                                <div class="text-[10px] text-slate-400">In-Progress</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-emerald-400 font-bold text-sm">${o.completed}</div>
+                                <div class="text-[10px] text-slate-400">Completed</div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div>
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                <span>Completion Rate</span>
+                                <span class="font-bold text-emerald-400">${pct}%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Staff List -->
+                        <div class="text-xs">
+                            <span class="text-slate-400 text-[11px] block mb-1">Allocated Technical Staff:</span>
+                            <div class="flex flex-wrap gap-1">
+                                ${o.staff && o.staff.length > 0 ? o.staff.map(st => `<span class="px-2 py-0.5 bg-blue-950/60 text-blue-300 rounded text-[10.5px] border border-blue-800/40">${st}</span>`).join('') : '<span class="text-slate-500 italic text-[11px]">No staff allocated</span>'}
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-2 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                            <span>View All ${o.officer}'s Tasks</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Staff Table
+            const tbody = document.getElementById('staff-summary-tbody');
+            tbody.innerHTML = rawData.staff.map(st => {
+                const pct = st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0;
+                return `
+                    <tr class="hover:bg-slate-900/50 transition">
+                        <td class="py-3 px-4 font-semibold text-white">${st.staff}</td>
+                        <td class="py-3 px-4 text-center font-bold">${st.total}</td>
+                        <td class="py-3 px-4 text-center text-amber-400 font-semibold">${st.pending}</td>
+                        <td class="py-3 px-4 text-center text-indigo-400 font-semibold">${st.inprogress}</td>
+                        <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${st.completed}</td>
+                        <td class="py-3 px-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-20 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                                </div>
+                                <span class="text-[11px] font-mono text-slate-400">${pct}%</span>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render Projects Tab
+        function renderProjectsTab() {
+            const grid = document.getElementById('project-cards-grid');
+            grid.innerHTML = rawData.projects.map(p => {
+                const pct = p.total > 0 ? Math.round((p.completed / p.total) * 100) : 0;
+                return `
+                    <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-4">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-base font-bold text-white">${p.project}</h3>
+                                <p class="text-xs text-slate-400">${p.total} Correspondence Records</p>
+                            </div>
+                            ${p.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${p.critical} Critical</span>` : ''}
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-amber-400 font-bold text-sm">${p.pending}</div>
+                                <div class="text-[10px] text-slate-400">Pending</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-indigo-400 font-bold text-sm">${p.inprogress}</div>
+                                <div class="text-[10px] text-slate-400">In-Progress</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-emerald-400 font-bold text-sm">${p.completed}</div>
+                                <div class="text-[10px] text-slate-400">Completed</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span class="font-bold text-blue-400">${pct}%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+
+                        <button onclick="drillDownProject('${p.project}')" class="w-full py-2 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                            <span>Filter Records by ${p.project}</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Apply Filters to Data Table
+        function applyFilters() {
+            if (!rawData) return;
+
+            const search = (document.getElementById('filter-search').value || '').toLowerCase().trim();
+            const officer = document.getElementById('filter-officer').value;
+            const project = document.getElementById('filter-project').value;
+            const priority = document.getElementById('filter-priority').value;
+            const status = document.getElementById('filter-status').value;
+
+            filteredRecords = rawData.records.filter(r => {
+                if (search) {
+                    const matchText = [
+                        r.ID,
+                        r['Subject / Work Description'],
+                        r['Concerned Officer'],
+                        r['Concerned Staff'],
+                        r['Received From Department /Wing'],
+                        r['Project']
+                    ].join(' ').toLowerCase();
+                    if (!matchText.includes(search)) return false;
+                }
+
+                if (officer && (r['Concerned Officer'] || 'Unassigned') !== officer) return false;
+                if (project && (r['Project'] || 'Other / Misc') !== project) return false;
+                if (priority && r['Priority'] !== priority) return false;
+                if (status && r['status_group'] !== status) return false;
+
+                return true;
+            });
+
+            document.getElementById('filtered-count').innerText = filteredRecords.length;
+            document.getElementById('total-count').innerText = rawData.records.length;
+
+            const isFiltered = search || officer || project || priority || status;
+            document.getElementById('reset-filters-btn').classList.toggle('hidden', !isFiltered);
+
+            renderTable();
+        }
+
+        // Render Data Explorer Table
+        function renderTable() {
+            const tbody = document.getElementById('correspondence-tbody');
+            if (filteredRecords.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">No correspondence records match the selected filters.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredRecords.map(r => {
+                // Priority Badge
+                let priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-300">Normal</span>`;
+                if (r.Priority === 'Critical') {
+                    priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">Critical</span>`;
+                } else if (r.Priority === 'High') {
+                    priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">High</span>`;
+                }
+
+                // Stage Badge
+                let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
+                if (r.status_group === 'Completed') {
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Completed</span>`;
+                } else if (r.status_group === 'In-Progress') {
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">${r['Current Stage'] || 'In-Progress'}</span>`;
+                }
+
+                return `
+                    <tr onclick="openModal('${r.ID}')" class="hover:bg-blue-950/40 cursor-pointer transition">
+                        <td class="py-3 px-3.5 font-mono font-bold text-blue-400 whitespace-nowrap">${r.ID}</td>
+                        <td class="py-3 px-3 whitespace-nowrap text-slate-400 font-mono text-[11px]">${r['Date Received to office'] || 'N/A'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap text-slate-300">${r['Received Through'] || 'N/A'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap font-semibold text-white">${r.Project || 'Misc'}</td>
+                        <td class="py-3 px-4 max-w-xs truncate text-slate-200" title="${r['Subject / Work Description']}">${r['Subject / Work Description'] || '—'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap font-medium text-slate-200">${r['Concerned Officer'] || '<span class="text-slate-500 italic">Unassigned</span>'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap text-slate-400">${r['Concerned Staff'] || '<span class="text-slate-500 italic">—</span>'}</td>
+                        <td class="py-3 px-3 text-center whitespace-nowrap">${stageBadge}</td>
+                        <td class="py-3 px-3 text-center whitespace-nowrap">${priorityBadge}</td>
+                        <td class="py-3 px-3 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.status_group === 'Completed' ? r.calculated_tat_days + 'd (TAT)' : r.calculated_aging_days + 'd (Age)'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Open Detailed Record Modal
+        function openModal(id) {
+            const r = rawData.records.find(item => item.ID === id);
+            if (!r) return;
+
+            document.getElementById('modal-id').innerText = r.ID;
+            document.getElementById('modal-project').innerText = (r.Project || 'Miscellaneous') + ' • ' + (r['Nature of Request'] || 'General');
+            document.getElementById('modal-subject').innerText = r['Subject / Work Description'] || 'No description provided';
+            document.getElementById('modal-officer').innerText = r['Concerned Officer'] || 'Unassigned';
+            document.getElementById('modal-staff').innerText = r['Concerned Staff'] || 'Unassigned';
+            document.getElementById('modal-recv').innerText = `${r['Received Through'] || 'N/A'} (Recv: ${r['Date Received to office'] || 'N/A'})`;
+            document.getElementById('modal-from').innerText = `${r['Received From Department /Wing'] || 'N/A'} - ${r['Received From Officer Designation'] || 'N/A'}`;
+            document.getElementById('modal-nature').innerText = r['Nature of Request'] || 'N/A';
+            document.getElementById('modal-decision').innerText = r['Final Decision'] || 'N/A';
+            document.getElementById('modal-stage').innerText = r['Current Stage'] || 'Pending';
+            document.getElementById('modal-priority').innerText = r['Priority'] || 'Normal';
+            document.getElementById('modal-dispatch').innerText = r['Final Closure Date'] || r['Dispatched Date'] || 'Pending Resolution';
+            document.getElementById('modal-tat').innerText = r.status_group === 'Completed' ? `${r.calculated_tat_days} Days (Turnaround)` : `${r.calculated_aging_days} Days (Current Age)`;
+            document.getElementById('modal-remarks').innerText = r['Remarks'] || 'No additional remarks';
+
+            document.getElementById('record-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('record-modal').classList.add('hidden');
+        }
+
+        // Drill-Down Helpers
+        function drillDownOfficer(officer) {
+            switchTab('explorer');
+            resetFilters();
+            document.getElementById('filter-officer').value = officer;
+            applyFilters();
+        }
+
+        function drillDownProject(project) {
+            switchTab('explorer');
+            resetFilters();
+            document.getElementById('filter-project').value = project;
+            applyFilters();
+        }
+
+        function filterByStatusGroup(status) {
+            switchTab('explorer');
+            resetFilters();
+            if (status !== 'All') {
+                document.getElementById('filter-status').value = status;
+            }
+            applyFilters();
+        }
+
+        function filterByPriority(priority) {
+            switchTab('explorer');
+            resetFilters();
+            document.getElementById('filter-priority').value = priority;
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-search').value = '';
+            document.getElementById('filter-officer').value = '';
+            document.getElementById('filter-project').value = '';
+            document.getElementById('filter-priority').value = '';
+            document.getElementById('filter-status').value = '';
+            applyFilters();
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow');
+                btn.classList.add('bg-slate-800/80', 'text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
+            }
+
+            lucide.createIcons();
+        }
+
+        // Export Filtered View to CSV
+        function exportFilteredCSV() {
+            if (!filteredRecords || filteredRecords.length === 0) return;
+
+            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group');
+            const csvRows = [headers.join(',')];
+
+            filteredRecords.forEach(r => {
+                const values = headers.map(h => {
+                    const val = r[h] || '';
+                    return `"${String(val).replace(/"/g, '""')}"`;
+                });
+                csvRows.push(values.join(','));
+            });
+
+            const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `AP_TS_Correspondence_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+        }
+
+        // Initial Load & Auto Sync interval (every 30s)
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+            setInterval(() => fetchData(false), 30000);
+        });
+    </script>
+</body>
+</html>
