@@ -139,7 +139,7 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div class="flex items-center gap-2">
                 <i data-lucide="alert-circle" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
-                <span><strong>Google Sheet Access Needed:</strong> To enable real-time cloud sync, open your Google Sheet ➔ Click green <strong>"Share"</strong> ➔ Change General Access to <strong>"Anyone with the link can view"</strong> (or File ➔ Share ➔ Publish to web).</span>
+                <span><strong>Google Sheet Access Needed:</strong> To enable real-time cloud sync, open your Google Sheet ➔ Click green <strong>"Share"</strong> ➔ Change General Access to <strong>"Anyone with the link can view"</strong>.</span>
             </div>
             <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded hover:bg-amber-400 whitespace-nowrap">Open Sheet</a>
         </div>
@@ -252,7 +252,6 @@
             <!-- ROW 1 CHARTS: Officer Workload & Project Distribution -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
-                <!-- Officer Workload Breakdown (Stacked Bar) -->
                 <div class="lg:col-span-7 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -269,7 +268,6 @@
                     </div>
                 </div>
 
-                <!-- Projects Breakdown -->
                 <div class="lg:col-span-5 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -290,7 +288,6 @@
             <!-- ROW 2 CHARTS: Inbound Channels, Aging Radar, Critical Alert Panel -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- Inbound Channels -->
                 <div class="glass-card rounded-2xl p-5 border border-slate-800">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-sm font-bold text-white flex items-center gap-2">
@@ -304,7 +301,6 @@
                     </div>
                 </div>
 
-                <!-- Aging & SLA Radar -->
                 <div class="glass-card rounded-2xl p-5 border border-slate-800">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -312,7 +308,7 @@
                                 <i data-lucide="hourglass" class="w-4 h-4 text-amber-400"></i>
                                 Correspondence Aging (Open Items)
                             </h2>
-                            <p class="text-[11px] text-slate-400">Days pending resolution</p>
+                            <p class="text-[11px] text-slate-400">Days pending resolution (Standard DD/MM/YYYY)</p>
                         </div>
                         <span class="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">SLA Radar</span>
                     </div>
@@ -321,7 +317,6 @@
                     </div>
                 </div>
 
-                <!-- Urgent Critical Items Quick Panel -->
                 <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
                         <h2 class="text-sm font-bold text-white flex items-center gap-2">
@@ -557,7 +552,6 @@
     <script>
         const GOOGLE_SHEET_ID = "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y";
         const GOOGLE_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
-        const GOOGLE_EXPORT_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
         let rawData = null;
         let filteredRecords = [];
@@ -566,39 +560,62 @@
         let chartChannels = null;
         let chartAging = null;
 
+        // Accurate Indian Standard Date Parser (DD/MM/YYYY)
+        function parseIndianDate(dateStr) {
+            if (!dateStr || typeof dateStr !== 'string') return null;
+            dateStr = dateStr.trim();
+            if (!dateStr || dateStr.toLowerCase() === 'n/a' || dateStr.toLowerCase() === 'none') return null;
+
+            // Handle ISO format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS
+            if (/^\d{4}-\d{1,2}-\d{1,2}/.test(dateStr)) {
+                const parts = dateStr.split(/[-T\s]/);
+                const y = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10) - 1;
+                const d = parseInt(parts[2], 10);
+                return new Date(y, m, d);
+            }
+
+            // Handle DD/MM/YYYY or DD-MM-YYYY (Indian format)
+            const match = dateStr.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{2,4})/);
+            if (match) {
+                let d = parseInt(match[1], 10);
+                let m = parseInt(match[2], 10) - 1;
+                let y = parseInt(match[3], 10);
+                if (y < 100) y += 2000;
+                return new Date(y, m, d);
+            }
+
+            const dObj = new Date(dateStr);
+            return isNaN(dObj.getTime()) ? null : dObj;
+        }
+
         // Fetch Live Google Sheets Data
         async function fetchGoogleSheetData(showFeedback = false) {
             const refreshIcon = document.getElementById('refresh-icon');
             if (refreshIcon && showFeedback) refreshIcon.classList.add('animate-spin');
 
             try {
-                // 1. Try local server API first if running locally
                 let data = null;
+                // 1. Try local server API if running
                 try {
                     const localResp = await fetch('/api/data?t=' + Date.now());
                     if (localResp.ok) {
                         data = await localResp.json();
-                        if (data.status === 'unauthorized') {
-                            document.getElementById('permission-alert').classList.remove('hidden');
-                        } else {
-                            document.getElementById('permission-alert').classList.add('hidden');
-                        }
                     }
                 } catch (e) {
-                    // Local server not running, fetch directly from Google in browser
+                    // Local server not running
                 }
 
-                // 2. Direct browser fetch from Google Sheets if local server didn't provide data
+                // 2. Direct browser fetch from Google Sheets
                 if (!data || data.status !== 'success') {
                     data = await fetchDirectFromGoogle();
                 }
 
-                // 3. Fallback to static data.json snapshot if Google returns permission error
+                // 3. Fallback to static data.json snapshot
                 if (!data || data.status !== 'success') {
                     const fallbackResp = await fetch('data.json?t=' + Date.now());
                     if (fallbackResp.ok) {
                         data = await fallbackResp.json();
-                        document.getElementById('permission-alert').classList.remove('hidden');
                     }
                 }
 
@@ -636,6 +653,7 @@
                         const headers = rows[0].map(h => String(h || '').trim());
                         const records = [];
                         const now = new Date();
+                        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
                         for (let r = 1; r < rows.length; r++) {
                             const row = rows[r];
@@ -651,24 +669,11 @@
                             });
 
                             if (hasData) {
-                                const dateRecvStr = rowDict['Date Received to office'] || '';
-                                const dateCloseStr = rowDict['Final Closure Date'] || '';
-                                let agingDays = 0;
-                                let tatDays = 0;
+                                const dRecv = parseIndianDate(rowDict['Date Received to office']);
+                                const dOrig = parseIndianDate(rowDict['Original Date of Letter/Mail']);
+                                const dClose = parseIndianDate(rowDict['Final Closure Date']) || parseIndianDate(rowDict['Dispatched Date']);
 
-                                if (dateRecvStr && dateRecvStr !== 'N/A') {
-                                    const dRecv = new Date(dateRecvStr);
-                                    if (dateCloseStr && dateCloseStr !== 'N/A') {
-                                        const dClose = new Date(dateCloseStr);
-                                        tatDays = Math.max(0, Math.round((dClose - dRecv) / (1000 * 60 * 60 * 24)));
-                                        agingDays = tatDays;
-                                    } else {
-                                        agingDays = Math.max(0, Math.round((now - dRecv) / (1000 * 60 * 60 * 24)));
-                                    }
-                                }
-
-                                rowDict['calculated_aging_days'] = isNaN(agingDays) ? 0 : agingDays;
-                                rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
+                                const effectiveStart = dRecv || dOrig;
 
                                 const stage = (rowDict['Current Stage'] || '').trim();
                                 if (['Completed', 'Correspondence Closed', 'File Dispatched'].includes(stage)) {
@@ -677,6 +682,30 @@
                                     rowDict['status_group'] = 'In-Progress';
                                 } else {
                                     rowDict['status_group'] = 'Pending';
+                                }
+
+                                let tatDays = 0;
+                                let ageDays = 0;
+
+                                if (rowDict['status_group'] === 'Completed') {
+                                    if (effectiveStart && dClose) {
+                                        tatDays = Math.max(0, Math.round((dClose - effectiveStart) / (1000 * 60 * 60 * 24)));
+                                    } else if (effectiveStart) {
+                                        tatDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
+                                    }
+                                    rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
+                                    rowDict['calculated_aging_days'] = rowDict['calculated_tat_days'];
+                                    rowDict['display_time_metric'] = effectiveStart ? `${rowDict['calculated_tat_days']}d (TAT)` : '—';
+                                } else {
+                                    if (effectiveStart) {
+                                        ageDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
+                                        rowDict['calculated_aging_days'] = isNaN(ageDays) ? 0 : ageDays;
+                                        rowDict['display_time_metric'] = `${rowDict['calculated_aging_days']}d (Age)`;
+                                    } else {
+                                        rowDict['calculated_aging_days'] = 0;
+                                        rowDict['display_time_metric'] = '—';
+                                    }
+                                    rowDict['calculated_tat_days'] = 0;
                                 }
 
                                 let priority = (rowDict['Priority'] || '').trim();
@@ -697,7 +726,7 @@
                         const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
 
                         const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
-                        records.filter(r => r.status_group !== 'Completed').forEach(r => {
+                        records.filter(r => r.status_group !== 'Completed' && r.display_time_metric !== '—').forEach(r => {
                             const age = r.calculated_aging_days;
                             if (age <= 3) agingBuckets["< 3 Days"]++;
                             else if (age <= 7) agingBuckets["4 - 7 Days"]++;
@@ -1161,7 +1190,7 @@
                         <td class="py-3 px-3 whitespace-nowrap text-slate-400">${r['Concerned Staff'] || '<span class="text-slate-500 italic">—</span>'}</td>
                         <td class="py-3 px-3 text-center whitespace-nowrap">${stageBadge}</td>
                         <td class="py-3 px-3 text-center whitespace-nowrap">${priorityBadge}</td>
-                        <td class="py-3 px-3 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.status_group === 'Completed' ? r.calculated_tat_days + 'd (TAT)' : r.calculated_aging_days + 'd (Age)'}</td>
+                        <td class="py-3 px-3 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.display_time_metric || '—'}</td>
                     </tr>
                 `;
             }).join('');
@@ -1183,7 +1212,7 @@
             document.getElementById('modal-stage').innerText = r['Current Stage'] || 'Pending';
             document.getElementById('modal-priority').innerText = r['Priority'] || 'Normal';
             document.getElementById('modal-dispatch').innerText = r['Final Closure Date'] || r['Dispatched Date'] || 'Pending Resolution';
-            document.getElementById('modal-tat').innerText = r.status_group === 'Completed' ? `${r.calculated_tat_days} Days (Turnaround)` : `${r.calculated_aging_days} Days (Current Age)`;
+            document.getElementById('modal-tat').innerText = r.display_time_metric ? `${r.display_time_metric}` : '—';
             document.getElementById('modal-remarks').innerText = r['Remarks'] || 'No additional remarks';
 
             document.getElementById('record-modal').classList.remove('hidden');
@@ -1252,7 +1281,7 @@
         function exportFilteredCSV() {
             if (!filteredRecords || filteredRecords.length === 0) return;
 
-            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group');
+            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric');
             const csvRows = [headers.join(',')];
 
             filteredRecords.forEach(r => {
@@ -1271,7 +1300,7 @@
             a.click();
         }
 
-        // Live Auto-Sync Interval: Checks Google Sheets every 8 seconds!
+        // Auto Sync every 8 seconds
         window.addEventListener('DOMContentLoaded', () => {
             fetchGoogleSheetData();
             setInterval(() => fetchGoogleSheetData(false), 8000);

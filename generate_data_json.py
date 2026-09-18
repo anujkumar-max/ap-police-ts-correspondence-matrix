@@ -3,10 +3,13 @@ import os
 import server
 
 # Generate data.json from server's extraction logic
-data = server.get_correspondence_data()
+data = server.fetch_google_sheet_data()
 json_path = r"c:\Users\prasa\Desktop\TS-Correspondence Matrix\data.json"
 
 with open(json_path, 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 
 print("data.json successfully generated with", len(data.get('records', [])), "records.")
+print("Sample TAT/Age metrics:")
+for r in data.get('records', [])[:8]:
+    print(f"  {r['ID']}: {r.get('display_time_metric')} (Recv: {r.get('Date Received to office')})")
