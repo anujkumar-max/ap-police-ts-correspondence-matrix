@@ -32,8 +32,8 @@
     </script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <!-- SheetJS for Client-Side Live Excel Parsing (GitHub Pages Compatible) -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- PapaParse CDN for Fast Real-Time CSV Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -94,7 +94,7 @@
                         <span class="text-xs font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
                         <span id="sync-status-badge" class="flex items-center text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
-                            <span>Auto-Sync: 5s Live</span>
+                            <span>Google Sheets Live Sync</span>
                         </span>
                     </div>
                     <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
@@ -107,24 +107,21 @@
             <!-- Header Quick Actions & Live Info -->
             <div class="flex items-center flex-wrap gap-2.5 no-print">
                 <div class="text-right hidden sm:block mr-2">
-                    <div class="text-[11px] text-slate-400">Excel Saved: <span id="excel-saved-time" class="text-amber-400 font-mono font-medium">Checking...</span></div>
-                    <div class="text-[11px] text-slate-400">Dashboard Checked: <span id="dashboard-poll-time" class="text-emerald-400 font-mono font-medium">Just now</span></div>
+                    <div class="text-[11px] text-slate-400">Source: <span class="text-emerald-400 font-semibold flex items-center gap-1 inline-flex"><i data-lucide="cloud" class="w-3 h-3"></i> Google Sheets</span></div>
+                    <div class="text-[11px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
 
-                <!-- Hidden Excel File Input -->
-                <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden" onchange="handleExcelFileUpload(event)">
+                <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-3 py-2 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Open Sheet ↗</span>
+                </a>
 
-                <button onclick="document.getElementById('excel-file-input').click()" title="Load an updated Excel sheet directly from your device" class="px-3 py-2 text-xs font-semibold bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 hover:text-white border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
-                    <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
-                    <span>Upload Excel</span>
-                </button>
-
-                <button onclick="fetchData(true)" title="Instant force-refresh from Excel" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <button onclick="fetchGoogleSheetData(true)" title="Force sync now" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-                    <span>Refresh Now</span>
+                    <span>Sync Now</span>
                 </button>
 
-                <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-3 py-2 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="download" class="w-3.5 h-3.5"></i>
                     <span>Export CSV</span>
                 </button>
@@ -136,6 +133,17 @@
             </div>
         </div>
     </header>
+
+    <!-- GOOGLE SHEET ACCESS PERMISSION BANNER (Shows only if Google Sheet is Restricted) -->
+    <div id="permission-alert" class="hidden bg-amber-500/15 border-b border-amber-500/30 px-4 py-3 text-amber-200 text-xs no-print">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <i data-lucide="alert-circle" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+                <span><strong>Google Sheet Access Needed:</strong> To enable real-time cloud sync, open your Google Sheet ➔ Click green <strong>"Share"</strong> ➔ Change General Access to <strong>"Anyone with the link can view"</strong> (or File ➔ Share ➔ Publish to web).</span>
+            </div>
+            <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded hover:bg-amber-400 whitespace-nowrap">Open Sheet</a>
+        </div>
+    </div>
 
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
@@ -233,7 +241,7 @@
                 <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
                     <i data-lucide="table-2" class="w-4 h-4"></i>
                     <span>Live Records Explorer</span>
-                    <span id="tab-records-badge" class="px-1.5 py-0.5 text-xs rounded bg-blue-900/60 text-blue-300 font-mono">48</span>
+                    <span id="tab-records-badge" class="px-1.5 py-0.5 text-xs rounded bg-blue-900/60 text-blue-300 font-mono">--</span>
                 </button>
             </div>
         </div>
@@ -342,12 +350,10 @@
                 </div>
             </div>
 
-            <!-- Officer Cards Grid -->
             <div id="officer-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated dynamically -->
             </div>
 
-            <!-- Staff Workload Table -->
             <div class="glass-card rounded-2xl p-5 border border-slate-800">
                 <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="user-cog" class="w-4 h-4 text-blue-400"></i>
@@ -385,7 +391,6 @@
                 </div>
             </div>
 
-            <!-- Project Cards Grid -->
             <div id="project-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated dynamically -->
             </div>
@@ -394,31 +399,26 @@
         <!-- ================= TAB 4: LIVE RECORDS EXPLORER ================= -->
         <div id="tab-explorer" class="tab-content hidden space-y-4">
             
-            <!-- Filters & Search Toolbar -->
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                     
-                    <!-- Search Input -->
                     <div class="lg:col-span-2 relative">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
                         <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Officer, Dept, Project..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
-                    <!-- Officer Filter -->
                     <div>
                         <select id="filter-officer" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Officers</option>
                         </select>
                     </div>
 
-                    <!-- Project Filter -->
                     <div>
                         <select id="filter-project" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Projects</option>
                         </select>
                     </div>
 
-                    <!-- Priority & Status Filter -->
                     <div class="flex gap-2">
                         <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Priorities</option>
@@ -435,17 +435,15 @@
                     </div>
                 </div>
 
-                <!-- Active Filter Indicator & Reset -->
                 <div class="flex items-center justify-between text-xs text-slate-400 pt-1 border-t border-slate-800/80">
                     <div class="flex items-center gap-2">
-                        <span>Showing <span id="filtered-count" class="text-white font-bold">48</span> of <span id="total-count" class="text-white font-bold">48</span> records</span>
+                        <span>Showing <span id="filtered-count" class="text-white font-bold">--</span> of <span id="total-count" class="text-white font-bold">--</span> records</span>
                         <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
                     </div>
                     <div class="text-[11px] text-slate-500">Click on any row to view complete file details</div>
                 </div>
             </div>
 
-            <!-- Correspondence Table -->
             <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
                 <div class="overflow-x-auto max-h-[600px]">
                     <table class="w-full text-left text-xs text-slate-300">
@@ -551,61 +549,67 @@
     <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>Andhra Pradesh Police • Police Computer Services & Standardization (PCS&S)</span>
-            <span>Automated Correspondence Monitoring System • Real-Time Analytics</span>
+            <span>Real-Time Cloud Correspondence System • Connected to Google Sheets</span>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- JAVASCRIPT LIVE GOOGLE SHEETS SYNC LOGIC -->
     <script>
+        const GOOGLE_SHEET_ID = "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y";
+        const GOOGLE_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
+        const GOOGLE_EXPORT_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
+
         let rawData = null;
         let filteredRecords = [];
         let chartOfficers = null;
         let chartProjects = null;
         let chartChannels = null;
         let chartAging = null;
-        let lastKnownFileModTime = null;
 
-        // Fetch Data: Tries Server API -> Falls back to static data.json (for GitHub Pages)
-        async function fetchData(showFeedback = false) {
+        // Fetch Live Google Sheets Data
+        async function fetchGoogleSheetData(showFeedback = false) {
             const refreshIcon = document.getElementById('refresh-icon');
             if (refreshIcon && showFeedback) refreshIcon.classList.add('animate-spin');
 
             try {
+                // 1. Try local server API first if running locally
                 let data = null;
                 try {
-                    const response = await fetch('/api/data?t=' + Date.now());
-                    if (response.ok) {
-                        data = await response.json();
+                    const localResp = await fetch('/api/data?t=' + Date.now());
+                    if (localResp.ok) {
+                        data = await localResp.json();
+                        if (data.status === 'unauthorized') {
+                            document.getElementById('permission-alert').classList.remove('hidden');
+                        } else {
+                            document.getElementById('permission-alert').classList.add('hidden');
+                        }
                     }
                 } catch (e) {
-                    // Fallback to static data.json if running statically (e.g. on GitHub Pages)
+                    // Local server not running, fetch directly from Google in browser
                 }
 
+                // 2. Direct browser fetch from Google Sheets if local server didn't provide data
+                if (!data || data.status !== 'success') {
+                    data = await fetchDirectFromGoogle();
+                }
+
+                // 3. Fallback to static data.json snapshot if Google returns permission error
                 if (!data || data.status !== 'success') {
                     const fallbackResp = await fetch('data.json?t=' + Date.now());
                     if (fallbackResp.ok) {
                         data = await fallbackResp.json();
+                        document.getElementById('permission-alert').classList.remove('hidden');
                     }
                 }
 
                 if (data && data.status === 'success') {
-                    const fileModTime = data.file_modified_time || data.last_updated || '2026-09-16 17:34:35';
-                    const serverPollTime = data.server_time || new Date().toLocaleTimeString();
-
-                    // Only re-render if data has changed or first load
-                    const hasChanged = !rawData || lastKnownFileModTime !== fileModTime;
                     rawData = data;
-                    lastKnownFileModTime = fileModTime;
-
-                    if (hasChanged) {
-                        renderDashboard();
-                    }
-
-                    document.getElementById('excel-saved-time').innerText = fileModTime;
-                    document.getElementById('dashboard-poll-time').innerText = serverPollTime;
+                    renderDashboard();
+                    document.getElementById('sync-timestamp').innerText = new Date().toLocaleTimeString();
                 }
+
             } catch (err) {
-                console.error("Fetch Error:", err);
+                console.error("Google Sheet Sync Error:", err);
             } finally {
                 if (refreshIcon) {
                     setTimeout(() => refreshIcon.classList.remove('animate-spin'), 600);
@@ -613,181 +617,162 @@
             }
         }
 
-        // Client-Side Excel Upload & Instant Processing using SheetJS
-        function handleExcelFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        // Direct Browser Fetch from Google Sheets
+        function fetchDirectFromGoogle() {
+            return new Promise((resolve) => {
+                Papa.parse(GOOGLE_CSV_URL, {
+                    download: true,
+                    header: false,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        const rows = results.data;
+                        if (!rows || rows.length < 2) {
+                            resolve(null);
+                            return;
+                        }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-                    const sheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[sheetName];
-                    const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        document.getElementById('permission-alert').classList.add('hidden');
 
-                    if (jsonRows.length < 2) {
-                        alert("The uploaded Excel file does not contain enough data rows.");
-                        return;
-                    }
+                        const headers = rows[0].map(h => String(h || '').trim());
+                        const records = [];
+                        const now = new Date();
 
-                    const headers = jsonRows[0].map(h => String(h || '').trim());
-                    const records = [];
-                    const now = new Date();
+                        for (let r = 1; r < rows.length; r++) {
+                            const row = rows[r];
+                            if (!row || !row[0] || String(row[0]).trim() === '') continue;
 
-                    for (let r = 1; r < jsonRows.length; r++) {
-                        const row = jsonRows[r];
-                        if (!row || !row[0] || String(row[0]).trim() === '') continue;
+                            const rowDict = {};
+                            let hasData = false;
 
-                        const rowDict = {};
-                        let hasData = false;
+                            headers.forEach((h, colIdx) => {
+                                const val = row[colIdx] !== undefined ? String(row[colIdx]).trim() : '';
+                                rowDict[h] = val;
+                                if (colIdx > 0 && val !== '' && val !== 'N/A' && val !== 'None') hasData = true;
+                            });
 
-                        headers.forEach((h, colIdx) => {
-                            let val = row[colIdx];
-                            if (val instanceof Date) {
-                                val = val.toISOString().slice(0, 10);
-                                hasData = true;
-                            } else if (val !== undefined && val !== null) {
-                                val = String(val).trim();
-                                if (colIdx > 0 && val !== '' && val !== 'N/A') hasData = true;
-                            } else {
-                                val = '';
+                            if (hasData) {
+                                const dateRecvStr = rowDict['Date Received to office'] || '';
+                                const dateCloseStr = rowDict['Final Closure Date'] || '';
+                                let agingDays = 0;
+                                let tatDays = 0;
+
+                                if (dateRecvStr && dateRecvStr !== 'N/A') {
+                                    const dRecv = new Date(dateRecvStr);
+                                    if (dateCloseStr && dateCloseStr !== 'N/A') {
+                                        const dClose = new Date(dateCloseStr);
+                                        tatDays = Math.max(0, Math.round((dClose - dRecv) / (1000 * 60 * 60 * 24)));
+                                        agingDays = tatDays;
+                                    } else {
+                                        agingDays = Math.max(0, Math.round((now - dRecv) / (1000 * 60 * 60 * 24)));
+                                    }
+                                }
+
+                                rowDict['calculated_aging_days'] = isNaN(agingDays) ? 0 : agingDays;
+                                rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
+
+                                const stage = (rowDict['Current Stage'] || '').trim();
+                                if (['Completed', 'Correspondence Closed', 'File Dispatched'].includes(stage)) {
+                                    rowDict['status_group'] = 'Completed';
+                                } else if (['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies'].includes(stage)) {
+                                    rowDict['status_group'] = 'In-Progress';
+                                } else {
+                                    rowDict['status_group'] = 'Pending';
+                                }
+
+                                let priority = (rowDict['Priority'] || '').trim();
+                                if (!['Critical', 'High', 'Normal'].includes(priority)) priority = 'Normal';
+                                rowDict['Priority'] = priority;
+
+                                records.push(rowDict);
                             }
-                            rowDict[h] = val;
+                        }
+
+                        const completed = records.filter(r => r.status_group === 'Completed').length;
+                        const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
+                        const pending = records.filter(r => r.status_group === 'Pending').length;
+                        const critical = records.filter(r => r.Priority === 'Critical').length;
+                        const high = records.filter(r => r.Priority === 'High').length;
+
+                        const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
+                        const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
+
+                        const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
+                        records.filter(r => r.status_group !== 'Completed').forEach(r => {
+                            const age = r.calculated_aging_days;
+                            if (age <= 3) agingBuckets["< 3 Days"]++;
+                            else if (age <= 7) agingBuckets["4 - 7 Days"]++;
+                            else if (age <= 15) agingBuckets["8 - 15 Days"]++;
+                            else agingBuckets["15+ Days"]++;
                         });
 
-                        if (hasData) {
-                            const dateRecvStr = rowDict['Date Received to office'] || '';
-                            const dateCloseStr = rowDict['Final Closure Date'] || '';
-                            let agingDays = 0;
-                            let tatDays = 0;
+                        const offMap = {};
+                        records.forEach(r => {
+                            const off = r['Concerned Officer'] || 'Unassigned';
+                            if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0, staff: new Set() };
+                            offMap[off].total++;
+                            if (r.status_group === 'Completed') offMap[off].completed++;
+                            else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
+                            else offMap[off].pending++;
+                            if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
+                            if (r['Concerned Staff']) offMap[off].staff.add(r['Concerned Staff']);
+                        });
+                        const officerAnalytics = Object.values(offMap).map(o => ({ ...o, staff: Array.from(o.staff) })).sort((a, b) => b.total - a.total);
 
-                            if (dateRecvStr && dateRecvStr !== 'N/A') {
-                                const dRecv = new Date(dateRecvStr);
-                                if (dateCloseStr && dateCloseStr !== 'N/A') {
-                                    const dClose = new Date(dateCloseStr);
-                                    tatDays = Math.max(0, Math.round((dClose - dRecv) / (1000 * 60 * 60 * 24)));
-                                    agingDays = tatDays;
-                                } else {
-                                    agingDays = Math.max(0, Math.round((now - dRecv) / (1000 * 60 * 60 * 24)));
-                                }
-                            }
+                        const stMap = {};
+                        records.forEach(r => {
+                            const st = r['Concerned Staff'] || 'Unassigned';
+                            if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0 };
+                            stMap[st].total++;
+                            if (r.status_group === 'Completed') stMap[st].completed++;
+                            else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
+                            else stMap[st].pending++;
+                        });
+                        const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
 
-                            rowDict['calculated_aging_days'] = isNaN(agingDays) ? 0 : agingDays;
-                            rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
+                        const pMap = {};
+                        records.forEach(r => {
+                            const p = r['Project'] || 'Other / Misc';
+                            if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0 };
+                            pMap[p].total++;
+                            if (r.status_group === 'Completed') pMap[p].completed++;
+                            else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
+                            else pMap[p].pending++;
+                            if (r.Priority === 'Critical') pMap[p].critical++;
+                        });
+                        const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
 
-                            const stage = (rowDict['Current Stage'] || '').trim();
-                            if (['Completed', 'Correspondence Closed', 'File Dispatched'].includes(stage)) {
-                                rowDict['status_group'] = 'Completed';
-                            } else if (['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies'].includes(stage)) {
-                                rowDict['status_group'] = 'In-Progress';
-                            } else {
-                                rowDict['status_group'] = 'Pending';
-                            }
+                        const chMap = {};
+                        records.forEach(r => {
+                            const ch = r['Received Through'] || 'Other';
+                            chMap[ch] = (chMap[ch] || 0) + 1;
+                        });
+                        const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
 
-                            let priority = (rowDict['Priority'] || '').trim();
-                            if (!['Critical', 'High', 'Normal'].includes(priority)) priority = 'Normal';
-                            rowDict['Priority'] = priority;
-
-                            records.push(rowDict);
-                        }
+                        resolve({
+                            status: 'success',
+                            kpis: {
+                                total: records.length,
+                                completed,
+                                inprogress,
+                                pending,
+                                critical,
+                                high,
+                                avg_tat_days: avgTat
+                            },
+                            aging_buckets: agingBuckets,
+                            officers: officerAnalytics,
+                            staff: staffAnalytics,
+                            projects: projectAnalytics,
+                            channels: channelAnalytics,
+                            records: records
+                        });
+                    },
+                    error: function(err) {
+                        document.getElementById('permission-alert').classList.remove('hidden');
+                        resolve(null);
                     }
-
-                    const completed = records.filter(r => r.status_group === 'Completed').length;
-                    const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
-                    const pending = records.filter(r => r.status_group === 'Pending').length;
-                    const critical = records.filter(r => r.Priority === 'Critical').length;
-                    const high = records.filter(r => r.Priority === 'High').length;
-
-                    const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
-                    const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
-
-                    const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
-                    records.filter(r => r.status_group !== 'Completed').forEach(r => {
-                        const age = r.calculated_aging_days;
-                        if (age <= 3) agingBuckets["< 3 Days"]++;
-                        else if (age <= 7) agingBuckets["4 - 7 Days"]++;
-                        else if (age <= 15) agingBuckets["8 - 15 Days"]++;
-                        else agingBuckets["15+ Days"]++;
-                    });
-
-                    const offMap = {};
-                    records.forEach(r => {
-                        const off = r['Concerned Officer'] || 'Unassigned';
-                        if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0, staff: new Set() };
-                        offMap[off].total++;
-                        if (r.status_group === 'Completed') offMap[off].completed++;
-                        else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
-                        else offMap[off].pending++;
-                        if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
-                        if (r['Concerned Staff']) offMap[off].staff.add(r['Concerned Staff']);
-                    });
-                    const officerAnalytics = Object.values(offMap).map(o => ({ ...o, staff: Array.from(o.staff) })).sort((a, b) => b.total - a.total);
-
-                    const stMap = {};
-                    records.forEach(r => {
-                        const st = r['Concerned Staff'] || 'Unassigned';
-                        if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0 };
-                        stMap[st].total++;
-                        if (r.status_group === 'Completed') stMap[st].completed++;
-                        else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
-                        else stMap[st].pending++;
-                    });
-                    const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
-
-                    const pMap = {};
-                    records.forEach(r => {
-                        const p = r['Project'] || 'Other / Misc';
-                        if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0 };
-                        pMap[p].total++;
-                        if (r.status_group === 'Completed') pMap[p].completed++;
-                        else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
-                        else pMap[p].pending++;
-                        if (r.Priority === 'Critical') pMap[p].critical++;
-                    });
-                    const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
-
-                    const chMap = {};
-                    records.forEach(r => {
-                        const ch = r['Received Through'] || 'Other';
-                        chMap[ch] = (chMap[ch] || 0) + 1;
-                    });
-                    const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
-
-                    rawData = {
-                        status: 'success',
-                        file_modified_time: 'Uploaded File (' + new Date().toLocaleTimeString() + ')',
-                        server_time: new Date().toLocaleTimeString(),
-                        file_name: file.name,
-                        kpis: {
-                            total: records.length,
-                            completed,
-                            inprogress,
-                            pending,
-                            critical,
-                            high,
-                            avg_tat_days: avgTat
-                        },
-                        aging_buckets: agingBuckets,
-                        officers: officerAnalytics,
-                        staff: staffAnalytics,
-                        projects: projectAnalytics,
-                        channels: channelAnalytics,
-                        records: records
-                    };
-
-                    renderDashboard();
-                    document.getElementById('excel-saved-time').innerText = rawData.file_modified_time;
-                    document.getElementById('dashboard-poll-time').innerText = rawData.server_time;
-                    alert(`Successfully loaded ${records.length} correspondence records from "${file.name}"!`);
-
-                } catch (err) {
-                    console.error("Client parsing error:", err);
-                    alert("Error parsing Excel file: " + err.message);
-                }
-            };
-            reader.readAsArrayBuffer(file);
+                });
+            });
         }
 
         // Render All Dashboard Components
@@ -817,7 +802,7 @@
             lucide.createIcons();
         }
 
-        // Charts Rendering with Chart.js
+        // Charts Rendering
         function renderCharts() {
             Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
@@ -831,24 +816,9 @@
                 data: {
                     labels: officers.map(o => o.officer),
                     datasets: [
-                        {
-                            label: 'Completed',
-                            data: officers.map(o => o.completed),
-                            backgroundColor: '#10b981',
-                            borderRadius: 4
-                        },
-                        {
-                            label: 'In-Progress',
-                            data: officers.map(o => o.inprogress),
-                            backgroundColor: '#6366f1',
-                            borderRadius: 4
-                        },
-                        {
-                            label: 'Pending',
-                            data: officers.map(o => o.pending),
-                            backgroundColor: '#f59e0b',
-                            borderRadius: 4
-                        }
+                        { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 4 },
+                        { label: 'Pending', data: officers.map(o => o.pending), backgroundColor: '#f59e0b', borderRadius: 4 }
                     ]
                 },
                 options: {
@@ -1301,10 +1271,10 @@
             a.click();
         }
 
-        // Auto Sync: Runs in background every 5 seconds!
+        // Live Auto-Sync Interval: Checks Google Sheets every 8 seconds!
         window.addEventListener('DOMContentLoaded', () => {
-            fetchData();
-            setInterval(() => fetchData(false), 5000);
+            fetchGoogleSheetData();
+            setInterval(() => fetchGoogleSheetData(false), 8000);
         });
     </script>
 </body>

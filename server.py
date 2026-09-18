@@ -4,67 +4,61 @@ import json
 import os
 import sys
 import urllib.parse
+import urllib.request
+import csv
+import io
 from datetime import datetime, date
-import openpyxl
 
 PORT = 8050
-EXCEL_PATH = r"c:\Users\prasa\Desktop\TS-Correspondence Matrix\AP TS-Correspondence MATRIX.xlsx"
+GOOGLE_SHEET_ID = "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y"
+GOOGLE_CSV_URL = f"https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv"
 STATIC_DIR = os.path.dirname(os.path.abspath(__file__))
 
 _cached_data = None
-_cached_mtime = None
+_last_fetch_time = 0
 
-def get_correspondence_data(force_reload=False):
-    global _cached_data, _cached_mtime
+def fetch_google_sheet_data():
+    global _cached_data, _last_fetch_time
+    now_ts = datetime.now().timestamp()
 
-    if not os.path.exists(EXCEL_PATH):
-        return {"status": "error", "message": "Excel file not found at " + EXCEL_PATH}
-
-    current_mtime = os.path.getmtime(EXCEL_PATH)
-
-    # Return cached data if file hasn't changed on disk
-    if not force_reload and _cached_data is not None and _cached_mtime == current_mtime:
-        # Update server poll timestamp
+    # Cache for 5 seconds to prevent rate-limiting
+    if _cached_data and (now_ts - _last_fetch_time < 5):
         _cached_data['server_time'] = datetime.now().strftime("%I:%M:%S %p")
         return _cached_data
 
     try:
-        wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-        ws_name = 'Correspondence Matrix (Tappals)' if 'Correspondence Matrix (Tappals)' in wb.sheetnames else wb.sheetnames[0]
-        ws = wb[ws_name]
+        req = urllib.request.Request(
+            GOOGLE_CSV_URL,
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        )
+        with urllib.request.urlopen(req, timeout=8) as response:
+            csv_text = response.read().decode('utf-8')
 
-        headers = []
-        for c in range(1, 22):
-            val = ws.cell(row=1, column=c).value
-            headers.append(str(val).strip() if val else f"Col_{c}")
+        reader = csv.reader(io.StringIO(csv_text))
+        rows = list(reader)
 
+        if len(rows) < 2:
+            return {"status": "error", "message": "Google Sheet is empty or headers missing."}
+
+        headers = [h.strip() for h in rows[0]]
         records = []
         now = datetime.now()
 
-        for r in range(2, ws.max_row + 1):
-            row_id = ws.cell(row=r, column=1).value
-            if not row_id or str(row_id).strip() == "" or str(row_id).strip().lower() == 'none':
+        for r_idx in range(1, len(rows)):
+            row = rows[r_idx]
+            if not row or not row[0] or str(row[0]).strip() == "":
                 continue
 
             row_dict = {}
-            has_substantive_data = False
+            has_data = False
 
-            for c in range(1, 22):
-                val = ws.cell(row=r, column=c).value
-                col_name = headers[c - 1]
+            for c_idx, h in enumerate(headers):
+                val = row[c_idx].strip() if c_idx < len(row) else ""
+                row_dict[h] = val
+                if c_idx > 0 and val not in ['', 'N/A', 'None']:
+                    has_data = True
 
-                if isinstance(val, (datetime, date)):
-                    row_dict[col_name] = val.strftime("%Y-%m-%d")
-                    has_substantive_data = True
-                elif val is not None:
-                    val_str = str(val).strip()
-                    row_dict[col_name] = val_str
-                    if c > 1 and val_str not in ['', 'N/A', 'None']:
-                        has_substantive_data = True
-                else:
-                    row_dict[col_name] = ""
-
-            if has_substantive_data:
+            if has_data:
                 date_recv_str = row_dict.get('Date Received to office', '')
                 date_close_str = row_dict.get('Final Closure Date', '')
                 
@@ -72,16 +66,23 @@ def get_correspondence_data(force_reload=False):
                 tat_days = 0
 
                 if date_recv_str and date_recv_str != 'N/A':
-                    try:
-                        d_recv = datetime.strptime(date_recv_str, "%Y-%m-%d")
-                        if date_close_str and date_close_str != 'N/A':
-                            d_close = datetime.strptime(date_close_str, "%Y-%m-%d")
-                            tat_days = max(0, (d_close - d_recv).days)
-                            aging_days = tat_days
-                        else:
-                            aging_days = max(0, (now - d_recv).days)
-                    except Exception:
-                        pass
+                    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y"):
+                        try:
+                            d_recv = datetime.strptime(date_recv_str.split(' ')[0], fmt)
+                            if date_close_str and date_close_str != 'N/A':
+                                for cfmt in ("%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y"):
+                                    try:
+                                        d_close = datetime.strptime(date_close_str.split(' ')[0], cfmt)
+                                        tat_days = max(0, (d_close - d_recv).days)
+                                        aging_days = tat_days
+                                        break
+                                    except Exception:
+                                        pass
+                            else:
+                                aging_days = max(0, (now - d_recv).days)
+                            break
+                        except Exception:
+                            pass
 
                 row_dict['calculated_aging_days'] = aging_days
                 row_dict['calculated_tat_days'] = tat_days
@@ -91,10 +92,8 @@ def get_correspondence_data(force_reload=False):
                     row_dict['status_group'] = 'Completed'
                 elif stage in ['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies']:
                     row_dict['status_group'] = 'In-Progress'
-                elif stage in ['Pending', 'Decision Pending']:
-                    row_dict['status_group'] = 'Pending'
                 else:
-                    row_dict['status_group'] = 'Pending' if not stage or stage == 'N/A' else stage
+                    row_dict['status_group'] = 'Pending'
 
                 priority = (row_dict.get('Priority') or '').strip()
                 if priority not in ['Critical', 'High', 'Normal']:
@@ -140,10 +139,8 @@ def get_correspondence_data(force_reload=False):
                 officers_map[off]['inprogress'] += 1
             else:
                 officers_map[off]['pending'] += 1
-            
             if r['Priority'] in ['Critical', 'High']:
                 officers_map[off]['critical'] += 1
-
             st = r.get('Concerned Staff', '')
             if st and st not in ['', 'N/A', 'None']:
                 officers_map[off]['staff'].add(st)
@@ -222,20 +219,12 @@ def get_correspondence_data(force_reload=False):
 
         channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-        dept_map = {}
-        for r in records:
-            d = r.get('Received From Department /Wing') or 'Unknown'
-            if d in ['', 'N/A', 'None']:
-                d = 'Direct / Internal'
-            dept_map[d] = dept_map.get(d, 0) + 1
-        
-        dept_analytics = [{'department': k, 'count': v} for k, v in sorted(dept_map.items(), key=lambda x: x[1], reverse=True)[:8]]
-
         _cached_data = {
             'status': 'success',
-            'file_modified_time': datetime.fromtimestamp(current_mtime).strftime("%Y-%m-%d %I:%M:%S %p"),
+            'data_source': 'Google Sheets Live Cloud',
+            'sheet_id': GOOGLE_SHEET_ID,
+            'last_updated': datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"),
             'server_time': datetime.now().strftime("%I:%M:%S %p"),
-            'file_name': os.path.basename(EXCEL_PATH),
             'kpis': {
                 'total': total_records,
                 'completed': completed_count,
@@ -250,16 +239,19 @@ def get_correspondence_data(force_reload=False):
             'staff': staff_analytics,
             'projects': project_analytics,
             'channels': channel_analytics,
-            'departments': dept_analytics,
             'records': records
         }
-        _cached_mtime = current_mtime
-
+        _last_fetch_time = now_ts
         return _cached_data
 
+    except urllib.error.HTTPError as e:
+        if e.code == 401:
+            return {
+                'status': 'unauthorized',
+                'message': 'Google Sheet access is Restricted. Please set General Access to "Anyone with the link can view".'
+            }
+        return {'status': 'error', 'message': f'HTTP Error {e.code}: {e.reason}'}
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         return {'status': 'error', 'message': str(e)}
 
 class DashboardRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -268,7 +260,7 @@ class DashboardRequestHandler(http.server.SimpleHTTPRequestHandler):
         path = parsed.path
 
         if path == '/api/data':
-            data = get_correspondence_data()
+            data = fetch_google_sheet_data()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json; charset=utf-8')
             self.send_header('Access-Control-Allow-Origin', '*')
@@ -294,11 +286,10 @@ def start_server():
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), DashboardRequestHandler) as httpd:
         print(f"================================================================")
-        print(f" AP Police TS Correspondence Executive Analytics Dashboard Server ")
+        print(f" AP Police TS Correspondence Live Google Sheets Dashboard Server ")
         print(f" Running live on: http://localhost:{PORT}")
-        print(f" Network access: http://0.0.0.0:{PORT}")
-        print(f" Tracking Excel: {EXCEL_PATH}")
-        print(f" Auto-Sync: Active (Instant Disk Detection)")
+        print(f" Google Sheet ID: {GOOGLE_SHEET_ID}")
+        print(f" Real-Time Sync: Active (Every 5-10s)")
         print(f"================================================================")
         httpd.serve_forever()
 
