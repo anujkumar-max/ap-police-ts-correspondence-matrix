@@ -148,76 +148,89 @@
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
 
-        <!-- EXECUTIVE KPI CARDS -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <!-- EXECUTIVE KPI CARDS (7 Categorized KPI Cards) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+            
             <!-- Total Inflow -->
-            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Total Correspondence</span>
-                    <i data-lucide="inbox" class="w-4 h-4 text-blue-400"></i>
+            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>Total Files</span>
+                    <i data-lucide="inbox" class="w-3.5 h-3.5 text-blue-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-white" id="kpi-total">--</div>
-                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
-                    <span class="text-blue-400">100%</span> total logged
+                <div class="text-2xl font-black text-white" id="kpi-total">--</div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
+                    <span class="text-blue-400 font-semibold">100%</span> total
                 </div>
             </div>
 
             <!-- Pending -->
-            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Pending Action</span>
-                    <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>Pending</span>
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-amber-400" id="kpi-pending">--</div>
-                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                <div class="text-2xl font-black text-amber-400" id="kpi-pending">--</div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
                     <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> of total
                 </div>
             </div>
 
             <!-- In Progress -->
-            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>In-Progress / Draft</span>
-                    <i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i>
+            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>In-Progress</span>
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-indigo-400" id="kpi-inprogress">--</div>
-                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                <div class="text-2xl font-black text-indigo-400" id="kpi-inprogress">--</div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
                     <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> of total
                 </div>
             </div>
 
             <!-- Completed -->
-            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Closed / Dispatched</span>
-                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>Completed</span>
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-emerald-400" id="kpi-completed">--</div>
-                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
-                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> resolution rate
+                <div class="text-2xl font-black text-emerald-400" id="kpi-completed">--</div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
+                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> resolved
+                </div>
+            </div>
+
+            <!-- On Hold / Closed / NA -->
+            <div onclick="filterByStatusGroup('On Hold / Closed')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-slate-500/60 hover:shadow-lg hover:shadow-slate-800/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-slate-400">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>On Hold / N/A</span>
+                    <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-slate-400"></i>
+                </div>
+                <div class="text-2xl font-black text-slate-300" id="kpi-onhold">--</div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
+                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> closed/hold
                 </div>
             </div>
 
             <!-- Critical Priority -->
-            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-4 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span>Critical Alert</span>
-                    <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
+                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-rose-400" id="kpi-critical">--</div>
-                <div class="text-[11px] text-rose-300/80 mt-1 flex items-center gap-1 font-semibold">
-                    <span id="kpi-critical-sub">Urgent Attention</span>
+                <div class="text-2xl font-black text-rose-400" id="kpi-critical">--</div>
+                <div class="text-[10.5px] text-rose-300/80 mt-1 font-semibold">
+                    <span>Urgent Action</span>
                 </div>
             </div>
 
             <!-- Average Turnaround Days -->
-            <div class="glass-card rounded-xl p-4 border-l-4 border-l-cyan-500">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Avg Turnaround (TAT)</span>
-                    <i data-lucide="timer" class="w-4 h-4 text-cyan-400"></i>
+            <div class="glass-card rounded-xl p-3.5 border-l-4 border-l-cyan-500">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span>Avg Turnaround</span>
+                    <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
                 </div>
-                <div class="text-2xl sm:text-3xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-sm font-normal text-slate-400">Days</span></div>
-                <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                <div class="text-2xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-xs font-normal text-slate-400">d</span></div>
+                <div class="text-[10.5px] text-slate-400 mt-1">
                     Receipt to Dispatch
                 </div>
             </div>
@@ -257,9 +270,9 @@
                         <div>
                             <h2 class="text-base font-bold text-white flex items-center gap-2">
                                 <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
-                                Officer Workload & Action Stage Distribution
+                                Officer Workload by Stage Category
                             </h2>
-                            <p class="text-xs text-slate-400">Active task allocation across officers</p>
+                            <p class="text-xs text-slate-400">Completed vs In-Progress vs Pending vs On Hold/Closed</p>
                         </div>
                         <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">By Officer</span>
                     </div>
@@ -363,6 +376,7 @@
                                 <th class="py-3 px-4 text-center text-amber-400">Pending</th>
                                 <th class="py-3 px-4 text-center text-indigo-400">In-Progress</th>
                                 <th class="py-3 px-4 text-center text-emerald-400">Completed</th>
+                                <th class="py-3 px-4 text-center text-slate-400">On Hold/NA</th>
                                 <th class="py-3 px-4">Completion %</th>
                             </tr>
                         </thead>
@@ -399,7 +413,7 @@
                     
                     <div class="lg:col-span-2 relative">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Officer, Dept, Project..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Officer, Dept, Project, Stage..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
                     <div>
@@ -423,9 +437,10 @@
                         </select>
                         <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Statuses</option>
-                            <option value="Pending">Pending</option>
-                            <option value="In-Progress">In-Progress</option>
-                            <option value="Completed">Completed</option>
+                            <option value="Pending">🟡 Pending</option>
+                            <option value="In-Progress">🔵 In-Progress</option>
+                            <option value="Completed">🟢 Completed / Dispatched</option>
+                            <option value="On Hold / Closed">⚪ On Hold / Closed / N/A</option>
                         </select>
                     </div>
                 </div>
@@ -566,7 +581,6 @@
             dateStr = dateStr.trim();
             if (!dateStr || dateStr.toLowerCase() === 'n/a' || dateStr.toLowerCase() === 'none') return null;
 
-            // Handle ISO format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS
             if (/^\d{4}-\d{1,2}-\d{1,2}/.test(dateStr)) {
                 const parts = dateStr.split(/[-T\s]/);
                 const y = parseInt(parts[0], 10);
@@ -575,7 +589,6 @@
                 return new Date(y, m, d);
             }
 
-            // Handle DD/MM/YYYY or DD-MM-YYYY (Indian format)
             const match = dateStr.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{2,4})/);
             if (match) {
                 let d = parseInt(match[1], 10);
@@ -589,6 +602,32 @@
             return isNaN(dObj.getTime()) ? null : dObj;
         }
 
+        // Categorize Stage into 4 exact groups
+        function categorizeStage(stageRaw) {
+            const stage = (stageRaw !== undefined && stageRaw !== null) ? String(stageRaw).trim() : '';
+            const stageLower = stage.toLowerCase();
+
+            // 1. On Hold / Cancelled / Closed / Inactive / N/A / Blank
+            if (!stage || stageLower === 'n/a' || stageLower === 'none' || stageLower === 'null' ||
+                stageLower === 'on hold' || stageLower === 'cancelled' || 
+                stageLower === 'correspondence closed' || stageLower === 'inactive') {
+                return 'On Hold / Closed';
+            }
+
+            // 2. Any stage mentioning "pending"
+            if (stageLower.includes('pending')) {
+                return 'Pending';
+            }
+
+            // 3. Completed / Dispatched / Acknowledgement
+            if (stageLower === 'completed' || stageLower === 'file dispatched' || stageLower === 'acknowledgement filed') {
+                return 'Completed';
+            }
+
+            // 4. Remaining all are In-Progress
+            return 'In-Progress';
+        }
+
         // Fetch Live Google Sheets Data
         async function fetchGoogleSheetData(showFeedback = false) {
             const refreshIcon = document.getElementById('refresh-icon');
@@ -596,22 +635,17 @@
 
             try {
                 let data = null;
-                // 1. Try local server API if running
                 try {
                     const localResp = await fetch('/api/data?t=' + Date.now());
                     if (localResp.ok) {
                         data = await localResp.json();
                     }
-                } catch (e) {
-                    // Local server not running
-                }
+                } catch (e) {}
 
-                // 2. Direct browser fetch from Google Sheets
                 if (!data || data.status !== 'success') {
                     data = await fetchDirectFromGoogle();
                 }
 
-                // 3. Fallback to static data.json snapshot
                 if (!data || data.status !== 'success') {
                     const fallbackResp = await fetch('data.json?t=' + Date.now());
                     if (fallbackResp.ok) {
@@ -675,14 +709,8 @@
 
                                 const effectiveStart = dRecv || dOrig;
 
-                                const stage = (rowDict['Current Stage'] || '').trim();
-                                if (['Completed', 'Correspondence Closed', 'File Dispatched'].includes(stage)) {
-                                    rowDict['status_group'] = 'Completed';
-                                } else if (['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies'].includes(stage)) {
-                                    rowDict['status_group'] = 'In-Progress';
-                                } else {
-                                    rowDict['status_group'] = 'Pending';
-                                }
+                                const stageRaw = rowDict['Current Stage'] || '';
+                                rowDict['status_group'] = categorizeStage(stageRaw);
 
                                 let tatDays = 0;
                                 let ageDays = 0;
@@ -696,7 +724,7 @@
                                     rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
                                     rowDict['calculated_aging_days'] = rowDict['calculated_tat_days'];
                                     rowDict['display_time_metric'] = effectiveStart ? `${rowDict['calculated_tat_days']}d (TAT)` : '—';
-                                } else {
+                                } else if (rowDict['status_group'] === 'Pending' || rowDict['status_group'] === 'In-Progress') {
                                     if (effectiveStart) {
                                         ageDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
                                         rowDict['calculated_aging_days'] = isNaN(ageDays) ? 0 : ageDays;
@@ -706,6 +734,18 @@
                                         rowDict['display_time_metric'] = '—';
                                     }
                                     rowDict['calculated_tat_days'] = 0;
+                                } else { // On Hold / Closed
+                                    if (effectiveStart && dClose) {
+                                        tatDays = Math.max(0, Math.round((dClose - effectiveStart) / (1000 * 60 * 60 * 24)));
+                                        rowDict['display_time_metric'] = `${tatDays}d (TAT)`;
+                                    } else if (effectiveStart) {
+                                        ageDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
+                                        rowDict['display_time_metric'] = `${ageDays}d (Age)`;
+                                    } else {
+                                        rowDict['display_time_metric'] = '—';
+                                    }
+                                    rowDict['calculated_tat_days'] = 0;
+                                    rowDict['calculated_aging_days'] = 0;
                                 }
 
                                 let priority = (rowDict['Priority'] || '').trim();
@@ -719,6 +759,7 @@
                         const completed = records.filter(r => r.status_group === 'Completed').length;
                         const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
                         const pending = records.filter(r => r.status_group === 'Pending').length;
+                        const onholdClosed = records.filter(r => r.status_group === 'On Hold / Closed').length;
                         const critical = records.filter(r => r.Priority === 'Critical').length;
                         const high = records.filter(r => r.Priority === 'High').length;
 
@@ -726,7 +767,7 @@
                         const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
 
                         const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
-                        records.filter(r => r.status_group !== 'Completed' && r.display_time_metric !== '—').forEach(r => {
+                        records.filter(r => (r.status_group === 'Pending' || r.status_group === 'In-Progress') && r.display_time_metric !== '—').forEach(r => {
                             const age = r.calculated_aging_days;
                             if (age <= 3) agingBuckets["< 3 Days"]++;
                             else if (age <= 7) agingBuckets["4 - 7 Days"]++;
@@ -737,11 +778,13 @@
                         const offMap = {};
                         records.forEach(r => {
                             const off = r['Concerned Officer'] || 'Unassigned';
-                            if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0, staff: new Set() };
+                            if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0, staff: new Set() };
                             offMap[off].total++;
                             if (r.status_group === 'Completed') offMap[off].completed++;
                             else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
-                            else offMap[off].pending++;
+                            else if (r.status_group === 'Pending') offMap[off].pending++;
+                            else offMap[off].onhold++;
+
                             if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
                             if (r['Concerned Staff']) offMap[off].staff.add(r['Concerned Staff']);
                         });
@@ -750,22 +793,25 @@
                         const stMap = {};
                         records.forEach(r => {
                             const st = r['Concerned Staff'] || 'Unassigned';
-                            if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0 };
+                            if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0 };
                             stMap[st].total++;
                             if (r.status_group === 'Completed') stMap[st].completed++;
                             else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
-                            else stMap[st].pending++;
+                            else if (r.status_group === 'Pending') stMap[st].pending++;
+                            else stMap[st].onhold++;
                         });
                         const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
 
                         const pMap = {};
                         records.forEach(r => {
                             const p = r['Project'] || 'Other / Misc';
-                            if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, critical: 0 };
+                            if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0 };
                             pMap[p].total++;
                             if (r.status_group === 'Completed') pMap[p].completed++;
                             else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
-                            else pMap[p].pending++;
+                            else if (r.status_group === 'Pending') pMap[p].pending++;
+                            else pMap[p].onhold++;
+
                             if (r.Priority === 'Critical') pMap[p].critical++;
                         });
                         const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
@@ -784,6 +830,7 @@
                                 completed,
                                 inprogress,
                                 pending,
+                                onhold_closed: onholdClosed,
                                 critical,
                                 high,
                                 avg_tat_days: avgTat
@@ -813,6 +860,7 @@
             document.getElementById('kpi-pending').innerText = kpis.pending;
             document.getElementById('kpi-inprogress').innerText = kpis.inprogress;
             document.getElementById('kpi-completed').innerText = kpis.completed;
+            document.getElementById('kpi-onhold').innerText = kpis.onhold_closed || 0;
             document.getElementById('kpi-critical').innerText = kpis.critical;
             document.getElementById('kpi-tat').innerText = kpis.avg_tat_days;
 
@@ -820,6 +868,7 @@
             document.getElementById('kpi-pending-pct').innerText = Math.round((kpis.pending / total) * 100) + '%';
             document.getElementById('kpi-inprogress-pct').innerText = Math.round((kpis.inprogress / total) * 100) + '%';
             document.getElementById('kpi-completed-pct').innerText = Math.round((kpis.completed / total) * 100) + '%';
+            document.getElementById('kpi-onhold-pct').innerText = Math.round(((kpis.onhold_closed || 0) / total) * 100) + '%';
             document.getElementById('tab-records-badge').innerText = total;
 
             populateFilters();
@@ -845,9 +894,10 @@
                 data: {
                     labels: officers.map(o => o.officer),
                     datasets: [
-                        { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#10b981', borderRadius: 4 },
-                        { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 4 },
-                        { label: 'Pending', data: officers.map(o => o.pending), backgroundColor: '#f59e0b', borderRadius: 4 }
+                        { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#10b981', borderRadius: 3 },
+                        { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 3 },
+                        { label: 'Pending', data: officers.map(o => o.pending), backgroundColor: '#f59e0b', borderRadius: 3 },
+                        { label: 'On Hold / Closed / NA', data: officers.map(o => o.onhold || 0), backgroundColor: '#64748b', borderRadius: 3 }
                     ]
                 },
                 options: {
@@ -859,7 +909,7 @@
                         y: { stacked: true, grid: { display: false } }
                     },
                     plugins: {
-                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+                        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10.5 } } },
                         tooltip: { backgroundColor: '#0f172a', titleFont: { size: 12 }, bodyFont: { size: 11 } }
                     }
                 }
@@ -924,7 +974,7 @@
                 data: {
                     labels: ageLabels,
                     datasets: [{
-                        label: 'Open Items',
+                        label: 'Active Files',
                         data: ageVals,
                         backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
                         borderRadius: 6
@@ -1007,18 +1057,22 @@
                             ${o.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
-                                <div class="text-[10px] text-slate-400">Pending</div>
+                                <div class="text-[9.5px] text-slate-400">Pending</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-indigo-400 font-bold text-sm">${o.inprogress}</div>
-                                <div class="text-[10px] text-slate-400">In-Progress</div>
+                                <div class="text-[9.5px] text-slate-400">In-Prog</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-emerald-400 font-bold text-sm">${o.completed}</div>
-                                <div class="text-[10px] text-slate-400">Completed</div>
+                                <div class="text-[9.5px] text-slate-400">Done</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-slate-300 font-bold text-sm">${o.onhold || 0}</div>
+                                <div class="text-[9.5px] text-slate-400">Hold/NA</div>
                             </div>
                         </div>
 
@@ -1057,6 +1111,7 @@
                         <td class="py-3 px-4 text-center text-amber-400 font-semibold">${st.pending}</td>
                         <td class="py-3 px-4 text-center text-indigo-400 font-semibold">${st.inprogress}</td>
                         <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${st.completed}</td>
+                        <td class="py-3 px-4 text-center text-slate-400">${st.onhold || 0}</td>
                         <td class="py-3 px-4">
                             <div class="flex items-center gap-2">
                                 <div class="w-20 bg-slate-800 rounded-full h-1.5 overflow-hidden">
@@ -1084,18 +1139,22 @@
                             ${p.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${p.critical} Critical</span>` : ''}
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-amber-400 font-bold text-sm">${p.pending}</div>
-                                <div class="text-[10px] text-slate-400">Pending</div>
+                                <div class="text-[9.5px] text-slate-400">Pending</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-indigo-400 font-bold text-sm">${p.inprogress}</div>
-                                <div class="text-[10px] text-slate-400">In-Progress</div>
+                                <div class="text-[9.5px] text-slate-400">In-Prog</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-emerald-400 font-bold text-sm">${p.completed}</div>
-                                <div class="text-[10px] text-slate-400">Completed</div>
+                                <div class="text-[9.5px] text-slate-400">Done</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                                <div class="text-slate-300 font-bold text-sm">${p.onhold || 0}</div>
+                                <div class="text-[9.5px] text-slate-400">Hold/NA</div>
                             </div>
                         </div>
 
@@ -1135,7 +1194,8 @@
                         r['Concerned Officer'],
                         r['Concerned Staff'],
                         r['Received From Department /Wing'],
-                        r['Project']
+                        r['Project'],
+                        r['Current Stage']
                     ].join(' ').toLowerCase();
                     if (!matchText.includes(search)) return false;
                 }
@@ -1174,9 +1234,11 @@
 
                 let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
                 if (r.status_group === 'Completed') {
-                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Completed</span>`;
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">${r['Current Stage'] || 'Completed'}</span>`;
                 } else if (r.status_group === 'In-Progress') {
                     stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">${r['Current Stage'] || 'In-Progress'}</span>`;
+                } else if (r.status_group === 'On Hold / Closed') {
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600/40">${r['Current Stage'] || 'N/A'}</span>`;
                 }
 
                 return `

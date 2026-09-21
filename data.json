@@ -2,30 +2,32 @@
   "status": "success",
   "data_source": "Google Sheets Live Cloud",
   "sheet_id": "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y",
-  "last_updated": "2026-09-18 04:31:16 PM",
-  "server_time": "04:31:16 PM",
+  "last_updated": "2026-09-21 03:25:33 PM",
+  "server_time": "03:25:33 PM",
   "kpis": {
-    "total": 55,
-    "completed": 14,
-    "inprogress": 15,
-    "pending": 26,
+    "total": 56,
+    "completed": 18,
+    "inprogress": 13,
+    "pending": 14,
+    "onhold_closed": 11,
     "critical": 4,
     "high": 4,
-    "avg_tat_days": 10.4
+    "avg_tat_days": 12.6
   },
   "aging_buckets": {
-    "< 3 Days": 9,
-    "4 - 7 Days": 2,
-    "8 - 15 Days": 10,
-    "15+ Days": 9
+    "< 3 Days": 1,
+    "4 - 7 Days": 3,
+    "8 - 15 Days": 4,
+    "15+ Days": 8
   },
   "officers": [
     {
       "officer": "T. Anoj Kumar",
-      "total": 19,
-      "completed": 5,
-      "inprogress": 10,
+      "total": 20,
+      "completed": 8,
+      "inprogress": 8,
       "pending": 4,
+      "onhold": 0,
       "critical": 2,
       "staff": [
         "B. Siva Srinivas rao",
@@ -40,7 +42,8 @@
       "total": 14,
       "completed": 8,
       "inprogress": 3,
-      "pending": 3,
+      "pending": 1,
+      "onhold": 2,
       "critical": 6,
       "staff": [
         "ALL",
@@ -55,7 +58,8 @@
       "total": 6,
       "completed": 0,
       "inprogress": 0,
-      "pending": 6,
+      "pending": 3,
+      "onhold": 3,
       "critical": 0,
       "staff": []
     },
@@ -65,6 +69,7 @@
       "completed": 0,
       "inprogress": 2,
       "pending": 2,
+      "onhold": 0,
       "critical": 0,
       "staff": [
         "N.Ramanjaneyulu"
@@ -75,7 +80,8 @@
       "total": 4,
       "completed": 0,
       "inprogress": 0,
-      "pending": 4,
+      "pending": 3,
+      "onhold": 1,
       "critical": 0,
       "staff": []
     },
@@ -84,7 +90,8 @@
       "total": 4,
       "completed": 1,
       "inprogress": 0,
-      "pending": 3,
+      "pending": 0,
+      "onhold": 3,
       "critical": 0,
       "staff": [
         "E.Vasantha Kumari"
@@ -93,9 +100,10 @@
     {
       "officer": "K. Sreekanth",
       "total": 2,
-      "completed": 0,
+      "completed": 1,
       "inprogress": 0,
-      "pending": 2,
+      "pending": 1,
+      "onhold": 0,
       "critical": 0,
       "staff": []
     },
@@ -104,7 +112,8 @@
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0,
       "staff": []
     },
@@ -113,7 +122,8 @@
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0,
       "staff": []
     }
@@ -122,65 +132,74 @@
     {
       "staff": "Unassigned",
       "total": 25,
-      "completed": 3,
+      "completed": 4,
       "inprogress": 1,
-      "pending": 21
+      "pending": 10,
+      "onhold": 10
     },
     {
       "staff": "Sk. Lal john basha",
-      "total": 10,
-      "completed": 4,
-      "inprogress": 4,
-      "pending": 2
+      "total": 11,
+      "completed": 7,
+      "inprogress": 3,
+      "pending": 1,
+      "onhold": 0
     },
     {
       "staff": "N. Bhanu Hari",
       "total": 7,
       "completed": 3,
-      "inprogress": 4,
-      "pending": 0
+      "inprogress": 2,
+      "pending": 2,
+      "onhold": 0
     },
     {
       "staff": "PVK.Prasad",
       "total": 3,
       "completed": 1,
-      "inprogress": 2,
-      "pending": 0
+      "inprogress": 1,
+      "pending": 1,
+      "onhold": 0
     },
     {
       "staff": "M. Suneetha",
       "total": 3,
       "completed": 0,
-      "inprogress": 2,
-      "pending": 1
+      "inprogress": 3,
+      "pending": 0,
+      "onhold": 0
     },
     {
       "staff": "B. Siva Srinivas rao",
       "total": 2,
       "completed": 0,
-      "inprogress": 1,
-      "pending": 1
+      "inprogress": 2,
+      "pending": 0,
+      "onhold": 0
     },
     {
       "staff": "ALL",
       "total": 2,
       "completed": 2,
       "inprogress": 0,
-      "pending": 0
+      "pending": 0,
+      "onhold": 0
     },
     {
       "staff": "N.Ramanjaneyulu",
       "total": 2,
       "completed": 1,
       "inprogress": 1,
-      "pending": 0
+      "pending": 0,
+      "onhold": 0
     },
     {
       "staff": "E.Vasantha Kumari",
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1
+      "pending": 0,
+      "onhold": 1
     }
   ],
   "projects": [
@@ -189,23 +208,26 @@
       "total": 14,
       "completed": 7,
       "inprogress": 4,
-      "pending": 3,
+      "pending": 2,
+      "onhold": 1,
       "critical": 4
     },
     {
       "project": "NATGRID",
-      "total": 10,
-      "completed": 4,
-      "inprogress": 4,
-      "pending": 2,
+      "total": 11,
+      "completed": 7,
+      "inprogress": 3,
+      "pending": 1,
+      "onhold": 0,
       "critical": 0
     },
     {
       "project": "Miscellaneous",
       "total": 7,
       "completed": 2,
-      "inprogress": 3,
-      "pending": 2,
+      "inprogress": 1,
+      "pending": 4,
+      "onhold": 0,
       "critical": 0
     },
     {
@@ -213,7 +235,8 @@
       "total": 4,
       "completed": 0,
       "inprogress": 0,
-      "pending": 4,
+      "pending": 2,
+      "onhold": 2,
       "critical": 0
     },
     {
@@ -221,7 +244,8 @@
       "total": 3,
       "completed": 0,
       "inprogress": 0,
-      "pending": 3,
+      "pending": 2,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -229,15 +253,17 @@
       "total": 3,
       "completed": 0,
       "inprogress": 1,
-      "pending": 2,
+      "pending": 0,
+      "onhold": 2,
       "critical": 0
     },
     {
       "project": "AI4AP",
       "total": 3,
       "completed": 0,
-      "inprogress": 1,
-      "pending": 2,
+      "inprogress": 2,
+      "pending": 1,
+      "onhold": 0,
       "critical": 0
     },
     {
@@ -245,7 +271,8 @@
       "total": 2,
       "completed": 1,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -253,7 +280,8 @@
       "total": 2,
       "completed": 0,
       "inprogress": 0,
-      "pending": 2,
+      "pending": 1,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -261,7 +289,8 @@
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -270,6 +299,7 @@
       "completed": 0,
       "inprogress": 0,
       "pending": 1,
+      "onhold": 0,
       "critical": 0
     },
     {
@@ -277,7 +307,8 @@
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -286,14 +317,16 @@
       "completed": 0,
       "inprogress": 1,
       "pending": 0,
+      "onhold": 0,
       "critical": 0
     },
     {
       "project": "CCTV 360",
       "total": 1,
-      "completed": 0,
+      "completed": 1,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 0,
       "critical": 0
     },
     {
@@ -301,7 +334,8 @@
       "total": 1,
       "completed": 0,
       "inprogress": 0,
-      "pending": 1,
+      "pending": 0,
+      "onhold": 1,
       "critical": 0
     },
     {
@@ -310,6 +344,7 @@
       "completed": 0,
       "inprogress": 1,
       "pending": 0,
+      "onhold": 0,
       "critical": 0
     }
   ],
@@ -328,7 +363,7 @@
     },
     {
       "channel": "Letter",
-      "count": 10
+      "count": 11
     },
     {
       "channel": "Tappal",
@@ -416,8 +451,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 21,
-      "display_time_metric": "21d (Age)",
+      "calculated_aging_days": 24,
+      "display_time_metric": "24d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -444,8 +479,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 22,
-      "display_time_metric": "22d (Age)",
+      "calculated_aging_days": 25,
+      "display_time_metric": "25d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -499,10 +534,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "19d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0007",
@@ -527,10 +562,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "19d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0008",
@@ -555,10 +590,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "19d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0009",
@@ -576,17 +611,17 @@
       "Final Decision": "eMAIL",
       "Concerned Officer": "T. Anoj Kumar",
       "Concerned Staff": "Sk. Lal john basha",
-      "Current Stage": "in-progress",
+      "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "In-Progress",
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "Completed",
+      "calculated_tat_days": 19,
+      "calculated_aging_days": 19,
+      "display_time_metric": "19d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0010",
@@ -612,8 +647,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (Age)",
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -640,8 +675,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (Age)",
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -668,9 +703,9 @@
       "Remarks": "",
       "": "",
       "status_group": "Completed",
-      "calculated_tat_days": 15,
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (TAT)"
+      "calculated_tat_days": 18,
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0013",
@@ -696,9 +731,9 @@
       "Remarks": "",
       "": "",
       "status_group": "Completed",
-      "calculated_tat_days": 16,
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (TAT)"
+      "calculated_tat_days": 19,
+      "calculated_aging_days": 19,
+      "display_time_metric": "19d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0014",
@@ -724,8 +759,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (Age)",
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -751,10 +786,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 16,
-      "display_time_metric": "16d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "19d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0016",
@@ -772,17 +807,17 @@
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "T. Anoj Kumar",
       "Concerned Staff": "Sk. Lal john basha",
-      "Current Stage": "in-progress",
+      "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "In-Progress",
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "Completed",
+      "calculated_tat_days": 18,
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0017",
@@ -808,8 +843,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 15,
-      "display_time_metric": "15d (Age)",
+      "calculated_aging_days": 18,
+      "display_time_metric": "18d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -836,8 +871,8 @@
       "Remarks": "Letter sent CEO,RTGS",
       "": "",
       "status_group": "In-Progress",
-      "calculated_aging_days": 41,
-      "display_time_metric": "41d (Age)",
+      "calculated_aging_days": 44,
+      "display_time_metric": "44d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -863,9 +898,9 @@
       "Delay days": "",
       "Remarks": "proforma sent to DSP,Eagle",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 10,
-      "display_time_metric": "10d (Age)",
+      "status_group": "In-Progress",
+      "calculated_aging_days": 13,
+      "display_time_metric": "13d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -892,8 +927,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 11,
-      "display_time_metric": "11d (Age)",
+      "calculated_aging_days": 14,
+      "display_time_metric": "14d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -976,8 +1011,8 @@
       "Remarks": "",
       "": "",
       "status_group": "In-Progress",
-      "calculated_aging_days": 29,
-      "display_time_metric": "29d (Age)",
+      "calculated_aging_days": 32,
+      "display_time_metric": "32d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1115,7 +1150,7 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
+      "status_group": "In-Progress",
       "calculated_aging_days": 0,
       "display_time_metric": "—",
       "calculated_tat_days": 0
@@ -1171,7 +1206,7 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "In-Progress",
+      "status_group": "Pending",
       "calculated_aging_days": 0,
       "display_time_metric": "—",
       "calculated_tat_days": 0
@@ -1199,7 +1234,7 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "In-Progress",
+      "status_group": "Pending",
       "calculated_aging_days": 0,
       "display_time_metric": "—",
       "calculated_tat_days": 0
@@ -1283,7 +1318,7 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "In-Progress",
+      "status_group": "Pending",
       "calculated_aging_days": 0,
       "display_time_metric": "—",
       "calculated_tat_days": 0
@@ -1423,10 +1458,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 8,
-      "display_time_metric": "8d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "11d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0040",
@@ -1444,17 +1479,17 @@
       "Final Decision": "Minutes",
       "Concerned Officer": "T. Anoj Kumar",
       "Concerned Staff": "Sk. Lal john basha",
-      "Current Stage": "File Currently With DGP",
+      "Current Stage": "Completed",
       "Priority": "High",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 7,
-      "display_time_metric": "7d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "Completed",
+      "calculated_tat_days": 10,
+      "calculated_aging_days": 10,
+      "display_time_metric": "10d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0041",
@@ -1480,9 +1515,9 @@
       "Remarks": "",
       "": "",
       "status_group": "Completed",
-      "calculated_tat_days": 7,
-      "calculated_aging_days": 7,
-      "display_time_metric": "7d (TAT)"
+      "calculated_tat_days": 10,
+      "calculated_aging_days": 10,
+      "display_time_metric": "10d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0042",
@@ -1500,17 +1535,17 @@
       "Final Decision": "Reply",
       "Concerned Officer": "K. Sreekanth",
       "Concerned Staff": "N/A",
-      "Current Stage": "Pending",
+      "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 8,
-      "display_time_metric": "8d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "Completed",
+      "calculated_tat_days": 11,
+      "calculated_aging_days": 11,
+      "display_time_metric": "11d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0043",
@@ -1536,8 +1571,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 2,
-      "display_time_metric": "2d (Age)",
+      "calculated_aging_days": 5,
+      "display_time_metric": "5d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1546,7 +1581,7 @@
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "20/08/2026",
       "Time Received in Whatsapp\nbetween": "",
-      "Original Date of Letter/Mail": "20/08/2026",
+      "Original Date of Letter/Mail": "20/09/2026",
       "Received From Department /Wing": "N/A",
       "Received From Officer designation": "Director General Of Police",
       "Subject / Work Description": "IS AUDIT on CCTNS (AREQ - 24 No.)",
@@ -1564,9 +1599,9 @@
       "Remarks": "",
       "": "",
       "status_group": "Completed",
-      "calculated_tat_days": 29,
-      "calculated_aging_days": 29,
-      "display_time_metric": "29d (TAT)"
+      "calculated_tat_days": 32,
+      "calculated_aging_days": 32,
+      "display_time_metric": "32d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0045",
@@ -1592,9 +1627,9 @@
       "Remarks": "",
       "": "",
       "status_group": "Completed",
-      "calculated_tat_days": 3,
-      "calculated_aging_days": 3,
-      "display_time_metric": "3d (TAT)"
+      "calculated_tat_days": 6,
+      "calculated_aging_days": 6,
+      "display_time_metric": "6d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0046",
@@ -1620,8 +1655,8 @@
       "Remarks": "",
       "": "",
       "status_group": "In-Progress",
-      "calculated_aging_days": 7,
-      "display_time_metric": "7d (Age)",
+      "calculated_aging_days": 10,
+      "display_time_metric": "10d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1648,8 +1683,8 @@
       "Remarks": "",
       "": "",
       "status_group": "Pending",
-      "calculated_aging_days": 2,
-      "display_time_metric": "2d (Age)",
+      "calculated_aging_days": 5,
+      "display_time_metric": "5d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1675,10 +1710,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 2,
-      "display_time_metric": "2d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "5d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0049",
@@ -1704,8 +1739,8 @@
       "Remarks": "",
       "": "",
       "status_group": "In-Progress",
-      "calculated_aging_days": 10,
-      "display_time_metric": "10d (Age)",
+      "calculated_aging_days": 13,
+      "display_time_metric": "13d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1731,10 +1766,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 3,
-      "display_time_metric": "3d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "6d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0051",
@@ -1759,10 +1794,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 3,
-      "display_time_metric": "3d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "6d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0052",
@@ -1787,10 +1822,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 2,
-      "display_time_metric": "2d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "5d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0053",
@@ -1815,10 +1850,10 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 2,
-      "display_time_metric": "2d (Age)",
-      "calculated_tat_days": 0
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "5d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
     },
     {
       "ID": "TS-COR-2026-0054",
@@ -1844,8 +1879,8 @@
       "Remarks": "",
       "": "",
       "status_group": "In-Progress",
-      "calculated_aging_days": 1,
-      "display_time_metric": "1d (Age)",
+      "calculated_aging_days": 4,
+      "display_time_metric": "4d (Age)",
       "calculated_tat_days": 0
     },
     {
@@ -1871,9 +1906,37 @@
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
-      "calculated_aging_days": 1,
-      "display_time_metric": "1d (Age)",
+      "status_group": "On Hold / Closed",
+      "display_time_metric": "4d (Age)",
+      "calculated_tat_days": 0,
+      "calculated_aging_days": 0
+    },
+    {
+      "ID": "TS-COR-2026-0056",
+      "Received Through": "Letter",
+      "Source": "Technical services Group",
+      "Date Received to office": "19/09/2026",
+      "Time Received in Whatsapp\nbetween": "16:00 to 17:00",
+      "Original Date of Letter/Mail": "16/09/2026",
+      "Received From Department /Wing": "MHA",
+      "Received From Officer designation": "Secreatry to GOVT of India",
+      "Subject / Work Description": "Video confrence of Union Home Seceretary Scheduled to be held on 05.10.2026 at 03.00 PM with cheif secretaries/Advisors to Adminstrators and directors General of Police of States/UTs -regarding NATGRID",
+      "Due date": "",
+      "Project": "NATGRID",
+      "Nature of Request": "Action",
+      "Final Decision": "Information",
+      "Concerned Officer": "T. Anoj Kumar",
+      "Concerned Staff": "Sk. Lal john basha",
+      "Current Stage": "in-progress",
+      "Priority": "Normal",
+      "Dispatched Date": "",
+      "Final Closure Date": "",
+      "Delay days": "",
+      "Remarks": "",
+      "": "",
+      "status_group": "In-Progress",
+      "calculated_aging_days": 2,
+      "display_time_metric": "2d (Age)",
       "calculated_tat_days": 0
     }
   ]

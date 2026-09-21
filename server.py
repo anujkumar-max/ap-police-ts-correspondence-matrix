@@ -35,6 +35,25 @@ def parse_indian_date(val):
             pass
     return None
 
+def categorize_stage(stage_raw):
+    stage = str(stage_raw).strip() if stage_raw is not None else ""
+    stage_lower = stage.lower()
+
+    # 1. On Hold / Cancelled / Closed / Inactive / N/A / Blank
+    if not stage or stage_lower in ['n/a', 'none', 'null', '', 'on hold', 'cancelled', 'correspondence closed', 'inactive']:
+        return 'On Hold / Closed'
+
+    # 2. Any stage mentioning "pending" (case-insensitive)
+    if 'pending' in stage_lower:
+        return 'Pending'
+
+    # 3. Completed / Dispatched / Acknowledgement
+    if stage_lower in ['completed', 'file dispatched', 'acknowledgement filed']:
+        return 'Completed'
+
+    # 4. Remaining all are In-Progress
+    return 'In-Progress'
+
 def calculate_analytics_from_records(records):
     today = datetime.now().date()
     now_str = datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
@@ -46,13 +65,8 @@ def calculate_analytics_from_records(records):
 
         effective_start = d_recv or d_orig
 
-        stage = (r.get('Current Stage') or '').strip()
-        if stage in ['Completed', 'Correspondence Closed', 'File Dispatched']:
-            r['status_group'] = 'Completed'
-        elif stage in ['in-progress', 'Draft Work Allocated', 'Draft Preparation In Progress', 'Draft Prepared - Sent For Approval', 'File Sent through eOffice', 'Work Completed-Pending for approval', 'Pending For Approval', 'Letter sent & Reply Required - Awaiting Replies']:
-            r['status_group'] = 'In-Progress'
-        else:
-            r['status_group'] = 'Pending'
+        stage_raw = r.get('Current Stage') or ''
+        r['status_group'] = categorize_stage(stage_raw)
 
         tat_days = 0
         age_days = 0
@@ -65,7 +79,7 @@ def calculate_analytics_from_records(records):
             r['calculated_tat_days'] = tat_days
             r['calculated_aging_days'] = tat_days
             r['display_time_metric'] = f"{tat_days}d (TAT)" if effective_start else "—"
-        else:
+        elif r['status_group'] in ['Pending', 'In-Progress']:
             if effective_start:
                 age_days = max(0, (today - effective_start).days)
                 r['calculated_aging_days'] = age_days
@@ -74,6 +88,17 @@ def calculate_analytics_from_records(records):
                 r['calculated_aging_days'] = 0
                 r['display_time_metric'] = "—"
             r['calculated_tat_days'] = 0
+        else: # On Hold / Closed
+            if effective_start and d_close:
+                tat_days = max(0, (d_close - effective_start).days)
+                r['display_time_metric'] = f"{tat_days}d (TAT)"
+            elif effective_start:
+                age_days = max(0, (today - effective_start).days)
+                r['display_time_metric'] = f"{age_days}d (Age)"
+            else:
+                r['display_time_metric'] = "—"
+            r['calculated_tat_days'] = 0
+            r['calculated_aging_days'] = 0
 
         priority = (r.get('Priority') or '').strip()
         if priority not in ['Critical', 'High', 'Normal']:
@@ -84,6 +109,7 @@ def calculate_analytics_from_records(records):
     completed_count = sum(1 for r in records if r['status_group'] == 'Completed')
     inprogress_count = sum(1 for r in records if r['status_group'] == 'In-Progress')
     pending_count = sum(1 for r in records if r['status_group'] == 'Pending')
+    onhold_closed_count = sum(1 for r in records if r['status_group'] == 'On Hold / Closed')
     critical_count = sum(1 for r in records if r['Priority'] == 'Critical')
     high_count = sum(1 for r in records if r['Priority'] == 'High')
 
@@ -92,7 +118,7 @@ def calculate_analytics_from_records(records):
 
     aging_buckets = {"< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0}
     for r in records:
-        if r['status_group'] != 'Completed' and r['display_time_metric'] != '—':
+        if r['status_group'] in ['Pending', 'In-Progress'] and r['display_time_metric'] != '—':
             age = r['calculated_aging_days']
             if age <= 3:
                 aging_buckets["< 3 Days"] += 1
@@ -109,14 +135,17 @@ def calculate_analytics_from_records(records):
         if off in ['', 'N/A', 'None']:
             off = 'Unassigned'
         if off not in officers_map:
-            officers_map[off] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'critical': 0, 'staff': set()}
+            officers_map[off] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0, 'staff': set()}
         officers_map[off]['total'] += 1
         if r['status_group'] == 'Completed':
             officers_map[off]['completed'] += 1
         elif r['status_group'] == 'In-Progress':
             officers_map[off]['inprogress'] += 1
-        else:
+        elif r['status_group'] == 'Pending':
             officers_map[off]['pending'] += 1
+        else:
+            officers_map[off]['onhold'] += 1
+
         if r['Priority'] in ['Critical', 'High']:
             officers_map[off]['critical'] += 1
         st = r.get('Concerned Staff', '')
@@ -131,6 +160,7 @@ def calculate_analytics_from_records(records):
             'completed': data['completed'],
             'inprogress': data['inprogress'],
             'pending': data['pending'],
+            'onhold': data['onhold'],
             'critical': data['critical'],
             'staff': sorted(list(data['staff']))
         })
@@ -141,14 +171,16 @@ def calculate_analytics_from_records(records):
         if st in ['', 'N/A', 'None']:
             st = 'Unassigned'
         if st not in staff_map:
-            staff_map[st] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0}
+            staff_map[st] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0}
         staff_map[st]['total'] += 1
         if r['status_group'] == 'Completed':
             staff_map[st]['completed'] += 1
         elif r['status_group'] == 'In-Progress':
             staff_map[st]['inprogress'] += 1
-        else:
+        elif r['status_group'] == 'Pending':
             staff_map[st]['pending'] += 1
+        else:
+            staff_map[st]['onhold'] += 1
 
     staff_analytics = []
     for st, data in sorted(staff_map.items(), key=lambda x: x[1]['total'], reverse=True):
@@ -157,7 +189,8 @@ def calculate_analytics_from_records(records):
             'total': data['total'],
             'completed': data['completed'],
             'inprogress': data['inprogress'],
-            'pending': data['pending']
+            'pending': data['pending'],
+            'onhold': data['onhold']
         })
 
     projects_map = {}
@@ -166,14 +199,16 @@ def calculate_analytics_from_records(records):
         if p in ['', 'N/A', 'None']:
             p = 'Other / Misc'
         if p not in projects_map:
-            projects_map[p] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'critical': 0}
+            projects_map[p] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0}
         projects_map[p]['total'] += 1
         if r['status_group'] == 'Completed':
             projects_map[p]['completed'] += 1
         elif r['status_group'] == 'In-Progress':
             projects_map[p]['inprogress'] += 1
-        else:
+        elif r['status_group'] == 'Pending':
             projects_map[p]['pending'] += 1
+        else:
+            projects_map[p]['onhold'] += 1
         if r['Priority'] == 'Critical':
             projects_map[p]['critical'] += 1
 
@@ -185,6 +220,7 @@ def calculate_analytics_from_records(records):
             'completed': data['completed'],
             'inprogress': data['inprogress'],
             'pending': data['pending'],
+            'onhold': data['onhold'],
             'critical': data['critical']
         })
 
@@ -208,6 +244,7 @@ def calculate_analytics_from_records(records):
             'completed': completed_count,
             'inprogress': inprogress_count,
             'pending': pending_count,
+            'onhold_closed': onhold_closed_count,
             'critical': critical_count,
             'high': high_count,
             'avg_tat_days': avg_tat
@@ -337,7 +374,7 @@ def start_server():
         print(f"================================================================")
         print(f" AP Police TS Correspondence Executive Analytics Dashboard Server ")
         print(f" Running live on: http://localhost:{PORT}")
-        print(f" Accurate Indian Date Parsing (DD/MM/YYYY) Active")
+        print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
         print(f"================================================================")
         httpd.serve_forever()
 
