@@ -165,7 +165,7 @@
         html.light .bg-slate-900\/80,
         html.light .bg-slate-900\/90,
         html.light .bg-slate-900\/60,
-        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn) {
+        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn) {
             background-color: #f8fafc !important;
             border-color: #e2e8f0 !important;
         }
@@ -410,9 +410,14 @@
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     <span>Executive Analytics</span>
                 </button>
+                <button onclick="switchTab('events')" id="tab-btn-events" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
+                    <span>Meetings & Event Schedules</span>
+                    <span id="tab-events-badge" class="px-1.5 py-0.5 text-xs rounded bg-amber-500/20 text-amber-300 font-mono font-bold">--</span>
+                </button>
                 <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Officers Workload & Portfolios (PRO-IDs)</span>
+                    <span>Officers Workload (PRO-IDs)</span>
                 </button>
                 <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="folder-kanban" class="w-4 h-4"></i>
@@ -511,6 +516,87 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- ================= TAB: MEETINGS, SEMINARS, WORKSHOPS & VC SCHEDULES ================= -->
+        <div id="tab-events" class="tab-content hidden space-y-5">
+            
+            <!-- Events Section Header & Actions -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="calendar-clock" class="w-5 h-5 text-amber-400"></i>
+                        Meetings, Seminars, Workshops & VC Schedules
+                    </h2>
+                    <p class="text-xs text-slate-400">Track scheduled video conferences, physical reviews, workshops, training sessions, and key calendar milestones</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openEventsAbstractModal()" class="px-3.5 py-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95">
+                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                        <span>WhatsApp Event Brief</span>
+                    </button>
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-xl flex items-center gap-1.5 transition">
+                        <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">Add/Edit in Sheet ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Event Filters & Timing Switcher Toolbar -->
+            <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3 shadow-lg">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    
+                    <!-- Timing Switcher (Upcoming vs Today/Tomorrow vs All) -->
+                    <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                        <button onclick="filterEventsTiming('upcoming')" id="event-timing-btn-upcoming" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
+                            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                            <span>⏳ Upcoming / Active (<span id="event-count-upcoming">--</span>)</span>
+                        </button>
+                        <button onclick="filterEventsTiming('urgent')" id="event-timing-btn-urgent" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i>
+                            <span>Today & Tomorrow</span>
+                        </button>
+                        <button onclick="filterEventsTiming('all')" id="event-timing-btn-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                            <span>📁 All Events (Incl. Past) (<span id="event-count-all">--</span>)</span>
+                        </button>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="relative flex-grow sm:flex-grow-0 sm:w-80">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                        <input type="text" id="filter-event-search" oninput="applyEventFilters()" placeholder="Search meeting, VC, topic, officer, venue..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+                    </div>
+                </div>
+
+                <!-- Secondary Filter Dropdowns -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-800/80 text-xs">
+                    <div>
+                        <select id="filter-event-nature" onchange="applyEventFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="">All Event Types (VC, Workshop, Meeting, Seminar)</option>
+                            <option value="vc">💻 Video Conference (VC)</option>
+                            <option value="physical">🏢 Physical Meeting / Review</option>
+                            <option value="workshop">🎓 Workshop / Seminar</option>
+                            <option value="training">📚 Training Course</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="filter-event-officer" onchange="applyEventFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="">All Officers (PRO-IDs)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="filter-event-project" onchange="applyEventFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="">All Projects (PRJ-IDs)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Cards Grid -->
+            <div id="event-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically -->
+            </div>
         </div>
 
         <!-- ================= TAB 2: OFFICERS WORKLOAD & PORTFOLIOS ================= -->
@@ -686,6 +772,10 @@
                     <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="zap" class="w-3.5 h-3.5"></i>
                         <span>⚡ Short Numbers Brief</span>
+                    </button>
+                    <button onclick="switchAbstractFormat('events')" id="tab-events-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-amber-400"></i>
+                        <span>📅 Meetings & Events Brief</span>
                     </button>
                 </div>
 
@@ -1083,6 +1173,46 @@
                                 rowDict['project_name'] = prjInfo.name;
                                 rowDict['project_label'] = prjInfo.label;
 
+                                // Parse Nature of Request, Due Date, Timing, and Remarks
+                                const natureRaw = cleanText(rowDict['Nature of Request'] || rowDict['Nature of request'] || rowDict['Nature'] || '');
+                                rowDict['nature_of_request'] = natureRaw !== 'N/A' ? natureRaw : 'General Action';
+
+                                const dueDateRaw = cleanText(rowDict['Due date/Event date'] || rowDict['Due Date / Event Date'] || rowDict['Due date / Event date'] || rowDict['Due Date'] || '');
+                                rowDict['due_date_raw'] = dueDateRaw !== 'N/A' ? dueDateRaw : '';
+                                const dDue = parseIndianDate(rowDict['due_date_raw']);
+                                rowDict['due_date_iso'] = dDue ? dDue.toISOString().split('T')[0] : '';
+
+                                let deltaDays = 9999;
+                                let timingStatus = 'No Date';
+                                let timingLabel = '—';
+
+                                if (dDue) {
+                                    deltaDays = Math.round((dDue - todayStart) / (1000 * 60 * 60 * 24));
+                                    if (deltaDays < 0) {
+                                        timingStatus = 'Past';
+                                        timingLabel = `${-deltaDays}d ago`;
+                                    } else if (deltaDays === 0) {
+                                        timingStatus = 'Today';
+                                        timingLabel = 'Today ⭐';
+                                    } else if (deltaDays === 1) {
+                                        timingStatus = 'Tomorrow';
+                                        timingLabel = 'Tomorrow ⏳';
+                                    } else {
+                                        timingStatus = 'Upcoming';
+                                        timingLabel = `In ${deltaDays}d`;
+                                    }
+                                }
+
+                                rowDict['event_timing_status'] = timingStatus;
+                                rowDict['event_timing_label'] = timingLabel;
+                                rowDict['event_delta_days'] = deltaDays;
+
+                                const remarksRaw = cleanText(rowDict['Remarks/other Information'] || rowDict['Remarks/other Information '] || rowDict['Remarks'] || rowDict['Remarks / Information'] || '');
+                                rowDict['remarks'] = remarksRaw !== 'N/A' ? remarksRaw : '';
+
+                                const urlMatch = rowDict['remarks'].match(/(https?:\/\/[^\s]+)/);
+                                rowDict['remarks_link'] = urlMatch ? urlMatch[1] : '';
+
                                 let tatDays = 0;
                                 let ageDays = 0;
 
@@ -1232,6 +1362,48 @@
                         });
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
 
+                        // Extract and Sort Scheduled Events / Meetings / Workshops
+                        const scheduledEvents = [];
+                        records.forEach(r => {
+                            const natureLower = (r.nature_of_request || '').toLowerCase();
+                            const hasDueDate = Boolean(r.due_date_raw);
+                            const isEvent = hasDueDate || ['meeting', 'conference', 'vc', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'event'].some(kw => natureLower.includes(kw));
+
+                            if (isEvent) {
+                                scheduledEvents.push({
+                                    id: r.ID,
+                                    project: r.project_label,
+                                    prj_id: r.project_id,
+                                    prj_name: r.project_name,
+                                    officer: r.officer_label,
+                                    officer_id: r.officer_id,
+                                    officer_name: r.officer_name,
+                                    officer_rank: r.officer_rank,
+                                    subject: r['Subject / Work Description'],
+                                    due_date_raw: r.due_date_raw,
+                                    due_date_iso: r.due_date_iso,
+                                    nature_of_request: r.nature_of_request,
+                                    remarks: r.remarks,
+                                    remarks_link: r.remarks_link,
+                                    status_group: r.status_group,
+                                    current_stage: r['Current Stage'],
+                                    priority: r.Priority,
+                                    event_timing_status: r.event_timing_status,
+                                    event_timing_label: r.event_timing_label,
+                                    event_delta_days: r.event_delta_days
+                                });
+                            }
+                        });
+
+                        scheduledEvents.sort((a, b) => {
+                            const orderA = (a.event_delta_days >= 0 && a.event_delta_days < 9999) ? 0 : (a.event_delta_days === 9999 ? 1 : 2);
+                            const orderB = (b.event_delta_days >= 0 && b.event_delta_days < 9999) ? 0 : (b.event_delta_days === 9999 ? 1 : 2);
+                            if (orderA !== orderB) return orderA - orderB;
+                            return a.event_delta_days - b.event_delta_days;
+                        });
+
+                        const upcomingEventsCount = scheduledEvents.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed').length;
+
                         // Pending Abstract
                         const activeOfficers = officerAnalytics.filter(o => o.active_total > 0).sort((a, b) => b.active_total - a.active_total);
 
@@ -1251,6 +1423,8 @@
                             officers: officerAnalytics,
                             projects: projectAnalytics,
                             channels: channelAnalytics,
+                            scheduled_events: scheduledEvents,
+                            upcoming_events_count: upcomingEventsCount,
                             records: records,
                             pending_abstract: {
                                 total_pending: pending,
@@ -1319,9 +1493,14 @@
             document.getElementById('kpi-onhold-pct').innerText = Math.round(((kpis.onhold_closed || 0) / total) * 100) + '%';
             document.getElementById('tab-records-badge').innerText = total;
 
+            const upcomingCount = rawData.upcoming_events_count !== undefined ? rawData.upcoming_events_count : (rawData.scheduled_events ? rawData.scheduled_events.length : 0);
+            const eventsBadge = document.getElementById('tab-events-badge');
+            if (eventsBadge) eventsBadge.innerText = `${upcomingCount} Active`;
+
             populateFilters();
             renderCharts();
             renderCriticalItems();
+            renderEventsTab();
             renderOfficersTab();
             renderProjectsTab();
             renderPendingAbstractModalContent();
@@ -1480,22 +1659,34 @@
         function populateFilters() {
             const officerSel = document.getElementById('filter-officer');
             const projectSel = document.getElementById('filter-project');
+            const eventOfficerSel = document.getElementById('filter-event-officer');
+            const eventProjectSel = document.getElementById('filter-event-project');
 
             const currentOff = officerSel.value;
             const currentProj = projectSel.value;
+            const currentEventOff = eventOfficerSel ? eventOfficerSel.value : '';
+            const currentEventProj = eventProjectSel ? eventProjectSel.value : '';
 
             officerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
+            if (eventOfficerSel) eventOfficerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
             rawData.officers.forEach(o => {
-                officerSel.innerHTML += `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
+                const opt = `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
+                officerSel.innerHTML += opt;
+                if (eventOfficerSel) eventOfficerSel.innerHTML += opt;
             });
 
             projectSel.innerHTML = '<option value="">All Projects (PRJ-IDs)</option>';
+            if (eventProjectSel) eventProjectSel.innerHTML = '<option value="">All Projects (PRJ-IDs)</option>';
             rawData.projects.forEach(p => {
-                projectSel.innerHTML += `<option value="${p.project}">${p.project} (${p.total})</option>`;
+                const opt = `<option value="${p.project}">${p.project} (${p.total})</option>`;
+                projectSel.innerHTML += opt;
+                if (eventProjectSel) eventProjectSel.innerHTML += opt;
             });
 
             if (currentOff) officerSel.value = currentOff;
             if (currentProj) projectSel.value = currentProj;
+            if (eventOfficerSel && currentEventOff) eventOfficerSel.value = currentEventOff;
+            if (eventProjectSel && currentEventProj) eventProjectSel.value = currentEventProj;
         }
 
         function renderOfficersTab() {
@@ -1646,26 +1837,38 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
-        let currentAbstractFormat = 'detailed'; // 'detailed' or 'short'
+        let currentAbstractFormat = 'detailed'; // 'detailed', 'short', or 'events'
         let cachedDetailedWhatsappText = '';
         let cachedShortWhatsappText = '';
+        let cachedEventsWhatsappText = '';
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
 
         function switchAbstractFormat(fmt) {
             currentAbstractFormat = fmt;
             const detailedBtn = document.getElementById('tab-detailed-btn');
             const shortBtn = document.getElementById('tab-short-btn');
+            const eventsBtn = document.getElementById('tab-events-format-btn');
+
+            const activeClass = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+            const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
+
+            if (detailedBtn) detailedBtn.className = fmt === 'detailed' ? activeClass : inactiveClass;
+            if (shortBtn) shortBtn.className = fmt === 'short' ? activeClass : inactiveClass;
+            if (eventsBtn) eventsBtn.className = fmt === 'events' ? activeClass : inactiveClass;
 
             if (fmt === 'detailed') {
-                if (detailedBtn) detailedBtn.className = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
-                if (shortBtn) shortBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
                 document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
-            } else {
-                if (shortBtn) shortBtn.className = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
-                if (detailedBtn) detailedBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
+            } else if (fmt === 'short') {
                 document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
+            } else if (fmt === 'events') {
+                document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
             }
             lucide.createIcons();
+        }
+
+        function openEventsAbstractModal() {
+            openPendingAbstractModal();
+            switchAbstractFormat('events');
         }
 
         function renderPendingAbstractModalContent() {
@@ -1750,11 +1953,294 @@
             waShort += `───────────────────────────────\n`;
             waShort += `_Generated from AP Police TS Executive Command Portal_`;
 
+            // 3. Formulate Format 3: Exclusive Meetings & Events WhatsApp Text
+            let waEvents = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            waEvents += `📅 *UPCOMING MEETINGS, WORKSHOPS & EVENT SCHEDULE*\n`;
+            waEvents += `📆 Date: ${dateStr}\n\n`;
+            waEvents += `───────────────────────────────\n`;
+            waEvents += `📌 *SCHEDULED EVENTS & MEETINGS:*\n`;
+            waEvents += `───────────────────────────────\n`;
+
+            const eventsList = (rawData.scheduled_events || []).filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed');
+            if (eventsList.length === 0) {
+                waEvents += `\n• No upcoming scheduled meetings/workshops at present.\n`;
+            } else {
+                eventsList.forEach((ev, idx) => {
+                    const dateVal = ev.due_date_raw || 'Date TBA';
+                    const timing = ev.event_timing_label && ev.event_timing_label !== '—' ? ` (${ev.event_timing_label})` : '';
+                    const nature = ev.nature_of_request || 'Meeting';
+                    const natureLow = nature.toLowerCase();
+                    const icon = (natureLow.includes('vc') || natureLow.includes('video') || natureLow.includes('conference')) ? '💻' : ((natureLow.includes('workshop') || natureLow.includes('seminar') || natureLow.includes('training')) ? '🎓' : '🏢');
+
+                    waEvents += `\n${idx + 1}. ${icon} *${nature}*\n`;
+                    waEvents += `   • *File ID:* ${ev.id} [${ev.project}]\n`;
+                    waEvents += `   • *Date / Time:* 📅 ${dateVal}${timing}\n`;
+                    waEvents += `   • *Officer:* ${ev.officer}\n`;
+                    waEvents += `   • *Subject:* ${ev.subject}\n`;
+                    if (ev.remarks) {
+                        waEvents += `   • *Venue / VC Link:* ${ev.remarks}\n`;
+                    }
+                });
+            }
+
+            waEvents += `\n───────────────────────────────\n`;
+            waEvents += `🔗 *Update Status in Google Sheet:*\n`;
+            waEvents += `${GOOGLE_SHEET_URL}\n`;
+            waEvents += `───────────────────────────────\n`;
+            waEvents += `_Generated from AP Police TS Executive Command Portal_`;
+
             cachedDetailedWhatsappText = waDetailed;
             cachedShortWhatsappText = waShort;
+            cachedEventsWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_events_text ? rawData.pending_abstract.whatsapp_events_text : waEvents;
 
             // Apply active tab text
-            document.getElementById('whatsapp-textarea').value = currentAbstractFormat === 'detailed' ? cachedDetailedWhatsappText : cachedShortWhatsappText;
+            if (currentAbstractFormat === 'detailed') {
+                document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
+            } else if (currentAbstractFormat === 'short') {
+                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
+            } else {
+                document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
+            }
+        }
+
+        // ================= MEETINGS & EVENTS SCHEDULES LOGIC =================
+        let currentEventTimingFilter = 'upcoming'; // 'upcoming', 'urgent', 'all'
+
+        function filterEventsTiming(mode) {
+            currentEventTimingFilter = mode;
+            const upBtn = document.getElementById('event-timing-btn-upcoming');
+            const urgBtn = document.getElementById('event-timing-btn-urgent');
+            const allBtn = document.getElementById('event-timing-btn-all');
+
+            const activeClass = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+            const inactiveClass = "px-3.5 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
+
+            if (upBtn) upBtn.className = mode === 'upcoming' ? activeClass : inactiveClass;
+            if (urgBtn) urgBtn.className = mode === 'urgent' ? activeClass : inactiveClass;
+            if (allBtn) allBtn.className = mode === 'all' ? activeClass : inactiveClass;
+
+            applyEventFilters();
+        }
+
+        function applyEventFilters() {
+            if (!rawData || !rawData.scheduled_events) return;
+
+            const search = (document.getElementById('filter-event-search')?.value || '').toLowerCase().trim();
+            const nature = (document.getElementById('filter-event-nature')?.value || '').toLowerCase().trim();
+            const officer = document.getElementById('filter-event-officer')?.value || '';
+            const project = document.getElementById('filter-event-project')?.value || '';
+
+            const allEvents = rawData.scheduled_events;
+            const upcomingCount = allEvents.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed').length;
+            const totalCount = allEvents.length;
+
+            const upCountEl = document.getElementById('event-count-upcoming');
+            const allCountEl = document.getElementById('event-count-all');
+            if (upCountEl) upCountEl.innerText = upcomingCount;
+            if (allCountEl) allCountEl.innerText = totalCount;
+
+            const filtered = allEvents.filter(e => {
+                // Timing filter
+                if (currentEventTimingFilter === 'upcoming') {
+                    if (e.event_delta_days < 0 && e.status_group === 'Completed') return false;
+                } else if (currentEventTimingFilter === 'urgent') {
+                    if (e.event_delta_days !== 0 && e.event_delta_days !== 1) return false;
+                }
+
+                // Nature filter
+                if (nature) {
+                    const nLow = (e.nature_of_request || '').toLowerCase();
+                    if (nature === 'vc' && !nLow.includes('vc') && !nLow.includes('video') && !nLow.includes('conference')) return false;
+                    if (nature === 'physical' && !nLow.includes('physical') && !nLow.includes('meeting') && !nLow.includes('review')) return false;
+                    if (nature === 'workshop' && !nLow.includes('workshop') && !nLow.includes('seminar')) return false;
+                    if (nature === 'training' && !nLow.includes('training') && !nLow.includes('course')) return false;
+                }
+
+                // Officer filter
+                if (officer && (e.officer || 'Unassigned') !== officer) return false;
+
+                // Project filter
+                if (project && (e.project || 'Other / Misc') !== project) return false;
+
+                // Search text filter
+                if (search) {
+                    const matchText = [
+                        e.id,
+                        e.subject,
+                        e.officer,
+                        e.officer_id,
+                        e.officer_name,
+                        e.project,
+                        e.prj_id,
+                        e.nature_of_request,
+                        e.due_date_raw,
+                        e.remarks
+                    ].join(' ').toLowerCase();
+                    if (!matchText.includes(search)) return false;
+                }
+
+                return true;
+            });
+
+            const grid = document.getElementById('event-cards-grid');
+            if (!grid) return;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center glass-card rounded-2xl p-6 border border-slate-800 space-y-2">
+                        <i data-lucide="calendar-x-2" class="w-10 h-10 text-slate-500 mx-auto"></i>
+                        <h4 class="text-sm font-bold text-white">No Scheduled Events Found</h4>
+                        <p class="text-xs text-slate-400">No meetings, seminars, or workshops match your current filter criteria.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = filtered.map(ev => {
+                const natureLow = (ev.nature_of_request || '').toLowerCase();
+                let iconName = 'users';
+                let natureBadgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+                let cardAccent = 'border-emerald-500/40';
+
+                if (natureLow.includes('vc') || natureLow.includes('video') || natureLow.includes('conference')) {
+                    iconName = 'video';
+                    natureBadgeColor = 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+                    cardAccent = 'border-blue-500/40';
+                } else if (natureLow.includes('workshop') || natureLow.includes('seminar')) {
+                    iconName = 'graduation-cap';
+                    natureBadgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+                    cardAccent = 'border-amber-500/40';
+                } else if (natureLow.includes('training') || natureLow.includes('course')) {
+                    iconName = 'book-open';
+                    natureBadgeColor = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+                    cardAccent = 'border-purple-500/40';
+                }
+
+                // Timing Pill
+                let timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[10px] border border-slate-700">Date TBA</span>`;
+                if (ev.event_timing_status === 'Today') {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 animate-pulse flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Today ⭐</span>`;
+                } else if (ev.event_timing_status === 'Tomorrow') {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold text-[10.5px] border border-amber-500/40">Tomorrow ⏳</span>`;
+                } else if (ev.event_timing_status === 'Upcoming') {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[10.5px] border border-blue-500/30">📅 ${ev.event_timing_label}</span>`;
+                } else if (ev.event_timing_status === 'Past') {
+                    timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 text-[10px] border border-slate-700">Concluded (${ev.event_timing_label})</span>`;
+                }
+
+                return `
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md">
+                        <!-- Top Header Strip: Nature Badge & Timing Pill -->
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${natureBadgeColor}">
+                                <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
+                                <span>${ev.nature_of_request || 'Event'}</span>
+                            </span>
+                            <div>${timingPill}</div>
+                        </div>
+
+                        <!-- Date & Time Highlight Box -->
+                        <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
+                                <div>
+                                    <div class="text-[9.5px] text-slate-400 uppercase font-semibold">Scheduled Date / Time</div>
+                                    <div class="text-xs font-bold text-white font-mono">${ev.due_date_raw || 'Schedule Pending / TBA'}</div>
+                                </div>
+                            </div>
+                            ${ev.event_timing_label && ev.event_timing_label !== '—' && ev.event_timing_status !== 'Past' ? `
+                                <span class="text-[11px] font-extrabold text-amber-400 font-mono">${ev.event_timing_label}</span>
+                            ` : ''}
+                        </div>
+
+                        <!-- Subject / Agenda -->
+                        <div>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="text-xs font-mono font-bold text-white cursor-pointer hover:underline" onclick="openModal('${ev.id}')">${ev.id}</span>
+                                <span class="text-xs text-slate-500">•</span>
+                                ${renderProjectBadge(ev.project)}
+                            </div>
+                            <h4 class="text-sm font-bold text-white leading-snug line-clamp-2" title="${ev.subject || ''}">
+                                ${ev.subject || 'No description provided'}
+                            </h4>
+                        </div>
+
+                        <!-- Officer in Charge -->
+                        <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800/80">
+                            <span class="text-slate-400 text-[10.5px]">Assigned Officer:</span>
+                            <div>${renderOfficerBadge(ev.officer)}</div>
+                        </div>
+
+                        <!-- VC Link or Venue Information -->
+                        ${ev.remarks_link ? `
+                            <div class="p-2.5 rounded-xl bg-blue-950/40 border border-blue-500/30 space-y-1.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10.5px] font-semibold text-blue-300 flex items-center gap-1">
+                                        <i data-lucide="video" class="w-3.5 h-3.5"></i> Video Conference Link:
+                                    </span>
+                                    <a href="${ev.remarks_link}" target="_blank" class="px-2 py-0.5 text-[10.5px] font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition inline-flex items-center gap-1 shadow active:scale-95">
+                                        <span>Join VC Meeting ↗</span>
+                                    </a>
+                                </div>
+                                <p class="text-[10px] text-slate-300 font-mono break-all line-clamp-1">${ev.remarks}</p>
+                            </div>
+                        ` : (ev.remarks ? `
+                            <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 text-xs">
+                                <span class="text-[10px] text-slate-400 font-medium block">Venue / Remarks:</span>
+                                <p class="text-slate-200 mt-0.5 text-[11px] line-clamp-2">${ev.remarks}</p>
+                            </div>
+                        ` : '')}
+
+                        <!-- Action Footer -->
+                        <div class="flex items-center gap-2 pt-1 border-t border-slate-800/80 text-xs">
+                            <button onclick="copySingleEventWhatsApp('${ev.id}')" class="flex-1 py-1.5 font-semibold bg-slate-900 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-xl transition flex items-center justify-center gap-1">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span>Copy Brief</span>
+                            </button>
+                            <button onclick="openModal('${ev.id}')" class="flex-1 py-1.5 font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1">
+                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                                <span>View File</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function renderEventsTab() {
+            applyEventFilters();
+        }
+
+        function copySingleEventWhatsApp(id) {
+            if (!rawData || !rawData.scheduled_events) return;
+            const ev = rawData.scheduled_events.find(e => e.id === id);
+            if (!ev) return;
+
+            const dateVal = ev.due_date_raw || 'Date TBA';
+            const timing = ev.event_timing_label && ev.event_timing_label !== '—' ? ` (${ev.event_timing_label})` : '';
+            const nature = ev.nature_of_request || 'Meeting';
+            const natureLow = nature.toLowerCase();
+            const icon = (natureLow.includes('vc') || natureLow.includes('video') || natureLow.includes('conference')) ? '💻' : ((natureLow.includes('workshop') || natureLow.includes('seminar') || natureLow.includes('training')) ? '🎓' : '🏢');
+
+            let msg = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            msg += `📅 *EVENT / MEETING NOTICE*\n\n`;
+            msg += `${icon} *${nature}*\n`;
+            msg += `• *File ID:* ${ev.id} [${ev.project}]\n`;
+            msg += `• *Scheduled Date:* 📅 ${dateVal}${timing}\n`;
+            msg += `• *Officer-in-Charge:* ${ev.officer}\n`;
+            msg += `• *Subject:* ${ev.subject}\n`;
+            if (ev.remarks) {
+                msg += `• *Venue / VC Details:* ${ev.remarks}\n`;
+            }
+            msg += `\n🔗 *Google Sheet Link:* ${GOOGLE_SHEET_URL}\n`;
+            msg += `_Generated from AP Police TS Executive Command Portal_`;
+
+            navigator.clipboard.writeText(msg).then(() => {
+                alert(`Event Notice for ${ev.id} copied to clipboard! Ready to paste in WhatsApp.`);
+            });
         }
 
         function copyCurrentAbstract() {

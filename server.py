@@ -125,6 +125,46 @@ def calculate_analytics_from_records(records):
         r['project_name'] = prj_info['name']
         r['project_label'] = prj_info['label']
 
+        # Parse Nature of Request, Due/Event Date, and Remarks
+        nature_raw = clean_text(r.get('Nature of Request') or r.get('Nature of request') or r.get('Nature') or '')
+        r['nature_of_request'] = nature_raw if nature_raw != 'N/A' else 'General Action'
+
+        due_date_raw = clean_text(r.get('Due date/Event date') or r.get('Due Date / Event Date') or r.get('Due date / Event date') or r.get('Due Date') or '')
+        r['due_date_raw'] = due_date_raw if due_date_raw != 'N/A' else ''
+        d_due = parse_indian_date(r['due_date_raw'])
+        r['due_date_iso'] = d_due.strftime("%Y-%m-%d") if d_due else ''
+        
+        # Calculate event timing / countdown
+        if d_due:
+            delta_days = (d_due - today).days
+            if delta_days < 0:
+                timing_status = 'Past'
+                timing_label = f"{-delta_days}d ago"
+            elif delta_days == 0:
+                timing_status = 'Today'
+                timing_label = "Today ⭐"
+            elif delta_days == 1:
+                timing_status = 'Tomorrow'
+                timing_label = "Tomorrow ⏳"
+            else:
+                timing_status = 'Upcoming'
+                timing_label = f"In {delta_days}d"
+        else:
+            delta_days = 9999
+            timing_status = 'No Date'
+            timing_label = '—'
+
+        r['event_timing_status'] = timing_status
+        r['event_timing_label'] = timing_label
+        r['event_delta_days'] = delta_days
+
+        remarks_raw = clean_text(r.get('Remarks/other Information') or r.get('Remarks/other Information ') or r.get('Remarks') or r.get('Remarks / Information') or '')
+        r['remarks'] = remarks_raw if remarks_raw != 'N/A' else ''
+        
+        # Detect URLs in remarks for direct meeting access
+        url_match = re.search(r'(https?://[^\s]+)', r['remarks'])
+        r['remarks_link'] = url_match.group(1) if url_match else ''
+
         tat_days = 0
         age_days = 0
 
@@ -161,6 +201,45 @@ def calculate_analytics_from_records(records):
         if priority not in ['Critical', 'High', 'Normal']:
             priority = 'Normal'
         r['Priority'] = priority
+
+    # Extract Scheduled Events / Meetings / Workshops
+    scheduled_events = []
+    for r in records:
+        nature_lower = (r.get('nature_of_request') or '').lower()
+        has_due_date = bool(r.get('due_date_raw'))
+        is_event = has_due_date or any(kw in nature_lower for kw in ['meeting', 'conference', 'vc', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'event'])
+        
+        if is_event:
+            scheduled_events.append({
+                'id': r.get('ID'),
+                'project': r.get('project_label'),
+                'prj_id': r.get('project_id'),
+                'prj_name': r.get('project_name'),
+                'officer': r.get('officer_label'),
+                'officer_id': r.get('officer_id'),
+                'officer_name': r.get('officer_name'),
+                'officer_rank': r.get('officer_rank'),
+                'subject': r.get('Subject / Work Description'),
+                'due_date_raw': r.get('due_date_raw'),
+                'due_date_iso': r.get('due_date_iso'),
+                'nature_of_request': r.get('nature_of_request'),
+                'remarks': r.get('remarks'),
+                'remarks_link': r.get('remarks_link'),
+                'status_group': r.get('status_group'),
+                'current_stage': r.get('Current Stage'),
+                'priority': r.get('Priority'),
+                'event_timing_status': r.get('event_timing_status'),
+                'event_timing_label': r.get('event_timing_label'),
+                'event_delta_days': r.get('event_delta_days')
+            })
+
+    # Sort events: Upcoming first (0..n), then No Date, then Past (-1..-n)
+    scheduled_events.sort(key=lambda x: (
+        0 if 0 <= x['event_delta_days'] < 9999 else (1 if x['event_delta_days'] == 9999 else 2),
+        x['event_delta_days'] if 0 <= x['event_delta_days'] < 9999 else (-x['event_delta_days'] if x['event_delta_days'] < 0 else 0)
+    ))
+
+    upcoming_events_count = sum(1 for e in scheduled_events if e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')
 
     total_records = len(records)
     completed_count = sum(1 for r in records if r['status_group'] == 'Completed')
@@ -215,7 +294,10 @@ def calculate_analytics_from_records(records):
             'stage': r.get('Current Stage') if r.get('Current Stage') else 'N/A',
             'age': r.get('display_time_metric'),
             'priority': r.get('Priority'),
-            'recv_date': r.get('Date Received to office')
+            'recv_date': r.get('Date Received to office'),
+            'due_date': r.get('due_date_raw'),
+            'nature': r.get('nature_of_request'),
+            'remarks': r.get('remarks')
         }
 
         if r['status_group'] == 'Completed':
@@ -282,10 +364,10 @@ def calculate_analytics_from_records(records):
         else:
             pm['onhold'] += 1
 
-        if r['Priority'] == 'Critical':
+        if r['Priority'] in ['Critical', 'High']:
             pm['critical'] += 1
-        
-        if r['officer_label'] not in ['N/A', 'Unassigned']:
+
+        if r['officer_label'] not in ['N/A', '']:
             pm['officers'].add(r['officer_label'])
 
     project_analytics = []
@@ -303,11 +385,11 @@ def calculate_analytics_from_records(records):
             'officers': sorted(list(data['officers']))
         })
 
-    # Channels
+    # Group by Channels
     channels_map = {}
     for r in records:
-        ch = clean_text(r.get('Received Through'))
-        if ch == 'N/A':
+        ch = (r.get('Received Through') or r.get('Received Through ') or '').strip()
+        if not ch or ch in ['N/A', 'None']:
             ch = 'Other'
         channels_map[ch] = channels_map.get(ch, 0) + 1
 
@@ -383,6 +465,45 @@ def calculate_analytics_from_records(records):
     wa_short_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_short_text = "\n".join(wa_short_lines)
 
+    # Formulate Format 3: Exclusive Events & Meeting Schedules WhatsApp Text
+    events_lines = [
+        "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
+        "📅 *UPCOMING MEETINGS, WORKSHOPS & EVENT SCHEDULE*",
+        f"📆 Date: {today_display}",
+        "",
+        "───────────────────────────────",
+        "📌 *SCHEDULED EVENTS & MEETINGS:*",
+        "───────────────────────────────"
+    ]
+
+    active_events = [e for e in scheduled_events if e['event_delta_days'] >= 0 or e['status_group'] != 'Completed']
+    if not active_events:
+        events_lines.append("")
+        events_lines.append("• No upcoming scheduled meetings/workshops at present.")
+    else:
+        for idx, ev in enumerate(active_events, 1):
+            date_str = ev['due_date_raw'] if ev['due_date_raw'] else 'Date TBA'
+            timing = f" ({ev['event_timing_label']})" if ev['event_timing_label'] != '—' else ''
+            nature = ev['nature_of_request']
+            icon = "💻" if any(k in nature.lower() for k in ['vc', 'video', 'conference']) else ("🎓" if any(k in nature.lower() for k in ['workshop', 'seminar', 'training']) else "🏢")
+            
+            events_lines.append("")
+            events_lines.append(f"{idx}. {icon} *{nature}*")
+            events_lines.append(f"   • *File ID:* {ev['id']} [{ev['project']}]")
+            events_lines.append(f"   • *Date / Time:* 📅 {date_str}{timing}")
+            events_lines.append(f"   • *Officer:* {ev['officer']}")
+            events_lines.append(f"   • *Subject:* {ev['subject']}")
+            if ev['remarks']:
+                events_lines.append(f"   • *Venue / VC Link:* {ev['remarks']}")
+
+    events_lines.append("")
+    events_lines.append("───────────────────────────────")
+    events_lines.append("🔗 *Update Status in Google Sheet:*")
+    events_lines.append(GOOGLE_SHEET_URL)
+    events_lines.append("───────────────────────────────")
+    events_lines.append("_Generated from AP Police TS Executive Command Portal_")
+    whatsapp_events_text = "\n".join(events_lines)
+
     return {
         'status': 'success',
         'data_source': 'Google Sheets Live Cloud',
@@ -404,6 +525,8 @@ def calculate_analytics_from_records(records):
         'officers': officer_analytics,
         'projects': project_analytics,
         'channels': channel_analytics,
+        'scheduled_events': scheduled_events,
+        'upcoming_events_count': upcoming_events_count,
         'records': records,
         'pending_abstract': {
             'total_pending': pending_count,
@@ -411,7 +534,8 @@ def calculate_analytics_from_records(records):
             'total_na_stage': onhold_closed_count,
             'officers_active': active_officers,
             'whatsapp_text': whatsapp_text,
-            'whatsapp_short_text': whatsapp_short_text
+            'whatsapp_short_text': whatsapp_short_text,
+            'whatsapp_events_text': whatsapp_events_text
         }
     }
 
