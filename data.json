@@ -2,13 +2,13 @@
   "status": "success",
   "data_source": "Google Sheets Live Cloud",
   "sheet_id": "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y",
-  "last_updated": "2026-09-22 01:02:23 PM",
-  "server_time": "01:02:23 PM",
+  "last_updated": "2026-09-22 01:51:07 PM",
+  "server_time": "01:51:07 PM",
   "kpis": {
-    "total": 57,
+    "total": 54,
     "completed": 20,
     "inprogress": 15,
-    "pending": 13,
+    "pending": 10,
     "onhold_closed": 9,
     "critical": 4,
     "high": 4,
@@ -26,10 +26,11 @@
       "pro_id": "PRO-136",
       "name": "T. Anoj Kumar",
       "rank": "SI",
-      "total": 20,
+      "total": 17,
+      "active_total": 9,
       "completed": 8,
       "inprogress": 8,
-      "pending": 4,
+      "pending": 1,
       "onhold": 0,
       "critical": 2,
       "projects": [
@@ -44,60 +45,195 @@
           "id": "TS-COR-2026-0025",
           "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
           "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
           "subject": "Obtain Account creation letters from Bhavana madam DSP PTC",
           "stage": "Pending",
           "age": "—",
           "priority": "Normal",
           "recv_date": ""
+        }
+      ],
+      "inprogress_files": [
+        {
+          "id": "TS-COR-2026-0018",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "AP Data integration in NATGRID",
+          "stage": "Letter sent & Reply Required - Awaiting Replies",
+          "age": "45d (Age)",
+          "priority": "High",
+          "recv_date": "08/08/2026"
         },
         {
-          "id": "TS-COR-2026-0030",
-          "project": "Miscellaneous",
-          "prj_id": "MISC",
-          "subject": "DGP Desk No 5 Reply",
-          "stage": "Work Completed-Pending for approval",
+          "id": "TS-COR-2026-0019",
+          "project": "PRJ-001 - AI4AP",
+          "prj_id": "PRJ-001",
+          "prj_name": "AI4AP",
+          "subject": "EAGLE, AP has requested user IDs and access permissions for News360, PRISM and other relevant portals/applications for investigation, surveillance and intelligence purposes.",
+          "stage": "Proforma Sent & Reply Required - Awaiting Replies",
+          "age": "14d (Age)",
+          "priority": "Normal",
+          "recv_date": "08/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0027",
+          "project": "PRJ-019 - ICJS",
+          "prj_id": "PRJ-019",
+          "prj_name": "ICJS",
+          "subject": "Sim Cards distribution for districts",
+          "stage": "in-progress",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0028",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Creation of Webvpn for Districts (task 19-need to obtain new list from all units) and New User Creation",
+          "stage": "Mail Sent & Reply Required - Awaiting Replies",
           "age": "—",
           "priority": "Normal",
           "recv_date": ""
         },
         {
           "id": "TS-COR-2026-0031",
-          "project": "PRJ-007 - CCTNS",
-          "prj_id": "PRJ-007",
-          "subject": "Letter to IT Registar,Non-issuance of STC Numbers by Certain Courts and Non-Implementation of CIS Application",
-          "stage": "Work Completed-Pending for approval",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
+          "subject": "Electronic Communication and video confrencing rules 2026\n 1.Letter to Principal secretary \n 2.Memo to all unit officers",
+          "stage": "Draft Prepared - Sent For Approval",
           "age": "—",
           "priority": "Normal",
           "recv_date": ""
         },
         {
-          "id": "TS-COR-2026-0034",
-          "project": "Miscellaneous",
-          "prj_id": "MISC",
-          "subject": "Equipments Recommended for conductiong proceedings by video confrencing at the court point and remote point",
-          "stage": "Pending For Approval",
+          "id": "TS-COR-2026-0032",
+          "project": "PRJ-001 - AI4AP",
+          "prj_id": "PRJ-001",
+          "prj_name": "AI4AP",
+          "subject": "Mandatory feedback option for NEWS360AI",
+          "stage": "in-progress",
           "age": "—",
           "priority": "Normal",
           "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0051",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Advisory on Cyber Hygiene and Social Media restrictions for NATGRID\r\nSolution",
+          "stage": "in-progress",
+          "age": "5d (Age)",
+          "priority": "Normal",
+          "recv_date": "17/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0053",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Video confrence of Union Home Seceretary Scheduled to be held on 05.10.2026 at 03.00 PM with cheif secretaries/Advisors to Adminstrators and directors General of Police of States/UTs -regarding NATGRID",
+          "stage": "in-progress",
+          "age": "3d (Age)",
+          "priority": "Normal",
+          "recv_date": "19/09/2026"
+        }
+      ],
+      "na_stage_files": [],
+      "completed_files": [
+        {
+          "id": "TS-COR-2026-0001",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "from Rjasthan request for sharing SOPs and best practices adopted for effective utilisation ogf NATGRID-Regarding",
+          "stage": "Completed",
+          "age": "17d (TAT)",
+          "priority": "Normal",
+          "recv_date": "24/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0002",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "NATGRID Training of authorized Users",
+          "stage": "File Dispatched",
+          "age": "7d (TAT)",
+          "priority": "Normal",
+          "recv_date": "27/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0005",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Constitution of Task Forces to oversee the effectiveness of the strategies to prevent misuse of NATGRID solution and data security - reg.",
+          "stage": "Completed",
+          "age": "7d (TAT)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0009",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Request for success stories for Antardristi Magazine",
+          "stage": "Completed",
+          "age": "20d (TAT)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0016",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "NATGRID has requested success stories on the use of the NATGRID IT platform (Gandiva/Sudarshan)",
+          "stage": "Completed",
+          "age": "19d (TAT)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0030",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
+          "subject": "Police Technology Mission - Tech Survey",
+          "stage": "Completed",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0037",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Preparation of Task Force Minutes of the meeting",
+          "stage": "Completed",
+          "age": "11d (TAT)",
+          "priority": "High",
+          "recv_date": "11/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0038",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "prj_name": "NATGRID-Gandiva & Sudarshan",
+          "subject": "Request for login credentials/access to NATGRID-GANDIVA applications for SP (Operations), EAGLE - Permisssion- Reg.",
+          "stage": "Completed",
+          "age": "11d (TAT)",
+          "priority": "Normal",
+          "recv_date": "11/09/2026"
         }
       ]
-    },
-    {
-      "officer": "PRO-125 - J. Kalpana (SI)",
-      "pro_id": "PRO-125",
-      "name": "J. Kalpana",
-      "rank": "SI",
-      "total": 13,
-      "completed": 9,
-      "inprogress": 4,
-      "pending": 0,
-      "onhold": 0,
-      "critical": 6,
-      "projects": [
-        "Miscellaneous",
-        "PRJ-007 - CCTNS"
-      ],
-      "pending_files": []
     },
     {
       "officer": "Unassigned",
@@ -105,6 +241,7 @@
       "name": "Unassigned",
       "rank": "",
       "total": 6,
+      "active_total": 6,
       "completed": 0,
       "inprogress": 0,
       "pending": 3,
@@ -121,6 +258,7 @@
           "id": "TS-COR-2026-0004",
           "project": "Miscellaneous",
           "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
           "subject": "Designation of State/UT Finger Print Bureau as the Single Point of Contact for NAFIS and strengthening inter-agency coordination",
           "stage": "Pending",
           "age": "26d (Age)",
@@ -131,6 +269,7 @@
           "id": "TS-COR-2026-0011",
           "project": "Miscellaneous",
           "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
           "subject": "ITE&C Department has requested all Secretariat Departments to furnish department-wise hierarchical details of official Government email IDs",
           "stage": "Pending",
           "age": "19d (Age)",
@@ -141,13 +280,51 @@
           "id": "TS-COR-2026-0026",
           "project": "PRJ-001 - AI4AP",
           "prj_id": "PRJ-001",
+          "prj_name": "AI4AP",
           "subject": "Note on Sparity, Ragarding Bills and Training",
           "stage": "Pending",
           "age": "—",
           "priority": "Normal",
           "recv_date": ""
         }
-      ]
+      ],
+      "inprogress_files": [],
+      "na_stage_files": [
+        {
+          "id": "TS-COR-2026-0006",
+          "project": "PRJ-003 - AP Police Website / Citizen Portal",
+          "prj_id": "PRJ-003",
+          "prj_name": "AP Police Website / Citizen Portal",
+          "subject": "Functioning of CID Website for Publication of Criminal Intelligence Gazette (CIG), Look Out Circulars (LOC) of Interpol, and Enhancement of Search Date/Year Range from AP Police Website – Request – Reg",
+          "stage": "N/A",
+          "age": "20d (Age)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0008",
+          "project": "PRJ-019 - ICJS",
+          "prj_id": "PRJ-019",
+          "prj_name": "ICJS",
+          "subject": "Capacity Building activities under the Inter - Operable Criminal Justice System (ICJS) Project - Reg",
+          "stage": "N/A",
+          "age": "20d (Age)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0048",
+          "project": "PRJ-019 - ICJS",
+          "prj_id": "PRJ-019",
+          "prj_name": "ICJS",
+          "subject": "MHA has issued an Operational Manual for foreigner prisoner verification to ensure a uniform process for identification and verification of foreign national prisoners and matching of prisoner records with the IVFR T database through the ICJS platform.",
+          "stage": "N/A",
+          "age": "7d (Age)",
+          "priority": "Normal",
+          "recv_date": "15/09/2026"
+        }
+      ],
+      "completed_files": []
     },
     {
       "officer": "PRO-091 - M. Mohan (CI)",
@@ -155,6 +332,7 @@
       "name": "M. Mohan",
       "rank": "CI",
       "total": 6,
+      "active_total": 6,
       "completed": 0,
       "inprogress": 0,
       "pending": 3,
@@ -170,6 +348,7 @@
           "id": "TS-COR-2026-0014",
           "project": "PRJ-012 - Data Center",
           "prj_id": "PRJ-012",
+          "prj_name": "Data Center",
           "subject": "CID has requested immediate provision of VPN connectivity/credentials for 68 MSCD (PAPILLON) devices deployed in Tirupati District",
           "stage": "Pending",
           "age": "19d (Age)",
@@ -180,6 +359,7 @@
           "id": "TS-COR-2026-0017",
           "project": "PRJ-012 - Data Center",
           "prj_id": "PRJ-012",
+          "prj_name": "Data Center",
           "subject": "The Preliminary Red Team Audit of the AP Police AI4AP application identified two high-risk security observations—account takeover due to lack of login rate limiting and an unauthenticated API.",
           "stage": "Pending",
           "age": "19d (Age)",
@@ -190,13 +370,51 @@
           "id": "TS-COR-2026-0020",
           "project": "PRJ-003 - AP Police Website / Citizen Portal",
           "prj_id": "PRJ-003",
+          "prj_name": "AP Police Website / Citizen Portal",
           "subject": "APTS-NCIIPC-Women and Child Safety WingVulnerability in Andhra Pradesh Government Web Portal",
           "stage": "Pending",
           "age": "15d (Age)",
           "priority": "Normal",
           "recv_date": "07/09/2026"
         }
-      ]
+      ],
+      "inprogress_files": [],
+      "na_stage_files": [
+        {
+          "id": "TS-COR-2026-0045",
+          "project": "PRJ-024 - NERS & UECCR",
+          "prj_id": "PRJ-024",
+          "prj_name": "NERS & UECCR",
+          "subject": "Implementation Status of ERSS 2.0 -Features and Functionalities at State/UT Level-reg.",
+          "stage": "N/A",
+          "age": "6d (Age)",
+          "priority": "Normal",
+          "recv_date": "16/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0049",
+          "project": "PRJ-012 - Data Center",
+          "prj_id": "PRJ-012",
+          "prj_name": "Data Center",
+          "subject": "AP Police has accorded principal approval for a 3-year AMC/CAMC for Data Centre Non-IT equipment (PAC, UPS and AMF Panel) at an estimated cost of ₹41,54,063/-",
+          "stage": "N/A",
+          "age": "6d (Age)",
+          "priority": "Normal",
+          "recv_date": "16/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0050",
+          "project": "PRJ-012 - Data Center",
+          "prj_id": "PRJ-012",
+          "prj_name": "Data Center",
+          "subject": "8th (IR) BN., APSP., Chittoor – Request for creation/allotment of Official E-mail IDs for the following Officers",
+          "stage": "N/A",
+          "age": "6d (Age)",
+          "priority": "Normal",
+          "recv_date": "16/09/2026"
+        }
+      ],
+      "completed_files": []
     },
     {
       "officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
@@ -204,6 +422,7 @@
       "name": "Ch. Aditya Srinivas",
       "rank": "SI",
       "total": 4,
+      "active_total": 4,
       "completed": 0,
       "inprogress": 2,
       "pending": 2,
@@ -220,6 +439,7 @@
           "id": "TS-COR-2026-0003",
           "project": "PRJ-003 - AP Police Website / Citizen Portal",
           "prj_id": "PRJ-003",
+          "prj_name": "AP Police Website / Citizen Portal",
           "subject": "Nominated Sri. V. Jagadeeswar rao, HC-993(Contact-9290222581) person for maintenance and updating of PTO-Official police website in this reg they requesting user credentials and technical support to the nominated person",
           "stage": "Pending",
           "age": "25d (Age)",
@@ -227,14 +447,207 @@
           "recv_date": "28/08/2026"
         },
         {
-          "id": "TS-COR-2026-0043",
+          "id": "TS-COR-2026-0040",
           "project": "PRJ-007 - CCTNS",
           "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
           "subject": "CCTNS 2.0 Citizen Portal: State Adoption Model Selection Guide-reg.",
           "stage": "Pending",
           "age": "6d (Age)",
           "priority": "Normal",
           "recv_date": "16/09/2026"
+        }
+      ],
+      "inprogress_files": [
+        {
+          "id": "TS-COR-2026-0029",
+          "project": "PRJ-004 - APCOPS 2.0",
+          "prj_id": "PRJ-004",
+          "prj_name": "APCOPS 2.0",
+          "subject": "Enhancements, SDR Update, C-trace IP Tracing Application Integration, RTA data Updation",
+          "stage": "in-progress",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0046",
+          "project": "PRJ-036 - Trainings",
+          "prj_id": "PRJ-036",
+          "prj_name": "Trainings",
+          "subject": "Implementation of Training Programme for Probationary DySPs",
+          "stage": "in-progress",
+          "age": "14d (Age)",
+          "priority": "Normal",
+          "recv_date": "08/09/2026"
+        }
+      ],
+      "na_stage_files": [],
+      "completed_files": []
+    },
+    {
+      "officer": "PRO-125 - J. Kalpana (SI)",
+      "pro_id": "PRO-125",
+      "name": "J. Kalpana",
+      "rank": "SI",
+      "total": 13,
+      "active_total": 4,
+      "completed": 9,
+      "inprogress": 4,
+      "pending": 0,
+      "onhold": 0,
+      "critical": 6,
+      "projects": [
+        "Miscellaneous",
+        "PRJ-007 - CCTNS"
+      ],
+      "pending_files": [],
+      "inprogress_files": [
+        {
+          "id": "TS-COR-2026-0023",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "IS AUDIT on CCTNS (AREQ 1 to 61)",
+          "stage": "in-progress",
+          "age": "33d (Age)",
+          "priority": "Critical",
+          "recv_date": "20/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0033",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Eagle-Integration of NDPS suspect sheet in CCTNS and integration of CCTNS Data with State -level NDPS intelligence & Analytics Platform",
+          "stage": "Letter sent & Reply Required - Awaiting Replies",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0043",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "IS audit- CCTNS - AENQ - 1, 2",
+          "stage": "in-progress",
+          "age": "11d (Age)",
+          "priority": "Critical",
+          "recv_date": "11/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0044",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Whitelisting the IP 10.72.18.7 - Accessibility of the APCCTNSDatabase server (hosted on NGC Cloud at State Police Network) -Reminder2",
+          "stage": "Mail Sent & Reply Required - Awaiting Replies",
+          "age": "6d (Age)",
+          "priority": "Normal",
+          "recv_date": "16/09/2026"
+        }
+      ],
+      "na_stage_files": [],
+      "completed_files": [
+        {
+          "id": "TS-COR-2026-0013",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Compliance regarding sensitisation and training of police personnel for use of the term \"Nyaya Sanhita\" - regarding",
+          "stage": "Completed",
+          "age": "20d (TAT)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0021",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "High COURT – Case stages data updation",
+          "stage": "Completed",
+          "age": "2d (TAT)",
+          "priority": "Critical",
+          "recv_date": "05/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0022",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Medleapr issues, feedback modifications collection",
+          "stage": "Completed",
+          "age": "1d (TAT)",
+          "priority": "Normal",
+          "recv_date": "07/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0024",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Tender Doc to APTS - CCTNS 2.0",
+          "stage": "Completed",
+          "age": "0d (TAT)",
+          "priority": "Normal",
+          "recv_date": "05/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0034",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
+          "subject": "1.eProcecution module unit Data\n 2.Courts data who are not consuming FIRs\n 3.DCRB integration",
+          "stage": "Completed",
+          "age": "—",
+          "priority": "High",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0035",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "TCS work extention letter",
+          "stage": "Completed",
+          "age": "—",
+          "priority": "High",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0041",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "IS AUDIT on CCTNS (AREQ - 24 No.)",
+          "stage": "Completed",
+          "age": "33d (TAT)",
+          "priority": "Critical",
+          "recv_date": "20/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0042",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Note file - Audit on CCTNS",
+          "stage": "Completed",
+          "age": "7d (TAT)",
+          "priority": "Normal",
+          "recv_date": "15/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0052",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "M/s Tata Consultancy Services has informed that the AP CCTNS Project Work Order is under internal approval and execution process, and requested release of all pending outstanding payments.",
+          "stage": "Completed",
+          "age": "5d (TAT)",
+          "priority": "Normal",
+          "recv_date": "17/09/2026"
         }
       ]
     },
@@ -244,6 +657,7 @@
       "name": "K. Satish",
       "rank": "CI",
       "total": 4,
+      "active_total": 2,
       "completed": 2,
       "inprogress": 1,
       "pending": 0,
@@ -254,7 +668,57 @@
         "PRJ-019 - ICJS",
         "PRJ-034 - RTGS"
       ],
-      "pending_files": []
+      "pending_files": [],
+      "inprogress_files": [
+        {
+          "id": "TS-COR-2026-0054",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "prj_name": "Miscellaneous",
+          "subject": "Request for Support for Integration of FIR Services with DigiLocker",
+          "stage": "in-progress",
+          "age": "1d (Age)",
+          "priority": "Normal",
+          "recv_date": "21/09/2026"
+        }
+      ],
+      "na_stage_files": [
+        {
+          "id": "TS-COR-2026-0007",
+          "project": "PRJ-019 - ICJS",
+          "prj_id": "PRJ-019",
+          "prj_name": "ICJS",
+          "subject": "HIGH COURT – COMPUTER SECTION – Implementation of eSummons in all Courts in the State – Utilization of eSummons facility provided in DC-CIS 4.0 – Regarding.",
+          "stage": "N/A",
+          "age": "20d (Age)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        }
+      ],
+      "completed_files": [
+        {
+          "id": "TS-COR-2026-0012",
+          "project": "PRJ-034 - RTGS",
+          "prj_id": "PRJ-034",
+          "prj_name": "RTGS",
+          "subject": "submission of Proforma-1 (Departmental Overview) and Proforma-2 (Readiness Questionnaire) under the AP AI Stack Project,",
+          "stage": "Completed",
+          "age": "19d (TAT)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0047",
+          "project": "PRJ-034 - RTGS",
+          "prj_id": "PRJ-034",
+          "prj_name": "RTGS",
+          "subject": "The Police Department has forwarded the AP State Data Lake Project – Verification and Validation of the dated tables/data already shared by the Department with RTGS, along with instructions regarding submission of the certificate for grant of full access to departmental data",
+          "stage": "Completed",
+          "age": "7d (TAT)",
+          "priority": "Normal",
+          "recv_date": "15/09/2026"
+        }
+      ]
     },
     {
       "officer": "PRO-106 - K. Sreekanth (CI)",
@@ -262,6 +726,7 @@
       "name": "K. Sreekanth",
       "rank": "CI",
       "total": 2,
+      "active_total": 1,
       "completed": 1,
       "inprogress": 0,
       "pending": 1,
@@ -276,11 +741,27 @@
           "id": "TS-COR-2026-0010",
           "project": "PRJ-018 - eOffice",
           "prj_id": "PRJ-018",
+          "prj_name": "eOffice",
           "subject": "AP Police Communication Organisation has requested creation of an e-Office email ID and provision of a new Digital Signature Key for the newly appointed Junior Office Assistant, Sri P. Uday Kumar",
           "stage": "Pending",
           "age": "19d (Age)",
           "priority": "Normal",
           "recv_date": "03/09/2026"
+        }
+      ],
+      "inprogress_files": [],
+      "na_stage_files": [],
+      "completed_files": [
+        {
+          "id": "TS-COR-2026-0039",
+          "project": "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
+          "prj_id": "PRJ-008",
+          "prj_name": "CCTV360 (MATRIX) - Public Cameras",
+          "subject": "Request to Issue CCTV 360- User credentials- CI Cell - Regarding",
+          "stage": "Completed",
+          "age": "12d (TAT)",
+          "priority": "Normal",
+          "recv_date": "10/09/2026"
         }
       ]
     },
@@ -290,6 +771,7 @@
       "name": "K. Vijaya Kumar",
       "rank": "CI",
       "total": 1,
+      "active_total": 1,
       "completed": 0,
       "inprogress": 0,
       "pending": 0,
@@ -298,7 +780,22 @@
       "projects": [
         "PRJ-015 - DRONES"
       ],
-      "pending_files": []
+      "pending_files": [],
+      "inprogress_files": [],
+      "na_stage_files": [
+        {
+          "id": "TS-COR-2026-0015",
+          "project": "PRJ-015 - DRONES",
+          "prj_id": "PRJ-015",
+          "prj_name": "DRONES",
+          "subject": "Nomination for the Course on \" Drone (UAV): Operations, Flight Principles and Regulations \" from 07 to 11 September 2026.",
+          "stage": "N/A",
+          "age": "20d (Age)",
+          "priority": "Normal",
+          "recv_date": "02/09/2026"
+        }
+      ],
+      "completed_files": []
     },
     {
       "officer": "PRO-140 - MD. Sadhik (SI)",
@@ -306,6 +803,7 @@
       "name": "MD. Sadhik",
       "rank": "SI",
       "total": 1,
+      "active_total": 1,
       "completed": 0,
       "inprogress": 0,
       "pending": 0,
@@ -314,7 +812,22 @@
       "projects": [
         "PRJ-007 - CCTNS"
       ],
-      "pending_files": []
+      "pending_files": [],
+      "inprogress_files": [],
+      "na_stage_files": [
+        {
+          "id": "TS-COR-2026-0036",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "prj_name": "CCTNS",
+          "subject": "Andhra Pradesh Police - Request for Vetting of draft application & undertaking – Aadhaar Integration with CCTNS",
+          "stage": "N/A",
+          "age": "12d (Age)",
+          "priority": "Normal",
+          "recv_date": "10/09/2026"
+        }
+      ],
+      "completed_files": []
     }
   ],
   "projects": [
@@ -322,10 +835,10 @@
       "project": "PRJ-007 - CCTNS",
       "prj_id": "PRJ-007",
       "name": "CCTNS",
-      "total": 16,
+      "total": 15,
       "completed": 8,
       "inprogress": 5,
-      "pending": 2,
+      "pending": 1,
       "onhold": 1,
       "critical": 4,
       "officers": [
@@ -353,10 +866,10 @@
       "project": "Miscellaneous",
       "prj_id": "MISC",
       "name": "Miscellaneous",
-      "total": 8,
+      "total": 6,
       "completed": 2,
       "inprogress": 2,
-      "pending": 4,
+      "pending": 2,
       "onhold": 0,
       "critical": 0,
       "officers": [
@@ -524,15 +1037,15 @@
   ],
   "channels": [
     {
-      "channel": "Oral Instructions",
-      "count": 16
-    },
-    {
       "channel": "eOFFICE",
       "count": 15
     },
     {
       "channel": "Email",
+      "count": 13
+    },
+    {
+      "channel": "Oral Instructions",
       "count": 13
     },
     {
@@ -1533,74 +2046,6 @@
     },
     {
       "ID": "TS-COR-2026-0030",
-      "Received Through": "Oral Instructions",
-      "Source": "N/A",
-      "Date Received to office": "",
-      "Time Received in Whatsapp\nbetween": "",
-      "Original Date of Letter/Mail": "",
-      "Received From Department /Wing": "DGP",
-      "Received From Officer designation": "Inspector of Police",
-      "Subject / Work Description": "DGP Desk No 5 Reply",
-      "Due date": "N/A",
-      "Project": "Miscellaneous",
-      "Nature of Request": "Action",
-      "Final Decision": "Letter to Concerned",
-      "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Current Stage": "Work Completed-Pending for approval",
-      "Priority": "Normal",
-      "Dispatched Date": "",
-      "Final Closure Date": "",
-      "Delay days": "",
-      "Remarks": "",
-      "": "",
-      "status_group": "Pending",
-      "officer_id": "PRO-136",
-      "officer_name": "T. Anoj Kumar",
-      "officer_rank": "SI",
-      "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "project_id": "MISC",
-      "project_name": "Miscellaneous",
-      "project_label": "Miscellaneous",
-      "calculated_aging_days": 0,
-      "display_time_metric": "—",
-      "calculated_tat_days": 0
-    },
-    {
-      "ID": "TS-COR-2026-0031",
-      "Received Through": "Oral Instructions",
-      "Source": "N/A",
-      "Date Received to office": "",
-      "Time Received in Whatsapp\nbetween": "",
-      "Original Date of Letter/Mail": "",
-      "Received From Department /Wing": "PCS&S",
-      "Received From Officer designation": "Inspector General of Police",
-      "Subject / Work Description": "Letter to IT Registar,Non-issuance of STC Numbers by Certain Courts and Non-Implementation of CIS Application",
-      "Due date": "N/A",
-      "Project": "PRJ-007 - CCTNS",
-      "Nature of Request": "Action",
-      "Final Decision": "Letter to Concerned",
-      "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Current Stage": "Work Completed-Pending for approval",
-      "Priority": "Normal",
-      "Dispatched Date": "",
-      "Final Closure Date": "",
-      "Delay days": "",
-      "Remarks": "",
-      "": "",
-      "status_group": "Pending",
-      "officer_id": "PRO-136",
-      "officer_name": "T. Anoj Kumar",
-      "officer_rank": "SI",
-      "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "project_id": "PRJ-007",
-      "project_name": "CCTNS",
-      "project_label": "PRJ-007 - CCTNS",
-      "calculated_aging_days": 0,
-      "display_time_metric": "—",
-      "calculated_tat_days": 0
-    },
-    {
-      "ID": "TS-COR-2026-0032",
       "Received Through": "Letter",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1634,7 +2079,7 @@
       "display_time_metric": "—"
     },
     {
-      "ID": "TS-COR-2026-0033",
+      "ID": "TS-COR-2026-0031",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1668,41 +2113,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0034",
-      "Received Through": "Oral Instructions",
-      "Source": "N/A",
-      "Date Received to office": "",
-      "Time Received in Whatsapp\nbetween": "",
-      "Original Date of Letter/Mail": "",
-      "Received From Department /Wing": "PCS&S",
-      "Received From Officer designation": "Inspector General of Police",
-      "Subject / Work Description": "Equipments Recommended for conductiong proceedings by video confrencing at the court point and remote point",
-      "Due date": "N/A",
-      "Project": "Miscellaneous",
-      "Nature of Request": "Action",
-      "Final Decision": "DPR",
-      "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Current Stage": "Pending For Approval",
-      "Priority": "Normal",
-      "Dispatched Date": "",
-      "Final Closure Date": "",
-      "Delay days": "",
-      "Remarks": "",
-      "": "",
-      "status_group": "Pending",
-      "officer_id": "PRO-136",
-      "officer_name": "T. Anoj Kumar",
-      "officer_rank": "SI",
-      "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "project_id": "MISC",
-      "project_name": "Miscellaneous",
-      "project_label": "Miscellaneous",
-      "calculated_aging_days": 0,
-      "display_time_metric": "—",
-      "calculated_tat_days": 0
-    },
-    {
-      "ID": "TS-COR-2026-0035",
+      "ID": "TS-COR-2026-0032",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1736,7 +2147,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0036",
+      "ID": "TS-COR-2026-0033",
       "Received Through": "Letter",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1770,7 +2181,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0037",
+      "ID": "TS-COR-2026-0034",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1804,7 +2215,7 @@
       "display_time_metric": "—"
     },
     {
-      "ID": "TS-COR-2026-0038",
+      "ID": "TS-COR-2026-0035",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "",
@@ -1838,7 +2249,7 @@
       "display_time_metric": "—"
     },
     {
-      "ID": "TS-COR-2026-0039",
+      "ID": "TS-COR-2026-0036",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "10/09/2026",
@@ -1872,7 +2283,7 @@
       "calculated_aging_days": 0
     },
     {
-      "ID": "TS-COR-2026-0040",
+      "ID": "TS-COR-2026-0037",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "11/09/2026",
@@ -1906,7 +2317,7 @@
       "display_time_metric": "11d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0041",
+      "ID": "TS-COR-2026-0038",
       "Received Through": "Tappal",
       "Source": "N/A",
       "Date Received to office": "11/09/2026",
@@ -1940,7 +2351,7 @@
       "display_time_metric": "11d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0042",
+      "ID": "TS-COR-2026-0039",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "10/09/2026",
@@ -1974,7 +2385,7 @@
       "display_time_metric": "12d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0043",
+      "ID": "TS-COR-2026-0040",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "16/09/2026",
@@ -2008,7 +2419,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0044",
+      "ID": "TS-COR-2026-0041",
       "Received Through": "Letter",
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "20/08/2026",
@@ -2042,7 +2453,7 @@
       "display_time_metric": "33d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0045",
+      "ID": "TS-COR-2026-0042",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "15/09/2026",
@@ -2076,7 +2487,7 @@
       "display_time_metric": "7d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0046",
+      "ID": "TS-COR-2026-0043",
       "Received Through": "Letter",
       "Source": "N/A",
       "Date Received to office": "11/09/2026",
@@ -2110,7 +2521,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0047",
+      "ID": "TS-COR-2026-0044",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "16/09/2026",
@@ -2144,7 +2555,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0048",
+      "ID": "TS-COR-2026-0045",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "16/09/2026",
@@ -2178,7 +2589,7 @@
       "calculated_aging_days": 0
     },
     {
-      "ID": "TS-COR-2026-0049",
+      "ID": "TS-COR-2026-0046",
       "Received Through": "Oral Instructions",
       "Source": "N/A",
       "Date Received to office": "08/09/2026",
@@ -2212,7 +2623,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0050",
+      "ID": "TS-COR-2026-0047",
       "Received Through": "Letter",
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "15/09/2026",
@@ -2246,7 +2657,7 @@
       "display_time_metric": "7d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0051",
+      "ID": "TS-COR-2026-0048",
       "Received Through": "Letter",
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "15/09/2026",
@@ -2280,7 +2691,7 @@
       "calculated_aging_days": 0
     },
     {
-      "ID": "TS-COR-2026-0052",
+      "ID": "TS-COR-2026-0049",
       "Received Through": "Letter",
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "16/09/2026",
@@ -2314,7 +2725,7 @@
       "calculated_aging_days": 0
     },
     {
-      "ID": "TS-COR-2026-0053",
+      "ID": "TS-COR-2026-0050",
       "Received Through": "Letter",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "16/09/2026",
@@ -2348,7 +2759,7 @@
       "calculated_aging_days": 0
     },
     {
-      "ID": "TS-COR-2026-0054",
+      "ID": "TS-COR-2026-0051",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "17/09/2026",
@@ -2382,7 +2793,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0055",
+      "ID": "TS-COR-2026-0052",
       "Received Through": "Email",
       "Source": "PCS&S - eOffice Receipts",
       "Date Received to office": "17/09/2026",
@@ -2416,7 +2827,7 @@
       "display_time_metric": "5d (TAT)"
     },
     {
-      "ID": "TS-COR-2026-0056",
+      "ID": "TS-COR-2026-0053",
       "Received Through": "Letter",
       "Source": "Technical services Group",
       "Date Received to office": "19/09/2026",
@@ -2450,7 +2861,7 @@
       "calculated_tat_days": 0
     },
     {
-      "ID": "TS-COR-2026-0057",
+      "ID": "TS-COR-2026-0054",
       "Received Through": "Email",
       "Source": "PCS&S - Office Mail Desk",
       "Date Received to office": "21/09/2026",
@@ -2485,17 +2896,20 @@
     }
   ],
   "pending_abstract": {
-    "total_pending": 13,
-    "officers_pending": [
+    "total_pending": 10,
+    "total_inprogress": 15,
+    "total_na_stage": 9,
+    "officers_active": [
       {
         "officer": "PRO-136 - T. Anoj Kumar (SI)",
         "pro_id": "PRO-136",
         "name": "T. Anoj Kumar",
         "rank": "SI",
-        "total": 20,
+        "total": 17,
+        "active_total": 9,
         "completed": 8,
         "inprogress": 8,
-        "pending": 4,
+        "pending": 1,
         "onhold": 0,
         "critical": 2,
         "projects": [
@@ -2510,41 +2924,193 @@
             "id": "TS-COR-2026-0025",
             "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
             "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
             "subject": "Obtain Account creation letters from Bhavana madam DSP PTC",
             "stage": "Pending",
             "age": "—",
             "priority": "Normal",
             "recv_date": ""
+          }
+        ],
+        "inprogress_files": [
+          {
+            "id": "TS-COR-2026-0018",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "AP Data integration in NATGRID",
+            "stage": "Letter sent & Reply Required - Awaiting Replies",
+            "age": "45d (Age)",
+            "priority": "High",
+            "recv_date": "08/08/2026"
           },
           {
-            "id": "TS-COR-2026-0030",
-            "project": "Miscellaneous",
-            "prj_id": "MISC",
-            "subject": "DGP Desk No 5 Reply",
-            "stage": "Work Completed-Pending for approval",
+            "id": "TS-COR-2026-0019",
+            "project": "PRJ-001 - AI4AP",
+            "prj_id": "PRJ-001",
+            "prj_name": "AI4AP",
+            "subject": "EAGLE, AP has requested user IDs and access permissions for News360, PRISM and other relevant portals/applications for investigation, surveillance and intelligence purposes.",
+            "stage": "Proforma Sent & Reply Required - Awaiting Replies",
+            "age": "14d (Age)",
+            "priority": "Normal",
+            "recv_date": "08/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0027",
+            "project": "PRJ-019 - ICJS",
+            "prj_id": "PRJ-019",
+            "prj_name": "ICJS",
+            "subject": "Sim Cards distribution for districts",
+            "stage": "in-progress",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0028",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Creation of Webvpn for Districts (task 19-need to obtain new list from all units) and New User Creation",
+            "stage": "Mail Sent & Reply Required - Awaiting Replies",
             "age": "—",
             "priority": "Normal",
             "recv_date": ""
           },
           {
             "id": "TS-COR-2026-0031",
-            "project": "PRJ-007 - CCTNS",
-            "prj_id": "PRJ-007",
-            "subject": "Letter to IT Registar,Non-issuance of STC Numbers by Certain Courts and Non-Implementation of CIS Application",
-            "stage": "Work Completed-Pending for approval",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
+            "subject": "Electronic Communication and video confrencing rules 2026\n 1.Letter to Principal secretary \n 2.Memo to all unit officers",
+            "stage": "Draft Prepared - Sent For Approval",
             "age": "—",
             "priority": "Normal",
             "recv_date": ""
           },
           {
-            "id": "TS-COR-2026-0034",
-            "project": "Miscellaneous",
-            "prj_id": "MISC",
-            "subject": "Equipments Recommended for conductiong proceedings by video confrencing at the court point and remote point",
-            "stage": "Pending For Approval",
+            "id": "TS-COR-2026-0032",
+            "project": "PRJ-001 - AI4AP",
+            "prj_id": "PRJ-001",
+            "prj_name": "AI4AP",
+            "subject": "Mandatory feedback option for NEWS360AI",
+            "stage": "in-progress",
             "age": "—",
             "priority": "Normal",
             "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0051",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Advisory on Cyber Hygiene and Social Media restrictions for NATGRID\r\nSolution",
+            "stage": "in-progress",
+            "age": "5d (Age)",
+            "priority": "Normal",
+            "recv_date": "17/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0053",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Video confrence of Union Home Seceretary Scheduled to be held on 05.10.2026 at 03.00 PM with cheif secretaries/Advisors to Adminstrators and directors General of Police of States/UTs -regarding NATGRID",
+            "stage": "in-progress",
+            "age": "3d (Age)",
+            "priority": "Normal",
+            "recv_date": "19/09/2026"
+          }
+        ],
+        "na_stage_files": [],
+        "completed_files": [
+          {
+            "id": "TS-COR-2026-0001",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "from Rjasthan request for sharing SOPs and best practices adopted for effective utilisation ogf NATGRID-Regarding",
+            "stage": "Completed",
+            "age": "17d (TAT)",
+            "priority": "Normal",
+            "recv_date": "24/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0002",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "NATGRID Training of authorized Users",
+            "stage": "File Dispatched",
+            "age": "7d (TAT)",
+            "priority": "Normal",
+            "recv_date": "27/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0005",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Constitution of Task Forces to oversee the effectiveness of the strategies to prevent misuse of NATGRID solution and data security - reg.",
+            "stage": "Completed",
+            "age": "7d (TAT)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0009",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Request for success stories for Antardristi Magazine",
+            "stage": "Completed",
+            "age": "20d (TAT)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0016",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "NATGRID has requested success stories on the use of the NATGRID IT platform (Gandiva/Sudarshan)",
+            "stage": "Completed",
+            "age": "19d (TAT)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0030",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
+            "subject": "Police Technology Mission - Tech Survey",
+            "stage": "Completed",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0037",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Preparation of Task Force Minutes of the meeting",
+            "stage": "Completed",
+            "age": "11d (TAT)",
+            "priority": "High",
+            "recv_date": "11/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0038",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "prj_name": "NATGRID-Gandiva & Sudarshan",
+            "subject": "Request for login credentials/access to NATGRID-GANDIVA applications for SP (Operations), EAGLE - Permisssion- Reg.",
+            "stage": "Completed",
+            "age": "11d (TAT)",
+            "priority": "Normal",
+            "recv_date": "11/09/2026"
           }
         ]
       },
@@ -2554,6 +3120,7 @@
         "name": "Unassigned",
         "rank": "",
         "total": 6,
+        "active_total": 6,
         "completed": 0,
         "inprogress": 0,
         "pending": 3,
@@ -2570,6 +3137,7 @@
             "id": "TS-COR-2026-0004",
             "project": "Miscellaneous",
             "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
             "subject": "Designation of State/UT Finger Print Bureau as the Single Point of Contact for NAFIS and strengthening inter-agency coordination",
             "stage": "Pending",
             "age": "26d (Age)",
@@ -2580,6 +3148,7 @@
             "id": "TS-COR-2026-0011",
             "project": "Miscellaneous",
             "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
             "subject": "ITE&C Department has requested all Secretariat Departments to furnish department-wise hierarchical details of official Government email IDs",
             "stage": "Pending",
             "age": "19d (Age)",
@@ -2590,13 +3159,51 @@
             "id": "TS-COR-2026-0026",
             "project": "PRJ-001 - AI4AP",
             "prj_id": "PRJ-001",
+            "prj_name": "AI4AP",
             "subject": "Note on Sparity, Ragarding Bills and Training",
             "stage": "Pending",
             "age": "—",
             "priority": "Normal",
             "recv_date": ""
           }
-        ]
+        ],
+        "inprogress_files": [],
+        "na_stage_files": [
+          {
+            "id": "TS-COR-2026-0006",
+            "project": "PRJ-003 - AP Police Website / Citizen Portal",
+            "prj_id": "PRJ-003",
+            "prj_name": "AP Police Website / Citizen Portal",
+            "subject": "Functioning of CID Website for Publication of Criminal Intelligence Gazette (CIG), Look Out Circulars (LOC) of Interpol, and Enhancement of Search Date/Year Range from AP Police Website – Request – Reg",
+            "stage": "N/A",
+            "age": "20d (Age)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0008",
+            "project": "PRJ-019 - ICJS",
+            "prj_id": "PRJ-019",
+            "prj_name": "ICJS",
+            "subject": "Capacity Building activities under the Inter - Operable Criminal Justice System (ICJS) Project - Reg",
+            "stage": "N/A",
+            "age": "20d (Age)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0048",
+            "project": "PRJ-019 - ICJS",
+            "prj_id": "PRJ-019",
+            "prj_name": "ICJS",
+            "subject": "MHA has issued an Operational Manual for foreigner prisoner verification to ensure a uniform process for identification and verification of foreign national prisoners and matching of prisoner records with the IVFR T database through the ICJS platform.",
+            "stage": "N/A",
+            "age": "7d (Age)",
+            "priority": "Normal",
+            "recv_date": "15/09/2026"
+          }
+        ],
+        "completed_files": []
       },
       {
         "officer": "PRO-091 - M. Mohan (CI)",
@@ -2604,6 +3211,7 @@
         "name": "M. Mohan",
         "rank": "CI",
         "total": 6,
+        "active_total": 6,
         "completed": 0,
         "inprogress": 0,
         "pending": 3,
@@ -2619,6 +3227,7 @@
             "id": "TS-COR-2026-0014",
             "project": "PRJ-012 - Data Center",
             "prj_id": "PRJ-012",
+            "prj_name": "Data Center",
             "subject": "CID has requested immediate provision of VPN connectivity/credentials for 68 MSCD (PAPILLON) devices deployed in Tirupati District",
             "stage": "Pending",
             "age": "19d (Age)",
@@ -2629,6 +3238,7 @@
             "id": "TS-COR-2026-0017",
             "project": "PRJ-012 - Data Center",
             "prj_id": "PRJ-012",
+            "prj_name": "Data Center",
             "subject": "The Preliminary Red Team Audit of the AP Police AI4AP application identified two high-risk security observations—account takeover due to lack of login rate limiting and an unauthenticated API.",
             "stage": "Pending",
             "age": "19d (Age)",
@@ -2639,13 +3249,51 @@
             "id": "TS-COR-2026-0020",
             "project": "PRJ-003 - AP Police Website / Citizen Portal",
             "prj_id": "PRJ-003",
+            "prj_name": "AP Police Website / Citizen Portal",
             "subject": "APTS-NCIIPC-Women and Child Safety WingVulnerability in Andhra Pradesh Government Web Portal",
             "stage": "Pending",
             "age": "15d (Age)",
             "priority": "Normal",
             "recv_date": "07/09/2026"
           }
-        ]
+        ],
+        "inprogress_files": [],
+        "na_stage_files": [
+          {
+            "id": "TS-COR-2026-0045",
+            "project": "PRJ-024 - NERS & UECCR",
+            "prj_id": "PRJ-024",
+            "prj_name": "NERS & UECCR",
+            "subject": "Implementation Status of ERSS 2.0 -Features and Functionalities at State/UT Level-reg.",
+            "stage": "N/A",
+            "age": "6d (Age)",
+            "priority": "Normal",
+            "recv_date": "16/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0049",
+            "project": "PRJ-012 - Data Center",
+            "prj_id": "PRJ-012",
+            "prj_name": "Data Center",
+            "subject": "AP Police has accorded principal approval for a 3-year AMC/CAMC for Data Centre Non-IT equipment (PAC, UPS and AMF Panel) at an estimated cost of ₹41,54,063/-",
+            "stage": "N/A",
+            "age": "6d (Age)",
+            "priority": "Normal",
+            "recv_date": "16/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0050",
+            "project": "PRJ-012 - Data Center",
+            "prj_id": "PRJ-012",
+            "prj_name": "Data Center",
+            "subject": "8th (IR) BN., APSP., Chittoor – Request for creation/allotment of Official E-mail IDs for the following Officers",
+            "stage": "N/A",
+            "age": "6d (Age)",
+            "priority": "Normal",
+            "recv_date": "16/09/2026"
+          }
+        ],
+        "completed_files": []
       },
       {
         "officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
@@ -2653,6 +3301,7 @@
         "name": "Ch. Aditya Srinivas",
         "rank": "SI",
         "total": 4,
+        "active_total": 4,
         "completed": 0,
         "inprogress": 2,
         "pending": 2,
@@ -2669,6 +3318,7 @@
             "id": "TS-COR-2026-0003",
             "project": "PRJ-003 - AP Police Website / Citizen Portal",
             "prj_id": "PRJ-003",
+            "prj_name": "AP Police Website / Citizen Portal",
             "subject": "Nominated Sri. V. Jagadeeswar rao, HC-993(Contact-9290222581) person for maintenance and updating of PTO-Official police website in this reg they requesting user credentials and technical support to the nominated person",
             "stage": "Pending",
             "age": "25d (Age)",
@@ -2676,14 +3326,276 @@
             "recv_date": "28/08/2026"
           },
           {
-            "id": "TS-COR-2026-0043",
+            "id": "TS-COR-2026-0040",
             "project": "PRJ-007 - CCTNS",
             "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
             "subject": "CCTNS 2.0 Citizen Portal: State Adoption Model Selection Guide-reg.",
             "stage": "Pending",
             "age": "6d (Age)",
             "priority": "Normal",
             "recv_date": "16/09/2026"
+          }
+        ],
+        "inprogress_files": [
+          {
+            "id": "TS-COR-2026-0029",
+            "project": "PRJ-004 - APCOPS 2.0",
+            "prj_id": "PRJ-004",
+            "prj_name": "APCOPS 2.0",
+            "subject": "Enhancements, SDR Update, C-trace IP Tracing Application Integration, RTA data Updation",
+            "stage": "in-progress",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0046",
+            "project": "PRJ-036 - Trainings",
+            "prj_id": "PRJ-036",
+            "prj_name": "Trainings",
+            "subject": "Implementation of Training Programme for Probationary DySPs",
+            "stage": "in-progress",
+            "age": "14d (Age)",
+            "priority": "Normal",
+            "recv_date": "08/09/2026"
+          }
+        ],
+        "na_stage_files": [],
+        "completed_files": []
+      },
+      {
+        "officer": "PRO-125 - J. Kalpana (SI)",
+        "pro_id": "PRO-125",
+        "name": "J. Kalpana",
+        "rank": "SI",
+        "total": 13,
+        "active_total": 4,
+        "completed": 9,
+        "inprogress": 4,
+        "pending": 0,
+        "onhold": 0,
+        "critical": 6,
+        "projects": [
+          "Miscellaneous",
+          "PRJ-007 - CCTNS"
+        ],
+        "pending_files": [],
+        "inprogress_files": [
+          {
+            "id": "TS-COR-2026-0023",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "IS AUDIT on CCTNS (AREQ 1 to 61)",
+            "stage": "in-progress",
+            "age": "33d (Age)",
+            "priority": "Critical",
+            "recv_date": "20/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0033",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Eagle-Integration of NDPS suspect sheet in CCTNS and integration of CCTNS Data with State -level NDPS intelligence & Analytics Platform",
+            "stage": "Letter sent & Reply Required - Awaiting Replies",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0043",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "IS audit- CCTNS - AENQ - 1, 2",
+            "stage": "in-progress",
+            "age": "11d (Age)",
+            "priority": "Critical",
+            "recv_date": "11/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0044",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Whitelisting the IP 10.72.18.7 - Accessibility of the APCCTNSDatabase server (hosted on NGC Cloud at State Police Network) -Reminder2",
+            "stage": "Mail Sent & Reply Required - Awaiting Replies",
+            "age": "6d (Age)",
+            "priority": "Normal",
+            "recv_date": "16/09/2026"
+          }
+        ],
+        "na_stage_files": [],
+        "completed_files": [
+          {
+            "id": "TS-COR-2026-0013",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Compliance regarding sensitisation and training of police personnel for use of the term \"Nyaya Sanhita\" - regarding",
+            "stage": "Completed",
+            "age": "20d (TAT)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0021",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "High COURT – Case stages data updation",
+            "stage": "Completed",
+            "age": "2d (TAT)",
+            "priority": "Critical",
+            "recv_date": "05/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0022",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Medleapr issues, feedback modifications collection",
+            "stage": "Completed",
+            "age": "1d (TAT)",
+            "priority": "Normal",
+            "recv_date": "07/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0024",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Tender Doc to APTS - CCTNS 2.0",
+            "stage": "Completed",
+            "age": "0d (TAT)",
+            "priority": "Normal",
+            "recv_date": "05/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0034",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
+            "subject": "1.eProcecution module unit Data\n 2.Courts data who are not consuming FIRs\n 3.DCRB integration",
+            "stage": "Completed",
+            "age": "—",
+            "priority": "High",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0035",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "TCS work extention letter",
+            "stage": "Completed",
+            "age": "—",
+            "priority": "High",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0041",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "IS AUDIT on CCTNS (AREQ - 24 No.)",
+            "stage": "Completed",
+            "age": "33d (TAT)",
+            "priority": "Critical",
+            "recv_date": "20/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0042",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Note file - Audit on CCTNS",
+            "stage": "Completed",
+            "age": "7d (TAT)",
+            "priority": "Normal",
+            "recv_date": "15/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0052",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "M/s Tata Consultancy Services has informed that the AP CCTNS Project Work Order is under internal approval and execution process, and requested release of all pending outstanding payments.",
+            "stage": "Completed",
+            "age": "5d (TAT)",
+            "priority": "Normal",
+            "recv_date": "17/09/2026"
+          }
+        ]
+      },
+      {
+        "officer": "PRO-094 - K. Satish (CI)",
+        "pro_id": "PRO-094",
+        "name": "K. Satish",
+        "rank": "CI",
+        "total": 4,
+        "active_total": 2,
+        "completed": 2,
+        "inprogress": 1,
+        "pending": 0,
+        "onhold": 1,
+        "critical": 0,
+        "projects": [
+          "Miscellaneous",
+          "PRJ-019 - ICJS",
+          "PRJ-034 - RTGS"
+        ],
+        "pending_files": [],
+        "inprogress_files": [
+          {
+            "id": "TS-COR-2026-0054",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "prj_name": "Miscellaneous",
+            "subject": "Request for Support for Integration of FIR Services with DigiLocker",
+            "stage": "in-progress",
+            "age": "1d (Age)",
+            "priority": "Normal",
+            "recv_date": "21/09/2026"
+          }
+        ],
+        "na_stage_files": [
+          {
+            "id": "TS-COR-2026-0007",
+            "project": "PRJ-019 - ICJS",
+            "prj_id": "PRJ-019",
+            "prj_name": "ICJS",
+            "subject": "HIGH COURT – COMPUTER SECTION – Implementation of eSummons in all Courts in the State – Utilization of eSummons facility provided in DC-CIS 4.0 – Regarding.",
+            "stage": "N/A",
+            "age": "20d (Age)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          }
+        ],
+        "completed_files": [
+          {
+            "id": "TS-COR-2026-0012",
+            "project": "PRJ-034 - RTGS",
+            "prj_id": "PRJ-034",
+            "prj_name": "RTGS",
+            "subject": "submission of Proforma-1 (Departmental Overview) and Proforma-2 (Readiness Questionnaire) under the AP AI Stack Project,",
+            "stage": "Completed",
+            "age": "19d (TAT)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0047",
+            "project": "PRJ-034 - RTGS",
+            "prj_id": "PRJ-034",
+            "prj_name": "RTGS",
+            "subject": "The Police Department has forwarded the AP State Data Lake Project – Verification and Validation of the dated tables/data already shared by the Department with RTGS, along with instructions regarding submission of the certificate for grant of full access to departmental data",
+            "stage": "Completed",
+            "age": "7d (TAT)",
+            "priority": "Normal",
+            "recv_date": "15/09/2026"
           }
         ]
       },
@@ -2693,6 +3605,7 @@
         "name": "K. Sreekanth",
         "rank": "CI",
         "total": 2,
+        "active_total": 1,
         "completed": 1,
         "inprogress": 0,
         "pending": 1,
@@ -2707,16 +3620,95 @@
             "id": "TS-COR-2026-0010",
             "project": "PRJ-018 - eOffice",
             "prj_id": "PRJ-018",
+            "prj_name": "eOffice",
             "subject": "AP Police Communication Organisation has requested creation of an e-Office email ID and provision of a new Digital Signature Key for the newly appointed Junior Office Assistant, Sri P. Uday Kumar",
             "stage": "Pending",
             "age": "19d (Age)",
             "priority": "Normal",
             "recv_date": "03/09/2026"
           }
+        ],
+        "inprogress_files": [],
+        "na_stage_files": [],
+        "completed_files": [
+          {
+            "id": "TS-COR-2026-0039",
+            "project": "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
+            "prj_id": "PRJ-008",
+            "prj_name": "CCTV360 (MATRIX) - Public Cameras",
+            "subject": "Request to Issue CCTV 360- User credentials- CI Cell - Regarding",
+            "stage": "Completed",
+            "age": "12d (TAT)",
+            "priority": "Normal",
+            "recv_date": "10/09/2026"
+          }
         ]
+      },
+      {
+        "officer": "PRO-095 - K. Vijaya Kumar (CI)",
+        "pro_id": "PRO-095",
+        "name": "K. Vijaya Kumar",
+        "rank": "CI",
+        "total": 1,
+        "active_total": 1,
+        "completed": 0,
+        "inprogress": 0,
+        "pending": 0,
+        "onhold": 1,
+        "critical": 0,
+        "projects": [
+          "PRJ-015 - DRONES"
+        ],
+        "pending_files": [],
+        "inprogress_files": [],
+        "na_stage_files": [
+          {
+            "id": "TS-COR-2026-0015",
+            "project": "PRJ-015 - DRONES",
+            "prj_id": "PRJ-015",
+            "prj_name": "DRONES",
+            "subject": "Nomination for the Course on \" Drone (UAV): Operations, Flight Principles and Regulations \" from 07 to 11 September 2026.",
+            "stage": "N/A",
+            "age": "20d (Age)",
+            "priority": "Normal",
+            "recv_date": "02/09/2026"
+          }
+        ],
+        "completed_files": []
+      },
+      {
+        "officer": "PRO-140 - MD. Sadhik (SI)",
+        "pro_id": "PRO-140",
+        "name": "MD. Sadhik",
+        "rank": "SI",
+        "total": 1,
+        "active_total": 1,
+        "completed": 0,
+        "inprogress": 0,
+        "pending": 0,
+        "onhold": 1,
+        "critical": 0,
+        "projects": [
+          "PRJ-007 - CCTNS"
+        ],
+        "pending_files": [],
+        "inprogress_files": [],
+        "na_stage_files": [
+          {
+            "id": "TS-COR-2026-0036",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "prj_name": "CCTNS",
+            "subject": "Andhra Pradesh Police - Request for Vetting of draft application & undertaking – Aadhaar Integration with CCTNS",
+            "stage": "N/A",
+            "age": "12d (Age)",
+            "priority": "Normal",
+            "recv_date": "10/09/2026"
+          }
+        ],
+        "completed_files": []
       }
     ],
-    "oral_speech": "Sir, out of 57 total correspondence files, 13 files are currently pending action/approval across 5 officer queues:\n• PRO-136 - T. Anoj Kumar (SI): 4 pending (Miscellaneous, AI4AP, CCTNS)\n• Unassigned: 3 pending (Miscellaneous, AI4AP, AP Police Website / Citizen Portal)\n• PRO-091 - M. Mohan (CI): 3 pending (AP Police Website / Citizen Portal, Data Center, NERS & UECCR)\n• PRO-152 - Ch. Aditya Srinivas (SI): 2 pending (AP Police Website / Citizen Portal, APCOPS 2.0, CCTNS)\n• PRO-106 - K. Sreekanth (CI): 1 pending (Public Cameras, eOffice)\nIn addition, 15 files are actively in-progress, and 20 files have been fully resolved.",
-    "whatsapp_text": "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n📋 *OFFICER-WISE PENDING CORRESPONDENCE ABSTRACT*\n📅 Date: 22-09-2026 01:02 PM\n\n📊 *Overall Status:*\n• Total Intake: 57 Files\n• 🟡 Pending Action: 13 Files\n• 🔵 Active In-Progress: 15 Files\n• 🟢 Completed / Dispatched: 20 Files\n• 🔴 Critical Priority: 4 Files\n\n👤 *Officer-Wise Pending Breakdown:*\n1. *PRO-136 - T. Anoj Kumar (SI)*: 4 Pending (Total Assigned: 20)\n   - TS-COR-2026-0025 | PRJ-023: Pending (—)\n   - TS-COR-2026-0030 | MISC: Work Completed-Pending for approval (—)\n   - TS-COR-2026-0031 | PRJ-007: Work Completed-Pending for approval (—)\n   - TS-COR-2026-0034 | MISC: Pending For Approval (—)\n2. *Unassigned*: 3 Pending (Total Assigned: 6)\n   - TS-COR-2026-0004 | MISC: Pending (26d (Age))\n   - TS-COR-2026-0011 | MISC: Pending (19d (Age))\n   - TS-COR-2026-0026 | PRJ-001: Pending (—)\n3. *PRO-091 - M. Mohan (CI)*: 3 Pending (Total Assigned: 6)\n   - TS-COR-2026-0014 | PRJ-012: Pending (19d (Age))\n   - TS-COR-2026-0017 | PRJ-012: Pending (19d (Age))\n   - TS-COR-2026-0020 | PRJ-003: Pending (15d (Age))\n4. *PRO-152 - Ch. Aditya Srinivas (SI)*: 2 Pending (Total Assigned: 4)\n   - TS-COR-2026-0003 | PRJ-003: Pending (25d (Age))\n   - TS-COR-2026-0043 | PRJ-007: Pending (6d (Age))\n5. *PRO-106 - K. Sreekanth (CI)*: 1 Pending (Total Assigned: 2)\n   - TS-COR-2026-0010 | PRJ-018: Pending (19d (Age))\n\n_Generated from AP Police TS Executive Command Portal_"
+    "whatsapp_text": "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n📅 Date: 22-09-2026 | 01:51 PM\n\n📊 *Overall Abstract:*\n• Total Inflow: 54 Files\n• 🟡 Pending Action: 10 Files\n• 🔵 Active In-Progress: 15 Files\n• ⚪ Stage N/A (Notice Required): 9 Files\n• 🟢 Completed / Dispatched: 20 Files\n• 🔴 Critical Priority: 4 Files\n\n───────────────────────────────\n👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*\n───────────────────────────────\n\n1. *PRO-136 - T. Anoj Kumar (SI)*: Total Active: 9 (1 Pending, 8 In-Prog, 0 Stage N/A)\n   🟡 *Pending Action:*\n   - TS-COR-2026-0025 [PRJ-023 - NATGRID-Gandiva & Sudarshan]: Pending (—)\n   🔵 *In-Progress:*\n   - TS-COR-2026-0018 [PRJ-023 - NATGRID-Gandiva & Sudarshan]: Letter sent & Reply Required - Awaiting Replies (45d (Age))\n   - TS-COR-2026-0019 [PRJ-001 - AI4AP]: Proforma Sent & Reply Required - Awaiting Replies (14d (Age))\n   - TS-COR-2026-0027 [PRJ-019 - ICJS]: in-progress (—)\n   - TS-COR-2026-0028 [PRJ-007 - CCTNS]: Mail Sent & Reply Required - Awaiting Replies (—)\n   - TS-COR-2026-0031 [Miscellaneous]: Draft Prepared - Sent For Approval (—)\n   - TS-COR-2026-0032 [PRJ-001 - AI4AP]: in-progress (—)\n   - TS-COR-2026-0051 [PRJ-023 - NATGRID-Gandiva & Sudarshan]: in-progress (5d (Age))\n   - TS-COR-2026-0053 [PRJ-023 - NATGRID-Gandiva & Sudarshan]: in-progress (3d (Age))\n\n2. *Unassigned*: Total Active: 6 (3 Pending, 0 In-Prog, 3 Stage N/A)\n   🟡 *Pending Action:*\n   - TS-COR-2026-0004 [Miscellaneous]: Pending (26d (Age))\n   - TS-COR-2026-0011 [Miscellaneous]: Pending (19d (Age))\n   - TS-COR-2026-0026 [PRJ-001 - AI4AP]: Pending (—)\n   ⚪ *Stage N/A (Notice Required / Action Needed):*\n   - TS-COR-2026-0006 [PRJ-003 - AP Police Website / Citizen Portal]: N/A (20d (Age))\n   - TS-COR-2026-0008 [PRJ-019 - ICJS]: N/A (20d (Age))\n   - TS-COR-2026-0048 [PRJ-019 - ICJS]: N/A (7d (Age))\n\n3. *PRO-091 - M. Mohan (CI)*: Total Active: 6 (3 Pending, 0 In-Prog, 3 Stage N/A)\n   🟡 *Pending Action:*\n   - TS-COR-2026-0014 [PRJ-012 - Data Center]: Pending (19d (Age))\n   - TS-COR-2026-0017 [PRJ-012 - Data Center]: Pending (19d (Age))\n   - TS-COR-2026-0020 [PRJ-003 - AP Police Website / Citizen Portal]: Pending (15d (Age))\n   ⚪ *Stage N/A (Notice Required / Action Needed):*\n   - TS-COR-2026-0045 [PRJ-024 - NERS & UECCR]: N/A (6d (Age))\n   - TS-COR-2026-0049 [PRJ-012 - Data Center]: N/A (6d (Age))\n   - TS-COR-2026-0050 [PRJ-012 - Data Center]: N/A (6d (Age))\n\n4. *PRO-152 - Ch. Aditya Srinivas (SI)*: Total Active: 4 (2 Pending, 2 In-Prog, 0 Stage N/A)\n   🟡 *Pending Action:*\n   - TS-COR-2026-0003 [PRJ-003 - AP Police Website / Citizen Portal]: Pending (25d (Age))\n   - TS-COR-2026-0040 [PRJ-007 - CCTNS]: Pending (6d (Age))\n   🔵 *In-Progress:*\n   - TS-COR-2026-0029 [PRJ-004 - APCOPS 2.0]: in-progress (—)\n   - TS-COR-2026-0046 [PRJ-036 - Trainings]: in-progress (14d (Age))\n\n5. *PRO-125 - J. Kalpana (SI)*: Total Active: 4 (0 Pending, 4 In-Prog, 0 Stage N/A)\n   🔵 *In-Progress:*\n   - TS-COR-2026-0023 [PRJ-007 - CCTNS]: in-progress (33d (Age))\n   - TS-COR-2026-0033 [PRJ-007 - CCTNS]: Letter sent & Reply Required - Awaiting Replies (—)\n   - TS-COR-2026-0043 [PRJ-007 - CCTNS]: in-progress (11d (Age))\n   - TS-COR-2026-0044 [PRJ-007 - CCTNS]: Mail Sent & Reply Required - Awaiting Replies (6d (Age))\n\n6. *PRO-094 - K. Satish (CI)*: Total Active: 2 (0 Pending, 1 In-Prog, 1 Stage N/A)\n   🔵 *In-Progress:*\n   - TS-COR-2026-0054 [Miscellaneous]: in-progress (1d (Age))\n   ⚪ *Stage N/A (Notice Required / Action Needed):*\n   - TS-COR-2026-0007 [PRJ-019 - ICJS]: N/A (20d (Age))\n\n7. *PRO-106 - K. Sreekanth (CI)*: Total Active: 1 (1 Pending, 0 In-Prog, 0 Stage N/A)\n   🟡 *Pending Action:*\n   - TS-COR-2026-0010 [PRJ-018 - eOffice]: Pending (19d (Age))\n\n8. *PRO-095 - K. Vijaya Kumar (CI)*: Total Active: 1 (0 Pending, 0 In-Prog, 1 Stage N/A)\n   ⚪ *Stage N/A (Notice Required / Action Needed):*\n   - TS-COR-2026-0015 [PRJ-015 - DRONES]: N/A (20d (Age))\n\n9. *PRO-140 - MD. Sadhik (SI)*: Total Active: 1 (0 Pending, 0 In-Prog, 1 Stage N/A)\n   ⚪ *Stage N/A (Notice Required / Action Needed):*\n   - TS-COR-2026-0036 [PRJ-007 - CCTNS]: N/A (12d (Age))\n\n───────────────────────────────\n_Generated from AP Police TS Executive Command Portal_"
   }
 }

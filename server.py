@@ -99,7 +99,7 @@ def categorize_stage(stage_raw):
 def calculate_analytics_from_records(records):
     today = datetime.now().date()
     now_str = datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
-    today_display = datetime.now().strftime("%d-%m-%Y %I:%M %p")
+    today_display = datetime.now().strftime("%d-%m-%Y | %I:%M %p")
 
     for r in records:
         d_recv = parse_indian_date(r.get('Date Received to office'))
@@ -144,7 +144,7 @@ def calculate_analytics_from_records(records):
                 r['calculated_aging_days'] = 0
                 r['display_time_metric'] = "—"
             r['calculated_tat_days'] = 0
-        else: # On Hold / Closed
+        else: # On Hold / Closed / Stage N/A
             if effective_start and d_close:
                 tat_days = max(0, (d_close - effective_start).days)
                 r['display_time_metric'] = f"{tat_days}d (TAT)"
@@ -185,7 +185,7 @@ def calculate_analytics_from_records(records):
             else:
                 aging_buckets["15+ Days"] += 1
 
-    # Group by Officers
+    # Group by Officers with Complete Categorization (Pending, In-Progress, Stage N/A, Completed)
     officers_map = {}
     for r in records:
         off_label = r['officer_label']
@@ -197,28 +197,38 @@ def calculate_analytics_from_records(records):
                 'rank': r['officer_rank'],
                 'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
                 'projects': set(),
-                'pending_files': []
+                'pending_files': [],
+                'inprogress_files': [],
+                'na_stage_files': [],
+                'completed_files': []
             }
         om = officers_map[off_label]
         om['total'] += 1
+
+        file_entry = {
+            'id': r.get('ID'),
+            'project': r.get('project_label'),
+            'prj_id': r.get('project_id'),
+            'prj_name': r.get('project_name'),
+            'subject': r.get('Subject / Work Description'),
+            'stage': r.get('Current Stage') if r.get('Current Stage') else 'N/A',
+            'age': r.get('display_time_metric'),
+            'priority': r.get('Priority'),
+            'recv_date': r.get('Date Received to office')
+        }
+
         if r['status_group'] == 'Completed':
             om['completed'] += 1
+            om['completed_files'].append(file_entry)
         elif r['status_group'] == 'In-Progress':
             om['inprogress'] += 1
+            om['inprogress_files'].append(file_entry)
         elif r['status_group'] == 'Pending':
             om['pending'] += 1
-            om['pending_files'].append({
-                'id': r.get('ID'),
-                'project': r.get('project_label'),
-                'prj_id': r.get('project_id'),
-                'subject': r.get('Subject / Work Description'),
-                'stage': r.get('Current Stage'),
-                'age': r.get('display_time_metric'),
-                'priority': r.get('Priority'),
-                'recv_date': r.get('Date Received to office')
-            })
+            om['pending_files'].append(file_entry)
         else:
             om['onhold'] += 1
+            om['na_stage_files'].append(file_entry)
 
         if r['Priority'] in ['Critical', 'High']:
             om['critical'] += 1
@@ -227,20 +237,25 @@ def calculate_analytics_from_records(records):
             om['projects'].add(r['project_label'])
 
     officer_analytics = []
-    for off_label, data in sorted(officers_map.items(), key=lambda x: x[1]['total'], reverse=True):
+    for off_label, data in sorted(officers_map.items(), key=lambda x: (x[1]['pending'] + x[1]['inprogress'] + x[1]['onhold']), reverse=True):
+        active_total = data['pending'] + data['inprogress'] + data['onhold']
         officer_analytics.append({
             'officer': off_label,
             'pro_id': data['pro_id'],
             'name': data['name'],
             'rank': data['rank'],
             'total': data['total'],
+            'active_total': active_total,
             'completed': data['completed'],
             'inprogress': data['inprogress'],
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
             'projects': sorted(list(data['projects'])),
-            'pending_files': data['pending_files']
+            'pending_files': data['pending_files'],
+            'inprogress_files': data['inprogress_files'],
+            'na_stage_files': data['na_stage_files'],
+            'completed_files': data['completed_files']
         })
 
     # Group by Projects
@@ -297,41 +312,47 @@ def calculate_analytics_from_records(records):
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-    # Formulate Officer-Wise Pending Abstract
-    officers_with_pending = [o for o in officer_analytics if o['pending'] > 0]
-    officers_with_pending.sort(key=lambda x: x['pending'], reverse=True)
-
-    # Formulate Oral Speech Script (30-second Brief)
-    oral_lines = [
-        f"Sir, out of {total_records} total correspondence files, {pending_count} files are currently pending action/approval across {len(officers_with_pending)} officer queues:"
-    ]
-    for o in officers_with_pending:
-        proj_str = ", ".join([p.split(' - ')[-1] for p in o['projects'][:3]]) or "General"
-        oral_lines.append(f"• {o['officer']}: {o['pending']} pending ({proj_str})")
-    oral_lines.append(f"In addition, {inprogress_count} files are actively in-progress, and {completed_count} files have been fully resolved.")
-    oral_speech = "\n".join(oral_lines)
-
-    # Formulate WhatsApp Shareable Text
+    # Formulate Comprehensive WhatsApp Shareable Text
+    active_officers = [o for o in officer_analytics if o['active_total'] > 0]
     wa_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
-        "📋 *OFFICER-WISE PENDING CORRESPONDENCE ABSTRACT*",
+        "📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*",
         f"📅 Date: {today_display}",
         "",
-        "📊 *Overall Status:*",
-        f"• Total Intake: {total_records} Files",
+        "📊 *Overall Abstract:*",
+        f"• Total Inflow: {total_records} Files",
         f"• 🟡 Pending Action: {pending_count} Files",
         f"• 🔵 Active In-Progress: {inprogress_count} Files",
+        f"• ⚪ Stage N/A (Notice Required): {onhold_closed_count} Files",
         f"• 🟢 Completed / Dispatched: {completed_count} Files",
         f"• 🔴 Critical Priority: {critical_count} Files",
         "",
-        "👤 *Officer-Wise Pending Breakdown:*"
+        "───────────────────────────────",
+        "👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*",
+        "───────────────────────────────"
     ]
-    for idx, o in enumerate(officers_with_pending, 1):
-        wa_lines.append(f"{idx}. *{o['officer']}*: {o['pending']} Pending (Total Assigned: {o['total']})")
-        for f in o['pending_files']:
-            wa_lines.append(f"   - {f['id']} | {f['prj_id']}: {f['stage']} ({f['age']})")
-    
+
+    for idx, o in enumerate(active_officers, 1):
+        wa_lines.append("")
+        wa_lines.append(f"{idx}. *{o['officer']}*: Total Active: {o['active_total']} ({o['pending']} Pending, {o['inprogress']} In-Prog, {o['onhold']} Stage N/A)")
+        
+        if o['pending_files']:
+            wa_lines.append("   🟡 *Pending Action:*")
+            for f in o['pending_files']:
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+        
+        if o['inprogress_files']:
+            wa_lines.append("   🔵 *In-Progress:*")
+            for f in o['inprogress_files']:
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+        
+        if o['na_stage_files']:
+            wa_lines.append("   ⚪ *Stage N/A (Notice Required / Action Needed):*")
+            for f in o['na_stage_files']:
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+
     wa_lines.append("")
+    wa_lines.append("───────────────────────────────")
     wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_text = "\n".join(wa_lines)
 
@@ -358,8 +379,9 @@ def calculate_analytics_from_records(records):
         'records': records,
         'pending_abstract': {
             'total_pending': pending_count,
-            'officers_pending': officers_with_pending,
-            'oral_speech': oral_speech,
+            'total_inprogress': inprogress_count,
+            'total_na_stage': onhold_closed_count,
+            'officers_active': active_officers,
             'whatsapp_text': whatsapp_text
         }
     }
@@ -482,7 +504,7 @@ def start_server():
         print(f" AP Police TS Correspondence Executive Analytics Dashboard Server ")
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
-        print(f" Officer-Wise Pending Abstract & Oral Brief Generator Active")
+        print(f" Officer-Wise Pending & Active Workload Abstract Active")
         print(f"================================================================")
         httpd.serve_forever()
 
