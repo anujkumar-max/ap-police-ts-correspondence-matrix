@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP Police TS - Executive Correspondence & Workload Analytics</title>
+    <!-- Police Department Emblem Favicon -->
+    <link rel="icon" type="image/jpeg" href="Police logo.jpeg">
     <!-- Early Theme Initializer to prevent flash -->
     <script>
         if (localStorage.getItem('ts_dashboard_theme') === 'light') {
@@ -240,11 +242,7 @@
             
             <!-- AP Police Brand & Title -->
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
-                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                        <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
-                    </div>
-                </div>
+                <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-11 h-11 rounded-xl object-contain shadow-lg shadow-blue-900/40 p-0.5 bg-white/10 backdrop-blur-sm border border-amber-400/40" />
                 <div>
                     <div class="flex items-center space-x-2">
                         <span class="text-[9.5px] font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
@@ -637,9 +635,7 @@
             <!-- Modal Header -->
             <div class="flex items-start justify-between border-b border-slate-800 pb-3 flex-shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
-                        <i data-lucide="message-square" class="w-5 h-5"></i>
-                    </div>
+                    <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-11 h-11 rounded-xl object-contain bg-white/10 p-0.5 border border-amber-500/40 shadow" />
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">EXECUTIVE BRIEFING TOOL</span>
@@ -727,12 +723,13 @@
     <div id="print-executive-memo" class="hidden p-6 max-w-4xl mx-auto bg-white text-black">
         
         <!-- Official Government Crest & Header -->
-        <div class="text-center border-b-2 border-black pb-3 mb-4">
+        <div class="text-center border-b-2 border-black pb-3 mb-4 flex flex-col items-center justify-center">
+            <img src="Police logo.jpeg" alt="AP Police Crest" class="w-16 h-16 object-contain mb-1.5" />
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
             <div class="text-sm font-bold uppercase underline mt-2">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - OFFICER-WISE ABSTRACT</div>
-            <div class="flex justify-between text-xs text-slate-600 mt-1 font-mono">
+            <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
                 <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
                 <span id="print-date-display">Date: 22-09-2026</span>
             </div>
