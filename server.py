@@ -7,6 +7,7 @@ import urllib.parse
 import urllib.request
 import csv
 import io
+import re
 from datetime import datetime, date
 
 PORT = 8050
@@ -17,6 +18,47 @@ STATIC_DIR = os.path.dirname(os.path.abspath(__file__))
 
 _cached_data = None
 _last_fetch_time = 0
+
+def clean_text(val):
+    if val is None:
+        return 'N/A'
+    s = str(val).strip()
+    if not s or s.lower() in ['n/a', 'none', 'null', '']:
+        return 'N/A'
+    # Sanitize unicode dashes and special characters
+    s = s.replace('\ufffd', '-').replace('\u2013', '-').replace('\u2014', '-')
+    return s
+
+def parse_pro_id(val):
+    cleaned = clean_text(val)
+    if cleaned in ['N/A', 'ALL']:
+        return {'id': cleaned, 'name': cleaned, 'rank': '', 'label': cleaned}
+    
+    # Regex match for PRO-xxx - Name (Rank)
+    m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
+    if m:
+        pro_id = m.group(1).strip()
+        name = m.group(2).strip()
+        rank = (m.group(3) or '').strip()
+        label = f"{pro_id} - {name}" + (f" ({rank})" if rank else "")
+        return {'id': pro_id, 'name': name, 'rank': rank, 'label': label}
+    
+    return {'id': 'PRO-GEN', 'name': cleaned, 'rank': '', 'label': cleaned}
+
+def parse_prj_id(val):
+    cleaned = clean_text(val)
+    if cleaned in ['N/A', 'Miscellaneous']:
+        return {'id': 'MISC', 'name': cleaned, 'label': cleaned}
+    
+    # Regex match for PRJ-xxx - Project Name
+    m = re.match(r'^(PRJ-\d+)\s*[-:]\s*(.+)$', cleaned)
+    if m:
+        prj_id = m.group(1).strip()
+        name = m.group(2).strip()
+        label = f"{prj_id} - {name}"
+        return {'id': prj_id, 'name': name, 'label': label}
+    
+    return {'id': 'PRJ-MISC', 'name': cleaned, 'label': cleaned}
 
 def parse_indian_date(val):
     if not val:
@@ -67,6 +109,25 @@ def calculate_analytics_from_records(records):
 
         stage_raw = r.get('Current Stage') or ''
         r['status_group'] = categorize_stage(stage_raw)
+
+        # Parse Pro-IDs & Project IDs
+        off_info = parse_pro_id(r.get('Concerned Officer'))
+        stf_info = parse_pro_id(r.get('Concerned Staff'))
+        prj_info = parse_prj_id(r.get('Project'))
+
+        r['officer_id'] = off_info['id']
+        r['officer_name'] = off_info['name']
+        r['officer_rank'] = off_info['rank']
+        r['officer_label'] = off_info['label']
+
+        r['staff_id'] = stf_info['id']
+        r['staff_name'] = stf_info['name']
+        r['staff_rank'] = stf_info['rank']
+        r['staff_label'] = stf_info['label']
+
+        r['project_id'] = prj_info['id']
+        r['project_name'] = prj_info['name']
+        r['project_label'] = prj_info['label']
 
         tat_days = 0
         age_days = 0
@@ -129,105 +190,155 @@ def calculate_analytics_from_records(records):
             else:
                 aging_buckets["15+ Days"] += 1
 
+    # Group by Officers
     officers_map = {}
     for r in records:
-        off = r.get('Concerned Officer') or 'Unassigned'
-        if off in ['', 'N/A', 'None']:
-            off = 'Unassigned'
-        if off not in officers_map:
-            officers_map[off] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0, 'staff': set()}
-        officers_map[off]['total'] += 1
+        off_label = r['officer_label']
+        if off_label not in officers_map:
+            officers_map[off_label] = {
+                'officer': off_label,
+                'pro_id': r['officer_id'],
+                'name': r['officer_name'],
+                'rank': r['officer_rank'],
+                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
+                'staff': set(),
+                'projects': set()
+            }
+        om = officers_map[off_label]
+        om['total'] += 1
         if r['status_group'] == 'Completed':
-            officers_map[off]['completed'] += 1
+            om['completed'] += 1
         elif r['status_group'] == 'In-Progress':
-            officers_map[off]['inprogress'] += 1
+            om['inprogress'] += 1
         elif r['status_group'] == 'Pending':
-            officers_map[off]['pending'] += 1
+            om['pending'] += 1
         else:
-            officers_map[off]['onhold'] += 1
+            om['onhold'] += 1
 
         if r['Priority'] in ['Critical', 'High']:
-            officers_map[off]['critical'] += 1
-        st = r.get('Concerned Staff', '')
-        if st and st not in ['', 'N/A', 'None']:
-            officers_map[off]['staff'].add(st)
+            om['critical'] += 1
+        
+        if r['staff_label'] not in ['N/A', '']:
+            om['staff'].add(r['staff_label'])
+        if r['project_label'] not in ['N/A', '']:
+            om['projects'].add(r['project_label'])
 
     officer_analytics = []
-    for off, data in sorted(officers_map.items(), key=lambda x: x[1]['total'], reverse=True):
+    for off_label, data in sorted(officers_map.items(), key=lambda x: x[1]['total'], reverse=True):
         officer_analytics.append({
-            'officer': off,
+            'officer': off_label,
+            'pro_id': data['pro_id'],
+            'name': data['name'],
+            'rank': data['rank'],
             'total': data['total'],
             'completed': data['completed'],
             'inprogress': data['inprogress'],
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
-            'staff': sorted(list(data['staff']))
+            'staff': sorted(list(data['staff'])),
+            'projects': sorted(list(data['projects']))
         })
 
+    # Group by Staff
     staff_map = {}
     for r in records:
-        st = r.get('Concerned Staff') or 'Unassigned'
-        if st in ['', 'N/A', 'None']:
-            st = 'Unassigned'
-        if st not in staff_map:
-            staff_map[st] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0}
-        staff_map[st]['total'] += 1
+        stf_label = r['staff_label']
+        if stf_label not in staff_map:
+            staff_map[stf_label] = {
+                'staff': stf_label,
+                'pro_id': r['staff_id'],
+                'name': r['staff_name'],
+                'rank': r['staff_rank'],
+                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0,
+                'officers': set(),
+                'projects': set()
+            }
+        sm = staff_map[stf_label]
+        sm['total'] += 1
         if r['status_group'] == 'Completed':
-            staff_map[st]['completed'] += 1
+            sm['completed'] += 1
         elif r['status_group'] == 'In-Progress':
-            staff_map[st]['inprogress'] += 1
+            sm['inprogress'] += 1
         elif r['status_group'] == 'Pending':
-            staff_map[st]['pending'] += 1
+            sm['pending'] += 1
         else:
-            staff_map[st]['onhold'] += 1
+            sm['onhold'] += 1
+
+        if r['officer_label'] not in ['N/A', '']:
+            sm['officers'].add(r['officer_label'])
+        if r['project_label'] not in ['N/A', '']:
+            sm['projects'].add(r['project_label'])
 
     staff_analytics = []
-    for st, data in sorted(staff_map.items(), key=lambda x: x[1]['total'], reverse=True):
+    for stf_label, data in sorted(staff_map.items(), key=lambda x: x[1]['total'], reverse=True):
         staff_analytics.append({
-            'staff': st,
-            'total': data['total'],
-            'completed': data['completed'],
-            'inprogress': data['inprogress'],
-            'pending': data['pending'],
-            'onhold': data['onhold']
-        })
-
-    projects_map = {}
-    for r in records:
-        p = r.get('Project') or 'Other / Misc'
-        if p in ['', 'N/A', 'None']:
-            p = 'Other / Misc'
-        if p not in projects_map:
-            projects_map[p] = {'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0}
-        projects_map[p]['total'] += 1
-        if r['status_group'] == 'Completed':
-            projects_map[p]['completed'] += 1
-        elif r['status_group'] == 'In-Progress':
-            projects_map[p]['inprogress'] += 1
-        elif r['status_group'] == 'Pending':
-            projects_map[p]['pending'] += 1
-        else:
-            projects_map[p]['onhold'] += 1
-        if r['Priority'] == 'Critical':
-            projects_map[p]['critical'] += 1
-
-    project_analytics = []
-    for p, data in sorted(projects_map.items(), key=lambda x: x[1]['total'], reverse=True):
-        project_analytics.append({
-            'project': p,
+            'staff': stf_label,
+            'pro_id': data['pro_id'],
+            'name': data['name'],
+            'rank': data['rank'],
             'total': data['total'],
             'completed': data['completed'],
             'inprogress': data['inprogress'],
             'pending': data['pending'],
             'onhold': data['onhold'],
-            'critical': data['critical']
+            'officers': sorted(list(data['officers'])),
+            'projects': sorted(list(data['projects']))
         })
 
+    # Group by Projects
+    projects_map = {}
+    for r in records:
+        prj_label = r['project_label']
+        if prj_label not in projects_map:
+            projects_map[prj_label] = {
+                'project': prj_label,
+                'prj_id': r['project_id'],
+                'name': r['project_name'],
+                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
+                'officers': set(),
+                'staff': set()
+            }
+        pm = projects_map[prj_label]
+        pm['total'] += 1
+        if r['status_group'] == 'Completed':
+            pm['completed'] += 1
+        elif r['status_group'] == 'In-Progress':
+            pm['inprogress'] += 1
+        elif r['status_group'] == 'Pending':
+            pm['pending'] += 1
+        else:
+            pm['onhold'] += 1
+
+        if r['Priority'] == 'Critical':
+            pm['critical'] += 1
+        
+        if r['officer_label'] not in ['N/A', '']:
+            pm['officers'].add(r['officer_label'])
+        if r['staff_label'] not in ['N/A', '']:
+            pm['staff'].add(r['staff_label'])
+
+    project_analytics = []
+    for prj_label, data in sorted(projects_map.items(), key=lambda x: x[1]['total'], reverse=True):
+        project_analytics.append({
+            'project': prj_label,
+            'prj_id': data['prj_id'],
+            'name': data['name'],
+            'total': data['total'],
+            'completed': data['completed'],
+            'inprogress': data['inprogress'],
+            'pending': data['pending'],
+            'onhold': data['onhold'],
+            'critical': data['critical'],
+            'officers': sorted(list(data['officers'])),
+            'staff': sorted(list(data['staff']))
+        })
+
+    # Channels
     channels_map = {}
     for r in records:
-        ch = r.get('Received Through') or 'Other'
-        if ch in ['', 'N/A', 'None']:
+        ch = clean_text(r.get('Received Through'))
+        if ch == 'N/A':
             ch = 'Other'
         channels_map[ch] = channels_map.get(ch, 0) + 1
 
@@ -319,7 +430,7 @@ def fetch_google_sheet_data():
                     h = headers[c - 1]
                     val = ws.cell(r, c).value
                     if isinstance(val, (datetime, date)):
-                        row_dict[h] = val.strftime("%Y-%m-%d")
+                        row_dict[h] = val.strftime("%d/%m/%Y")
                         has_data = True
                     elif val is not None:
                         val_str = str(val).strip()
@@ -375,6 +486,7 @@ def start_server():
         print(f" AP Police TS Correspondence Executive Analytics Dashboard Server ")
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
+        print(f" Pro-ID & Project-ID Parsing Active")
         print(f"================================================================")
         httpd.serve_forever()
 

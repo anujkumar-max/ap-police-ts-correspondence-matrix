@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-900">
+<html lang="en" class="h-full bg-slate-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP Police TS - Executive Correspondence Analytics Dashboard</title>
+    <title>AP Police TS - Executive Correspondence & Workload Analytics</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -80,53 +80,53 @@
 
     <!-- TOP EXECUTIVE HEADER BAR -->
     <header class="sticky top-0 z-40 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 border-b border-blue-900/60 shadow-xl backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
             
             <!-- AP Police Brand & Title -->
             <div class="flex items-center space-x-3.5">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
                     <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                        <i data-lucide="shield-alert" class="w-6 h-6 text-amber-400"></i>
+                        <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
                     </div>
                 </div>
                 <div>
                     <div class="flex items-center space-x-2">
-                        <span class="text-xs font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
-                        <span id="sync-status-badge" class="flex items-center text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
+                        <span class="text-[10px] font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
+                        <span id="sync-status-badge" class="flex items-center text-[10px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
                             <span>Google Sheets Live Sync</span>
                         </span>
                     </div>
-                    <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                    <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white flex items-center gap-2 mt-0.5">
                         PCS&S Correspondence & Tappals Matrix
-                        <span class="text-xs font-normal text-slate-400 hidden md:inline">| Executive Analytics</span>
+                        <span class="text-xs font-normal text-slate-400 hidden md:inline">| Executive Command Dashboard</span>
                     </h1>
                 </div>
             </div>
 
             <!-- Header Quick Actions & Live Info -->
-            <div class="flex items-center flex-wrap gap-2.5 no-print">
+            <div class="flex items-center flex-wrap gap-2 no-print">
                 <div class="text-right hidden sm:block mr-2">
-                    <div class="text-[11px] text-slate-400">Source: <span class="text-emerald-400 font-semibold flex items-center gap-1 inline-flex"><i data-lucide="cloud" class="w-3 h-3"></i> Google Sheets</span></div>
-                    <div class="text-[11px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
+                    <div class="text-[10.5px] text-slate-400">Source: <span class="text-emerald-400 font-semibold inline-flex items-center gap-1"><i data-lucide="cloud" class="w-3 h-3"></i> Google Sheets</span></div>
+                    <div class="text-[10.5px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
 
-                <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-3 py-2 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                     <span>Open Sheet ↗</span>
                 </a>
 
-                <button onclick="fetchGoogleSheetData(true)" title="Force sync now" class="px-3 py-2 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <button onclick="fetchGoogleSheetData(true)" title="Force sync now" class="px-2.5 py-1.5 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-                    <span>Sync Now</span>
+                    <span>Sync</span>
                 </button>
 
-                <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                    <span>Export CSV</span>
+                    <span>Export</span>
                 </button>
 
-                <button onclick="window.print()" title="Print Executive Brief" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm">
+                <button onclick="window.print()" title="Print Executive Brief" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                     <span>Print</span>
                 </button>
@@ -146,91 +146,91 @@
     </div>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow space-y-5">
 
         <!-- EXECUTIVE KPI CARDS (7 Categorized KPI Cards) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             
             <!-- Total Inflow -->
-            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
+            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Total Files</span>
+                    <span>Total Inflow</span>
                     <i data-lucide="inbox" class="w-3.5 h-3.5 text-blue-400"></i>
                 </div>
                 <div class="text-2xl font-black text-white" id="kpi-total">--</div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
-                    <span class="text-blue-400 font-semibold">100%</span> total
+                <div class="text-[10px] text-slate-400 mt-1">
+                    <span class="text-blue-400 font-semibold">100%</span> total intake
                 </div>
             </div>
 
             <!-- Pending -->
-            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
+            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Pending</span>
+                    <span>Pending Action</span>
                     <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
                 <div class="text-2xl font-black text-amber-400" id="kpi-pending">--</div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
-                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> of total
+                <div class="text-[10px] text-slate-400 mt-1">
+                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> awaiting decision
                 </div>
             </div>
 
             <!-- In Progress -->
-            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
+            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span>In-Progress</span>
                     <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
                 </div>
                 <div class="text-2xl font-black text-indigo-400" id="kpi-inprogress">--</div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
-                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> of total
+                <div class="text-[10px] text-slate-400 mt-1">
+                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> under drafting
                 </div>
             </div>
 
             <!-- Completed -->
-            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
+            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span>Completed</span>
                     <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
                 </div>
                 <div class="text-2xl font-black text-emerald-400" id="kpi-completed">--</div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
-                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> resolved
+                <div class="text-[10px] text-slate-400 mt-1">
+                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> dispatched
                 </div>
             </div>
 
             <!-- On Hold / Closed / NA -->
-            <div onclick="filterByStatusGroup('On Hold / Closed')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-slate-500/60 hover:shadow-lg hover:shadow-slate-800/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-slate-400">
+            <div onclick="filterByStatusGroup('On Hold / Closed')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-slate-500/60 hover:shadow-lg hover:shadow-slate-800/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-slate-400">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>On Hold / N/A</span>
+                    <span>Hold / Closed / NA</span>
                     <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-slate-400"></i>
                 </div>
                 <div class="text-2xl font-black text-slate-300" id="kpi-onhold">--</div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
-                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> closed/hold
+                <div class="text-[10px] text-slate-400 mt-1">
+                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> archived / hold
                 </div>
             </div>
 
             <!-- Critical Priority -->
-            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-3.5 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
+            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span>Critical Alert</span>
                     <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
                 </div>
                 <div class="text-2xl font-black text-rose-400" id="kpi-critical">--</div>
-                <div class="text-[10.5px] text-rose-300/80 mt-1 font-semibold">
+                <div class="text-[10px] text-rose-300/80 mt-1 font-semibold">
                     <span>Urgent Action</span>
                 </div>
             </div>
 
             <!-- Average Turnaround Days -->
-            <div class="glass-card rounded-xl p-3.5 border-l-4 border-l-cyan-500">
+            <div class="glass-card rounded-xl p-3 border-l-4 border-l-cyan-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span>Avg Turnaround</span>
                     <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
                 </div>
                 <div class="text-2xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-xs font-normal text-slate-400">d</span></div>
-                <div class="text-[10.5px] text-slate-400 mt-1">
+                <div class="text-[10px] text-slate-400 mt-1">
                     Receipt to Dispatch
                 </div>
             </div>
@@ -238,20 +238,20 @@
 
         <!-- NAVIGATION TABS -->
         <div class="flex items-center justify-between border-b border-slate-800 pb-2 no-print">
-            <div class="flex space-x-2 sm:space-x-4">
-                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-4 py-2 text-sm font-bold rounded-lg bg-blue-600 text-white flex items-center gap-2 shadow transition">
+            <div class="flex space-x-2 sm:space-x-3 overflow-x-auto pb-1">
+                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg bg-blue-600 text-white flex items-center gap-2 shadow transition whitespace-nowrap">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     <span>Executive Analytics</span>
                 </button>
-                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Officers & Staff</span>
+                    <span>Officers & Staff (PRO-IDs)</span>
                 </button>
-                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="folder-kanban" class="w-4 h-4"></i>
-                    <span>Projects Deep-Dive</span>
+                    <span>Projects Deep-Dive (PRJ-IDs)</span>
                 </button>
-                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition">
+                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="table-2" class="w-4 h-4"></i>
                     <span>Live Records Explorer</span>
                     <span id="tab-records-badge" class="px-1.5 py-0.5 text-xs rounded bg-blue-900/60 text-blue-300 font-mono">--</span>
@@ -260,19 +260,19 @@
         </div>
 
         <!-- ================= TAB 1: EXECUTIVE ANALYTICS ================= -->
-        <div id="tab-overview" class="tab-content space-y-6">
+        <div id="tab-overview" class="tab-content space-y-5">
 
             <!-- ROW 1 CHARTS: Officer Workload & Project Distribution -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
                 
-                <div class="lg:col-span-7 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-4">
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3">
                         <div>
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
                                 <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
-                                Officer Workload by Stage Category
+                                Officer Workload by Stage Category (PRO-IDs)
                             </h2>
-                            <p class="text-xs text-slate-400">Completed vs In-Progress vs Pending vs On Hold/Closed</p>
+                            <p class="text-[11px] text-slate-400">Completed vs In-Progress vs Pending vs Hold/NA</p>
                         </div>
                         <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">By Officer</span>
                     </div>
@@ -281,14 +281,14 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-4">
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3">
                         <div>
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
                                 <i data-lucide="cpu" class="w-4 h-4 text-blue-400"></i>
-                                Top Technical Projects
+                                Technical Projects Distribution (PRJ-IDs)
                             </h2>
-                            <p class="text-xs text-slate-400">Volume of correspondence per project</p>
+                            <p class="text-[11px] text-slate-400">Volume of correspondence per project</p>
                         </div>
                         <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">Top Domains</span>
                     </div>
@@ -299,46 +299,46 @@
             </div>
 
             <!-- ROW 2 CHARTS: Inbound Channels, Aging Radar, Critical Alert Panel -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 
-                <div class="glass-card rounded-2xl p-5 border border-slate-800">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                             <i data-lucide="network" class="w-4 h-4 text-indigo-400"></i>
                             Receipt Channels Mix
                         </h2>
-                        <span class="text-xs text-slate-400">Channel %</span>
+                        <span class="text-[11px] text-slate-400">Channel %</span>
                     </div>
                     <div class="relative h-56 w-full flex items-center justify-center">
                         <canvas id="chart-channels"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-2xl p-5 border border-slate-800">
-                    <div class="flex items-center justify-between mb-4">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
+                    <div class="flex items-center justify-between mb-3">
                         <div>
-                            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                                 <i data-lucide="hourglass" class="w-4 h-4 text-amber-400"></i>
-                                Correspondence Aging (Open Items)
+                                Correspondence Aging (Open Files)
                             </h2>
-                            <p class="text-[11px] text-slate-400">Days pending resolution (Standard DD/MM/YYYY)</p>
+                            <p class="text-[10.5px] text-slate-400">Days pending resolution (Standard DD/MM/YYYY)</p>
                         </div>
-                        <span class="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">SLA Radar</span>
+                        <span class="text-[10px] text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">SLA Radar</span>
                     </div>
                     <div class="relative h-56 w-full">
                         <canvas id="chart-aging"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                        <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                             <i data-lucide="flame" class="w-4 h-4 text-rose-500"></i>
-                            High & Critical Priority Files
+                            Critical & High Priority Files
                         </h2>
-                        <span id="critical-badge-count" class="text-xs font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">-- Items</span>
+                        <span id="critical-badge-count" class="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">-- Items</span>
                     </div>
-                    <div id="critical-items-list" class="space-y-2.5 overflow-y-auto max-h-56 pr-1">
+                    <div id="critical-items-list" class="space-y-2 overflow-y-auto max-h-56 pr-1">
                         <!-- Populated dynamically -->
                     </div>
                 </div>
@@ -347,37 +347,41 @@
         </div>
 
         <!-- ================= TAB 2: OFFICERS & STAFF ================= -->
-        <div id="tab-officers" class="tab-content hidden space-y-6">
+        <div id="tab-officers" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
-                        Officer Workload & Staff Assignment Matrix
+                        Officer Leadership & Technical Staff Matrix
                     </h2>
-                    <p class="text-xs text-slate-400">Track task volume, completion rates, and allocated technical staff for each officer</p>
+                    <p class="text-xs text-slate-400">Track task volume, completion rates, allocated staff (HC/PC), and managed projects by PRO-ID</p>
                 </div>
             </div>
 
+            <!-- Officer Cards Grid -->
             <div id="officer-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated dynamically -->
             </div>
 
-            <div class="glass-card rounded-2xl p-5 border border-slate-800">
+            <!-- Staff Allocation & Workload Summary Table -->
+            <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
                 <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="user-cog" class="w-4 h-4 text-blue-400"></i>
-                    Staff Allocation & Workload Summary
+                    Staff Allocation & Workload Summary (PRO-IDs)
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-[11px] font-semibold border-b border-slate-800">
+                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10.5px] font-semibold border-b border-slate-800">
                             <tr>
-                                <th class="py-3 px-4">Concerned Staff Member</th>
-                                <th class="py-3 px-4 text-center">Total Tasks</th>
-                                <th class="py-3 px-4 text-center text-amber-400">Pending</th>
-                                <th class="py-3 px-4 text-center text-indigo-400">In-Progress</th>
-                                <th class="py-3 px-4 text-center text-emerald-400">Completed</th>
-                                <th class="py-3 px-4 text-center text-slate-400">On Hold/NA</th>
-                                <th class="py-3 px-4">Completion %</th>
+                                <th class="py-3 px-3">Staff Pro-ID & Name</th>
+                                <th class="py-3 px-3">Assisting Officers</th>
+                                <th class="py-3 px-3">Active Projects</th>
+                                <th class="py-3 px-2.5 text-center">Total</th>
+                                <th class="py-3 px-2.5 text-center text-amber-400">Pending</th>
+                                <th class="py-3 px-2.5 text-center text-indigo-400">In-Prog</th>
+                                <th class="py-3 px-2.5 text-center text-emerald-400">Done</th>
+                                <th class="py-3 px-2.5 text-center text-slate-400">Hold/NA</th>
+                                <th class="py-3 px-3">Progress</th>
                             </tr>
                         </thead>
                         <tbody id="staff-summary-tbody" class="divide-y divide-slate-800/60">
@@ -389,17 +393,18 @@
         </div>
 
         <!-- ================= TAB 3: PROJECTS DEEP-DIVE ================= -->
-        <div id="tab-projects" class="tab-content hidden space-y-6">
+        <div id="tab-projects" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         <i data-lucide="layers" class="w-5 h-5 text-blue-400"></i>
-                        Technical Projects Portfolio
+                        Technical Projects Portfolio (PRJ-IDs)
                     </h2>
-                    <p class="text-xs text-slate-400">Overview of correspondence volume and progress across all technical domains</p>
+                    <p class="text-xs text-slate-400">Standardized project breakdown with assigned lead officers, support staff, and resolution progress</p>
                 </div>
             </div>
 
+            <!-- Project Cards Grid -->
             <div id="project-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated dynamically -->
             </div>
@@ -409,66 +414,66 @@
         <div id="tab-explorer" class="tab-content hidden space-y-4">
             
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
                     
                     <div class="lg:col-span-2 relative">
-                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Officer, Dept, Project, Stage..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID (e.g. 136, PRJ-023, CI, HC, CCTNS, Subject)..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
                     <div>
                         <select id="filter-officer" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
-                            <option value="">All Officers</option>
+                            <option value="">All Officers (PRO-IDs)</option>
                         </select>
                     </div>
 
                     <div>
                         <select id="filter-project" onchange="applyFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
-                            <option value="">All Projects</option>
+                            <option value="">All Projects (PRJ-IDs)</option>
                         </select>
                     </div>
 
                     <div class="flex gap-2">
-                        <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                        <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Priorities</option>
-                            <option value="Critical">Critical</option>
-                            <option value="High">High</option>
-                            <option value="Normal">Normal</option>
+                            <option value="Critical">🔴 Critical</option>
+                            <option value="High">🟡 High</option>
+                            <option value="Normal">⚪ Normal</option>
                         </select>
-                        <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2.5 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
+                        <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Statuses</option>
-                            <option value="Pending">🟡 Pending</option>
+                            <option value="Pending">🟡 Pending Action</option>
                             <option value="In-Progress">🔵 In-Progress</option>
-                            <option value="Completed">🟢 Completed / Dispatched</option>
-                            <option value="On Hold / Closed">⚪ On Hold / Closed / N/A</option>
+                            <option value="Completed">🟢 Completed</option>
+                            <option value="On Hold / Closed">⚪ Hold / Closed / NA</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between text-xs text-slate-400 pt-1 border-t border-slate-800/80">
                     <div class="flex items-center gap-2">
-                        <span>Showing <span id="filtered-count" class="text-white font-bold">--</span> of <span id="total-count" class="text-white font-bold">--</span> records</span>
+                        <span>Showing <span id="filtered-count" class="text-white font-bold">--</span> of <span id="total-count" class="text-white font-bold">--</span> correspondence records</span>
                         <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
                     </div>
-                    <div class="text-[11px] text-slate-500">Click on any row to view complete file details</div>
+                    <div class="text-[11px] text-slate-500">Click any row to open full file record & history</div>
                 </div>
             </div>
 
             <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
                 <div class="overflow-x-auto max-h-[600px]">
                     <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10.5px] font-bold tracking-wider border-b border-slate-800">
+                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
                             <tr>
-                                <th class="py-3 px-3.5">ID</th>
-                                <th class="py-3 px-3">Received</th>
-                                <th class="py-3 px-3">Channel</th>
-                                <th class="py-3 px-3">Project</th>
+                                <th class="py-3 px-3">ID</th>
+                                <th class="py-3 px-2.5">Received</th>
+                                <th class="py-3 px-2.5">Channel</th>
+                                <th class="py-3 px-3">Project (PRJ-ID)</th>
                                 <th class="py-3 px-4">Subject / Work Description</th>
-                                <th class="py-3 px-3">Concerned Officer</th>
-                                <th class="py-3 px-3">Staff</th>
-                                <th class="py-3 px-3 text-center">Stage</th>
-                                <th class="py-3 px-3 text-center">Priority</th>
-                                <th class="py-3 px-3 text-right">TAT / Age</th>
+                                <th class="py-3 px-3">Officer (PRO-ID)</th>
+                                <th class="py-3 px-3">Staff (PRO-ID)</th>
+                                <th class="py-3 px-2.5 text-center">Stage</th>
+                                <th class="py-3 px-2 text-center">Priority</th>
+                                <th class="py-3 px-2.5 text-right">TAT / Age</th>
                             </tr>
                         </thead>
                         <tbody id="correspondence-tbody" class="divide-y divide-slate-800/70 hover:divide-slate-700/60">
@@ -487,7 +492,7 @@
             <div class="flex items-start justify-between border-b border-slate-800 pb-3">
                 <div>
                     <span id="modal-id" class="text-xs font-mono font-bold bg-blue-900/60 text-blue-300 px-2.5 py-1 rounded">--</span>
-                    <h3 id="modal-project" class="text-lg font-bold text-white mt-1.5">--</h3>
+                    <h3 id="modal-project" class="text-base sm:text-lg font-bold text-white mt-1.5 flex items-center gap-2">--</h3>
                 </div>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -496,61 +501,61 @@
 
             <div class="space-y-3">
                 <div>
-                    <label class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Subject / Work Description</label>
-                    <p id="modal-subject" class="text-sm text-slate-100 bg-slate-900/90 p-3 rounded-xl border border-slate-800 mt-1 leading-relaxed">--</p>
+                    <label class="text-[10.5px] uppercase tracking-wider text-slate-400 font-semibold">Subject / Work Description</label>
+                    <p id="modal-subject" class="text-xs sm:text-sm text-slate-100 bg-slate-900/90 p-3 rounded-xl border border-slate-800 mt-1 leading-relaxed">--</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Concerned Officer:</span>
-                        <span id="modal-officer" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Concerned Officer:</span>
+                        <span id="modal-officer" class="text-white font-semibold flex items-center gap-1 mt-0.5">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Concerned Staff:</span>
-                        <span id="modal-staff" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Concerned Staff:</span>
+                        <span id="modal-staff" class="text-white font-semibold flex items-center gap-1 mt-0.5">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Received Through & Date:</span>
-                        <span id="modal-recv" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Received Through & Date:</span>
+                        <span id="modal-recv" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">From Dept / Officer:</span>
-                        <span id="modal-from" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">From Dept / Officer:</span>
+                        <span id="modal-from" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Nature of Request:</span>
-                        <span id="modal-nature" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Nature of Request:</span>
+                        <span id="modal-nature" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Final Decision:</span>
-                        <span id="modal-decision" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Final Decision:</span>
+                        <span id="modal-decision" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Current Stage:</span>
-                        <span id="modal-stage" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Current Stage & Status:</span>
+                        <span id="modal-stage" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Priority:</span>
-                        <span id="modal-priority" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Priority Level:</span>
+                        <span id="modal-priority" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Dispatched / Closure Date:</span>
-                        <span id="modal-dispatch" class="text-white font-semibold">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Dispatched / Closure Date:</span>
+                        <span id="modal-dispatch" class="text-white font-semibold mt-0.5 block">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Turnaround / Aging (Days):</span>
-                        <span id="modal-tat" class="text-cyan-400 font-bold font-mono">--</span>
+                        <span class="text-slate-400 block text-[10.5px]">Turnaround / Aging:</span>
+                        <span id="modal-tat" class="text-cyan-400 font-bold font-mono mt-0.5 block">--</span>
                     </div>
                 </div>
 
                 <div id="modal-remarks-container" class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                    <span class="text-slate-400 block text-[11px]">Remarks:</span>
-                    <span id="modal-remarks" class="text-slate-300">None</span>
+                    <span class="text-slate-400 block text-[10.5px]">Remarks / Action Items:</span>
+                    <span id="modal-remarks" class="text-slate-300 text-xs">None</span>
                 </div>
             </div>
 
             <div class="flex justify-end pt-2 border-t border-slate-800">
-                <button onclick="closeModal()" class="px-4 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
+                <button onclick="closeModal()" class="px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
             </div>
         </div>
     </div>
@@ -559,7 +564,7 @@
     <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>Andhra Pradesh Police • Police Computer Services & Standardization (PCS&S)</span>
-            <span>Real-Time Cloud Correspondence System • Connected to Google Sheets</span>
+            <span>Real-Time Cloud Correspondence Analytics • Connected to Google Sheets</span>
         </div>
     </footer>
 
@@ -574,6 +579,47 @@
         let chartProjects = null;
         let chartChannels = null;
         let chartAging = null;
+
+        // Clean text helper
+        function cleanText(val) {
+            if (val === undefined || val === null) return 'N/A';
+            let s = String(val).trim();
+            if (!s || s.toLowerCase() === 'n/a' || s.toLowerCase() === 'none' || s.toLowerCase() === 'null') return 'N/A';
+            return s.replace(/\ufffd/g, '-').replace(/\u2013/g, '-').replace(/\u2014/g, '-');
+        }
+
+        // Parse Pro-ID (PRO-xxx - Name (Rank))
+        function parseProId(val) {
+            const cleaned = cleanText(val);
+            if (cleaned === 'N/A' || cleaned === 'ALL') {
+                return { id: cleaned, name: cleaned, rank: '', label: cleaned };
+            }
+            const match = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$/);
+            if (match) {
+                const proId = match[1].trim();
+                const name = match[2].trim();
+                const rank = (match[3] || '').trim();
+                const label = `${proId} - ${name}` + (rank ? ` (${rank})` : '');
+                return { id: proId, name: name, rank: rank, label: label };
+            }
+            return { id: 'PRO-GEN', name: cleaned, rank: '', label: cleaned };
+        }
+
+        // Parse Project ID (PRJ-xxx - Project Name)
+        function parsePrjId(val) {
+            const cleaned = cleanText(val);
+            if (cleaned === 'N/A' || cleaned === 'Miscellaneous') {
+                return { id: 'MISC', name: cleaned, label: cleaned };
+            }
+            const match = cleaned.match(/^(PRJ-\d+)\s*[-:]\s*(.+)$/);
+            if (match) {
+                const prjId = match[1].trim();
+                const name = match[2].trim();
+                const label = `${prjId} - ${name}`;
+                return { id: prjId, name: name, label: label };
+            }
+            return { id: 'PRJ-MISC', name: cleaned, label: cleaned };
+        }
 
         // Accurate Indian Standard Date Parser (DD/MM/YYYY)
         function parseIndianDate(dateStr) {
@@ -668,7 +714,7 @@
             }
         }
 
-        // Direct Browser Fetch from Google Sheets
+        // Direct Browser Fetch from Google Sheets CSV
         function fetchDirectFromGoogle() {
             return new Promise((resolve) => {
                 Papa.parse(GOOGLE_CSV_URL, {
@@ -711,6 +757,24 @@
 
                                 const stageRaw = rowDict['Current Stage'] || '';
                                 rowDict['status_group'] = categorizeStage(stageRaw);
+
+                                const offInfo = parseProId(rowDict['Concerned Officer']);
+                                const stfInfo = parseProId(rowDict['Concerned Staff']);
+                                const prjInfo = parsePrjId(rowDict['Project']);
+
+                                rowDict['officer_id'] = offInfo.id;
+                                rowDict['officer_name'] = offInfo.name;
+                                rowDict['officer_rank'] = offInfo.rank;
+                                rowDict['officer_label'] = offInfo.label;
+
+                                rowDict['staff_id'] = stfInfo.id;
+                                rowDict['staff_name'] = stfInfo.name;
+                                rowDict['staff_rank'] = stfInfo.rank;
+                                rowDict['staff_label'] = stfInfo.label;
+
+                                rowDict['project_id'] = prjInfo.id;
+                                rowDict['project_name'] = prjInfo.name;
+                                rowDict['project_label'] = prjInfo.label;
 
                                 let tatDays = 0;
                                 let ageDays = 0;
@@ -777,8 +841,18 @@
 
                         const offMap = {};
                         records.forEach(r => {
-                            const off = r['Concerned Officer'] || 'Unassigned';
-                            if (!offMap[off]) offMap[off] = { officer: off, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0, staff: new Set() };
+                            const off = r.officer_label;
+                            if (!offMap[off]) {
+                                offMap[off] = {
+                                    officer: off,
+                                    pro_id: r.officer_id,
+                                    name: r.officer_name,
+                                    rank: r.officer_rank,
+                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
+                                    staff: new Set(),
+                                    projects: new Set()
+                                };
+                            }
                             offMap[off].total++;
                             if (r.status_group === 'Completed') offMap[off].completed++;
                             else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
@@ -786,26 +860,57 @@
                             else offMap[off].onhold++;
 
                             if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
-                            if (r['Concerned Staff']) offMap[off].staff.add(r['Concerned Staff']);
+                            if (r.staff_label !== 'N/A') offMap[off].staff.add(r.staff_label);
+                            if (r.project_label !== 'N/A') offMap[off].projects.add(r.project_label);
                         });
-                        const officerAnalytics = Object.values(offMap).map(o => ({ ...o, staff: Array.from(o.staff) })).sort((a, b) => b.total - a.total);
+                        const officerAnalytics = Object.values(offMap).map(o => ({
+                            ...o,
+                            staff: Array.from(o.staff).sort(),
+                            projects: Array.from(o.projects).sort()
+                        })).sort((a, b) => b.total - a.total);
 
                         const stMap = {};
                         records.forEach(r => {
-                            const st = r['Concerned Staff'] || 'Unassigned';
-                            if (!stMap[st]) stMap[st] = { staff: st, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0 };
+                            const st = r.staff_label;
+                            if (!stMap[st]) {
+                                stMap[st] = {
+                                    staff: st,
+                                    pro_id: r.staff_id,
+                                    name: r.staff_name,
+                                    rank: r.staff_rank,
+                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0,
+                                    officers: new Set(),
+                                    projects: new Set()
+                                };
+                            }
                             stMap[st].total++;
                             if (r.status_group === 'Completed') stMap[st].completed++;
                             else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
                             else if (r.status_group === 'Pending') stMap[st].pending++;
                             else stMap[st].onhold++;
+
+                            if (r.officer_label !== 'N/A') stMap[st].officers.add(r.officer_label);
+                            if (r.project_label !== 'N/A') stMap[st].projects.add(r.project_label);
                         });
-                        const staffAnalytics = Object.values(stMap).sort((a, b) => b.total - a.total);
+                        const staffAnalytics = Object.values(stMap).map(s => ({
+                            ...s,
+                            officers: Array.from(s.officers).sort(),
+                            projects: Array.from(s.projects).sort()
+                        })).sort((a, b) => b.total - a.total);
 
                         const pMap = {};
                         records.forEach(r => {
-                            const p = r['Project'] || 'Other / Misc';
-                            if (!pMap[p]) pMap[p] = { project: p, total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0 };
+                            const p = r.project_label;
+                            if (!pMap[p]) {
+                                pMap[p] = {
+                                    project: p,
+                                    prj_id: r.project_id,
+                                    name: r.project_name,
+                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
+                                    officers: new Set(),
+                                    staff: new Set()
+                                };
+                            }
                             pMap[p].total++;
                             if (r.status_group === 'Completed') pMap[p].completed++;
                             else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
@@ -813,12 +918,18 @@
                             else pMap[p].onhold++;
 
                             if (r.Priority === 'Critical') pMap[p].critical++;
+                            if (r.officer_label !== 'N/A') pMap[p].officers.add(r.officer_label);
+                            if (r.staff_label !== 'N/A') pMap[p].staff.add(r.staff_label);
                         });
-                        const projectAnalytics = Object.values(pMap).sort((a, b) => b.total - a.total);
+                        const projectAnalytics = Object.values(pMap).map(p => ({
+                            ...p,
+                            officers: Array.from(p.officers).sort(),
+                            staff: Array.from(p.staff).sort()
+                        })).sort((a, b) => b.total - a.total);
 
                         const chMap = {};
                         records.forEach(r => {
-                            const ch = r['Received Through'] || 'Other';
+                            const ch = cleanText(r['Received Through']) === 'N/A' ? 'Other' : cleanText(r['Received Through']);
                             chMap[ch] = (chMap[ch] || 0) + 1;
                         });
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
@@ -849,6 +960,54 @@
                     }
                 });
             });
+        }
+
+        // Badge Render Helpers
+        function renderOfficerBadge(label) {
+            if (!label || label === 'N/A' || label === 'Unassigned') {
+                return `<span class="text-slate-500 italic text-[11px]">Unassigned</span>`;
+            }
+            const info = parseProId(label);
+            if (info.id.startsWith('PRO-')) {
+                return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-amber-500/30 text-[11px]">
+                    <span class="font-mono font-bold text-amber-400 text-[10px]">${info.id}</span>
+                    <span class="text-slate-200 font-semibold">${info.name}</span>
+                    ${info.rank ? `<span class="text-blue-400 font-mono text-[9.5px]">(${info.rank})</span>` : ''}
+                </span>`;
+            }
+            return `<span class="text-slate-200 text-xs font-medium">${label}</span>`;
+        }
+
+        function renderStaffBadge(label) {
+            if (!label || label === 'N/A' || label === '—') {
+                return `<span class="text-slate-500 text-[11px]">—</span>`;
+            }
+            if (label === 'ALL') {
+                return `<span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">ALL STAFF</span>`;
+            }
+            const info = parseProId(label);
+            if (info.id.startsWith('PRO-')) {
+                return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-blue-500/30 text-[11px]">
+                    <span class="font-mono font-bold text-blue-400 text-[10px]">${info.id}</span>
+                    <span class="text-slate-300">${info.name}</span>
+                    ${info.rank ? `<span class="text-slate-400 font-mono text-[9.5px]">(${info.rank})</span>` : ''}
+                </span>`;
+            }
+            return `<span class="text-slate-300 text-xs">${label}</span>`;
+        }
+
+        function renderProjectBadge(label) {
+            if (!label || label === 'N/A') {
+                return `<span class="text-slate-500 italic text-[11px]">Misc</span>`;
+            }
+            const info = parsePrjId(label);
+            if (info.id.startsWith('PRJ-')) {
+                return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-cyan-500/30 text-[11px]">
+                    <span class="font-mono font-bold text-cyan-400 text-[10px]">${info.id}</span>
+                    <span class="text-white font-medium truncate max-w-[140px]" title="${info.name}">${info.name}</span>
+                </span>`;
+            }
+            return `<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10.5px] font-medium">${label}</span>`;
         }
 
         // Render All Dashboard Components
@@ -888,7 +1047,7 @@
             const ctxOff = document.getElementById('chart-officers').getContext('2d');
             if (chartOfficers) chartOfficers.destroy();
 
-            const officers = rawData.officers.slice(0, 7);
+            const officers = rawData.officers.slice(0, 8);
             chartOfficers = new Chart(ctxOff, {
                 type: 'bar',
                 data: {
@@ -897,7 +1056,7 @@
                         { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#10b981', borderRadius: 3 },
                         { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 3 },
                         { label: 'Pending', data: officers.map(o => o.pending), backgroundColor: '#f59e0b', borderRadius: 3 },
-                        { label: 'On Hold / Closed / NA', data: officers.map(o => o.onhold || 0), backgroundColor: '#64748b', borderRadius: 3 }
+                        { label: 'Hold / Closed / NA', data: officers.map(o => o.onhold || 0), backgroundColor: '#64748b', borderRadius: 3 }
                     ]
                 },
                 options: {
@@ -906,7 +1065,7 @@
                     maintainAspectRatio: false,
                     scales: {
                         x: { stacked: true, grid: { color: '#1e293b' } },
-                        y: { stacked: true, grid: { display: false } }
+                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 10.5 } } }
                     },
                     plugins: {
                         legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10.5 } } },
@@ -918,14 +1077,14 @@
             const ctxProj = document.getElementById('chart-projects').getContext('2d');
             if (chartProjects) chartProjects.destroy();
 
-            const topProjects = rawData.projects.slice(0, 6);
+            const topProjects = rawData.projects.slice(0, 7);
             chartProjects = new Chart(ctxProj, {
                 type: 'doughnut',
                 data: {
                     labels: topProjects.map(p => p.project),
                     datasets: [{
                         data: topProjects.map(p => p.total),
-                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'],
+                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#64748b'],
                         borderWidth: 2,
                         borderColor: '#0f172a'
                     }]
@@ -934,9 +1093,9 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } }
+                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10.5 } } }
                     },
-                    cutout: '65%'
+                    cutout: '62%'
                 }
             });
 
@@ -974,7 +1133,7 @@
                 data: {
                     labels: ageLabels,
                     datasets: [{
-                        label: 'Active Files',
+                        label: 'Open Files',
                         data: ageVals,
                         backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
                         borderRadius: 6
@@ -1009,13 +1168,13 @@
                 <div onclick="openModal('${r.ID}')" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-${r.Priority === 'Critical' ? 'rose-500/40' : 'amber-500/40'} cursor-pointer transition flex items-start justify-between gap-2">
                     <div>
                         <div class="flex items-center gap-1.5">
-                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-${r.Priority === 'Critical' ? 'rose-500/20 text-rose-300' : 'amber-500/20 text-amber-300'}">${r.Priority}</span>
-                            <span class="text-xs font-bold text-white">${r.ID}</span>
-                            <span class="text-[11px] text-blue-400 font-medium">• ${r.Project || 'Misc'}</span>
+                            <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded bg-${r.Priority === 'Critical' ? 'rose-500/20 text-rose-300' : 'amber-500/20 text-amber-300'}">${r.Priority}</span>
+                            <span class="text-xs font-bold text-white font-mono">${r.ID}</span>
+                            <span class="text-[10.5px] text-cyan-400 font-medium">• ${r.project_label || 'Misc'}</span>
                         </div>
-                        <p class="text-[11.5px] text-slate-300 mt-1 line-clamp-1">${r['Subject / Work Description'] || 'No description'}</p>
+                        <p class="text-[11px] text-slate-300 mt-1 line-clamp-1">${r['Subject / Work Description'] || 'No description'}</p>
                     </div>
-                    <div class="text-right text-[10.5px] text-slate-400 whitespace-nowrap">
+                    <div class="text-right text-[10px] text-slate-400 whitespace-nowrap">
                         <span class="text-amber-400 font-medium">${r['Current Stage'] || 'Pending'}</span>
                     </div>
                 </div>
@@ -1029,12 +1188,12 @@
             const currentOff = officerSel.value;
             const currentProj = projectSel.value;
 
-            officerSel.innerHTML = '<option value="">All Officers</option>';
+            officerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
             rawData.officers.forEach(o => {
                 officerSel.innerHTML += `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
             });
 
-            projectSel.innerHTML = '<option value="">All Projects</option>';
+            projectSel.innerHTML = '<option value="">All Projects (PRJ-IDs)</option>';
             rawData.projects.forEach(p => {
                 projectSel.innerHTML += `<option value="${p.project}">${p.project} (${p.total})</option>`;
             });
@@ -1048,31 +1207,35 @@
             grid.innerHTML = rawData.officers.map(o => {
                 const pct = o.total > 0 ? Math.round((o.completed / o.total) * 100) : 0;
                 return `
-                    <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-4">
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-3.5">
                         <div class="flex items-start justify-between">
                             <div>
-                                <h3 class="text-base font-bold text-white">${o.officer}</h3>
-                                <p class="text-xs text-slate-400">${o.total} Assigned Tasks</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">${o.pro_id}</span>
+                                    ${o.rank ? `<span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">${o.rank}</span>` : ''}
+                                </div>
+                                <h3 class="text-base font-bold text-white mt-1">${o.name || o.officer}</h3>
+                                <p class="text-xs text-slate-400">${o.total} Assigned Files</p>
                             </div>
-                            ${o.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
+                            ${o.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
                         </div>
 
                         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
-                                <div class="text-[9.5px] text-slate-400">Pending</div>
+                                <div class="text-[9px] text-slate-400">Pending</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-indigo-400 font-bold text-sm">${o.inprogress}</div>
-                                <div class="text-[9.5px] text-slate-400">In-Prog</div>
+                                <div class="text-[9px] text-slate-400">In-Prog</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-emerald-400 font-bold text-sm">${o.completed}</div>
-                                <div class="text-[9.5px] text-slate-400">Done</div>
+                                <div class="text-[9px] text-slate-400">Done</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-slate-300 font-bold text-sm">${o.onhold || 0}</div>
-                                <div class="text-[9.5px] text-slate-400">Hold/NA</div>
+                                <div class="text-[9px] text-slate-400">Hold/NA</div>
                             </div>
                         </div>
 
@@ -1081,21 +1244,29 @@
                                 <span>Completion Rate</span>
                                 <span class="font-bold text-emerald-400">${pct}%</span>
                             </div>
-                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                                <div class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
                             </div>
                         </div>
 
-                        <div class="text-xs">
-                            <span class="text-slate-400 text-[11px] block mb-1">Allocated Technical Staff:</span>
-                            <div class="flex flex-wrap gap-1">
-                                ${o.staff && o.staff.length > 0 ? o.staff.map(st => `<span class="px-2 py-0.5 bg-blue-950/60 text-blue-300 rounded text-[10.5px] border border-blue-800/40">${st}</span>`).join('') : '<span class="text-slate-500 italic text-[11px]">No staff allocated</span>'}
+                        <div class="space-y-1.5 text-xs">
+                            <div>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Allocated Support Staff:</span>
+                                <div class="flex flex-wrap gap-1">
+                                    ${o.staff && o.staff.length > 0 ? o.staff.map(st => renderStaffBadge(st)).join('') : '<span class="text-slate-500 italic text-[10.5px]">No staff allocated</span>'}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Assigned Projects:</span>
+                                <div class="flex flex-wrap gap-1">
+                                    ${o.projects && o.projects.length > 0 ? o.projects.map(p => renderProjectBadge(p)).join('') : '<span class="text-slate-500 italic text-[10.5px]">General</span>'}
+                                </div>
                             </div>
                         </div>
 
-                        <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-2 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
+                        <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                            <span>View All ${o.officer}'s Tasks</span>
+                            <span>View All ${o.name || o.officer}'s Files</span>
                         </button>
                     </div>
                 `;
@@ -1106,18 +1277,28 @@
                 const pct = st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0;
                 return `
                     <tr class="hover:bg-slate-900/50 transition">
-                        <td class="py-3 px-4 font-semibold text-white">${st.staff}</td>
-                        <td class="py-3 px-4 text-center font-bold">${st.total}</td>
-                        <td class="py-3 px-4 text-center text-amber-400 font-semibold">${st.pending}</td>
-                        <td class="py-3 px-4 text-center text-indigo-400 font-semibold">${st.inprogress}</td>
-                        <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${st.completed}</td>
-                        <td class="py-3 px-4 text-center text-slate-400">${st.onhold || 0}</td>
-                        <td class="py-3 px-4">
+                        <td class="py-3 px-3 font-semibold text-white whitespace-nowrap">${renderStaffBadge(st.staff)}</td>
+                        <td class="py-3 px-3 text-slate-300">
+                            <div class="flex flex-wrap gap-1 max-w-xs">
+                                ${st.officers && st.officers.length > 0 ? st.officers.map(off => renderOfficerBadge(off)).join('') : '<span class="text-slate-500 italic">—</span>'}
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 text-slate-300">
+                            <div class="flex flex-wrap gap-1 max-w-xs">
+                                ${st.projects && st.projects.length > 0 ? st.projects.map(p => renderProjectBadge(p)).join('') : '<span class="text-slate-500 italic">—</span>'}
+                            </div>
+                        </td>
+                        <td class="py-3 px-2.5 text-center font-bold">${st.total}</td>
+                        <td class="py-3 px-2.5 text-center text-amber-400 font-semibold">${st.pending}</td>
+                        <td class="py-3 px-2.5 text-center text-indigo-400 font-semibold">${st.inprogress}</td>
+                        <td class="py-3 px-2.5 text-center text-emerald-400 font-semibold">${st.completed}</td>
+                        <td class="py-3 px-2.5 text-center text-slate-400">${st.onhold || 0}</td>
+                        <td class="py-3 px-3 whitespace-nowrap">
                             <div class="flex items-center gap-2">
-                                <div class="w-20 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
                                     <div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
                                 </div>
-                                <span class="text-[11px] font-mono text-slate-400">${pct}%</span>
+                                <span class="text-[10.5px] font-mono text-slate-400">${pct}%</span>
                             </div>
                         </td>
                     </tr>
@@ -1130,31 +1311,34 @@
             grid.innerHTML = rawData.projects.map(p => {
                 const pct = p.total > 0 ? Math.round((p.completed / p.total) * 100) : 0;
                 return `
-                    <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-4">
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-3.5">
                         <div class="flex items-start justify-between">
                             <div>
-                                <h3 class="text-base font-bold text-white">${p.project}</h3>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">${p.prj_id}</span>
+                                </div>
+                                <h3 class="text-base font-bold text-white mt-1">${p.name || p.project}</h3>
                                 <p class="text-xs text-slate-400">${p.total} Correspondence Records</p>
                             </div>
-                            ${p.critical > 0 ? `<span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${p.critical} Critical</span>` : ''}
+                            ${p.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${p.critical} Critical</span>` : ''}
                         </div>
 
                         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-amber-400 font-bold text-sm">${p.pending}</div>
-                                <div class="text-[9.5px] text-slate-400">Pending</div>
+                                <div class="text-[9px] text-slate-400">Pending</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-indigo-400 font-bold text-sm">${p.inprogress}</div>
-                                <div class="text-[9.5px] text-slate-400">In-Prog</div>
+                                <div class="text-[9px] text-slate-400">In-Prog</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-emerald-400 font-bold text-sm">${p.completed}</div>
-                                <div class="text-[9.5px] text-slate-400">Done</div>
+                                <div class="text-[9px] text-slate-400">Done</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-slate-300 font-bold text-sm">${p.onhold || 0}</div>
-                                <div class="text-[9.5px] text-slate-400">Hold/NA</div>
+                                <div class="text-[9px] text-slate-400">Hold/NA</div>
                             </div>
                         </div>
 
@@ -1163,14 +1347,29 @@
                                 <span>Progress</span>
                                 <span class="font-bold text-blue-400">${pct}%</span>
                             </div>
-                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                                <div class="bg-blue-500 h-2 rounded-full" style="width: ${pct}%"></div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-blue-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
                             </div>
                         </div>
 
-                        <button onclick="drillDownProject('${p.project}')" class="w-full py-2 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
+                        <div class="space-y-1.5 text-xs">
+                            <div>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Lead Officers:</span>
+                                <div class="flex flex-wrap gap-1">
+                                    ${p.officers && p.officers.length > 0 ? p.officers.map(off => renderOfficerBadge(off)).join('') : '<span class="text-slate-500 italic text-[10.5px]">Unassigned</span>'}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Allocated Staff:</span>
+                                <div class="flex flex-wrap gap-1">
+                                    ${p.staff && p.staff.length > 0 ? p.staff.map(st => renderStaffBadge(st)).join('') : '<span class="text-slate-500 italic text-[10.5px]">—</span>'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="drillDownProject('${p.project}')" class="w-full py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
                             <i data-lucide="filter" class="w-3.5 h-3.5"></i>
-                            <span>Filter Records by ${p.project}</span>
+                            <span>Filter Files for ${p.prj_id}</span>
                         </button>
                     </div>
                 `;
@@ -1191,17 +1390,26 @@
                     const matchText = [
                         r.ID,
                         r['Subject / Work Description'],
-                        r['Concerned Officer'],
-                        r['Concerned Staff'],
+                        r.officer_id,
+                        r.officer_name,
+                        r.officer_rank,
+                        r.officer_label,
+                        r.staff_id,
+                        r.staff_name,
+                        r.staff_rank,
+                        r.staff_label,
                         r['Received From Department /Wing'],
-                        r['Project'],
-                        r['Current Stage']
+                        r.project_id,
+                        r.project_name,
+                        r.project_label,
+                        r['Current Stage'],
+                        r['Received Through']
                     ].join(' ').toLowerCase();
                     if (!matchText.includes(search)) return false;
                 }
 
-                if (officer && (r['Concerned Officer'] || 'Unassigned') !== officer) return false;
-                if (project && (r['Project'] || 'Other / Misc') !== project) return false;
+                if (officer && (r.officer_label || 'Unassigned') !== officer) return false;
+                if (project && (r.project_label || 'Other / Misc') !== project) return false;
                 if (priority && r['Priority'] !== priority) return false;
                 if (status && r['status_group'] !== status) return false;
 
@@ -1225,11 +1433,11 @@
             }
 
             tbody.innerHTML = filteredRecords.map(r => {
-                let priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-300">Normal</span>`;
+                let priorityBadge = `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300">Normal</span>`;
                 if (r.Priority === 'Critical') {
-                    priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">Critical</span>`;
+                    priorityBadge = `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">Critical</span>`;
                 } else if (r.Priority === 'High') {
-                    priorityBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">High</span>`;
+                    priorityBadge = `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">High</span>`;
                 }
 
                 let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
@@ -1243,16 +1451,16 @@
 
                 return `
                     <tr onclick="openModal('${r.ID}')" class="hover:bg-blue-950/40 cursor-pointer transition">
-                        <td class="py-3 px-3.5 font-mono font-bold text-blue-400 whitespace-nowrap">${r.ID}</td>
-                        <td class="py-3 px-3 whitespace-nowrap text-slate-400 font-mono text-[11px]">${r['Date Received to office'] || 'N/A'}</td>
-                        <td class="py-3 px-3 whitespace-nowrap text-slate-300">${r['Received Through'] || 'N/A'}</td>
-                        <td class="py-3 px-3 whitespace-nowrap font-semibold text-white">${r.Project || 'Misc'}</td>
+                        <td class="py-3 px-3 font-mono font-bold text-blue-400 whitespace-nowrap">${r.ID}</td>
+                        <td class="py-3 px-2.5 whitespace-nowrap text-slate-400 font-mono text-[11px]">${r['Date Received to office'] || 'N/A'}</td>
+                        <td class="py-3 px-2.5 whitespace-nowrap text-slate-300 text-xs">${r['Received Through'] || 'N/A'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap">${renderProjectBadge(r.project_label)}</td>
                         <td class="py-3 px-4 max-w-xs truncate text-slate-200" title="${r['Subject / Work Description']}">${r['Subject / Work Description'] || '—'}</td>
-                        <td class="py-3 px-3 whitespace-nowrap font-medium text-slate-200">${r['Concerned Officer'] || '<span class="text-slate-500 italic">Unassigned</span>'}</td>
-                        <td class="py-3 px-3 whitespace-nowrap text-slate-400">${r['Concerned Staff'] || '<span class="text-slate-500 italic">—</span>'}</td>
-                        <td class="py-3 px-3 text-center whitespace-nowrap">${stageBadge}</td>
-                        <td class="py-3 px-3 text-center whitespace-nowrap">${priorityBadge}</td>
-                        <td class="py-3 px-3 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.display_time_metric || '—'}</td>
+                        <td class="py-3 px-3 whitespace-nowrap">${renderOfficerBadge(r.officer_label)}</td>
+                        <td class="py-3 px-3 whitespace-nowrap">${renderStaffBadge(r.staff_label)}</td>
+                        <td class="py-3 px-2.5 text-center whitespace-nowrap">${stageBadge}</td>
+                        <td class="py-3 px-2 text-center whitespace-nowrap">${priorityBadge}</td>
+                        <td class="py-3 px-2.5 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.display_time_metric || '—'}</td>
                     </tr>
                 `;
             }).join('');
@@ -1263,15 +1471,15 @@
             if (!r) return;
 
             document.getElementById('modal-id').innerText = r.ID;
-            document.getElementById('modal-project').innerText = (r.Project || 'Miscellaneous') + ' • ' + (r['Nature of Request'] || 'General');
+            document.getElementById('modal-project').innerHTML = `${renderProjectBadge(r.project_label)} <span class="text-xs text-slate-400 font-normal">• ${r['Nature of Request'] || 'General'}</span>`;
             document.getElementById('modal-subject').innerText = r['Subject / Work Description'] || 'No description provided';
-            document.getElementById('modal-officer').innerText = r['Concerned Officer'] || 'Unassigned';
-            document.getElementById('modal-staff').innerText = r['Concerned Staff'] || 'Unassigned';
+            document.getElementById('modal-officer').innerHTML = renderOfficerBadge(r.officer_label);
+            document.getElementById('modal-staff').innerHTML = renderStaffBadge(r.staff_label);
             document.getElementById('modal-recv').innerText = `${r['Received Through'] || 'N/A'} (Recv: ${r['Date Received to office'] || 'N/A'})`;
-            document.getElementById('modal-from').innerText = `${r['Received From Department /Wing'] || 'N/A'} - ${r['Received From Officer Designation'] || 'N/A'}`;
+            document.getElementById('modal-from').innerText = `${r['Received From Department /Wing'] || 'N/A'} - ${r['Received From Officer designation '] || r['Received From Officer Designation'] || 'N/A'}`;
             document.getElementById('modal-nature').innerText = r['Nature of Request'] || 'N/A';
-            document.getElementById('modal-decision').innerText = r['Final Decision'] || 'N/A';
-            document.getElementById('modal-stage').innerText = r['Current Stage'] || 'Pending';
+            document.getElementById('modal-decision').innerText = r['Final Decision '] || r['Final Decision'] || 'N/A';
+            document.getElementById('modal-stage').innerHTML = `<span class="font-semibold text-white">${r['Current Stage'] || 'Pending'}</span> <span class="text-slate-400 text-xs">(${r.status_group})</span>`;
             document.getElementById('modal-priority').innerText = r['Priority'] || 'Normal';
             document.getElementById('modal-dispatch').innerText = r['Final Closure Date'] || r['Dispatched Date'] || 'Pending Resolution';
             document.getElementById('modal-tat').innerText = r.display_time_metric ? `${r.display_time_metric}` : '—';
@@ -1343,7 +1551,7 @@
         function exportFilteredCSV() {
             if (!filteredRecords || filteredRecords.length === 0) return;
 
-            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric');
+            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric' && !k.endsWith('_id') && !k.endsWith('_name') && !k.endsWith('_rank') && !k.endsWith('_label'));
             const csvRows = [headers.join(',')];
 
             filteredRecords.forEach(r => {
