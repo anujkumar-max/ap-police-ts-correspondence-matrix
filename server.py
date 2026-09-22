@@ -82,17 +82,17 @@ def categorize_stage(stage_raw):
     stage = str(stage_raw).strip() if stage_raw is not None else ""
     stage_lower = stage.lower()
 
-    # 1. On Hold / Cancelled / Closed / Inactive / N/A / Blank
-    if not stage or stage_lower in ['n/a', 'none', 'null', '', 'on hold', 'cancelled', 'correspondence closed', 'inactive']:
-        return 'On Hold / Closed'
-
-    # 2. Any stage mentioning "pending" (case-insensitive)
-    if 'pending' in stage_lower:
-        return 'Pending'
-
-    # 3. Completed / Dispatched / Acknowledgement
+    # 1. Explicitly Completed / Dispatched / Acknowledgement
     if stage_lower in ['completed', 'file dispatched', 'acknowledgement filed']:
         return 'Completed'
+
+    # 2. Explicitly On Hold / Cancelled / Closed / Inactive
+    if stage_lower in ['on hold', 'cancelled', 'correspondence closed', 'inactive']:
+        return 'On Hold / Closed'
+
+    # 3. Pending (Any stage mentioning "pending", or blank / N/A which represents intake awaiting allocation/action)
+    if 'pending' in stage_lower or stage_lower in ['n/a', 'none', 'null', '']:
+        return 'Pending'
 
     # 4. Remaining all are In-Progress
     return 'In-Progress'

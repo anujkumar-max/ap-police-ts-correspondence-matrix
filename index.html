@@ -341,14 +341,14 @@
             </div>
 
             <!-- Pending -->
-            <div onclick="openPendingAbstractModal()" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500 ring-1 ring-amber-500/30">
+            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span class="text-amber-400 font-bold">Pending Action ⚡</span>
                     <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
                 <div class="text-2xl font-black text-amber-400" id="kpi-pending">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> (Click for Abstract)
+                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> action required
                 </div>
             </div>
 
@@ -1066,21 +1066,19 @@
             const stage = (stageRaw !== undefined && stageRaw !== null) ? String(stageRaw).trim() : '';
             const stageLower = stage.toLowerCase();
 
-            // 1. On Hold / Cancelled / Closed / Inactive / N/A / Blank
-            if (!stage || stageLower === 'n/a' || stageLower === 'none' || stageLower === 'null' ||
-                stageLower === 'on hold' || stageLower === 'cancelled' || 
-                stageLower === 'correspondence closed' || stageLower === 'inactive') {
+            // 1. Explicitly Completed / Dispatched / Acknowledgement
+            if (stageLower === 'completed' || stageLower === 'file dispatched' || stageLower === 'acknowledgement filed') {
+                return 'Completed';
+            }
+
+            // 2. Explicitly On Hold / Cancelled / Closed / Inactive
+            if (stageLower === 'on hold' || stageLower === 'cancelled' || stageLower === 'correspondence closed' || stageLower === 'inactive') {
                 return 'On Hold / Closed';
             }
 
-            // 2. Any stage mentioning "pending"
-            if (stageLower.includes('pending')) {
+            // 3. Pending (Any stage mentioning "pending", or blank / N/A which represents intake awaiting action/assignment)
+            if (stageLower.includes('pending') || !stage || stageLower === 'n/a' || stageLower === 'none' || stageLower === 'null') {
                 return 'Pending';
-            }
-
-            // 3. Completed / Dispatched / Acknowledgement
-            if (stageLower === 'completed' || stageLower === 'file dispatched' || stageLower === 'acknowledgement filed') {
-                return 'Completed';
             }
 
             // 4. Remaining all are In-Progress
