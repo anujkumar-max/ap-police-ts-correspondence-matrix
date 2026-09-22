@@ -203,11 +203,12 @@ def calculate_analytics_from_records(records):
         r['Priority'] = priority
 
     # Extract Scheduled Events / Meetings / Workshops
+    # Strictly qualify based on Nature of Request column (must match meeting/VC/seminar/workshop/training)
+    event_keywords = ['meeting', 'conference', 'vc', 'video', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'course']
     scheduled_events = []
     for r in records:
         nature_lower = (r.get('nature_of_request') or '').lower()
-        has_due_date = bool(r.get('due_date_raw'))
-        is_event = has_due_date or any(kw in nature_lower for kw in ['meeting', 'conference', 'vc', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'event'])
+        is_event = any(kw in nature_lower for kw in event_keywords)
         
         if is_event:
             scheduled_events.append({

@@ -272,10 +272,20 @@
                     <div>Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
 
-                <!-- Theme Toggle Button (Light / Dark Mode) -->
-                <button onclick="toggleTheme()" id="theme-toggle-btn" title="Toggle Light / Dark Mode" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
-                    <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
-                    <span class="hidden sm:inline">Light Mode</span>
+                <!-- Modern Theme Toggle Switch (Corner) -->
+                <button onclick="toggleTheme()" id="theme-toggle-switch" title="Toggle Light / Dark Mode" class="flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-slate-900/90 hover:bg-slate-900 text-slate-200 border border-slate-700/80 shadow-md transition-all active:scale-95 group">
+                    <span class="relative inline-flex h-5 w-10 items-center rounded-full p-0.5 bg-slate-800 border border-slate-700 transition-colors">
+                        <span class="absolute left-1 text-amber-400">
+                            <i data-lucide="sun" class="w-2.5 h-2.5"></i>
+                        </span>
+                        <span class="absolute right-1 text-indigo-400">
+                            <i data-lucide="moon" class="w-2.5 h-2.5"></i>
+                        </span>
+                        <span id="theme-toggle-thumb" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ease-in-out translate-x-5 flex items-center justify-center">
+                            <i data-lucide="moon" id="theme-thumb-icon" class="w-2 h-2 text-slate-900"></i>
+                        </span>
+                    </span>
+                    <span id="theme-label" class="text-[11px] font-bold text-slate-300 group-hover:text-white select-none hidden sm:inline">Dark</span>
                 </button>
 
                 <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
@@ -1363,11 +1373,12 @@
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
 
                         // Extract and Sort Scheduled Events / Meetings / Workshops
+                        // Strictly qualify based on Nature of Request column (must match meeting/VC/seminar/workshop/training)
+                        const eventKeywords = ['meeting', 'conference', 'vc', 'video', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'course'];
                         const scheduledEvents = [];
                         records.forEach(r => {
                             const natureLower = (r.nature_of_request || '').toLowerCase();
-                            const hasDueDate = Boolean(r.due_date_raw);
-                            const isEvent = hasDueDate || ['meeting', 'conference', 'vc', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'event'].some(kw => natureLower.includes(kw));
+                            const isEvent = eventKeywords.some(kw => natureLower.includes(kw));
 
                             if (isEvent) {
                                 scheduledEvents.push({
@@ -2489,14 +2500,63 @@
 
         function updateThemeButtonUI() {
             const isLight = document.documentElement.classList.contains('light');
-            const btn = document.getElementById('theme-toggle-btn');
-            if (!btn) return;
+            
+            // Header Corner Switch Elements
+            const thumb = document.getElementById('theme-toggle-thumb');
+            const thumbIcon = document.getElementById('theme-thumb-icon');
+            const themeLabel = document.getElementById('theme-label');
+            const switchBtn = document.getElementById('theme-toggle-switch');
+
+            // Floating Corner Button
+            const floatIcon = document.getElementById('floating-theme-icon');
+            const floatBtn = document.getElementById('floating-theme-toggle');
+
             if (isLight) {
-                btn.innerHTML = `<i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i><span class="hidden sm:inline">Dark Mode</span>`;
-                btn.title = "Switch to Dark Mode";
+                if (thumb) {
+                    thumb.className = "inline-block h-3.5 w-3.5 transform rounded-full bg-amber-500 shadow transition-transform duration-200 ease-in-out translate-x-0 flex items-center justify-center";
+                }
+                if (thumbIcon) {
+                    thumbIcon.setAttribute('data-lucide', 'sun');
+                    thumbIcon.className = "w-2 h-2 text-white";
+                }
+                if (themeLabel) {
+                    themeLabel.innerText = "Light";
+                    themeLabel.className = "text-[11px] font-bold text-amber-700 select-none hidden sm:inline";
+                }
+                if (switchBtn) {
+                    switchBtn.title = "Switch to Dark Mode";
+                    switchBtn.className = "flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-amber-100 hover:bg-amber-200/80 text-slate-800 border border-amber-300 shadow-sm transition-all active:scale-95 group";
+                }
+                if (floatIcon) {
+                    floatIcon.setAttribute('data-lucide', 'moon');
+                }
+                if (floatBtn) {
+                    floatBtn.title = "Switch to Dark Mode";
+                    floatBtn.className = "p-3 rounded-full bg-white text-indigo-700 hover:text-indigo-900 border-2 border-slate-300 hover:border-indigo-500 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
+                }
             } else {
-                btn.innerHTML = `<i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i><span class="hidden sm:inline">Light Mode</span>`;
-                btn.title = "Switch to Light Mode";
+                if (thumb) {
+                    thumb.className = "inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ease-in-out translate-x-5 flex items-center justify-center";
+                }
+                if (thumbIcon) {
+                    thumbIcon.setAttribute('data-lucide', 'moon');
+                    thumbIcon.className = "w-2 h-2 text-slate-950";
+                }
+                if (themeLabel) {
+                    themeLabel.innerText = "Dark";
+                    themeLabel.className = "text-[11px] font-bold text-slate-300 group-hover:text-white select-none hidden sm:inline";
+                }
+                if (switchBtn) {
+                    switchBtn.title = "Switch to Light Mode";
+                    switchBtn.className = "flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-slate-900/90 hover:bg-slate-900 text-slate-200 border border-slate-700/80 shadow-md transition-all active:scale-95 group";
+                }
+                if (floatIcon) {
+                    floatIcon.setAttribute('data-lucide', 'sun');
+                }
+                if (floatBtn) {
+                    floatBtn.title = "Switch to Light Mode";
+                    floatBtn.className = "p-3 rounded-full bg-slate-900/90 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
+                }
             }
             lucide.createIcons();
         }
@@ -2554,5 +2614,12 @@
             setInterval(() => fetchGoogleSheetData(false), 8000);
         });
     </script>
+
+    <!-- FLOATING CORNER QUICK THEME SWITCH TOGGLE -->
+    <div class="fixed bottom-5 right-5 z-40 no-print">
+        <button onclick="toggleTheme()" id="floating-theme-toggle" title="Toggle Light / Dark Mode" class="p-3 rounded-full bg-slate-900/90 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center">
+            <i data-lucide="sun" id="floating-theme-icon" class="w-5 h-5"></i>
+        </button>
+    </div>
 </body>
 </html>
