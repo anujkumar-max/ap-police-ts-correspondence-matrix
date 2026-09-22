@@ -524,20 +524,33 @@
                 </div>
             </div>
 
-            <!-- Action Buttons Bar -->
-            <div class="flex items-center justify-between bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
-                <span class="text-xs text-slate-300 font-medium pl-1 flex items-center gap-1.5">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Formatted with Project IDs & Names (Clean Bullets)</span>
-                </span>
+            <!-- Action & Format Selector Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
+                <!-- Tab Mode Switcher -->
+                <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+                    <button onclick="switchAbstractFormat('detailed')" id="tab-detailed-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                        <span>Detailed Brief (With Files)</span>
+                    </button>
+                    <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                        <span>⚡ Short Numbers Brief</span>
+                    </button>
+                </div>
+
+                <!-- Action Buttons -->
                 <div class="flex items-center gap-2">
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl flex items-center gap-1.5 transition border border-slate-700">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span class="hidden sm:inline">Google Sheet</span>
+                    </a>
                     <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                         <span id="copy-btn-text">Copy WhatsApp Text</span>
                     </button>
                     <button onclick="printExecutiveMemo()" class="px-4 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-blue-900/40 active:scale-95">
                         <i data-lucide="printer" class="w-4 h-4"></i>
-                        <span>Print Hard Copy Memo</span>
+                        <span class="hidden sm:inline">Print Memo</span>
                     </button>
                 </div>
             </div>
@@ -1475,6 +1488,28 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
+        let currentAbstractFormat = 'detailed'; // 'detailed' or 'short'
+        let cachedDetailedWhatsappText = '';
+        let cachedShortWhatsappText = '';
+        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
+
+        function switchAbstractFormat(fmt) {
+            currentAbstractFormat = fmt;
+            const detailedBtn = document.getElementById('tab-detailed-btn');
+            const shortBtn = document.getElementById('tab-short-btn');
+
+            if (fmt === 'detailed') {
+                if (detailedBtn) detailedBtn.className = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+                if (shortBtn) shortBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
+                document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
+            } else {
+                if (shortBtn) shortBtn.className = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+                if (detailedBtn) detailedBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
+                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
+            }
+            lucide.createIcons();
+        }
+
         function renderPendingAbstractModalContent() {
             if (!rawData) return;
 
@@ -1491,50 +1526,77 @@
 
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
 
-            // Formulate WhatsApp Text with Project IDs + Names (Clean bullets, No critical alert line)
-            let waText = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waText += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
-            waText += `📅 Date: ${dateStr}\n\n`;
-            waText += `📊 *Overall Abstract:*\n`;
-            waText += `• Total Inflow: ${kpis.total} Files\n`;
-            waText += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
-            waText += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
-            waText += `• ⚪ Stage N/A (Notice Required): ${kpis.onhold_closed || 0} Files\n`;
-            waText += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n\n`;
-            waText += `───────────────────────────────\n`;
-            waText += `👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*\n`;
-            waText += `───────────────────────────────\n`;
+            // 1. Formulate Detailed WhatsApp Text (With File IDs & Projects)
+            let waDetailed = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            waDetailed += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
+            waDetailed += `📅 Date: ${dateStr}\n\n`;
+            waDetailed += `📊 *Overall Abstract:*\n`;
+            waDetailed += `• Total Inflow: ${kpis.total} Files\n`;
+            waDetailed += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
+            waDetailed += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
+            waDetailed += `• ⚪ Stage N/A (Notice Required): ${kpis.onhold_closed || 0} Files\n`;
+            waDetailed += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n\n`;
+            waDetailed += `───────────────────────────────\n`;
+            waDetailed += `👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*\n`;
+            waDetailed += `───────────────────────────────\n`;
 
             activeOfficers.forEach((o, idx) => {
                 const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                waText += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
+                waDetailed += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
                 
                 if (o.pending_files && o.pending_files.length > 0) {
-                    waText += `   🟡 *Pending Action:*\n`;
+                    waDetailed += `   🟡 *Pending Action:*\n`;
                     o.pending_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
+                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
                 
                 if (o.inprogress_files && o.inprogress_files.length > 0) {
-                    waText += `   🔵 *In-Progress:*\n`;
+                    waDetailed += `   🔵 *In-Progress:*\n`;
                     o.inprogress_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
+                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
                 
                 if (o.na_stage_files && o.na_stage_files.length > 0) {
-                    waText += `   ⚪ *Stage N/A (Notice Required):*\n`;
+                    waDetailed += `   ⚪ *Stage N/A (Notice Required):*\n`;
                     o.na_stage_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
+                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
             });
 
-            waText += `\n───────────────────────────────\n`;
-            waText += `_Generated from AP Police TS Executive Command Portal_`;
+            waDetailed += `\n───────────────────────────────\n`;
+            waDetailed += `🔗 *Update Status in Google Sheet:*\n`;
+            waDetailed += `${GOOGLE_SHEET_URL}\n`;
+            waDetailed += `───────────────────────────────\n`;
+            waDetailed += `_Generated from AP Police TS Executive Command Portal_`;
 
-            document.getElementById('whatsapp-textarea').value = waText;
+            // 2. Formulate Option 2: Short Numbers-Only WhatsApp Text
+            let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
+            waShort += `📅 Date: ${dateStr}\n\n`;
+            waShort += `📊 *Total: ${kpis.total}* | 🟡 *Pend: ${kpis.pending}* | 🔵 *In-Prog: ${kpis.inprogress}* | ⚪ *N/A: ${kpis.onhold_closed || 0}* | 🟢 *Done: ${kpis.completed}*\n\n`;
+            waShort += `───────────────────────────────\n`;
+            waShort += `👮 *OFFICER WORKLOAD [Active = Pend / InProg / N/A]:*\n`;
+            waShort += `───────────────────────────────\n`;
+
+            activeOfficers.forEach((o, idx) => {
+                const actTotal = o.pending + o.inprogress + (o.onhold || 0);
+                waShort += `${idx + 1}. ${o.officer}: *${actTotal}* (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
+            });
+
+            waShort += `\n───────────────────────────────\n`;
+            waShort += `🔗 *Update Status in Google Sheet:*\n`;
+            waShort += `${GOOGLE_SHEET_URL}\n`;
+            waShort += `───────────────────────────────\n`;
+            waShort += `_Generated from AP Police TS Executive Command Portal_`;
+
+            cachedDetailedWhatsappText = waDetailed;
+            cachedShortWhatsappText = waShort;
+
+            // Apply active tab text
+            document.getElementById('whatsapp-textarea').value = currentAbstractFormat === 'detailed' ? cachedDetailedWhatsappText : cachedShortWhatsappText;
         }
 
         function copyCurrentAbstract() {

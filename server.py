@@ -12,6 +12,7 @@ from datetime import datetime, date
 
 PORT = 8050
 GOOGLE_SHEET_ID = "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y"
+GOOGLE_SHEET_URL = f"https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/edit?usp=sharing"
 GOOGLE_CSV_URL = f"https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv"
 EXCEL_PATH = r"c:\Users\prasa\Desktop\TS-Correspondence Matrix\AP TS-Correspondence MATRIX.xlsx"
 STATIC_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -312,7 +313,7 @@ def calculate_analytics_from_records(records):
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-    # Formulate Clean WhatsApp Shareable Text (No Critical Priority line, No redundant stage text in bullets)
+    # Formulate Detailed WhatsApp Shareable Text
     active_officers = [o for o in officer_analytics if o['active_total'] > 0]
     wa_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
@@ -352,13 +353,41 @@ def calculate_analytics_from_records(records):
 
     wa_lines.append("")
     wa_lines.append("───────────────────────────────")
+    wa_lines.append("🔗 *Update Status in Google Sheet:*")
+    wa_lines.append(GOOGLE_SHEET_URL)
+    wa_lines.append("───────────────────────────────")
     wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_text = "\n".join(wa_lines)
+
+    # Formulate Option 2: Short Numbers-Only WhatsApp Text
+    wa_short_lines = [
+        "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
+        "⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*",
+        f"📅 Date: {today_display}",
+        "",
+        f"📊 *Total: {total_records}* | 🟡 *Pend: {pending_count}* | 🔵 *In-Prog: {inprogress_count}* | ⚪ *N/A: {onhold_closed_count}* | 🟢 *Done: {completed_count}*",
+        "",
+        "───────────────────────────────",
+        "👮 *OFFICER WORKLOAD [Active = Pend / InProg / N/A]:*",
+        "───────────────────────────────"
+    ]
+
+    for idx, o in enumerate(active_officers, 1):
+        wa_short_lines.append(f"{idx}. {o['officer']}: *{o['active_total']}* ({o['pending']} / {o['inprogress']} / {o['onhold']})")
+
+    wa_short_lines.append("")
+    wa_short_lines.append("───────────────────────────────")
+    wa_short_lines.append("🔗 *Update Status in Google Sheet:*")
+    wa_short_lines.append(GOOGLE_SHEET_URL)
+    wa_short_lines.append("───────────────────────────────")
+    wa_short_lines.append("_Generated from AP Police TS Executive Command Portal_")
+    whatsapp_short_text = "\n".join(wa_short_lines)
 
     return {
         'status': 'success',
         'data_source': 'Google Sheets Live Cloud',
         'sheet_id': GOOGLE_SHEET_ID,
+        'sheet_url': GOOGLE_SHEET_URL,
         'last_updated': now_str,
         'server_time': datetime.now().strftime("%I:%M:%S %p"),
         'kpis': {
@@ -381,7 +410,8 @@ def calculate_analytics_from_records(records):
             'total_inprogress': inprogress_count,
             'total_na_stage': onhold_closed_count,
             'officers_active': active_officers,
-            'whatsapp_text': whatsapp_text
+            'whatsapp_text': whatsapp_text,
+            'whatsapp_short_text': whatsapp_short_text
         }
     }
 
