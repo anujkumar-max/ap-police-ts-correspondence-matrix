@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP Police TS - Executive Correspondence & Workload Analytics</title>
+    <!-- Early Theme Initializer to prevent flash -->
+    <script>
+        if (localStorage.getItem('ts_dashboard_theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -81,6 +89,147 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #3b82f6;
         }
+
+        /* ================= LIGHT MODE COMPREHENSIVE THEME ================= */
+        html.light body {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+        }
+
+        html.light .glass-card {
+            background: #ffffff !important;
+            backdrop-filter: blur(12px);
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 16px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        html.light .tab-btn:not(.bg-blue-600) {
+            background-color: #ffffff !important;
+            color: #475569 !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html.light .tab-btn:not(.bg-blue-600):hover {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        html.light main h1, 
+        html.light main h2, 
+        html.light main h3,
+        html.light .glass-card h2,
+        html.light .glass-card h3,
+        html.light #record-modal h2,
+        html.light #pending-abstract-modal h2 {
+            color: #0f172a !important;
+        }
+
+        /* Color contrast enhancements for light mode */
+        html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *) {
+            color: #0f172a !important;
+        }
+        html.light .text-slate-400:not(header *):not(#whatsapp-textarea) {
+            color: #64748b !important;
+        }
+        html.light .text-slate-300:not(header *):not(#whatsapp-textarea) {
+            color: #334155 !important;
+        }
+        html.light .text-slate-200:not(header *):not(#whatsapp-textarea) {
+            color: #1e293b !important;
+        }
+        html.light .text-slate-100:not(header *):not(#whatsapp-textarea) {
+            color: #0f172a !important;
+        }
+
+        html.light .text-amber-400:not(button *):not(header *) {
+            color: #b45309 !important;
+        }
+        html.light .text-cyan-400:not(button *):not(header *) {
+            color: #0369a1 !important;
+        }
+        html.light .text-blue-400:not(button *):not(header *) {
+            color: #1d4ed8 !important;
+        }
+        html.light .text-indigo-400:not(button *):not(header *) {
+            color: #4338ca !important;
+        }
+        html.light .text-emerald-400:not(button *):not(header *) {
+            color: #047857 !important;
+        }
+        html.light .text-rose-400:not(button *):not(header *) {
+            color: #be123c !important;
+        }
+
+        html.light .bg-slate-900,
+        html.light .bg-slate-900\/80,
+        html.light .bg-slate-900\/90,
+        html.light .bg-slate-900\/60,
+        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn) {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html.light .bg-slate-800,
+        html.light .bg-slate-800\/80,
+        html.light .bg-slate-800\/60,
+        html.light .bg-slate-800\/40 {
+            background-color: #f1f5f9 !important;
+            color: #334155 !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html.light .border-slate-800,
+        html.light .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        html.light input,
+        html.light select {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html.light input::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        html.light table thead tr {
+            background-color: #f1f5f9 !important;
+            border-bottom: 2px solid #e2e8f0 !important;
+        }
+        html.light table thead th {
+            color: #334155 !important;
+            background-color: #f1f5f9 !important;
+        }
+        html.light table tbody tr {
+            border-bottom: 1px solid #f1f5f9 !important;
+        }
+        html.light table tbody tr:hover {
+            background-color: #f1f5f9 !important;
+        }
+
+        html.light #record-modal > div,
+        html.light #pending-abstract-modal > div {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        html.light #whatsapp-textarea {
+            background-color: #090d16 !important;
+            color: #6ee7b7 !important;
+            border-color: #1e293b !important;
+        }
+
+        html.light ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        html.light ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+        }
+        html.light ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-100 bg-slate-950 flex flex-col selection:bg-blue-600 selection:text-white">
@@ -124,6 +273,12 @@
                 <div class="text-right hidden xl:block mr-1 text-[10px] text-slate-400">
                     <div>Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
+
+                <!-- Theme Toggle Button (Light / Dark Mode) -->
+                <button onclick="toggleTheme()" id="theme-toggle-btn" title="Toggle Light / Dark Mode" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span class="hidden sm:inline">Light Mode</span>
+                </button>
 
                 <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
@@ -1179,7 +1334,13 @@
 
         // Charts Rendering
         function renderCharts() {
-            Chart.defaults.color = '#94a3b8';
+            const isLight = document.documentElement.classList.contains('light');
+            const gridColor = isLight ? '#e2e8f0' : '#1e293b';
+            const tickColor = isLight ? '#475569' : '#94a3b8';
+            const borderColor = isLight ? '#ffffff' : '#0f172a';
+            const tooltipBg = isLight ? '#1e293b' : '#0f172a';
+
+            Chart.defaults.color = tickColor;
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
             const ctxOff = document.getElementById('chart-officers').getContext('2d');
@@ -1202,12 +1363,12 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { stacked: true, grid: { color: '#1e293b' } },
-                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 10.5 } } }
+                        x: { stacked: true, grid: { color: gridColor }, ticks: { color: tickColor } },
+                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 10.5 }, color: tickColor } }
                     },
                     plugins: {
-                        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10.5 } } },
-                        tooltip: { backgroundColor: '#0f172a', titleFont: { size: 12 }, bodyFont: { size: 11 } }
+                        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10.5 }, color: tickColor } },
+                        tooltip: { backgroundColor: tooltipBg, titleFont: { size: 12 }, bodyFont: { size: 11 } }
                     }
                 }
             });
@@ -1224,14 +1385,14 @@
                         data: topProjects.map(p => p.total),
                         backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#64748b'],
                         borderWidth: 2,
-                        borderColor: '#0f172a'
+                        borderColor: borderColor
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10.5 } } }
+                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10.5 }, color: tickColor } }
                     },
                     cutout: '62%'
                 }
@@ -1248,14 +1409,14 @@
                         data: rawData.channels.map(c => c.count),
                         backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#6366f1', '#ec4899', '#64748b'],
                         borderWidth: 2,
-                        borderColor: '#0f172a'
+                        borderColor: borderColor
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 }, color: tickColor } }
                     }
                 }
             });
@@ -1281,8 +1442,8 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { grid: { color: '#1e293b' }, ticks: { stepSize: 2 } },
-                        x: { grid: { display: false } }
+                        y: { grid: { color: gridColor }, ticks: { stepSize: 2, color: tickColor } },
+                        x: { grid: { display: false }, ticks: { color: tickColor } }
                     },
                     plugins: {
                         legend: { display: false }
@@ -1813,17 +1974,68 @@
             applyFilters();
         }
 
+        // ================= THEME CONTROLLER (LIGHT / DARK) =================
+        function initTheme() {
+            const saved = localStorage.getItem('ts_dashboard_theme');
+            if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+            }
+            updateThemeButtonUI();
+        }
+
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.contains('light');
+            if (isLight) {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('ts_dashboard_theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('ts_dashboard_theme', 'light');
+            }
+            updateThemeButtonUI();
+            if (rawData) {
+                renderCharts();
+            }
+        }
+
+        function updateThemeButtonUI() {
+            const isLight = document.documentElement.classList.contains('light');
+            const btn = document.getElementById('theme-toggle-btn');
+            if (!btn) return;
+            if (isLight) {
+                btn.innerHTML = `<i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i><span class="hidden sm:inline">Dark Mode</span>`;
+                btn.title = "Switch to Dark Mode";
+            } else {
+                btn.innerHTML = `<i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i><span class="hidden sm:inline">Light Mode</span>`;
+                btn.title = "Switch to Light Mode";
+            }
+            lucide.createIcons();
+        }
+
         function switchTab(tabId) {
+            const isLight = document.documentElement.classList.contains('light');
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white', 'shadow');
-                btn.classList.add('bg-slate-800/80', 'text-slate-300');
+                if (isLight) {
+                    btn.classList.remove('bg-slate-800/80', 'text-slate-300');
+                    btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                } else {
+                    btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                    btn.classList.add('bg-slate-800/80', 'text-slate-300');
+                }
             });
 
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-btn-${tabId}`);
             if (activeBtn) {
-                activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300');
+                activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300', 'bg-white', 'text-slate-700', 'border', 'border-slate-200');
                 activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
             }
 
@@ -1852,8 +2064,9 @@
             a.click();
         }
 
-        // Auto Sync every 8 seconds
+        // Auto Sync every 8 seconds & initialize theme
         window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             fetchGoogleSheetData();
             setInterval(() => fetchGoogleSheetData(false), 8000);
         });
