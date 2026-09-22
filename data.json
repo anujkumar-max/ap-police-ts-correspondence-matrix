@@ -2,17 +2,17 @@
   "status": "success",
   "data_source": "Google Sheets Live Cloud",
   "sheet_id": "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y",
-  "last_updated": "2026-09-22 12:16:48 PM",
-  "server_time": "12:16:48 PM",
+  "last_updated": "2026-09-22 01:02:23 PM",
+  "server_time": "01:02:23 PM",
   "kpis": {
     "total": 57,
-    "completed": 18,
-    "inprogress": 14,
-    "pending": 14,
-    "onhold_closed": 11,
+    "completed": 20,
+    "inprogress": 15,
+    "pending": 13,
+    "onhold_closed": 9,
     "critical": 4,
     "high": 4,
-    "avg_tat_days": 13.3
+    "avg_tat_days": 12.4
   },
   "aging_buckets": {
     "< 3 Days": 2,
@@ -32,19 +32,54 @@
       "pending": 4,
       "onhold": 0,
       "critical": 2,
-      "staff": [
-        "PRO-064 - B.S.Srinivasa Rao (PC)",
-        "PRO-071 - PVK Prasad (HC)",
-        "PRO-072 - N. Bhanu Hari (PC)",
-        "PRO-077 - M. Suneetha (WPC)",
-        "PRO-156 - SK Lal John Basha (HC)"
-      ],
       "projects": [
         "Miscellaneous",
         "PRJ-001 - AI4AP",
         "PRJ-007 - CCTNS",
         "PRJ-019 - ICJS",
         "PRJ-023 - NATGRID-Gandiva & Sudarshan"
+      ],
+      "pending_files": [
+        {
+          "id": "TS-COR-2026-0025",
+          "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+          "prj_id": "PRJ-023",
+          "subject": "Obtain Account creation letters from Bhavana madam DSP PTC",
+          "stage": "Pending",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0030",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "subject": "DGP Desk No 5 Reply",
+          "stage": "Work Completed-Pending for approval",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0031",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "subject": "Letter to IT Registar,Non-issuance of STC Numbers by Certain Courts and Non-Implementation of CIS Application",
+          "stage": "Work Completed-Pending for approval",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        },
+        {
+          "id": "TS-COR-2026-0034",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "subject": "Equipments Recommended for conductiong proceedings by video confrencing at the court point and remote point",
+          "stage": "Pending For Approval",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        }
       ]
     },
     {
@@ -52,22 +87,66 @@
       "pro_id": "PRO-125",
       "name": "J. Kalpana",
       "rank": "SI",
-      "total": 14,
-      "completed": 8,
-      "inprogress": 3,
-      "pending": 1,
-      "onhold": 2,
+      "total": 13,
+      "completed": 9,
+      "inprogress": 4,
+      "pending": 0,
+      "onhold": 0,
       "critical": 6,
-      "staff": [
-        "PRO-071 - PVK Prasad (HC)",
-        "PRO-072 - N. Bhanu Hari (PC)",
-        "PRO-077 - M. Suneetha (WPC)",
-        "PRO-141 - N.Ramanjaneyulu (PC)"
-      ],
       "projects": [
         "Miscellaneous",
-        "PRJ-007 - CCTNS",
+        "PRJ-007 - CCTNS"
+      ],
+      "pending_files": []
+    },
+    {
+      "officer": "Unassigned",
+      "pro_id": "N/A",
+      "name": "Unassigned",
+      "rank": "",
+      "total": 6,
+      "completed": 0,
+      "inprogress": 0,
+      "pending": 3,
+      "onhold": 3,
+      "critical": 0,
+      "projects": [
+        "Miscellaneous",
+        "PRJ-001 - AI4AP",
+        "PRJ-003 - AP Police Website / Citizen Portal",
         "PRJ-019 - ICJS"
+      ],
+      "pending_files": [
+        {
+          "id": "TS-COR-2026-0004",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "subject": "Designation of State/UT Finger Print Bureau as the Single Point of Contact for NAFIS and strengthening inter-agency coordination",
+          "stage": "Pending",
+          "age": "26d (Age)",
+          "priority": "Normal",
+          "recv_date": "27/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0011",
+          "project": "Miscellaneous",
+          "prj_id": "MISC",
+          "subject": "ITE&C Department has requested all Secretariat Departments to furnish department-wise hierarchical details of official Government email IDs",
+          "stage": "Pending",
+          "age": "19d (Age)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0026",
+          "project": "PRJ-001 - AI4AP",
+          "prj_id": "PRJ-001",
+          "subject": "Note on Sparity, Ragarding Bills and Training",
+          "stage": "Pending",
+          "age": "—",
+          "priority": "Normal",
+          "recv_date": ""
+        }
       ]
     },
     {
@@ -81,30 +160,42 @@
       "pending": 3,
       "onhold": 3,
       "critical": 0,
-      "staff": [],
       "projects": [
         "PRJ-003 - AP Police Website / Citizen Portal",
         "PRJ-012 - Data Center",
         "PRJ-024 - NERS & UECCR"
-      ]
-    },
-    {
-      "officer": "N/A",
-      "pro_id": "N/A",
-      "name": "N/A",
-      "rank": "",
-      "total": 5,
-      "completed": 0,
-      "inprogress": 0,
-      "pending": 3,
-      "onhold": 2,
-      "critical": 0,
-      "staff": [],
-      "projects": [
-        "Miscellaneous",
-        "PRJ-001 - AI4AP",
-        "PRJ-003 - AP Police Website / Citizen Portal",
-        "PRJ-019 - ICJS"
+      ],
+      "pending_files": [
+        {
+          "id": "TS-COR-2026-0014",
+          "project": "PRJ-012 - Data Center",
+          "prj_id": "PRJ-012",
+          "subject": "CID has requested immediate provision of VPN connectivity/credentials for 68 MSCD (PAPILLON) devices deployed in Tirupati District",
+          "stage": "Pending",
+          "age": "19d (Age)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0017",
+          "project": "PRJ-012 - Data Center",
+          "prj_id": "PRJ-012",
+          "subject": "The Preliminary Red Team Audit of the AP Police AI4AP application identified two high-risk security observations—account takeover due to lack of login rate limiting and an unauthenticated API.",
+          "stage": "Pending",
+          "age": "19d (Age)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        },
+        {
+          "id": "TS-COR-2026-0020",
+          "project": "PRJ-003 - AP Police Website / Citizen Portal",
+          "prj_id": "PRJ-003",
+          "subject": "APTS-NCIIPC-Women and Child Safety WingVulnerability in Andhra Pradesh Government Web Portal",
+          "stage": "Pending",
+          "age": "15d (Age)",
+          "priority": "Normal",
+          "recv_date": "07/09/2026"
+        }
       ]
     },
     {
@@ -118,14 +209,33 @@
       "pending": 2,
       "onhold": 0,
       "critical": 0,
-      "staff": [
-        "PRO-141 - N.Ramanjaneyulu (PC)"
-      ],
       "projects": [
         "PRJ-003 - AP Police Website / Citizen Portal",
         "PRJ-004 - APCOPS 2.0",
         "PRJ-007 - CCTNS",
         "PRJ-036 - Trainings"
+      ],
+      "pending_files": [
+        {
+          "id": "TS-COR-2026-0003",
+          "project": "PRJ-003 - AP Police Website / Citizen Portal",
+          "prj_id": "PRJ-003",
+          "subject": "Nominated Sri. V. Jagadeeswar rao, HC-993(Contact-9290222581) person for maintenance and updating of PTO-Official police website in this reg they requesting user credentials and technical support to the nominated person",
+          "stage": "Pending",
+          "age": "25d (Age)",
+          "priority": "Normal",
+          "recv_date": "28/08/2026"
+        },
+        {
+          "id": "TS-COR-2026-0043",
+          "project": "PRJ-007 - CCTNS",
+          "prj_id": "PRJ-007",
+          "subject": "CCTNS 2.0 Citizen Portal: State Adoption Model Selection Guide-reg.",
+          "stage": "Pending",
+          "age": "6d (Age)",
+          "priority": "Normal",
+          "recv_date": "16/09/2026"
+        }
       ]
     },
     {
@@ -134,19 +244,17 @@
       "name": "K. Satish",
       "rank": "CI",
       "total": 4,
-      "completed": 1,
+      "completed": 2,
       "inprogress": 1,
       "pending": 0,
-      "onhold": 2,
+      "onhold": 1,
       "critical": 0,
-      "staff": [
-        "PRO-070 - E.Vasantha Kumari (WPC)"
-      ],
       "projects": [
         "Miscellaneous",
         "PRJ-019 - ICJS",
         "PRJ-034 - RTGS"
-      ]
+      ],
+      "pending_files": []
     },
     {
       "officer": "PRO-106 - K. Sreekanth (CI)",
@@ -159,10 +267,21 @@
       "pending": 1,
       "onhold": 0,
       "critical": 0,
-      "staff": [],
       "projects": [
         "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
         "PRJ-018 - eOffice"
+      ],
+      "pending_files": [
+        {
+          "id": "TS-COR-2026-0010",
+          "project": "PRJ-018 - eOffice",
+          "prj_id": "PRJ-018",
+          "subject": "AP Police Communication Organisation has requested creation of an e-Office email ID and provision of a new Digital Signature Key for the newly appointed Junior Office Assistant, Sri P. Uday Kumar",
+          "stage": "Pending",
+          "age": "19d (Age)",
+          "priority": "Normal",
+          "recv_date": "03/09/2026"
+        }
       ]
     },
     {
@@ -176,10 +295,10 @@
       "pending": 0,
       "onhold": 1,
       "critical": 0,
-      "staff": [],
       "projects": [
         "PRJ-015 - DRONES"
-      ]
+      ],
+      "pending_files": []
     },
     {
       "officer": "PRO-140 - MD. Sadhik (SI)",
@@ -192,173 +311,10 @@
       "pending": 0,
       "onhold": 1,
       "critical": 0,
-      "staff": [],
       "projects": [
         "PRJ-007 - CCTNS"
-      ]
-    }
-  ],
-  "staff": [
-    {
-      "staff": "N/A",
-      "pro_id": "N/A",
-      "name": "N/A",
-      "rank": "",
-      "total": 28,
-      "completed": 6,
-      "inprogress": 2,
-      "pending": 10,
-      "onhold": 10,
-      "officers": [
-        "PRO-091 - M. Mohan (CI)",
-        "PRO-094 - K. Satish (CI)",
-        "PRO-095 - K. Vijaya Kumar (CI)",
-        "PRO-106 - K. Sreekanth (CI)",
-        "PRO-125 - J. Kalpana (SI)",
-        "PRO-140 - MD. Sadhik (SI)",
-        "PRO-152 - Ch. Aditya Srinivas (SI)"
       ],
-      "projects": [
-        "Miscellaneous",
-        "PRJ-001 - AI4AP",
-        "PRJ-003 - AP Police Website / Citizen Portal",
-        "PRJ-007 - CCTNS",
-        "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
-        "PRJ-012 - Data Center",
-        "PRJ-015 - DRONES",
-        "PRJ-018 - eOffice",
-        "PRJ-019 - ICJS",
-        "PRJ-024 - NERS & UECCR",
-        "PRJ-034 - RTGS",
-        "PRJ-036 - Trainings"
-      ]
-    },
-    {
-      "staff": "PRO-156 - SK Lal John Basha (HC)",
-      "pro_id": "PRO-156",
-      "name": "SK Lal John Basha",
-      "rank": "HC",
-      "total": 11,
-      "completed": 7,
-      "inprogress": 3,
-      "pending": 1,
-      "onhold": 0,
-      "officers": [
-        "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "projects": [
-        "PRJ-023 - NATGRID-Gandiva & Sudarshan"
-      ]
-    },
-    {
-      "staff": "PRO-072 - N. Bhanu Hari (PC)",
-      "pro_id": "PRO-072",
-      "name": "N. Bhanu Hari",
-      "rank": "PC",
-      "total": 7,
-      "completed": 3,
-      "inprogress": 2,
-      "pending": 2,
-      "onhold": 0,
-      "officers": [
-        "PRO-125 - J. Kalpana (SI)",
-        "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "projects": [
-        "Miscellaneous",
-        "PRJ-007 - CCTNS"
-      ]
-    },
-    {
-      "staff": "PRO-071 - PVK Prasad (HC)",
-      "pro_id": "PRO-071",
-      "name": "PVK Prasad",
-      "rank": "HC",
-      "total": 3,
-      "completed": 1,
-      "inprogress": 1,
-      "pending": 1,
-      "onhold": 0,
-      "officers": [
-        "PRO-125 - J. Kalpana (SI)",
-        "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "projects": [
-        "Miscellaneous",
-        "PRJ-007 - CCTNS"
-      ]
-    },
-    {
-      "staff": "PRO-077 - M. Suneetha (WPC)",
-      "pro_id": "PRO-077",
-      "name": "M. Suneetha",
-      "rank": "WPC",
-      "total": 3,
-      "completed": 0,
-      "inprogress": 3,
-      "pending": 0,
-      "onhold": 0,
-      "officers": [
-        "PRO-125 - J. Kalpana (SI)",
-        "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "projects": [
-        "PRJ-007 - CCTNS",
-        "PRJ-019 - ICJS"
-      ]
-    },
-    {
-      "staff": "PRO-064 - B.S.Srinivasa Rao (PC)",
-      "pro_id": "PRO-064",
-      "name": "B.S.Srinivasa Rao",
-      "rank": "PC",
-      "total": 2,
-      "completed": 0,
-      "inprogress": 2,
-      "pending": 0,
-      "onhold": 0,
-      "officers": [
-        "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "projects": [
-        "PRJ-001 - AI4AP"
-      ]
-    },
-    {
-      "staff": "PRO-141 - N.Ramanjaneyulu (PC)",
-      "pro_id": "PRO-141",
-      "name": "N.Ramanjaneyulu",
-      "rank": "PC",
-      "total": 2,
-      "completed": 1,
-      "inprogress": 1,
-      "pending": 0,
-      "onhold": 0,
-      "officers": [
-        "PRO-125 - J. Kalpana (SI)",
-        "PRO-152 - Ch. Aditya Srinivas (SI)"
-      ],
-      "projects": [
-        "PRJ-004 - APCOPS 2.0",
-        "PRJ-007 - CCTNS"
-      ]
-    },
-    {
-      "staff": "PRO-070 - E.Vasantha Kumari (WPC)",
-      "pro_id": "PRO-070",
-      "name": "E.Vasantha Kumari",
-      "rank": "WPC",
-      "total": 1,
-      "completed": 0,
-      "inprogress": 0,
-      "pending": 0,
-      "onhold": 1,
-      "officers": [
-        "PRO-094 - K. Satish (CI)"
-      ],
-      "projects": [
-        "PRJ-019 - ICJS"
-      ]
+      "pending_files": []
     }
   ],
   "projects": [
@@ -367,22 +323,16 @@
       "prj_id": "PRJ-007",
       "name": "CCTNS",
       "total": 16,
-      "completed": 7,
-      "inprogress": 4,
-      "pending": 3,
-      "onhold": 2,
+      "completed": 8,
+      "inprogress": 5,
+      "pending": 2,
+      "onhold": 1,
       "critical": 4,
       "officers": [
         "PRO-125 - J. Kalpana (SI)",
         "PRO-136 - T. Anoj Kumar (SI)",
         "PRO-140 - MD. Sadhik (SI)",
         "PRO-152 - Ch. Aditya Srinivas (SI)"
-      ],
-      "staff": [
-        "PRO-071 - PVK Prasad (HC)",
-        "PRO-072 - N. Bhanu Hari (PC)",
-        "PRO-077 - M. Suneetha (WPC)",
-        "PRO-141 - N.Ramanjaneyulu (PC)"
       ]
     },
     {
@@ -397,9 +347,6 @@
       "critical": 0,
       "officers": [
         "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "staff": [
-        "PRO-156 - SK Lal John Basha (HC)"
       ]
     },
     {
@@ -416,10 +363,6 @@
         "PRO-094 - K. Satish (CI)",
         "PRO-125 - J. Kalpana (SI)",
         "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "staff": [
-        "PRO-071 - PVK Prasad (HC)",
-        "PRO-072 - N. Bhanu Hari (PC)"
       ]
     },
     {
@@ -434,12 +377,7 @@
       "critical": 0,
       "officers": [
         "PRO-094 - K. Satish (CI)",
-        "PRO-125 - J. Kalpana (SI)",
         "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "staff": [
-        "PRO-070 - E.Vasantha Kumari (WPC)",
-        "PRO-077 - M. Suneetha (WPC)"
       ]
     },
     {
@@ -454,8 +392,7 @@
       "critical": 0,
       "officers": [
         "PRO-091 - M. Mohan (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-003 - AP Police Website / Citizen Portal",
@@ -470,8 +407,7 @@
       "officers": [
         "PRO-091 - M. Mohan (CI)",
         "PRO-152 - Ch. Aditya Srinivas (SI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-001 - AI4AP",
@@ -485,9 +421,6 @@
       "critical": 0,
       "officers": [
         "PRO-136 - T. Anoj Kumar (SI)"
-      ],
-      "staff": [
-        "PRO-064 - B.S.Srinivasa Rao (PC)"
       ]
     },
     {
@@ -495,15 +428,14 @@
       "prj_id": "PRJ-034",
       "name": "RTGS",
       "total": 2,
-      "completed": 1,
+      "completed": 2,
       "inprogress": 0,
       "pending": 0,
-      "onhold": 1,
+      "onhold": 0,
       "critical": 0,
       "officers": [
         "PRO-094 - K. Satish (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-018 - eOffice",
@@ -517,8 +449,7 @@
       "critical": 0,
       "officers": [
         "PRO-106 - K. Sreekanth (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-015 - DRONES",
@@ -532,8 +463,7 @@
       "critical": 0,
       "officers": [
         "PRO-095 - K. Vijaya Kumar (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-004 - APCOPS 2.0",
@@ -547,9 +477,6 @@
       "critical": 0,
       "officers": [
         "PRO-152 - Ch. Aditya Srinivas (SI)"
-      ],
-      "staff": [
-        "PRO-141 - N.Ramanjaneyulu (PC)"
       ]
     },
     {
@@ -564,8 +491,7 @@
       "critical": 0,
       "officers": [
         "PRO-106 - K. Sreekanth (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-024 - NERS & UECCR",
@@ -579,8 +505,7 @@
       "critical": 0,
       "officers": [
         "PRO-091 - M. Mohan (CI)"
-      ],
-      "staff": []
+      ]
     },
     {
       "project": "PRJ-036 - Trainings",
@@ -594,8 +519,7 @@
       "critical": 0,
       "officers": [
         "PRO-152 - Ch. Aditya Srinivas (SI)"
-      ],
-      "staff": []
+      ]
     }
   ],
   "channels": [
@@ -636,7 +560,6 @@
       "Nature of Request": "information",
       "Final Decision": "eMAIL",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "10-09-2026",
@@ -649,10 +572,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -675,7 +594,6 @@
       "Nature of Request": "information",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "File Dispatched",
       "Priority": "Normal",
       "Dispatched Date": "03/09/2026",
@@ -688,10 +606,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -714,7 +628,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Team Support",
       "Concerned Officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -727,10 +640,6 @@
       "officer_name": "Ch. Aditya Srinivas",
       "officer_rank": "SI",
       "officer_label": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-003",
       "project_name": "AP Police Website / Citizen Portal",
       "project_label": "PRJ-003 - AP Police Website / Citizen Portal",
@@ -753,7 +662,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "N/A",
       "Concerned Officer": "N/A",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -763,13 +671,9 @@
       "": "",
       "status_group": "Pending",
       "officer_id": "N/A",
-      "officer_name": "N/A",
+      "officer_name": "Unassigned",
       "officer_rank": "",
-      "officer_label": "N/A",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_label": "Unassigned",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -792,7 +696,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to DGP",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "09-09-2026",
@@ -805,10 +708,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -831,7 +730,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "Other",
       "Concerned Officer": "N/A",
-      "Concerned Staff": "N/A",
       "Current Stage": "N/A",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -841,13 +739,9 @@
       "": "",
       "status_group": "On Hold / Closed",
       "officer_id": "N/A",
-      "officer_name": "N/A",
+      "officer_name": "Unassigned",
       "officer_rank": "",
-      "officer_label": "N/A",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_label": "Unassigned",
       "project_id": "PRJ-003",
       "project_name": "AP Police Website / Citizen Portal",
       "project_label": "PRJ-003 - AP Police Website / Citizen Portal",
@@ -870,7 +764,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-094 - K. Satish (CI)",
-      "Concerned Staff": "PRO-070 - E.Vasantha Kumari (WPC)",
       "Current Stage": "N/A",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -883,10 +776,6 @@
       "officer_name": "K. Satish",
       "officer_rank": "CI",
       "officer_label": "PRO-094 - K. Satish (CI)",
-      "staff_id": "PRO-070",
-      "staff_name": "E.Vasantha Kumari",
-      "staff_rank": "WPC",
-      "staff_label": "PRO-070 - E.Vasantha Kumari (WPC)",
       "project_id": "PRJ-019",
       "project_name": "ICJS",
       "project_label": "PRJ-019 - ICJS",
@@ -909,7 +798,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "N/A",
       "Concerned Officer": "",
-      "Concerned Staff": "N/A",
       "Current Stage": "N/A",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -919,13 +807,9 @@
       "": "",
       "status_group": "On Hold / Closed",
       "officer_id": "N/A",
-      "officer_name": "N/A",
+      "officer_name": "Unassigned",
       "officer_rank": "",
-      "officer_label": "N/A",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_label": "Unassigned",
       "project_id": "PRJ-019",
       "project_name": "ICJS",
       "project_label": "PRJ-019 - ICJS",
@@ -948,7 +832,6 @@
       "Nature of Request": "Action",
       "Final Decision": "eMAIL",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -961,10 +844,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -987,7 +866,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-106 - K. Sreekanth (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1000,10 +878,6 @@
       "officer_name": "K. Sreekanth",
       "officer_rank": "CI",
       "officer_label": "PRO-106 - K. Sreekanth (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-018",
       "project_name": "eOffice",
       "project_label": "PRJ-018 - eOffice",
@@ -1026,7 +900,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "N/A",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1036,13 +909,9 @@
       "": "",
       "status_group": "Pending",
       "officer_id": "N/A",
-      "officer_name": "N/A",
+      "officer_name": "Unassigned",
       "officer_rank": "",
-      "officer_label": "N/A",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_label": "Unassigned",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -1065,7 +934,6 @@
       "Nature of Request": "information",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-094 - K. Satish (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1078,10 +946,6 @@
       "officer_name": "K. Satish",
       "officer_rank": "CI",
       "officer_label": "PRO-094 - K. Satish (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-034",
       "project_name": "RTGS",
       "project_label": "PRJ-034 - RTGS",
@@ -1104,7 +968,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Information",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1117,10 +980,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1143,7 +1002,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1156,10 +1014,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-012",
       "project_name": "Data Center",
       "project_label": "PRJ-012 - Data Center",
@@ -1182,7 +1036,6 @@
       "Nature of Request": "information",
       "Final Decision": "eMAIL",
       "Concerned Officer": "PRO-095 - K. Vijaya Kumar (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "N/A",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1195,10 +1048,6 @@
       "officer_name": "K. Vijaya Kumar",
       "officer_rank": "CI",
       "officer_label": "PRO-095 - K. Vijaya Kumar (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-015",
       "project_name": "DRONES",
       "project_label": "PRJ-015 - DRONES",
@@ -1221,7 +1070,6 @@
       "Nature of Request": "information",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1234,10 +1082,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -1260,7 +1104,6 @@
       "Nature of Request": "Action",
       "Final Decision": "eMAIL",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1273,10 +1116,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-012",
       "project_name": "Data Center",
       "project_label": "PRJ-012 - Data Center",
@@ -1299,7 +1138,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to IGP",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Letter sent & Reply Required - Awaiting Replies",
       "Priority": "High",
       "Dispatched Date": "10-09-2026",
@@ -1312,10 +1150,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -1338,7 +1172,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-064 - B.S.Srinivasa Rao (PC)",
       "Current Stage": "Proforma Sent & Reply Required - Awaiting Replies",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1351,10 +1184,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-064",
-      "staff_name": "B.S.Srinivasa Rao",
-      "staff_rank": "PC",
-      "staff_label": "PRO-064 - B.S.Srinivasa Rao (PC)",
       "project_id": "PRJ-001",
       "project_name": "AI4AP",
       "project_label": "PRJ-001 - AI4AP",
@@ -1377,7 +1206,6 @@
       "Nature of Request": "Action",
       "Final Decision": "N/A",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1390,10 +1218,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-003",
       "project_name": "AP Police Website / Citizen Portal",
       "project_label": "PRJ-003 - AP Police Website / Citizen Portal",
@@ -1416,7 +1240,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Team Support",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "Critical",
       "Dispatched Date": "",
@@ -1429,10 +1252,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1455,7 +1274,6 @@
       "Nature of Request": "information",
       "Final Decision": "Team Support",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1468,10 +1286,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1494,7 +1308,6 @@
       "Nature of Request": "information",
       "Final Decision": "Team Support",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-071 - PVK Prasad (HC)",
       "Current Stage": "in-progress",
       "Priority": "Critical",
       "Dispatched Date": "",
@@ -1507,10 +1320,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-071",
-      "staff_name": "PVK Prasad",
-      "staff_rank": "HC",
-      "staff_label": "PRO-071 - PVK Prasad (HC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1533,7 +1342,6 @@
       "Nature of Request": "Action",
       "Final Decision": "eOffice",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1546,10 +1354,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1572,7 +1376,6 @@
       "Nature of Request": "User Creation",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1585,10 +1388,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -1611,7 +1410,6 @@
       "Nature of Request": "Decision Pending",
       "Final Decision": "Note File to DGP",
       "Concerned Officer": "N/A",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1621,13 +1419,9 @@
       "": "",
       "status_group": "Pending",
       "officer_id": "N/A",
-      "officer_name": "N/A",
+      "officer_name": "Unassigned",
       "officer_rank": "",
-      "officer_label": "N/A",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_label": "Unassigned",
       "project_id": "PRJ-001",
       "project_name": "AI4AP",
       "project_label": "PRJ-001 - AI4AP",
@@ -1650,7 +1444,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-077 - M. Suneetha (WPC)",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1663,10 +1456,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-077",
-      "staff_name": "M. Suneetha",
-      "staff_rank": "WPC",
-      "staff_label": "PRO-077 - M. Suneetha (WPC)",
       "project_id": "PRJ-019",
       "project_name": "ICJS",
       "project_label": "PRJ-019 - ICJS",
@@ -1689,7 +1478,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to IGP",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-077 - M. Suneetha (WPC)",
       "Current Stage": "Mail Sent & Reply Required - Awaiting Replies",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1702,10 +1490,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-077",
-      "staff_name": "M. Suneetha",
-      "staff_rank": "WPC",
-      "staff_label": "PRO-077 - M. Suneetha (WPC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1728,7 +1512,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "Concerned Staff": "PRO-141 - N.Ramanjaneyulu (PC)",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1741,10 +1524,6 @@
       "officer_name": "Ch. Aditya Srinivas",
       "officer_rank": "SI",
       "officer_label": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "staff_id": "PRO-141",
-      "staff_name": "N.Ramanjaneyulu",
-      "staff_rank": "PC",
-      "staff_label": "PRO-141 - N.Ramanjaneyulu (PC)",
       "project_id": "PRJ-004",
       "project_name": "APCOPS 2.0",
       "project_label": "PRJ-004 - APCOPS 2.0",
@@ -1767,7 +1546,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-071 - PVK Prasad (HC)",
       "Current Stage": "Work Completed-Pending for approval",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1780,10 +1558,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-071",
-      "staff_name": "PVK Prasad",
-      "staff_rank": "HC",
-      "staff_label": "PRO-071 - PVK Prasad (HC)",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -1806,7 +1580,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Work Completed-Pending for approval",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1819,10 +1592,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -1845,7 +1614,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Radio Message to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1858,10 +1626,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -1884,7 +1648,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to DGP",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Draft Prepared - Sent For Approval",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1897,10 +1660,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -1923,7 +1682,6 @@
       "Nature of Request": "Action",
       "Final Decision": "DPR",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Pending For Approval",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1936,10 +1694,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -1962,7 +1716,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-064 - B.S.Srinivasa Rao (PC)",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -1975,10 +1728,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-064",
-      "staff_name": "B.S.Srinivasa Rao",
-      "staff_rank": "PC",
-      "staff_label": "PRO-064 - B.S.Srinivasa Rao (PC)",
       "project_id": "PRJ-001",
       "project_name": "AI4AP",
       "project_label": "PRJ-001 - AI4AP",
@@ -2001,7 +1750,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-077 - M. Suneetha (WPC)",
       "Current Stage": "Letter sent & Reply Required - Awaiting Replies",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2014,10 +1762,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-077",
-      "staff_name": "M. Suneetha",
-      "staff_rank": "WPC",
-      "staff_label": "PRO-077 - M. Suneetha (WPC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2040,7 +1784,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "High",
       "Dispatched Date": "",
@@ -2053,10 +1796,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -2079,7 +1818,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-071 - PVK Prasad (HC)",
       "Current Stage": "Completed",
       "Priority": "High",
       "Dispatched Date": "",
@@ -2092,10 +1830,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-071",
-      "staff_name": "PVK Prasad",
-      "staff_rank": "HC",
-      "staff_label": "PRO-071 - PVK Prasad (HC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2118,7 +1852,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-140 - MD. Sadhik (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "N/A",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2131,10 +1864,6 @@
       "officer_name": "MD. Sadhik",
       "officer_rank": "SI",
       "officer_label": "PRO-140 - MD. Sadhik (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2157,7 +1886,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Minutes",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "High",
       "Dispatched Date": "",
@@ -2170,10 +1898,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -2196,7 +1920,6 @@
       "Nature of Request": "User Creation",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2209,10 +1932,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -2235,7 +1954,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-106 - K. Sreekanth (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2248,10 +1966,6 @@
       "officer_name": "K. Sreekanth",
       "officer_rank": "CI",
       "officer_label": "PRO-106 - K. Sreekanth (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-008",
       "project_name": "CCTV360 (MATRIX) - Public Cameras",
       "project_label": "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
@@ -2274,7 +1988,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "Pending",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2287,10 +2000,6 @@
       "officer_name": "Ch. Aditya Srinivas",
       "officer_rank": "SI",
       "officer_label": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2313,7 +2022,6 @@
       "Nature of Request": "information",
       "Final Decision": "Letter to Concerned",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-141 - N.Ramanjaneyulu (PC)",
       "Current Stage": "Completed",
       "Priority": "Critical",
       "Dispatched Date": "",
@@ -2326,10 +2034,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-141",
-      "staff_name": "N.Ramanjaneyulu",
-      "staff_rank": "PC",
-      "staff_label": "PRO-141 - N.Ramanjaneyulu (PC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2352,7 +2056,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to IGP",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2365,10 +2068,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2391,7 +2090,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "PRO-072 - N. Bhanu Hari (PC)",
       "Current Stage": "in-progress",
       "Priority": "Critical",
       "Dispatched Date": "",
@@ -2404,10 +2102,6 @@
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "PRO-072",
-      "staff_name": "N. Bhanu Hari",
-      "staff_rank": "PC",
-      "staff_label": "PRO-072 - N. Bhanu Hari (PC)",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2430,23 +2124,18 @@
       "Nature of Request": "Response",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
-      "Current Stage": "Pending",
+      "Current Stage": "Mail Sent & Reply Required - Awaiting Replies",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "Pending",
+      "status_group": "In-Progress",
       "officer_id": "PRO-125",
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
@@ -2469,7 +2158,6 @@
       "Nature of Request": "Action",
       "Final Decision": "",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "",
       "Current Stage": "",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2482,10 +2170,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-024",
       "project_name": "NERS & UECCR",
       "project_label": "PRJ-024 - NERS & UECCR",
@@ -2508,7 +2192,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Office work",
       "Concerned Officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "Concerned Staff": "",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2521,10 +2204,6 @@
       "officer_name": "Ch. Aditya Srinivas",
       "officer_rank": "SI",
       "officer_label": "PRO-152 - Ch. Aditya Srinivas (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-036",
       "project_name": "Trainings",
       "project_label": "PRJ-036 - Trainings",
@@ -2547,29 +2226,24 @@
       "Nature of Request": "Action",
       "Final Decision": "",
       "Concerned Officer": "PRO-094 - K. Satish (CI)",
-      "Concerned Staff": "",
-      "Current Stage": "",
+      "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "On Hold / Closed",
+      "status_group": "Completed",
       "officer_id": "PRO-094",
       "officer_name": "K. Satish",
       "officer_rank": "CI",
       "officer_label": "PRO-094 - K. Satish (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-034",
       "project_name": "RTGS",
       "project_label": "PRJ-034 - RTGS",
-      "display_time_metric": "7d (Age)",
-      "calculated_tat_days": 0,
-      "calculated_aging_days": 0
+      "calculated_tat_days": 7,
+      "calculated_aging_days": 7,
+      "display_time_metric": "7d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0051",
@@ -2583,10 +2257,9 @@
       "Subject / Work Description": "MHA has issued an Operational Manual for foreigner prisoner verification to ensure a uniform process for identification and verification of foreign national prisoners and matching of prisoner records with the IVFR T database through the ICJS platform.",
       "Due date": "",
       "Project": "PRJ-019 - ICJS",
-      "Nature of Request": "information",
+      "Nature of Request": "Decision Pending",
       "Final Decision": "",
-      "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "",
+      "Concerned Officer": "N/A",
       "Current Stage": "",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2595,14 +2268,10 @@
       "Remarks": "",
       "": "",
       "status_group": "On Hold / Closed",
-      "officer_id": "PRO-125",
-      "officer_name": "J. Kalpana",
-      "officer_rank": "SI",
-      "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
+      "officer_id": "N/A",
+      "officer_name": "Unassigned",
+      "officer_rank": "",
+      "officer_label": "Unassigned",
       "project_id": "PRJ-019",
       "project_name": "ICJS",
       "project_label": "PRJ-019 - ICJS",
@@ -2625,7 +2294,6 @@
       "Nature of Request": "information",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "",
       "Current Stage": "",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2638,10 +2306,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-012",
       "project_name": "Data Center",
       "project_label": "PRJ-012 - Data Center",
@@ -2664,7 +2328,6 @@
       "Nature of Request": "Action",
       "Final Decision": "",
       "Concerned Officer": "PRO-091 - M. Mohan (CI)",
-      "Concerned Staff": "",
       "Current Stage": "",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2677,10 +2340,6 @@
       "officer_name": "M. Mohan",
       "officer_rank": "CI",
       "officer_label": "PRO-091 - M. Mohan (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-012",
       "project_name": "Data Center",
       "project_label": "PRJ-012 - Data Center",
@@ -2703,7 +2362,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Radio Message to Concerned",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2716,10 +2374,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -2742,29 +2396,24 @@
       "Nature of Request": "Action",
       "Final Decision": "Note File to DGP",
       "Concerned Officer": "PRO-125 - J. Kalpana (SI)",
-      "Concerned Staff": "N/A",
-      "Current Stage": "",
+      "Current Stage": "Completed",
       "Priority": "Normal",
       "Dispatched Date": "",
       "Final Closure Date": "",
       "Delay days": "",
       "Remarks": "",
       "": "",
-      "status_group": "On Hold / Closed",
+      "status_group": "Completed",
       "officer_id": "PRO-125",
       "officer_name": "J. Kalpana",
       "officer_rank": "SI",
       "officer_label": "PRO-125 - J. Kalpana (SI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "PRJ-007",
       "project_name": "CCTNS",
       "project_label": "PRJ-007 - CCTNS",
-      "display_time_metric": "5d (Age)",
-      "calculated_tat_days": 0,
-      "calculated_aging_days": 0
+      "calculated_tat_days": 5,
+      "calculated_aging_days": 5,
+      "display_time_metric": "5d (TAT)"
     },
     {
       "ID": "TS-COR-2026-0056",
@@ -2781,7 +2430,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Information",
       "Concerned Officer": "PRO-136 - T. Anoj Kumar (SI)",
-      "Concerned Staff": "PRO-156 - SK Lal John Basha (HC)",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2794,10 +2442,6 @@
       "officer_name": "T. Anoj Kumar",
       "officer_rank": "SI",
       "officer_label": "PRO-136 - T. Anoj Kumar (SI)",
-      "staff_id": "PRO-156",
-      "staff_name": "SK Lal John Basha",
-      "staff_rank": "HC",
-      "staff_label": "PRO-156 - SK Lal John Basha (HC)",
       "project_id": "PRJ-023",
       "project_name": "NATGRID-Gandiva & Sudarshan",
       "project_label": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
@@ -2820,7 +2464,6 @@
       "Nature of Request": "Action",
       "Final Decision": "Reply",
       "Concerned Officer": "PRO-094 - K. Satish (CI)",
-      "Concerned Staff": "N/A",
       "Current Stage": "in-progress",
       "Priority": "Normal",
       "Dispatched Date": "",
@@ -2833,10 +2476,6 @@
       "officer_name": "K. Satish",
       "officer_rank": "CI",
       "officer_label": "PRO-094 - K. Satish (CI)",
-      "staff_id": "N/A",
-      "staff_name": "N/A",
-      "staff_rank": "",
-      "staff_label": "N/A",
       "project_id": "MISC",
       "project_name": "Miscellaneous",
       "project_label": "Miscellaneous",
@@ -2844,5 +2483,240 @@
       "display_time_metric": "1d (Age)",
       "calculated_tat_days": 0
     }
-  ]
+  ],
+  "pending_abstract": {
+    "total_pending": 13,
+    "officers_pending": [
+      {
+        "officer": "PRO-136 - T. Anoj Kumar (SI)",
+        "pro_id": "PRO-136",
+        "name": "T. Anoj Kumar",
+        "rank": "SI",
+        "total": 20,
+        "completed": 8,
+        "inprogress": 8,
+        "pending": 4,
+        "onhold": 0,
+        "critical": 2,
+        "projects": [
+          "Miscellaneous",
+          "PRJ-001 - AI4AP",
+          "PRJ-007 - CCTNS",
+          "PRJ-019 - ICJS",
+          "PRJ-023 - NATGRID-Gandiva & Sudarshan"
+        ],
+        "pending_files": [
+          {
+            "id": "TS-COR-2026-0025",
+            "project": "PRJ-023 - NATGRID-Gandiva & Sudarshan",
+            "prj_id": "PRJ-023",
+            "subject": "Obtain Account creation letters from Bhavana madam DSP PTC",
+            "stage": "Pending",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0030",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "subject": "DGP Desk No 5 Reply",
+            "stage": "Work Completed-Pending for approval",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0031",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "subject": "Letter to IT Registar,Non-issuance of STC Numbers by Certain Courts and Non-Implementation of CIS Application",
+            "stage": "Work Completed-Pending for approval",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          },
+          {
+            "id": "TS-COR-2026-0034",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "subject": "Equipments Recommended for conductiong proceedings by video confrencing at the court point and remote point",
+            "stage": "Pending For Approval",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          }
+        ]
+      },
+      {
+        "officer": "Unassigned",
+        "pro_id": "N/A",
+        "name": "Unassigned",
+        "rank": "",
+        "total": 6,
+        "completed": 0,
+        "inprogress": 0,
+        "pending": 3,
+        "onhold": 3,
+        "critical": 0,
+        "projects": [
+          "Miscellaneous",
+          "PRJ-001 - AI4AP",
+          "PRJ-003 - AP Police Website / Citizen Portal",
+          "PRJ-019 - ICJS"
+        ],
+        "pending_files": [
+          {
+            "id": "TS-COR-2026-0004",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "subject": "Designation of State/UT Finger Print Bureau as the Single Point of Contact for NAFIS and strengthening inter-agency coordination",
+            "stage": "Pending",
+            "age": "26d (Age)",
+            "priority": "Normal",
+            "recv_date": "27/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0011",
+            "project": "Miscellaneous",
+            "prj_id": "MISC",
+            "subject": "ITE&C Department has requested all Secretariat Departments to furnish department-wise hierarchical details of official Government email IDs",
+            "stage": "Pending",
+            "age": "19d (Age)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0026",
+            "project": "PRJ-001 - AI4AP",
+            "prj_id": "PRJ-001",
+            "subject": "Note on Sparity, Ragarding Bills and Training",
+            "stage": "Pending",
+            "age": "—",
+            "priority": "Normal",
+            "recv_date": ""
+          }
+        ]
+      },
+      {
+        "officer": "PRO-091 - M. Mohan (CI)",
+        "pro_id": "PRO-091",
+        "name": "M. Mohan",
+        "rank": "CI",
+        "total": 6,
+        "completed": 0,
+        "inprogress": 0,
+        "pending": 3,
+        "onhold": 3,
+        "critical": 0,
+        "projects": [
+          "PRJ-003 - AP Police Website / Citizen Portal",
+          "PRJ-012 - Data Center",
+          "PRJ-024 - NERS & UECCR"
+        ],
+        "pending_files": [
+          {
+            "id": "TS-COR-2026-0014",
+            "project": "PRJ-012 - Data Center",
+            "prj_id": "PRJ-012",
+            "subject": "CID has requested immediate provision of VPN connectivity/credentials for 68 MSCD (PAPILLON) devices deployed in Tirupati District",
+            "stage": "Pending",
+            "age": "19d (Age)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0017",
+            "project": "PRJ-012 - Data Center",
+            "prj_id": "PRJ-012",
+            "subject": "The Preliminary Red Team Audit of the AP Police AI4AP application identified two high-risk security observations—account takeover due to lack of login rate limiting and an unauthenticated API.",
+            "stage": "Pending",
+            "age": "19d (Age)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          },
+          {
+            "id": "TS-COR-2026-0020",
+            "project": "PRJ-003 - AP Police Website / Citizen Portal",
+            "prj_id": "PRJ-003",
+            "subject": "APTS-NCIIPC-Women and Child Safety WingVulnerability in Andhra Pradesh Government Web Portal",
+            "stage": "Pending",
+            "age": "15d (Age)",
+            "priority": "Normal",
+            "recv_date": "07/09/2026"
+          }
+        ]
+      },
+      {
+        "officer": "PRO-152 - Ch. Aditya Srinivas (SI)",
+        "pro_id": "PRO-152",
+        "name": "Ch. Aditya Srinivas",
+        "rank": "SI",
+        "total": 4,
+        "completed": 0,
+        "inprogress": 2,
+        "pending": 2,
+        "onhold": 0,
+        "critical": 0,
+        "projects": [
+          "PRJ-003 - AP Police Website / Citizen Portal",
+          "PRJ-004 - APCOPS 2.0",
+          "PRJ-007 - CCTNS",
+          "PRJ-036 - Trainings"
+        ],
+        "pending_files": [
+          {
+            "id": "TS-COR-2026-0003",
+            "project": "PRJ-003 - AP Police Website / Citizen Portal",
+            "prj_id": "PRJ-003",
+            "subject": "Nominated Sri. V. Jagadeeswar rao, HC-993(Contact-9290222581) person for maintenance and updating of PTO-Official police website in this reg they requesting user credentials and technical support to the nominated person",
+            "stage": "Pending",
+            "age": "25d (Age)",
+            "priority": "Normal",
+            "recv_date": "28/08/2026"
+          },
+          {
+            "id": "TS-COR-2026-0043",
+            "project": "PRJ-007 - CCTNS",
+            "prj_id": "PRJ-007",
+            "subject": "CCTNS 2.0 Citizen Portal: State Adoption Model Selection Guide-reg.",
+            "stage": "Pending",
+            "age": "6d (Age)",
+            "priority": "Normal",
+            "recv_date": "16/09/2026"
+          }
+        ]
+      },
+      {
+        "officer": "PRO-106 - K. Sreekanth (CI)",
+        "pro_id": "PRO-106",
+        "name": "K. Sreekanth",
+        "rank": "CI",
+        "total": 2,
+        "completed": 1,
+        "inprogress": 0,
+        "pending": 1,
+        "onhold": 0,
+        "critical": 0,
+        "projects": [
+          "PRJ-008 - CCTV360 (MATRIX) - Public Cameras",
+          "PRJ-018 - eOffice"
+        ],
+        "pending_files": [
+          {
+            "id": "TS-COR-2026-0010",
+            "project": "PRJ-018 - eOffice",
+            "prj_id": "PRJ-018",
+            "subject": "AP Police Communication Organisation has requested creation of an e-Office email ID and provision of a new Digital Signature Key for the newly appointed Junior Office Assistant, Sri P. Uday Kumar",
+            "stage": "Pending",
+            "age": "19d (Age)",
+            "priority": "Normal",
+            "recv_date": "03/09/2026"
+          }
+        ]
+      }
+    ],
+    "oral_speech": "Sir, out of 57 total correspondence files, 13 files are currently pending action/approval across 5 officer queues:\n• PRO-136 - T. Anoj Kumar (SI): 4 pending (Miscellaneous, AI4AP, CCTNS)\n• Unassigned: 3 pending (Miscellaneous, AI4AP, AP Police Website / Citizen Portal)\n• PRO-091 - M. Mohan (CI): 3 pending (AP Police Website / Citizen Portal, Data Center, NERS & UECCR)\n• PRO-152 - Ch. Aditya Srinivas (SI): 2 pending (AP Police Website / Citizen Portal, APCOPS 2.0, CCTNS)\n• PRO-106 - K. Sreekanth (CI): 1 pending (Public Cameras, eOffice)\nIn addition, 15 files are actively in-progress, and 20 files have been fully resolved.",
+    "whatsapp_text": "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n📋 *OFFICER-WISE PENDING CORRESPONDENCE ABSTRACT*\n📅 Date: 22-09-2026 01:02 PM\n\n📊 *Overall Status:*\n• Total Intake: 57 Files\n• 🟡 Pending Action: 13 Files\n• 🔵 Active In-Progress: 15 Files\n• 🟢 Completed / Dispatched: 20 Files\n• 🔴 Critical Priority: 4 Files\n\n👤 *Officer-Wise Pending Breakdown:*\n1. *PRO-136 - T. Anoj Kumar (SI)*: 4 Pending (Total Assigned: 20)\n   - TS-COR-2026-0025 | PRJ-023: Pending (—)\n   - TS-COR-2026-0030 | MISC: Work Completed-Pending for approval (—)\n   - TS-COR-2026-0031 | PRJ-007: Work Completed-Pending for approval (—)\n   - TS-COR-2026-0034 | MISC: Pending For Approval (—)\n2. *Unassigned*: 3 Pending (Total Assigned: 6)\n   - TS-COR-2026-0004 | MISC: Pending (26d (Age))\n   - TS-COR-2026-0011 | MISC: Pending (19d (Age))\n   - TS-COR-2026-0026 | PRJ-001: Pending (—)\n3. *PRO-091 - M. Mohan (CI)*: 3 Pending (Total Assigned: 6)\n   - TS-COR-2026-0014 | PRJ-012: Pending (19d (Age))\n   - TS-COR-2026-0017 | PRJ-012: Pending (19d (Age))\n   - TS-COR-2026-0020 | PRJ-003: Pending (15d (Age))\n4. *PRO-152 - Ch. Aditya Srinivas (SI)*: 2 Pending (Total Assigned: 4)\n   - TS-COR-2026-0003 | PRJ-003: Pending (25d (Age))\n   - TS-COR-2026-0043 | PRJ-007: Pending (6d (Age))\n5. *PRO-106 - K. Sreekanth (CI)*: 1 Pending (Total Assigned: 2)\n   - TS-COR-2026-0010 | PRJ-018: Pending (19d (Age))\n\n_Generated from AP Police TS Executive Command Portal_"
+  }
 }

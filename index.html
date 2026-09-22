@@ -80,55 +80,62 @@
 
     <!-- TOP EXECUTIVE HEADER BAR -->
     <header class="sticky top-0 z-40 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 border-b border-blue-900/60 shadow-xl backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
             
             <!-- AP Police Brand & Title -->
-            <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-blue-700 to-indigo-900 p-0.5 shadow-lg shadow-blue-900/40 flex items-center justify-center">
                     <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
                         <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
                     </div>
                 </div>
                 <div>
                     <div class="flex items-center space-x-2">
-                        <span class="text-[10px] font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
-                        <span id="sync-status-badge" class="flex items-center text-[10px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        <span class="text-[9.5px] font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
+                        <span id="sync-status-badge" class="flex items-center text-[9.5px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
-                            <span>Google Sheets Live Sync</span>
+                            <span>Google Sheets Live</span>
                         </span>
                     </div>
-                    <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white flex items-center gap-2 mt-0.5">
+                    <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2 mt-0.5">
                         PCS&S Correspondence & Tappals Matrix
                         <span class="text-xs font-normal text-slate-400 hidden md:inline">| Executive Command Dashboard</span>
                     </h1>
                 </div>
             </div>
 
-            <!-- Header Quick Actions & Live Info -->
+            <!-- Header Quick Actions & Pending Abstract Trigger -->
             <div class="flex items-center flex-wrap gap-2 no-print">
-                <div class="text-right hidden sm:block mr-2">
-                    <div class="text-[10.5px] text-slate-400">Source: <span class="text-emerald-400 font-semibold inline-flex items-center gap-1"><i data-lucide="cloud" class="w-3 h-3"></i> Google Sheets</span></div>
-                    <div class="text-[10.5px] text-slate-400">Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
+                
+                <!-- PRIMARY FEATURE: Instant Pending Abstract & Oral Brief -->
+                <button onclick="openPendingAbstractModal()" title="View Officer-Wise Pending Abstract and Oral Briefing Script" class="px-3 py-1.5 text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95 animate-pulse">
+                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                    <span>Pending Abstract (Oral Brief)</span>
+                    <span id="header-pending-count" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-mono font-black">--</span>
+                </button>
+
+                <div class="text-right hidden xl:block mr-1 text-[10px] text-slate-400">
+                    <div>Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
 
                 <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                    <span>Open Sheet ↗</span>
+                    <span class="hidden sm:inline">Sheet ↗</span>
                 </a>
 
                 <button onclick="fetchGoogleSheetData(true)" title="Force sync now" class="px-2.5 py-1.5 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-                    <span>Sync</span>
+                    <span class="hidden sm:inline">Sync</span>
                 </button>
 
                 <button onclick="exportFilteredCSV()" title="Export current view to CSV" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                    <span>Export</span>
+                    <span class="hidden sm:inline">Export</span>
                 </button>
 
                 <button onclick="window.print()" title="Print Executive Brief" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-lg flex items-center gap-1.5 transition shadow-sm">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                    <span>Print</span>
+                    <span class="hidden sm:inline">Print</span>
                 </button>
             </div>
         </div>
@@ -164,14 +171,14 @@
             </div>
 
             <!-- Pending -->
-            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
+            <div onclick="openPendingAbstractModal()" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500 ring-1 ring-amber-500/30">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Pending Action</span>
+                    <span class="text-amber-400 font-bold">Pending Action ⚡</span>
                     <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
                 <div class="text-2xl font-black text-amber-400" id="kpi-pending">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> awaiting decision
+                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> (Click for Abstract)
                 </div>
             </div>
 
@@ -245,7 +252,7 @@
                 </button>
                 <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Officers & Staff (PRO-IDs)</span>
+                    <span>Officers Workload & Portfolios (PRO-IDs)</span>
                 </button>
                 <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="folder-kanban" class="w-4 h-4"></i>
@@ -346,49 +353,25 @@
 
         </div>
 
-        <!-- ================= TAB 2: OFFICERS & STAFF ================= -->
+        <!-- ================= TAB 2: OFFICERS WORKLOAD & PORTFOLIOS ================= -->
         <div id="tab-officers" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
-                        Officer Leadership & Technical Staff Matrix
+                        Officer Leadership & Workload Matrix (PRO-IDs)
                     </h2>
-                    <p class="text-xs text-slate-400">Track task volume, completion rates, allocated staff (HC/PC), and managed projects by PRO-ID</p>
+                    <p class="text-xs text-slate-400">Track task volume, completion rates, pending queues, and managed projects by officer</p>
                 </div>
+                <button onclick="openPendingAbstractModal()" class="px-3 py-1.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition">
+                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                    <span>View Oral Brief</span>
+                </button>
             </div>
 
             <!-- Officer Cards Grid -->
             <div id="officer-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated dynamically -->
-            </div>
-
-            <!-- Staff Allocation & Workload Summary Table -->
-            <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
-                <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                    <i data-lucide="user-cog" class="w-4 h-4 text-blue-400"></i>
-                    Staff Allocation & Workload Summary (PRO-IDs)
-                </h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10.5px] font-semibold border-b border-slate-800">
-                            <tr>
-                                <th class="py-3 px-3">Staff Pro-ID & Name</th>
-                                <th class="py-3 px-3">Assisting Officers</th>
-                                <th class="py-3 px-3">Active Projects</th>
-                                <th class="py-3 px-2.5 text-center">Total</th>
-                                <th class="py-3 px-2.5 text-center text-amber-400">Pending</th>
-                                <th class="py-3 px-2.5 text-center text-indigo-400">In-Prog</th>
-                                <th class="py-3 px-2.5 text-center text-emerald-400">Done</th>
-                                <th class="py-3 px-2.5 text-center text-slate-400">Hold/NA</th>
-                                <th class="py-3 px-3">Progress</th>
-                            </tr>
-                        </thead>
-                        <tbody id="staff-summary-tbody" class="divide-y divide-slate-800/60">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
 
@@ -400,7 +383,7 @@
                         <i data-lucide="layers" class="w-5 h-5 text-blue-400"></i>
                         Technical Projects Portfolio (PRJ-IDs)
                     </h2>
-                    <p class="text-xs text-slate-400">Standardized project breakdown with assigned lead officers, support staff, and resolution progress</p>
+                    <p class="text-xs text-slate-400">Standardized project breakdown with assigned lead officers and resolution progress</p>
                 </div>
             </div>
 
@@ -418,7 +401,7 @@
                     
                     <div class="lg:col-span-2 relative">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
-                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID (e.g. 136, PRJ-023, CI, HC, CCTNS, Subject)..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID (e.g. 136, PRJ-023, CI, CCTNS, Subject)..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
                     <div>
@@ -469,8 +452,7 @@
                                 <th class="py-3 px-2.5">Channel</th>
                                 <th class="py-3 px-3">Project (PRJ-ID)</th>
                                 <th class="py-3 px-4">Subject / Work Description</th>
-                                <th class="py-3 px-3">Officer (PRO-ID)</th>
-                                <th class="py-3 px-3">Staff (PRO-ID)</th>
+                                <th class="py-3 px-3">Officer-in-Charge (PRO-ID)</th>
                                 <th class="py-3 px-2.5 text-center">Stage</th>
                                 <th class="py-3 px-2 text-center">Priority</th>
                                 <th class="py-3 px-2.5 text-right">TAT / Age</th>
@@ -485,6 +467,116 @@
         </div>
 
     </main>
+
+    <!-- ================= EXECUTIVE PENDING ABSTRACT & ORAL BRIEF MODAL ================= -->
+    <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5">
+        <div class="glass-card rounded-2xl border border-amber-500/50 max-w-4xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
+            
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                        <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">EXECUTIVE BRIEFING TOOL</span>
+                            <span class="text-xs text-slate-400" id="abstract-timestamp">--</span>
+                        </div>
+                        <h2 class="text-lg font-extrabold text-white flex items-center gap-2 mt-0.5">
+                            Officer-Wise Pending Correspondence Abstract
+                        </h2>
+                    </div>
+                </div>
+                <button onclick="closePendingAbstractModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Sub Navigation Tabs for Briefing Tool -->
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex space-x-2">
+                    <button onclick="switchAbstractTab('speech')" id="abstract-tab-speech" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 shadow flex items-center gap-1.5 transition">
+                        <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+                        <span>Oral Speech Script</span>
+                    </button>
+                    <button onclick="switchAbstractTab('cards')" id="abstract-tab-cards" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                        <span>Officer Pending Cards</span>
+                    </button>
+                    <button onclick="switchAbstractTab('whatsapp')" id="abstract-tab-whatsapp" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                        <span>WhatsApp Share Text</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-3 py-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        <span id="copy-btn-text">Copy Brief</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Content Area -->
+            <div class="overflow-y-auto flex-grow space-y-4 pr-1">
+                
+                <!-- 1. ORAL SPEECH VIEW -->
+                <div id="abstract-view-speech" class="space-y-4">
+                    <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 text-xs font-bold text-amber-400 mb-2">
+                            <i data-lucide="mic" class="w-4 h-4"></i>
+                            <span>30-Second Oral Briefing Card (Read out directly to Superiors):</span>
+                        </div>
+                        <div id="oral-speech-container" class="space-y-2 text-sm text-slate-100 font-medium leading-relaxed bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 text-[10.5px] block">Total Inflow</span>
+                            <span id="abs-kpi-total" class="text-lg font-bold text-white">--</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-amber-500/30 bg-amber-500/5">
+                            <span class="text-amber-400 text-[10.5px] block font-semibold">Pending Action</span>
+                            <span id="abs-kpi-pending" class="text-lg font-black text-amber-400">--</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-indigo-400 text-[10.5px] block">In-Progress</span>
+                            <span id="abs-kpi-inprog" class="text-lg font-bold text-indigo-400">--</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-emerald-400 text-[10.5px] block">Completed</span>
+                            <span id="abs-kpi-done" class="text-lg font-bold text-emerald-400">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. OFFICER PENDING CARDS VIEW -->
+                <div id="abstract-view-cards" class="hidden space-y-3">
+                    <div id="officer-pending-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- 3. WHATSAPP SHAREABLE TEXT VIEW -->
+                <div id="abstract-view-whatsapp" class="hidden space-y-3">
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span>Formatted plain text ready to paste directly into WhatsApp / SMS:</span>
+                        <span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Pre-Formatted</span>
+                    </div>
+                    <textarea id="whatsapp-textarea" readonly class="w-full h-72 bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all"></textarea>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-800 text-xs text-slate-400">
+                <span>Andhra Pradesh Police Technical Services Command Brief</span>
+                <button onclick="closePendingAbstractModal()" class="px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Done</button>
+            </div>
+        </div>
+    </div>
 
     <!-- RECORD DETAILS MODAL -->
     <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -506,13 +598,9 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Concerned Officer:</span>
+                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80 sm:col-span-2">
+                        <span class="text-slate-400 block text-[10.5px]">Concerned Officer-in-Charge:</span>
                         <span id="modal-officer" class="text-white font-semibold flex items-center gap-1 mt-0.5">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Concerned Staff:</span>
-                        <span id="modal-staff" class="text-white font-semibold flex items-center gap-1 mt-0.5">--</span>
                     </div>
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
                         <span class="text-slate-400 block text-[10.5px]">Received Through & Date:</span>
@@ -579,6 +667,7 @@
         let chartProjects = null;
         let chartChannels = null;
         let chartAging = null;
+        let currentAbstractTab = 'speech';
 
         // Clean text helper
         function cleanText(val) {
@@ -591,8 +680,8 @@
         // Parse Pro-ID (PRO-xxx - Name (Rank))
         function parseProId(val) {
             const cleaned = cleanText(val);
-            if (cleaned === 'N/A' || cleaned === 'ALL') {
-                return { id: cleaned, name: cleaned, rank: '', label: cleaned };
+            if (cleaned === 'N/A' || cleaned === 'ALL' || cleaned === 'Unassigned') {
+                return { id: 'N/A', name: 'Unassigned', rank: '', label: 'Unassigned' };
             }
             const match = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$/);
             if (match) {
@@ -759,18 +848,12 @@
                                 rowDict['status_group'] = categorizeStage(stageRaw);
 
                                 const offInfo = parseProId(rowDict['Concerned Officer']);
-                                const stfInfo = parseProId(rowDict['Concerned Staff']);
                                 const prjInfo = parsePrjId(rowDict['Project']);
 
                                 rowDict['officer_id'] = offInfo.id;
                                 rowDict['officer_name'] = offInfo.name;
                                 rowDict['officer_rank'] = offInfo.rank;
                                 rowDict['officer_label'] = offInfo.label;
-
-                                rowDict['staff_id'] = stfInfo.id;
-                                rowDict['staff_name'] = stfInfo.name;
-                                rowDict['staff_rank'] = stfInfo.rank;
-                                rowDict['staff_label'] = stfInfo.label;
 
                                 rowDict['project_id'] = prjInfo.id;
                                 rowDict['project_name'] = prjInfo.name;
@@ -849,53 +932,33 @@
                                     name: r.officer_name,
                                     rank: r.officer_rank,
                                     total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
-                                    staff: new Set(),
-                                    projects: new Set()
+                                    projects: new Set(),
+                                    pending_files: []
                                 };
                             }
                             offMap[off].total++;
                             if (r.status_group === 'Completed') offMap[off].completed++;
                             else if (r.status_group === 'In-Progress') offMap[off].inprogress++;
-                            else if (r.status_group === 'Pending') offMap[off].pending++;
-                            else offMap[off].onhold++;
+                            else if (r.status_group === 'Pending') {
+                                offMap[off].pending++;
+                                offMap[off].pending_files.push({
+                                    id: r.ID,
+                                    project: r.project_label,
+                                    prj_id: r.project_id,
+                                    subject: r['Subject / Work Description'],
+                                    stage: r['Current Stage'],
+                                    age: r.display_time_metric,
+                                    priority: r.Priority,
+                                    recv_date: r['Date Received to office']
+                                });
+                            } else offMap[off].onhold++;
 
                             if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
-                            if (r.staff_label !== 'N/A') offMap[off].staff.add(r.staff_label);
                             if (r.project_label !== 'N/A') offMap[off].projects.add(r.project_label);
                         });
                         const officerAnalytics = Object.values(offMap).map(o => ({
                             ...o,
-                            staff: Array.from(o.staff).sort(),
                             projects: Array.from(o.projects).sort()
-                        })).sort((a, b) => b.total - a.total);
-
-                        const stMap = {};
-                        records.forEach(r => {
-                            const st = r.staff_label;
-                            if (!stMap[st]) {
-                                stMap[st] = {
-                                    staff: st,
-                                    pro_id: r.staff_id,
-                                    name: r.staff_name,
-                                    rank: r.staff_rank,
-                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0,
-                                    officers: new Set(),
-                                    projects: new Set()
-                                };
-                            }
-                            stMap[st].total++;
-                            if (r.status_group === 'Completed') stMap[st].completed++;
-                            else if (r.status_group === 'In-Progress') stMap[st].inprogress++;
-                            else if (r.status_group === 'Pending') stMap[st].pending++;
-                            else stMap[st].onhold++;
-
-                            if (r.officer_label !== 'N/A') stMap[st].officers.add(r.officer_label);
-                            if (r.project_label !== 'N/A') stMap[st].projects.add(r.project_label);
-                        });
-                        const staffAnalytics = Object.values(stMap).map(s => ({
-                            ...s,
-                            officers: Array.from(s.officers).sort(),
-                            projects: Array.from(s.projects).sort()
                         })).sort((a, b) => b.total - a.total);
 
                         const pMap = {};
@@ -907,8 +970,7 @@
                                     prj_id: r.project_id,
                                     name: r.project_name,
                                     total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
-                                    officers: new Set(),
-                                    staff: new Set()
+                                    officers: new Set()
                                 };
                             }
                             pMap[p].total++;
@@ -918,13 +980,11 @@
                             else pMap[p].onhold++;
 
                             if (r.Priority === 'Critical') pMap[p].critical++;
-                            if (r.officer_label !== 'N/A') pMap[p].officers.add(r.officer_label);
-                            if (r.staff_label !== 'N/A') pMap[p].staff.add(r.staff_label);
+                            if (r.officer_label !== 'N/A' && r.officer_label !== 'Unassigned') pMap[p].officers.add(r.officer_label);
                         });
                         const projectAnalytics = Object.values(pMap).map(p => ({
                             ...p,
-                            officers: Array.from(p.officers).sort(),
-                            staff: Array.from(p.staff).sort()
+                            officers: Array.from(p.officers).sort()
                         })).sort((a, b) => b.total - a.total);
 
                         const chMap = {};
@@ -933,6 +993,9 @@
                             chMap[ch] = (chMap[ch] || 0) + 1;
                         });
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
+
+                        // Pending Abstract
+                        const officersWithPending = officerAnalytics.filter(o => o.pending > 0).sort((a, b) => b.pending - a.pending);
 
                         resolve({
                             status: 'success',
@@ -948,10 +1011,13 @@
                             },
                             aging_buckets: agingBuckets,
                             officers: officerAnalytics,
-                            staff: staffAnalytics,
                             projects: projectAnalytics,
                             channels: channelAnalytics,
-                            records: records
+                            records: records,
+                            pending_abstract: {
+                                total_pending: pending,
+                                officers_pending: officersWithPending
+                            }
                         });
                     },
                     error: function(err) {
@@ -976,24 +1042,6 @@
                 </span>`;
             }
             return `<span class="text-slate-200 text-xs font-medium">${label}</span>`;
-        }
-
-        function renderStaffBadge(label) {
-            if (!label || label === 'N/A' || label === '—') {
-                return `<span class="text-slate-500 text-[11px]">—</span>`;
-            }
-            if (label === 'ALL') {
-                return `<span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">ALL STAFF</span>`;
-            }
-            const info = parseProId(label);
-            if (info.id.startsWith('PRO-')) {
-                return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-blue-500/30 text-[11px]">
-                    <span class="font-mono font-bold text-blue-400 text-[10px]">${info.id}</span>
-                    <span class="text-slate-300">${info.name}</span>
-                    ${info.rank ? `<span class="text-slate-400 font-mono text-[9.5px]">(${info.rank})</span>` : ''}
-                </span>`;
-            }
-            return `<span class="text-slate-300 text-xs">${label}</span>`;
         }
 
         function renderProjectBadge(label) {
@@ -1022,6 +1070,7 @@
             document.getElementById('kpi-onhold').innerText = kpis.onhold_closed || 0;
             document.getElementById('kpi-critical').innerText = kpis.critical;
             document.getElementById('kpi-tat').innerText = kpis.avg_tat_days;
+            document.getElementById('header-pending-count').innerText = `${kpis.pending} Pending`;
 
             const total = kpis.total || 1;
             document.getElementById('kpi-pending-pct').innerText = Math.round((kpis.pending / total) * 100) + '%';
@@ -1035,6 +1084,7 @@
             renderCriticalItems();
             renderOfficersTab();
             renderProjectsTab();
+            renderPendingAbstractContent();
             applyFilters();
             lucide.createIcons();
         }
@@ -1221,19 +1271,19 @@
                         </div>
 
                         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'Pending')">
                                 <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
                                 <div class="text-[9px] text-slate-400">Pending</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-indigo-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'In-Progress')">
                                 <div class="text-indigo-400 font-bold text-sm">${o.inprogress}</div>
                                 <div class="text-[9px] text-slate-400">In-Prog</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-emerald-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'Completed')">
                                 <div class="text-emerald-400 font-bold text-sm">${o.completed}</div>
                                 <div class="text-[9px] text-slate-400">Done</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'On Hold / Closed')">
                                 <div class="text-slate-300 font-bold text-sm">${o.onhold || 0}</div>
                                 <div class="text-[9px] text-slate-400">Hold/NA</div>
                             </div>
@@ -1241,7 +1291,7 @@
 
                         <div>
                             <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-                                <span>Completion Rate</span>
+                                <span>Resolution Rate</span>
                                 <span class="font-bold text-emerald-400">${pct}%</span>
                             </div>
                             <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
@@ -1251,57 +1301,26 @@
 
                         <div class="space-y-1.5 text-xs">
                             <div>
-                                <span class="text-slate-400 text-[10.5px] block mb-1">Allocated Support Staff:</span>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Managed Technical Projects:</span>
                                 <div class="flex flex-wrap gap-1">
-                                    ${o.staff && o.staff.length > 0 ? o.staff.map(st => renderStaffBadge(st)).join('') : '<span class="text-slate-500 italic text-[10.5px]">No staff allocated</span>'}
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 text-[10.5px] block mb-1">Assigned Projects:</span>
-                                <div class="flex flex-wrap gap-1">
-                                    ${o.projects && o.projects.length > 0 ? o.projects.map(p => renderProjectBadge(p)).join('') : '<span class="text-slate-500 italic text-[10.5px]">General</span>'}
+                                    ${o.projects && o.projects.length > 0 ? o.projects.map(p => renderProjectBadge(p)).join('') : '<span class="text-slate-500 italic text-[10.5px]">General Tappals</span>'}
                                 </div>
                             </div>
                         </div>
 
-                        <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                            <span>View All ${o.name || o.officer}'s Files</span>
-                        </button>
+                        <div class="flex gap-2 pt-1">
+                            ${o.pending > 0 ? `
+                                <button onclick="drillDownOfficer('${o.officer}', 'Pending')" class="flex-1 py-1.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded-xl transition flex items-center justify-center gap-1">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                    <span>${o.pending} Pending</span>
+                                </button>
+                            ` : ''}
+                            <button onclick="drillDownOfficer('${o.officer}')" class="flex-1 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1">
+                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                                <span>All Files (${o.total})</span>
+                            </button>
+                        </div>
                     </div>
-                `;
-            }).join('');
-
-            const tbody = document.getElementById('staff-summary-tbody');
-            tbody.innerHTML = rawData.staff.map(st => {
-                const pct = st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0;
-                return `
-                    <tr class="hover:bg-slate-900/50 transition">
-                        <td class="py-3 px-3 font-semibold text-white whitespace-nowrap">${renderStaffBadge(st.staff)}</td>
-                        <td class="py-3 px-3 text-slate-300">
-                            <div class="flex flex-wrap gap-1 max-w-xs">
-                                ${st.officers && st.officers.length > 0 ? st.officers.map(off => renderOfficerBadge(off)).join('') : '<span class="text-slate-500 italic">—</span>'}
-                            </div>
-                        </td>
-                        <td class="py-3 px-3 text-slate-300">
-                            <div class="flex flex-wrap gap-1 max-w-xs">
-                                ${st.projects && st.projects.length > 0 ? st.projects.map(p => renderProjectBadge(p)).join('') : '<span class="text-slate-500 italic">—</span>'}
-                            </div>
-                        </td>
-                        <td class="py-3 px-2.5 text-center font-bold">${st.total}</td>
-                        <td class="py-3 px-2.5 text-center text-amber-400 font-semibold">${st.pending}</td>
-                        <td class="py-3 px-2.5 text-center text-indigo-400 font-semibold">${st.inprogress}</td>
-                        <td class="py-3 px-2.5 text-center text-emerald-400 font-semibold">${st.completed}</td>
-                        <td class="py-3 px-2.5 text-center text-slate-400">${st.onhold || 0}</td>
-                        <td class="py-3 px-3 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                                <div class="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
-                                </div>
-                                <span class="text-[10.5px] font-mono text-slate-400">${pct}%</span>
-                            </div>
-                        </td>
-                    </tr>
                 `;
             }).join('');
         }
@@ -1354,15 +1373,9 @@
 
                         <div class="space-y-1.5 text-xs">
                             <div>
-                                <span class="text-slate-400 text-[10.5px] block mb-1">Lead Officers:</span>
+                                <span class="text-slate-400 text-[10.5px] block mb-1">Lead Officers-in-Charge:</span>
                                 <div class="flex flex-wrap gap-1">
                                     ${p.officers && p.officers.length > 0 ? p.officers.map(off => renderOfficerBadge(off)).join('') : '<span class="text-slate-500 italic text-[10.5px]">Unassigned</span>'}
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 text-[10.5px] block mb-1">Allocated Staff:</span>
-                                <div class="flex flex-wrap gap-1">
-                                    ${p.staff && p.staff.length > 0 ? p.staff.map(st => renderStaffBadge(st)).join('') : '<span class="text-slate-500 italic text-[10.5px]">—</span>'}
                                 </div>
                             </div>
                         </div>
@@ -1376,6 +1389,160 @@
             }).join('');
         }
 
+        // ================= EXECUTIVE PENDING ABSTRACT LOGIC =================
+        function openPendingAbstractModal() {
+            renderPendingAbstractContent();
+            document.getElementById('pending-abstract-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closePendingAbstractModal() {
+            document.getElementById('pending-abstract-modal').classList.add('hidden');
+        }
+
+        function switchAbstractTab(tabKey) {
+            currentAbstractTab = tabKey;
+            ['speech', 'cards', 'whatsapp'].forEach(k => {
+                const viewEl = document.getElementById(`abstract-view-${k}`);
+                const tabBtn = document.getElementById(`abstract-tab-${k}`);
+                if (viewEl) viewEl.classList.toggle('hidden', k !== tabKey);
+                if (tabBtn) {
+                    if (k === tabKey) {
+                        tabBtn.classList.remove('bg-slate-800', 'text-slate-300');
+                        tabBtn.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
+                    } else {
+                        tabBtn.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
+                        tabBtn.classList.add('bg-slate-800', 'text-slate-300');
+                    }
+                }
+            });
+            lucide.createIcons();
+        }
+
+        function renderPendingAbstractContent() {
+            if (!rawData) return;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('abstract-timestamp').innerText = dateStr;
+
+            const kpis = rawData.kpis;
+            document.getElementById('abs-kpi-total').innerText = kpis.total;
+            document.getElementById('abs-kpi-pending').innerText = kpis.pending;
+            document.getElementById('abs-kpi-inprog').innerText = kpis.inprogress;
+            document.getElementById('abs-kpi-done').innerText = kpis.completed;
+
+            const pendingOfficers = rawData.officers.filter(o => o.pending > 0).sort((a, b) => b.pending - a.pending);
+
+            // 1. Render Oral Speech Script
+            const speechContainer = document.getElementById('oral-speech-container');
+            let speechHtml = `
+                <p class="font-bold text-amber-300 text-sm sm:text-base border-b border-slate-800 pb-2">
+                    "Sir, out of <strong>${kpis.total} total correspondence files</strong> in Technical Services, currently <strong>${kpis.pending} files are pending action/approval</strong> across ${pendingOfficers.length} officer queues:"
+                </p>
+                <div class="space-y-2 pt-2">
+            `;
+
+            pendingOfficers.forEach((o, idx) => {
+                const projNames = o.projects.map(p => p.split(' - ')[-1] || p).slice(0, 3).join(', ');
+                speechHtml += `
+                    <div class="flex items-start gap-2 text-xs sm:text-sm">
+                        <span class="text-amber-400 font-bold">•</span>
+                        <div>
+                            <strong>${o.officer}</strong>: <span class="text-amber-300 font-bold">${o.pending} Pending File${o.pending > 1 ? 's' : ''}</span>
+                            <span class="text-slate-400 text-xs">(${projNames || 'General'}, Total Assigned: ${o.total})</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            speechHtml += `
+                </div>
+                <p class="text-xs text-slate-300 border-t border-slate-800/80 pt-2.5 mt-2 font-normal">
+                    "Additionally, <strong>${kpis.inprogress} files are actively in-progress</strong>, and <strong>${kpis.completed} files have been completed/dispatched</strong>."
+                </p>
+            `;
+            speechContainer.innerHTML = speechHtml;
+
+            // 2. Render Officer Pending Cards
+            const cardsContainer = document.getElementById('officer-pending-cards-container');
+            if (pendingOfficers.length === 0) {
+                cardsContainer.innerHTML = `<div class="col-span-2 text-center py-6 text-slate-500">No pending files at this time. All files resolved!</div>`;
+            } else {
+                cardsContainer.innerHTML = pendingOfficers.map(o => `
+                    <div class="glass-card rounded-xl p-4 border border-amber-500/30 space-y-2.5 bg-slate-900/90">
+                        <div class="flex items-start justify-between border-b border-slate-800 pb-2">
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">${o.pro_id}</span>
+                                    <h4 class="font-bold text-white text-sm">${o.name || o.officer}</h4>
+                                </div>
+                                <span class="text-[11px] text-slate-400">${o.total} Total Assigned</span>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-black text-xs">${o.pending} Pending</span>
+                        </div>
+
+                        <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                            ${(o.pending_files || []).map(f => `
+                                <div onclick="closePendingAbstractModal(); openModal('${f.id}')" class="p-2 rounded-lg bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-blue-500/50 cursor-pointer transition text-xs space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1">
+                                            <span class="font-mono font-bold text-blue-400">${f.id}</span>
+                                            <span class="px-1 py-0.2 bg-cyan-950 text-cyan-300 rounded font-mono text-[9.5px] border border-cyan-800/40">${f.prj_id || 'Misc'}</span>
+                                        </div>
+                                        <span class="text-[10px] font-mono text-amber-400 font-semibold">${f.age || ''}</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 line-clamp-1">${f.subject || 'No subject'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 3. Render WhatsApp Text
+            let waText = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            waText += `📋 *OFFICER-WISE PENDING CORRESPONDENCE ABSTRACT*\n`;
+            waText += `📅 Date: ${dateStr}\n\n`;
+            waText += `📊 *Overall Status Summary:*\n`;
+            waText += `• Total Inflow: ${kpis.total} Files\n`;
+            waText += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
+            waText += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
+            waText += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n`;
+            waText += `• 🔴 Critical Alerts: ${kpis.critical} Files\n\n`;
+            waText += `👤 *Officer-Wise Pending Breakdown:*\n`;
+
+            pendingOfficers.forEach((o, idx) => {
+                waText += `\n${idx}. *${o.officer}*: ${o.pending} Pending (Total: ${o.total})\n`;
+                (o.pending_files || []).forEach(f => {
+                    waText += `   - ${f.id} [${f.prj_id}]: ${f.stage} (${f.age})\n`;
+                });
+            });
+
+            waText += `\n_Generated from AP Police TS Executive Command Portal_`;
+            document.getElementById('whatsapp-textarea').value = waText;
+        }
+
+        function copyCurrentAbstract() {
+            let textToCopy = '';
+            if (currentAbstractTab === 'whatsapp' || currentAbstractTab === 'cards') {
+                textToCopy = document.getElementById('whatsapp-textarea').value;
+            } else {
+                const speechEl = document.getElementById('oral-speech-container');
+                textToCopy = speechEl.innerText || speechEl.textContent;
+            }
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btnText = document.getElementById('copy-btn-text');
+                const prev = btnText.innerText;
+                btnText.innerText = 'Copied! ✓';
+                setTimeout(() => btnText.innerText = prev, 2000);
+            }).catch(err => {
+                console.error('Clipboard copy error:', err);
+            });
+        }
+
+        // Filters & Search
         function applyFilters() {
             if (!rawData) return;
 
@@ -1394,10 +1561,6 @@
                         r.officer_name,
                         r.officer_rank,
                         r.officer_label,
-                        r.staff_id,
-                        r.staff_name,
-                        r.staff_rank,
-                        r.staff_label,
                         r['Received From Department /Wing'],
                         r.project_id,
                         r.project_name,
@@ -1428,7 +1591,7 @@
         function renderTable() {
             const tbody = document.getElementById('correspondence-tbody');
             if (filteredRecords.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">No correspondence records match the selected filters.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="py-8 text-center text-slate-500">No correspondence records match the selected filters.</td></tr>';
                 return;
             }
 
@@ -1457,7 +1620,6 @@
                         <td class="py-3 px-3 whitespace-nowrap">${renderProjectBadge(r.project_label)}</td>
                         <td class="py-3 px-4 max-w-xs truncate text-slate-200" title="${r['Subject / Work Description']}">${r['Subject / Work Description'] || '—'}</td>
                         <td class="py-3 px-3 whitespace-nowrap">${renderOfficerBadge(r.officer_label)}</td>
-                        <td class="py-3 px-3 whitespace-nowrap">${renderStaffBadge(r.staff_label)}</td>
                         <td class="py-3 px-2.5 text-center whitespace-nowrap">${stageBadge}</td>
                         <td class="py-3 px-2 text-center whitespace-nowrap">${priorityBadge}</td>
                         <td class="py-3 px-2.5 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.display_time_metric || '—'}</td>
@@ -1474,7 +1636,6 @@
             document.getElementById('modal-project').innerHTML = `${renderProjectBadge(r.project_label)} <span class="text-xs text-slate-400 font-normal">• ${r['Nature of Request'] || 'General'}</span>`;
             document.getElementById('modal-subject').innerText = r['Subject / Work Description'] || 'No description provided';
             document.getElementById('modal-officer').innerHTML = renderOfficerBadge(r.officer_label);
-            document.getElementById('modal-staff').innerHTML = renderStaffBadge(r.staff_label);
             document.getElementById('modal-recv').innerText = `${r['Received Through'] || 'N/A'} (Recv: ${r['Date Received to office'] || 'N/A'})`;
             document.getElementById('modal-from').innerText = `${r['Received From Department /Wing'] || 'N/A'} - ${r['Received From Officer designation '] || r['Received From Officer Designation'] || 'N/A'}`;
             document.getElementById('modal-nature').innerText = r['Nature of Request'] || 'N/A';
@@ -1492,10 +1653,13 @@
             document.getElementById('record-modal').classList.add('hidden');
         }
 
-        function drillDownOfficer(officer) {
+        function drillDownOfficer(officer, statusGroup = null) {
             switchTab('explorer');
             resetFilters();
             document.getElementById('filter-officer').value = officer;
+            if (statusGroup) {
+                document.getElementById('filter-status').value = statusGroup;
+            }
             applyFilters();
         }
 

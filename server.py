@@ -31,8 +31,8 @@ def clean_text(val):
 
 def parse_pro_id(val):
     cleaned = clean_text(val)
-    if cleaned in ['N/A', 'ALL']:
-        return {'id': cleaned, 'name': cleaned, 'rank': '', 'label': cleaned}
+    if cleaned in ['N/A', 'ALL', 'Unassigned']:
+        return {'id': 'N/A', 'name': 'Unassigned', 'rank': '', 'label': 'Unassigned'}
     
     # Regex match for PRO-xxx - Name (Rank)
     m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
@@ -99,6 +99,7 @@ def categorize_stage(stage_raw):
 def calculate_analytics_from_records(records):
     today = datetime.now().date()
     now_str = datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
+    today_display = datetime.now().strftime("%d-%m-%Y %I:%M %p")
 
     for r in records:
         d_recv = parse_indian_date(r.get('Date Received to office'))
@@ -112,18 +113,12 @@ def calculate_analytics_from_records(records):
 
         # Parse Pro-IDs & Project IDs
         off_info = parse_pro_id(r.get('Concerned Officer'))
-        stf_info = parse_pro_id(r.get('Concerned Staff'))
         prj_info = parse_prj_id(r.get('Project'))
 
         r['officer_id'] = off_info['id']
         r['officer_name'] = off_info['name']
         r['officer_rank'] = off_info['rank']
         r['officer_label'] = off_info['label']
-
-        r['staff_id'] = stf_info['id']
-        r['staff_name'] = stf_info['name']
-        r['staff_rank'] = stf_info['rank']
-        r['staff_label'] = stf_info['label']
 
         r['project_id'] = prj_info['id']
         r['project_name'] = prj_info['name']
@@ -201,8 +196,8 @@ def calculate_analytics_from_records(records):
                 'name': r['officer_name'],
                 'rank': r['officer_rank'],
                 'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
-                'staff': set(),
-                'projects': set()
+                'projects': set(),
+                'pending_files': []
             }
         om = officers_map[off_label]
         om['total'] += 1
@@ -212,14 +207,22 @@ def calculate_analytics_from_records(records):
             om['inprogress'] += 1
         elif r['status_group'] == 'Pending':
             om['pending'] += 1
+            om['pending_files'].append({
+                'id': r.get('ID'),
+                'project': r.get('project_label'),
+                'prj_id': r.get('project_id'),
+                'subject': r.get('Subject / Work Description'),
+                'stage': r.get('Current Stage'),
+                'age': r.get('display_time_metric'),
+                'priority': r.get('Priority'),
+                'recv_date': r.get('Date Received to office')
+            })
         else:
             om['onhold'] += 1
 
         if r['Priority'] in ['Critical', 'High']:
             om['critical'] += 1
         
-        if r['staff_label'] not in ['N/A', '']:
-            om['staff'].add(r['staff_label'])
         if r['project_label'] not in ['N/A', '']:
             om['projects'].add(r['project_label'])
 
@@ -236,54 +239,8 @@ def calculate_analytics_from_records(records):
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
-            'staff': sorted(list(data['staff'])),
-            'projects': sorted(list(data['projects']))
-        })
-
-    # Group by Staff
-    staff_map = {}
-    for r in records:
-        stf_label = r['staff_label']
-        if stf_label not in staff_map:
-            staff_map[stf_label] = {
-                'staff': stf_label,
-                'pro_id': r['staff_id'],
-                'name': r['staff_name'],
-                'rank': r['staff_rank'],
-                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0,
-                'officers': set(),
-                'projects': set()
-            }
-        sm = staff_map[stf_label]
-        sm['total'] += 1
-        if r['status_group'] == 'Completed':
-            sm['completed'] += 1
-        elif r['status_group'] == 'In-Progress':
-            sm['inprogress'] += 1
-        elif r['status_group'] == 'Pending':
-            sm['pending'] += 1
-        else:
-            sm['onhold'] += 1
-
-        if r['officer_label'] not in ['N/A', '']:
-            sm['officers'].add(r['officer_label'])
-        if r['project_label'] not in ['N/A', '']:
-            sm['projects'].add(r['project_label'])
-
-    staff_analytics = []
-    for stf_label, data in sorted(staff_map.items(), key=lambda x: x[1]['total'], reverse=True):
-        staff_analytics.append({
-            'staff': stf_label,
-            'pro_id': data['pro_id'],
-            'name': data['name'],
-            'rank': data['rank'],
-            'total': data['total'],
-            'completed': data['completed'],
-            'inprogress': data['inprogress'],
-            'pending': data['pending'],
-            'onhold': data['onhold'],
-            'officers': sorted(list(data['officers'])),
-            'projects': sorted(list(data['projects']))
+            'projects': sorted(list(data['projects'])),
+            'pending_files': data['pending_files']
         })
 
     # Group by Projects
@@ -296,8 +253,7 @@ def calculate_analytics_from_records(records):
                 'prj_id': r['project_id'],
                 'name': r['project_name'],
                 'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
-                'officers': set(),
-                'staff': set()
+                'officers': set()
             }
         pm = projects_map[prj_label]
         pm['total'] += 1
@@ -313,10 +269,8 @@ def calculate_analytics_from_records(records):
         if r['Priority'] == 'Critical':
             pm['critical'] += 1
         
-        if r['officer_label'] not in ['N/A', '']:
+        if r['officer_label'] not in ['N/A', 'Unassigned']:
             pm['officers'].add(r['officer_label'])
-        if r['staff_label'] not in ['N/A', '']:
-            pm['staff'].add(r['staff_label'])
 
     project_analytics = []
     for prj_label, data in sorted(projects_map.items(), key=lambda x: x[1]['total'], reverse=True):
@@ -330,8 +284,7 @@ def calculate_analytics_from_records(records):
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
-            'officers': sorted(list(data['officers'])),
-            'staff': sorted(list(data['staff']))
+            'officers': sorted(list(data['officers']))
         })
 
     # Channels
@@ -343,6 +296,44 @@ def calculate_analytics_from_records(records):
         channels_map[ch] = channels_map.get(ch, 0) + 1
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
+
+    # Formulate Officer-Wise Pending Abstract
+    officers_with_pending = [o for o in officer_analytics if o['pending'] > 0]
+    officers_with_pending.sort(key=lambda x: x['pending'], reverse=True)
+
+    # Formulate Oral Speech Script (30-second Brief)
+    oral_lines = [
+        f"Sir, out of {total_records} total correspondence files, {pending_count} files are currently pending action/approval across {len(officers_with_pending)} officer queues:"
+    ]
+    for o in officers_with_pending:
+        proj_str = ", ".join([p.split(' - ')[-1] for p in o['projects'][:3]]) or "General"
+        oral_lines.append(f"• {o['officer']}: {o['pending']} pending ({proj_str})")
+    oral_lines.append(f"In addition, {inprogress_count} files are actively in-progress, and {completed_count} files have been fully resolved.")
+    oral_speech = "\n".join(oral_lines)
+
+    # Formulate WhatsApp Shareable Text
+    wa_lines = [
+        "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
+        "📋 *OFFICER-WISE PENDING CORRESPONDENCE ABSTRACT*",
+        f"📅 Date: {today_display}",
+        "",
+        "📊 *Overall Status:*",
+        f"• Total Intake: {total_records} Files",
+        f"• 🟡 Pending Action: {pending_count} Files",
+        f"• 🔵 Active In-Progress: {inprogress_count} Files",
+        f"• 🟢 Completed / Dispatched: {completed_count} Files",
+        f"• 🔴 Critical Priority: {critical_count} Files",
+        "",
+        "👤 *Officer-Wise Pending Breakdown:*"
+    ]
+    for idx, o in enumerate(officers_with_pending, 1):
+        wa_lines.append(f"{idx}. *{o['officer']}*: {o['pending']} Pending (Total Assigned: {o['total']})")
+        for f in o['pending_files']:
+            wa_lines.append(f"   - {f['id']} | {f['prj_id']}: {f['stage']} ({f['age']})")
+    
+    wa_lines.append("")
+    wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
+    whatsapp_text = "\n".join(wa_lines)
 
     return {
         'status': 'success',
@@ -362,10 +353,15 @@ def calculate_analytics_from_records(records):
         },
         'aging_buckets': aging_buckets,
         'officers': officer_analytics,
-        'staff': staff_analytics,
         'projects': project_analytics,
         'channels': channel_analytics,
-        'records': records
+        'records': records,
+        'pending_abstract': {
+            'total_pending': pending_count,
+            'officers_pending': officers_with_pending,
+            'oral_speech': oral_speech,
+            'whatsapp_text': whatsapp_text
+        }
     }
 
 def fetch_google_sheet_data():
@@ -418,7 +414,7 @@ def fetch_google_sheet_data():
             import openpyxl
             wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
             ws = wb['Correspondence Matrix (Tappals)']
-            headers = [ws.cell(1, c).value for c in range(1, 22)]
+            headers = [ws.cell(1, c).value for c in range(1, ws.max_column + 1) if ws.cell(1, c).value]
             records = []
             for r in range(2, ws.max_row + 1):
                 row_id = ws.cell(r, 1).value
@@ -426,8 +422,8 @@ def fetch_google_sheet_data():
                     continue
                 row_dict = {}
                 has_data = False
-                for c in range(1, 22):
-                    h = headers[c - 1]
+                for c in range(1, len(headers) + 1):
+                    h = str(headers[c - 1]).strip()
                     val = ws.cell(r, c).value
                     if isinstance(val, (datetime, date)):
                         row_dict[h] = val.strftime("%d/%m/%Y")
@@ -486,7 +482,7 @@ def start_server():
         print(f" AP Police TS Correspondence Executive Analytics Dashboard Server ")
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
-        print(f" Pro-ID & Project-ID Parsing Active")
+        print(f" Officer-Wise Pending Abstract & Oral Brief Generator Active")
         print(f"================================================================")
         httpd.serve_forever()
 
