@@ -475,12 +475,12 @@
 
     </main>
 
-    <!-- ================= EXECUTIVE PENDING ABSTRACT & WHATSAPP MODAL ================= -->
-    <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 no-print">
-        <div class="glass-card rounded-2xl border border-amber-500/50 max-w-4xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
+    <!-- ================= EXPANDED EXECUTIVE PENDING ABSTRACT & WHATSAPP MODAL ================= -->
+    <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print">
+        <div class="glass-card rounded-2xl border border-amber-500/50 max-w-6xl w-full h-[92vh] max-h-[95vh] p-5 sm:p-6 shadow-2xl flex flex-col justify-between space-y-3">
             
             <!-- Modal Header -->
-            <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-start justify-between border-b border-slate-800 pb-3 flex-shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
                         <i data-lucide="message-square" class="w-5 h-5"></i>
@@ -500,8 +500,8 @@
                 </button>
             </div>
 
-            <!-- Top Summary Stats Strip -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+            <!-- Top Summary Stats Strip (5 Clean Metrics, No Critical Alert) -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs flex-shrink-0">
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                     <span class="text-slate-400 text-[10px] block">Total Intake</span>
                     <span id="abs-kpi-total" class="text-base font-bold text-white">--</span>
@@ -511,7 +511,7 @@
                     <span id="abs-kpi-pending" class="text-base font-black text-amber-400">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5">
-                    <span class="text-indigo-400 text-[10px] block font-semibold">🔵 In-Progress</span>
+                    <span class="text-indigo-400 text-[10px] block font-semibold">🔵 Active In-Progress</span>
                     <span id="abs-kpi-inprog" class="text-base font-bold text-indigo-400">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700 bg-slate-800/40">
@@ -525,41 +525,37 @@
             </div>
 
             <!-- Action Buttons Bar -->
-            <div class="flex items-center justify-between bg-slate-900/90 p-2 rounded-xl border border-slate-800">
+            <div class="flex items-center justify-between bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <span class="text-xs text-slate-300 font-medium pl-1 flex items-center gap-1.5">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
-                    <span>Ready for WhatsApp & Submission</span>
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Formatted with Project IDs & Names (Clean Bullets)</span>
                 </span>
                 <div class="flex items-center gap-2">
-                    <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-3.5 py-1.5 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg flex items-center gap-1.5 transition shadow-md shadow-emerald-900/40 active:scale-95">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
                         <span id="copy-btn-text">Copy WhatsApp Text</span>
                     </button>
-                    <button onclick="printExecutiveMemo()" class="px-3.5 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg flex items-center gap-1.5 transition shadow-md shadow-blue-900/40 active:scale-95">
-                        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <button onclick="printExecutiveMemo()" class="px-4 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-blue-900/40 active:scale-95">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
                         <span>Print Hard Copy Memo</span>
                     </button>
                 </div>
             </div>
 
-            <!-- WhatsApp Share Text Box Area -->
-            <div class="flex-grow flex flex-col space-y-1.5 overflow-hidden">
-                <label class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold flex items-center justify-between">
-                    <span>Formatted WhatsApp Brief (Includes Project IDs & Names):</span>
-                    <span class="text-slate-500 text-[10px]">Click inside or click Copy button</span>
-                </label>
-                <textarea id="whatsapp-textarea" readonly class="w-full flex-grow bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all overflow-y-auto"></textarea>
+            <!-- Expanded WhatsApp Share Text Area -->
+            <div class="flex-grow flex flex-col space-y-1 overflow-hidden min-h-[350px]">
+                <textarea id="whatsapp-textarea" readonly class="w-full h-full flex-grow bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs sm:text-sm font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all overflow-y-auto"></textarea>
             </div>
 
             <!-- Modal Footer -->
-            <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-400">
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-400 flex-shrink-0">
                 <span>Andhra Pradesh Police Technical Services Command Brief</span>
-                <button onclick="closePendingAbstractModal()" class="px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
+                <button onclick="closePendingAbstractModal()" class="px-5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- ================= OFFICIAL PRINT EXECUTIVE MEMO (HIDDEN ON SCREEN, VISIBLE ON PRINT) ================= -->
+    <!-- ================= OFFICIAL PRINT EXECUTIVE MEMO (CLEAN MEMO, NO SIGN-OFF FOOTER) ================= -->
     <div id="print-executive-memo" class="hidden p-6 max-w-4xl mx-auto bg-white text-black">
         
         <!-- Official Government Crest & Header -->
@@ -574,7 +570,7 @@
             </div>
         </div>
 
-        <!-- 1. Executive Overview Table -->
+        <!-- 1. Executive Overview Table (5 Clean Metrics) -->
         <div class="mb-4">
             <div class="text-xs font-bold uppercase mb-1">1. Executive Overview Abstract:</div>
             <table class="w-full text-xs">
@@ -639,19 +635,6 @@
                     <!-- Populated dynamically -->
                 </tbody>
             </table>
-        </div>
-
-        <!-- 4. Official Submission Sign-off -->
-        <div class="mt-8 pt-4 border-t border-slate-400 flex justify-between text-xs">
-            <div>
-                <span class="font-bold">Prepared by:</span> IT / Tappals Desk, PCS&S<br>
-                <span>AP Police Technical Services</span>
-            </div>
-            <div class="text-right">
-                <span class="font-bold">Submitted for Kind Perusal to:</span><br>
-                <span>The Director General of Police / Addl. DGP / IGP</span><br>
-                <span>Technical Services, Andhra Pradesh</span>
-            </div>
         </div>
     </div>
 
@@ -1508,7 +1491,7 @@
 
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
 
-            // Formulate WhatsApp Text with Project IDs + Names and all 3 categories (Pending, In-Progress, Stage N/A)
+            // Formulate WhatsApp Text with Project IDs + Names (Clean bullets, No critical alert line)
             let waText = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waText += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
             waText += `📅 Date: ${dateStr}\n\n`;
@@ -1517,34 +1500,33 @@
             waText += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
             waText += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
             waText += `• ⚪ Stage N/A (Notice Required): ${kpis.onhold_closed || 0} Files\n`;
-            waText += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n`;
-            waText += `• 🔴 Critical Priority: ${kpis.critical} Files\n\n`;
+            waText += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n\n`;
             waText += `───────────────────────────────\n`;
             waText += `👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*\n`;
             waText += `───────────────────────────────\n`;
 
             activeOfficers.forEach((o, idx) => {
                 const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                waText += `\n${idx}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
+                waText += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
                 
                 if (o.pending_files && o.pending_files.length > 0) {
                     waText += `   🟡 *Pending Action:*\n`;
                     o.pending_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: ${f.stage} (${f.age || ''})\n`;
+                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
                 
                 if (o.inprogress_files && o.inprogress_files.length > 0) {
                     waText += `   🔵 *In-Progress:*\n`;
                     o.inprogress_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: ${f.stage} (${f.age || ''})\n`;
+                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
                 
                 if (o.na_stage_files && o.na_stage_files.length > 0) {
-                    waText += `   ⚪ *Stage N/A (Notice Required / Action Needed):*\n`;
+                    waText += `   ⚪ *Stage N/A (Notice Required):*\n`;
                     o.na_stage_files.forEach(f => {
-                        waText += `   - ${f.id} [${f.project}]: ${f.stage} (${f.age || ''})\n`;
+                        waText += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
                     });
                 }
             });
@@ -1567,7 +1549,7 @@
             });
         }
 
-        // ================= OFFICIAL PRINT EXECUTIVE MEMO HANDLER =================
+        // ================= OFFICIAL PRINT EXECUTIVE MEMO HANDLER (NO FOOTER SIGN-OFF) =================
         function printExecutiveMemo() {
             if (!rawData) return;
 

@@ -312,7 +312,7 @@ def calculate_analytics_from_records(records):
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-    # Formulate Comprehensive WhatsApp Shareable Text
+    # Formulate Clean WhatsApp Shareable Text (No Critical Priority line, No redundant stage text in bullets)
     active_officers = [o for o in officer_analytics if o['active_total'] > 0]
     wa_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
@@ -325,7 +325,6 @@ def calculate_analytics_from_records(records):
         f"• 🔵 Active In-Progress: {inprogress_count} Files",
         f"• ⚪ Stage N/A (Notice Required): {onhold_closed_count} Files",
         f"• 🟢 Completed / Dispatched: {completed_count} Files",
-        f"• 🔴 Critical Priority: {critical_count} Files",
         "",
         "───────────────────────────────",
         "👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*",
@@ -339,17 +338,17 @@ def calculate_analytics_from_records(records):
         if o['pending_files']:
             wa_lines.append("   🟡 *Pending Action:*")
             for f in o['pending_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
         
         if o['inprogress_files']:
             wa_lines.append("   🔵 *In-Progress:*")
             for f in o['inprogress_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
         
         if o['na_stage_files']:
-            wa_lines.append("   ⚪ *Stage N/A (Notice Required / Action Needed):*")
+            wa_lines.append("   ⚪ *Stage N/A (Notice Required):*")
             for f in o['na_stage_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: {f['stage']} ({f['age']})")
+                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
 
     wa_lines.append("")
     wa_lines.append("───────────────────────────────")
