@@ -67,11 +67,11 @@
         /* Official Print Layout Styling */
         @media print {
             .no-print { display: none !important; }
-            body { background: #ffffff !important; color: #000000 !important; font-size: 11pt; }
+            body { background: #ffffff !important; color: #000000 !important; font-size: 10pt; }
             #print-executive-memo { display: block !important; }
             main, header, footer, #record-modal, #pending-abstract-modal { display: none !important; }
             table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
-            th, td { border: 1px solid #333333 !important; padding: 4px 6px !important; color: #000000 !important; font-size: 9.5pt !important; }
+            th, td { border: 1px solid #333333 !important; padding: 4px 6px !important; color: #000000 !important; font-size: 9pt !important; }
             th { background-color: #f1f5f9 !important; font-weight: bold !important; text-transform: uppercase !important; }
             .page-break { page-break-after: always; }
         }
@@ -121,6 +121,7 @@
         html.light .glass-card h2,
         html.light .glass-card h3,
         html.light #record-modal h2,
+        html.light #record-modal h3,
         html.light #pending-abstract-modal h2 {
             color: #0f172a !important;
         }
@@ -272,22 +273,6 @@
                     <div>Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
                 </div>
 
-                <!-- Modern Theme Toggle Switch (Corner) -->
-                <button onclick="toggleTheme()" id="theme-toggle-switch" title="Toggle Light / Dark Mode" class="flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-slate-900/90 hover:bg-slate-900 text-slate-200 border border-slate-700/80 shadow-md transition-all active:scale-95 group">
-                    <span class="relative inline-flex h-5 w-10 items-center rounded-full p-0.5 bg-slate-800 border border-slate-700 transition-colors">
-                        <span class="absolute left-1 text-amber-400">
-                            <i data-lucide="sun" class="w-2.5 h-2.5"></i>
-                        </span>
-                        <span class="absolute right-1 text-indigo-400">
-                            <i data-lucide="moon" class="w-2.5 h-2.5"></i>
-                        </span>
-                        <span id="theme-toggle-thumb" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ease-in-out translate-x-5 flex items-center justify-center">
-                            <i data-lucide="moon" id="theme-thumb-icon" class="w-2 h-2 text-slate-900"></i>
-                        </span>
-                    </span>
-                    <span id="theme-label" class="text-[11px] font-bold text-slate-300 group-hover:text-white select-none hidden sm:inline">Dark</span>
-                </button>
-
                 <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                     <span class="hidden sm:inline">Sheet ↗</span>
@@ -325,8 +310,8 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow space-y-5 no-print">
 
-        <!-- EXECUTIVE KPI CARDS (7 Categorized KPI Cards) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        <!-- EXECUTIVE KPI CARDS (8 Categorized KPI Cards with VIP & Priority Radars) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
             
             <!-- Total Inflow -->
             <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
@@ -334,7 +319,7 @@
                     <span>Total Inflow</span>
                     <i data-lucide="inbox" class="w-3.5 h-3.5 text-blue-400"></i>
                 </div>
-                <div class="text-2xl font-black text-white" id="kpi-total">--</div>
+                <div class="text-xl sm:text-2xl font-black text-white" id="kpi-total">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
                     <span class="text-blue-400 font-semibold">100%</span> total intake
                 </div>
@@ -343,12 +328,12 @@
             <!-- Pending -->
             <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span class="text-amber-400 font-bold">Pending Action ⚡</span>
+                    <span class="text-amber-400 font-bold">Pending ⚡</span>
                     <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
-                <div class="text-2xl font-black text-amber-400" id="kpi-pending">--</div>
+                <div class="text-xl sm:text-2xl font-black text-amber-400" id="kpi-pending">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> action required
+                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> action queue
                 </div>
             </div>
 
@@ -358,9 +343,9 @@
                     <span>In-Progress</span>
                     <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
                 </div>
-                <div class="text-2xl font-black text-indigo-400" id="kpi-inprogress">--</div>
+                <div class="text-xl sm:text-2xl font-black text-indigo-400" id="kpi-inprogress">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> under drafting
+                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> under action
                 </div>
             </div>
 
@@ -370,7 +355,7 @@
                     <span>Completed</span>
                     <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
                 </div>
-                <div class="text-2xl font-black text-emerald-400" id="kpi-completed">--</div>
+                <div class="text-xl sm:text-2xl font-black text-emerald-400" id="kpi-completed">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
                     <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> dispatched
                 </div>
@@ -379,22 +364,34 @@
             <!-- On Hold / Closed / NA -->
             <div onclick="filterByStatusGroup('On Hold / Closed')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-slate-500/60 hover:shadow-lg hover:shadow-slate-800/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-slate-400">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Stage N/A / Hold</span>
+                    <span>Stage N/A</span>
                     <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-slate-400"></i>
                 </div>
-                <div class="text-2xl font-black text-slate-300" id="kpi-onhold">--</div>
+                <div class="text-xl sm:text-2xl font-black text-slate-300" id="kpi-onhold">--</div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> notice required
+                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> notice req.
                 </div>
             </div>
 
-            <!-- Critical Priority -->
+            <!-- VIP / High Attention Files Radar -->
+            <div onclick="filterByPriority('VIP')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-900/40 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-400 bg-amber-500/5">
+                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                    <span class="text-amber-300 font-extrabold flex items-center gap-1">⭐ VIP Files</span>
+                    <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
+                </div>
+                <div class="text-xl sm:text-2xl font-black text-amber-300" id="kpi-vip">--</div>
+                <div class="text-[10px] text-amber-400/90 mt-1 font-semibold truncate">
+                    <span>DGP/HC/Govt/Followup</span>
+                </div>
+            </div>
+
+            <!-- Critical Priority Alert -->
             <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Critical Alert</span>
+                    <span class="text-rose-400 font-bold">Critical</span>
                     <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
                 </div>
-                <div class="text-2xl font-black text-rose-400" id="kpi-critical">--</div>
+                <div class="text-xl sm:text-2xl font-black text-rose-400" id="kpi-critical">--</div>
                 <div class="text-[10px] text-rose-300/80 mt-1 font-semibold">
                     <span>Urgent Action</span>
                 </div>
@@ -403,12 +400,12 @@
             <!-- Average Turnaround Days -->
             <div class="glass-card rounded-xl p-3 border-l-4 border-l-cyan-500">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Avg Turnaround</span>
+                    <span>Avg TAT</span>
                     <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
                 </div>
-                <div class="text-2xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-xs font-normal text-slate-400">d</span></div>
+                <div class="text-xl sm:text-2xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-xs font-normal text-slate-400">d</span></div>
                 <div class="text-[10px] text-slate-400 mt-1">
-                    Receipt to Dispatch
+                    Recv to Close
                 </div>
             </div>
         </div>
@@ -450,15 +447,15 @@
                 <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
                         <div>
-                            <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                                <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
-                                Officer Workload by Stage Category (PRO-IDs)
+                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-400"></i>
+                                Officer Active Workload & Completion Status
                             </h2>
-                            <p class="text-[11px] text-slate-400">Completed vs In-Progress vs Pending vs Hold/NA</p>
+                            <p class="text-[10.5px] text-slate-400">Categorized by Completed, In-Progress, Pending, and Stage N/A</p>
                         </div>
-                        <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">By Officer</span>
+                        <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-2 py-0.5 rounded">Rank-Ordered</span>
                     </div>
-                    <div class="relative h-72 w-full">
+                    <div class="relative h-64 w-full">
                         <canvas id="chart-officers"></canvas>
                     </div>
                 </div>
@@ -466,37 +463,40 @@
                 <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
                         <div>
-                            <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                                <i data-lucide="cpu" class="w-4 h-4 text-blue-400"></i>
-                                Technical Projects Distribution (PRJ-IDs)
+                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
+                                Technical Projects Distribution
                             </h2>
-                            <p class="text-[11px] text-slate-400">Volume of correspondence per project</p>
+                            <p class="text-[10.5px] text-slate-400">Volume across PRJ codes & modules</p>
                         </div>
-                        <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300">Top Domains</span>
+                        <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-2 py-0.5 rounded">PRJ Matrix</span>
                     </div>
-                    <div class="relative h-72 w-full flex items-center justify-center">
+                    <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="chart-projects"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- ROW 2 CHARTS: Inbound Channels, Aging Radar, Critical Alert Panel -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- ROW 2 CHARTS: Channel Distribution, Aging Radar, Critical Action Queue -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 
-                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="network" class="w-4 h-4 text-indigo-400"></i>
-                            Receipt Channels Mix
-                        </h2>
-                        <span class="text-[11px] text-slate-400">Channel %</span>
+                        <div>
+                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="send" class="w-4 h-4 text-indigo-400"></i>
+                                Inflow Receipt Channels
+                            </h2>
+                            <p class="text-[10.5px] text-slate-400">eOffice vs Email vs Post</p>
+                        </div>
+                        <span class="text-[10px] text-indigo-400 font-semibold bg-indigo-500/10 px-2 py-0.5 rounded">Intake Medium</span>
                     </div>
                     <div class="relative h-56 w-full flex items-center justify-center">
                         <canvas id="chart-channels"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-3">
                         <div>
                             <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
@@ -528,7 +528,7 @@
 
         </div>
 
-        <!-- ================= TAB: MEETINGS, SEMINARS, WORKSHOPS & VC SCHEDULES ================= -->
+        <!-- ================= TAB 2: MEETINGS, SEMINARS, WORKSHOPS & VC SCHEDULES ================= -->
         <div id="tab-events" class="tab-content hidden space-y-5">
             
             <!-- Events Section Header & Actions -->
@@ -609,7 +609,7 @@
             </div>
         </div>
 
-        <!-- ================= TAB 2: OFFICERS WORKLOAD & PORTFOLIOS ================= -->
+        <!-- ================= TAB 3: OFFICERS WORKLOAD & PORTFOLIOS ================= -->
         <div id="tab-officers" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
                 <div>
@@ -617,7 +617,7 @@
                         <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
                         Officer Leadership & Workload Matrix (PRO-IDs)
                     </h2>
-                    <p class="text-xs text-slate-400">Track task volume, completion rates, pending queues, and managed projects by officer</p>
+                    <p class="text-xs text-slate-400">Track task volume, completion rates, pending queues, and managed projects by officer and rank</p>
                 </div>
                 <button onclick="openPendingAbstractModal()" class="px-3 py-1.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition">
                     <i data-lucide="clipboard-list" class="w-4 h-4"></i>
@@ -631,7 +631,7 @@
             </div>
         </div>
 
-        <!-- ================= TAB 3: PROJECTS DEEP-DIVE ================= -->
+        <!-- ================= TAB 4: PROJECTS DEEP-DIVE ================= -->
         <div id="tab-projects" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
                 <div>
@@ -649,7 +649,7 @@
             </div>
         </div>
 
-        <!-- ================= TAB 4: LIVE RECORDS EXPLORER ================= -->
+        <!-- ================= TAB 5: LIVE RECORDS EXPLORER ================= -->
         <div id="tab-explorer" class="tab-content hidden space-y-4">
             
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
@@ -657,7 +657,7 @@
                     
                     <div class="lg:col-span-2 relative">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
-                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID (e.g. 136, PRJ-023, CI, CCTNS, Subject)..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Search ID, Subject, Dept, Officer, Project, Source..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
                     <div>
@@ -675,8 +675,9 @@
                     <div class="flex gap-2">
                         <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Priorities</option>
-                            <option value="Critical">🔴 Critical</option>
-                            <option value="High">🟡 High</option>
+                            <option value="VIP">⭐ VIP / High Priority</option>
+                            <option value="Critical">🔴 Critical Alert</option>
+                            <option value="High">🟡 High Priority</option>
                             <option value="Normal">⚪ Normal</option>
                         </select>
                         <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
@@ -694,7 +695,7 @@
                         <span>Showing <span id="filtered-count" class="text-white font-bold">--</span> of <span id="total-count" class="text-white font-bold">--</span> correspondence records</span>
                         <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
                     </div>
-                    <div class="text-[11px] text-slate-500">Click any row to open full file record & history</div>
+                    <div class="text-[11px] text-slate-500">Click any row to open full file record & complete 21-column history</div>
                 </div>
             </div>
 
@@ -704,8 +705,8 @@
                         <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
                             <tr>
                                 <th class="py-3 px-3">ID</th>
-                                <th class="py-3 px-2.5">Received</th>
-                                <th class="py-3 px-2.5">Channel</th>
+                                <th class="py-3 px-2.5">Received Date</th>
+                                <th class="py-3 px-2.5">Channel / Source</th>
                                 <th class="py-3 px-3">Project (PRJ-ID)</th>
                                 <th class="py-3 px-4">Subject / Work Description</th>
                                 <th class="py-3 px-3">Officer-in-Charge (PRO-ID)</th>
@@ -724,6 +725,194 @@
 
     </main>
 
+    <!-- ================= COMPLETE 21-COLUMN TASK RECORD DETAILS MODAL ================= -->
+    <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 no-print">
+        <div class="glass-card rounded-2xl border border-blue-900/80 max-w-4xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+            
+            <!-- Modal Header Strip -->
+            <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+                <div class="space-y-1">
+                    <div class="flex items-center flex-wrap gap-2">
+                        <span id="modal-id" class="text-sm font-mono font-black bg-blue-900/60 text-blue-300 px-3 py-1 rounded-lg border border-blue-700/50">--</span>
+                        <span id="modal-stage-badge" class="px-2.5 py-0.5 rounded-md text-xs font-semibold">--</span>
+                        <span id="modal-priority-badge" class="px-2.5 py-0.5 rounded-md text-xs font-bold">--</span>
+                        <span id="modal-vip-badge" class="hidden px-2.5 py-0.5 rounded-md text-xs font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">⭐ VIP File</span>
+                    </div>
+                    <h3 id="modal-project-title" class="text-base sm:text-lg font-bold text-white flex items-center gap-2 mt-1">--</h3>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- VIP Reason Banner (Shown if VIP) -->
+            <div id="modal-vip-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-200 flex items-start gap-2.5">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                    <span class="font-bold text-amber-300 uppercase tracking-wide text-[10px] block">High Priority Executive Classification</span>
+                    <span id="modal-vip-reasons" class="text-[11.5px] leading-relaxed">--</span>
+                </div>
+            </div>
+
+            <!-- Subject & Work Description Box -->
+            <div>
+                <label class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block mb-1">Subject / Work Description</label>
+                <div id="modal-subject" class="text-xs sm:text-sm text-slate-100 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 leading-relaxed font-normal">--</div>
+            </div>
+
+            <!-- Detailed 21-Column 2-Column Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                
+                <!-- CARD 1: Receipt & Channel Inflow -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10.5px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/80 pb-1">
+                        <i data-lucide="inbox" class="w-3.5 h-3.5"></i>
+                        <span>Receipt & Inflow Details</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Date & Time Received:</span>
+                            <span id="modal-recv-datetime" class="text-white font-mono font-semibold">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Original Date of Letter/Mail:</span>
+                            <span id="modal-orig-date" class="text-slate-200 font-mono">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Received Through Channel:</span>
+                            <span id="modal-channel" class="text-white font-semibold">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Source Desk / Section:</span>
+                            <span id="modal-source" class="text-cyan-300 font-medium truncate max-w-[200px]" title="">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Originating Sender & Officer Authority -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10.5px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/80 pb-1">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                        <span>Originating Authority & Sender</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div>
+                            <span class="text-slate-400 text-[11px] block">Received From Department / Wing:</span>
+                            <span id="modal-from-dept" class="text-white font-bold block mt-0.5">--</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 text-[11px] block">Sender Officer Designation:</span>
+                            <span id="modal-from-desig" class="text-amber-300 font-semibold block mt-0.5">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: Technical Project & Request Profile -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10.5px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/80 pb-1">
+                        <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                        <span>Technical Project & Request Profile</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Project Portfolio:</span>
+                            <span id="modal-prj-badge">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Nature of Request:</span>
+                            <span id="modal-nature" class="text-white font-medium">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Due Date / Event Date:</span>
+                            <span id="modal-due-date" class="font-mono text-amber-400 font-bold">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Delay Days:</span>
+                            <span id="modal-delay-days" class="font-mono text-rose-300 font-bold">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: Workload Allocation & Stage -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10.5px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/80 pb-1">
+                        <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                        <span>Officer Allocation & Current Stage</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Concerned Officer:</span>
+                            <span id="modal-officer-badge">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Current Stage:</span>
+                            <span id="modal-stage-detail" class="text-white font-bold">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Final Decision:</span>
+                            <span id="modal-decision" class="text-slate-200">--</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-[11px]">Turnaround Time / Age:</span>
+                            <span id="modal-tat" class="text-cyan-400 font-mono font-extrabold">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5: Follow-Up & Milestones -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2 sm:col-span-2">
+                    <div class="text-[10.5px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/80 pb-1">
+                        <i data-lucide="clock-rewind" class="w-3.5 h-3.5"></i>
+                        <span>Follow-Up Tracking & Closure Milestones</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">Follow-Up Required:</span>
+                            <span id="modal-followup" class="font-bold">--</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">Last Follow-up Date:</span>
+                            <span id="modal-last-followup" class="font-mono font-semibold text-slate-200">--</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">Dispatched Date:</span>
+                            <span id="modal-dispatched" class="font-mono font-semibold text-slate-200">--</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 text-[10px] block">Final Closure Date:</span>
+                            <span id="modal-closure" class="font-mono font-semibold text-slate-200">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 6: Remarks & Meeting / VC Direct Access -->
+                <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-2 sm:col-span-2">
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-1">
+                        <span class="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                            <span>Remarks / Meeting Venue / Additional Information</span>
+                        </span>
+                        <a id="modal-vc-btn" href="#" target="_blank" class="hidden px-2.5 py-1 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition inline-flex items-center gap-1 shadow">
+                            <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                            <span>Open Meeting / VC Link ↗</span>
+                        </a>
+                    </div>
+                    <p id="modal-remarks" class="text-xs text-slate-200 leading-relaxed">No additional remarks provided.</p>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+                <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="text-xs text-emerald-400 hover:underline flex items-center gap-1">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Edit this record in Google Sheet ↗</span>
+                </a>
+                <button onclick="closeModal()" class="px-5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close Window</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= EXPANDED EXECUTIVE PENDING ABSTRACT & WHATSAPP MODAL ================= -->
     <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print">
         <div class="glass-card rounded-2xl border border-amber-500/50 max-w-6xl w-full h-[92vh] max-h-[95vh] p-5 sm:p-6 shadow-2xl flex flex-col justify-between space-y-3">
@@ -738,7 +927,7 @@
                             <span class="text-xs text-slate-400" id="abstract-timestamp">--</span>
                         </div>
                         <h2 class="text-base sm:text-lg font-extrabold text-white mt-0.5">
-                            Officer-Wise Active Workload & Pending Abstract
+                            Officer-Wise Active Workload & Pending Abstract (Designation-Wise)
                         </h2>
                     </div>
                 </div>
@@ -747,8 +936,8 @@
                 </button>
             </div>
 
-            <!-- Top Summary Stats Strip (5 Clean Metrics, No Critical Alert) -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs flex-shrink-0">
+            <!-- Top Summary Stats Strip (6 Clean Metrics) -->
+            <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs flex-shrink-0">
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                     <span class="text-slate-400 text-[10px] block">Total Intake</span>
                     <span id="abs-kpi-total" class="text-base font-bold text-white">--</span>
@@ -769,6 +958,15 @@
                     <span class="text-emerald-400 text-[10px] block font-semibold">🟢 Completed</span>
                     <span id="abs-kpi-done" class="text-base font-bold text-emerald-400">--</span>
                 </div>
+                <div class="bg-slate-900/80 p-2 rounded-xl border border-amber-400/30 bg-amber-500/10">
+                    <span class="text-amber-300 text-[10px] block font-bold">⭐ VIP Attention</span>
+                    <span id="abs-kpi-vip" class="text-base font-black text-amber-300">--</span>
+                </div>
+            </div>
+
+            <!-- Designation Summary Mini-Cards -->
+            <div id="abstract-designation-strip" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs flex-shrink-0">
+                <!-- Populated dynamically with DSP, CI, SI, Unassigned cards -->
             </div>
 
             <!-- Action & Format Selector Bar -->
@@ -819,7 +1017,7 @@
         </div>
     </div>
 
-    <!-- ================= OFFICIAL PRINT EXECUTIVE MEMO (CLEAN MEMO, NO SIGN-OFF FOOTER) ================= -->
+    <!-- ================= OFFICIAL PRINT EXECUTIVE MEMO ================= -->
     <div id="print-executive-memo" class="hidden p-6 max-w-4xl mx-auto bg-white text-black">
         
         <!-- Official Government Crest & Header -->
@@ -828,24 +1026,25 @@
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
-            <div class="text-sm font-bold uppercase underline mt-2">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - OFFICER-WISE ABSTRACT</div>
+            <div class="text-sm font-bold uppercase underline mt-2">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT</div>
             <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
                 <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
-                <span id="print-date-display">Date: 22-09-2026</span>
+                <span id="print-date-display">Date: 24-09-2026</span>
             </div>
         </div>
 
-        <!-- 1. Executive Overview Table (5 Clean Metrics) -->
+        <!-- 1. Executive Overview Table -->
         <div class="mb-4">
             <div class="text-xs font-bold uppercase mb-1">1. Executive Overview Abstract:</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
-                        <th class="text-center">Total Correspondence Intake</th>
+                        <th class="text-center">Total Inflow</th>
                         <th class="text-center">🟡 Pending Action</th>
                         <th class="text-center">🔵 Active In-Progress</th>
-                        <th class="text-center">⚪ Stage N/A (Notice Required)</th>
+                        <th class="text-center">⚪ Stage N/A (Notice)</th>
                         <th class="text-center">🟢 Completed / Dispatched</th>
+                        <th class="text-center">⭐ VIP Priority</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -855,14 +1054,36 @@
                         <td id="print-kpi-inprog" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-na" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-done" class="text-center font-bold text-sm">--</td>
+                        <td id="print-kpi-vip" class="text-center font-bold text-sm">--</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- 2. Officer-Wise Workload Summary Table -->
+        <!-- 2. Officer Designation & Rank Workload Breakdown Table -->
         <div class="mb-4">
-            <div class="text-xs font-bold uppercase mb-1">2. Officer-Wise Active Workload Summary:</div>
+            <div class="text-xs font-bold uppercase mb-1">2. Designation / Rank-Wise Workload Breakdown:</div>
+            <table class="w-full text-xs">
+                <thead>
+                    <tr>
+                        <th>Designation / Rank</th>
+                        <th class="text-center w-28">Officers Count</th>
+                        <th class="text-center w-28">Total Active Files</th>
+                        <th class="text-center w-24">Pending Action</th>
+                        <th class="text-center w-24">In-Progress</th>
+                        <th class="text-center w-24">Stage N/A</th>
+                        <th class="text-center w-24">Completed</th>
+                    </tr>
+                </thead>
+                <tbody id="print-designation-summary-tbody">
+                    <!-- Populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. Officer-Wise Workload Summary Table -->
+        <div class="mb-4">
+            <div class="text-xs font-bold uppercase mb-1">3. Officer-Wise Active Workload Summary:</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -881,15 +1102,15 @@
             </table>
         </div>
 
-        <!-- 3. Detailed Active Correspondence Inventory Table -->
+        <!-- 4. Detailed Active Correspondence Inventory Table -->
         <div class="mb-5">
-            <div class="text-xs font-bold uppercase mb-1">3. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1">4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
                         <th class="w-24">File ID</th>
                         <th class="w-20">Recv Date</th>
-                        <th class="w-44">Project (ID & Name)</th>
+                        <th class="w-40">Project (ID & Name)</th>
                         <th>Subject / Work Description</th>
                         <th class="w-36">Officer-in-Charge</th>
                         <th class="w-28 text-center">Stage & Status</th>
@@ -903,76 +1124,6 @@
         </div>
     </div>
 
-    <!-- RECORD DETAILS MODAL -->
-    <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
-        <div class="glass-card rounded-2xl border border-blue-900/60 max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-start justify-between border-b border-slate-800 pb-3">
-                <div>
-                    <span id="modal-id" class="text-xs font-mono font-bold bg-blue-900/60 text-blue-300 px-2.5 py-1 rounded">--</span>
-                    <h3 id="modal-project" class="text-base sm:text-lg font-bold text-white mt-1.5 flex items-center gap-2">--</h3>
-                </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="space-y-3">
-                <div>
-                    <label class="text-[10.5px] uppercase tracking-wider text-slate-400 font-semibold">Subject / Work Description</label>
-                    <p id="modal-subject" class="text-xs sm:text-sm text-slate-100 bg-slate-900/90 p-3 rounded-xl border border-slate-800 mt-1 leading-relaxed">--</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80 sm:col-span-2">
-                        <span class="text-slate-400 block text-[10.5px]">Concerned Officer-in-Charge:</span>
-                        <span id="modal-officer" class="text-white font-semibold flex items-center gap-1 mt-0.5">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Received Through & Date:</span>
-                        <span id="modal-recv" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">From Dept / Officer:</span>
-                        <span id="modal-from" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Nature of Request:</span>
-                        <span id="modal-nature" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Final Decision:</span>
-                        <span id="modal-decision" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Current Stage & Status:</span>
-                        <span id="modal-stage" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Priority Level:</span>
-                        <span id="modal-priority" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Dispatched / Closure Date:</span>
-                        <span id="modal-dispatch" class="text-white font-semibold mt-0.5 block">--</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                        <span class="text-slate-400 block text-[10.5px]">Turnaround / Aging:</span>
-                        <span id="modal-tat" class="text-cyan-400 font-bold font-mono mt-0.5 block">--</span>
-                    </div>
-                </div>
-
-                <div id="modal-remarks-container" class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                    <span class="text-slate-400 block text-[10.5px]">Remarks / Action Items:</span>
-                    <span id="modal-remarks" class="text-slate-300 text-xs">None</span>
-                </div>
-            </div>
-
-            <div class="flex justify-end pt-2 border-t border-slate-800">
-                <button onclick="closeModal()" class="px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
-            </div>
-        </div>
-    </div>
-
     <!-- FOOTER -->
     <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -981,10 +1132,22 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LIVE GOOGLE SHEETS SYNC LOGIC -->
+    <!-- JAVASCRIPT LIVE GOOGLE SHEETS SYNC & EXECUTIVE CONTROLLER -->
     <script>
         const GOOGLE_SHEET_ID = "1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y";
         const GOOGLE_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+        const VIP_DEPTS = ['dgp', 'high court', 'highcourt', 'rtgs', 'ite&c', 'ite & c', 'mha', 'ncrb'];
+        const VIP_STAGES = ['file with dgp', 'file with govt', 'pending for dgp approval', 'pending with dgp', 'pending for dgp'];
+        const VIP_DESIGS = [
+            'dgp', 'director general of police',
+            'secretary to the govt of ap', 'secretary to the govt. of ap', 'secretary to the govt.of ap', 'secreatry to govt of india', 'secretary to govt',
+            'principal secretary', 'chief secretary', 'cs to the govt', 'cs to govt',
+            'registar highcourt', 'registrar it high court', 'registrar high court', 'registrar',
+            'adg', 'addl.director general of police', 'additional director general of police', 'addl.director general',
+            'igp', 'inspector general of police', 'deputy inspector general of police', 'deputy inspector general',
+            'deputy director'
+        ];
 
         let rawData = null;
         let filteredRecords = [];
@@ -1005,17 +1168,17 @@
         function parseProId(val) {
             const cleaned = cleanText(val);
             if (cleaned === 'N/A' || cleaned === 'ALL' || cleaned === 'Unassigned') {
-                return { id: 'N/A', name: 'Unassigned', rank: '', label: 'Unassigned' };
+                return { id: 'N/A', name: 'Unassigned', rank: 'Unassigned', label: 'Unassigned' };
             }
             const match = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$/);
             if (match) {
                 const proId = match[1].trim();
                 const name = match[2].trim();
-                const rank = (match[3] || '').trim();
+                const rank = (match[3] || 'Other').trim();
                 const label = `${proId} - ${name}` + (rank ? ` (${rank})` : '');
                 return { id: proId, name: name, rank: rank, label: label };
             }
-            return { id: 'PRO-GEN', name: cleaned, rank: '', label: cleaned };
+            return { id: 'PRO-GEN', name: cleaned, rank: 'Other', label: cleaned };
         }
 
         // Parse Project ID (PRJ-xxx - Project Name)
@@ -1125,7 +1288,7 @@
             }
         }
 
-        // Direct Browser Fetch from Google Sheets CSV
+        // Direct Browser Fetch from Google Sheets CSV with Full 21-Column & VIP Mapping
         function fetchDirectFromGoogle() {
             return new Promise((resolve) => {
                 Papa.parse(GOOGLE_CSV_URL, {
@@ -1154,14 +1317,22 @@
                             let hasData = false;
 
                             headers.forEach((h, colIdx) => {
+                                if (!h) return;
                                 const val = row[colIdx] !== undefined ? String(row[colIdx]).trim() : '';
                                 rowDict[h] = val;
                                 if (colIdx > 0 && val !== '' && val !== 'N/A' && val !== 'None') hasData = true;
                             });
 
                             if (hasData) {
-                                const dRecv = parseIndianDate(rowDict['Date Received to office']);
-                                const dOrig = parseIndianDate(rowDict['Original Date of Letter/Mail']);
+                                // Normalized date lookups
+                                const recvRaw = rowDict['Date & Time Received to office'] || rowDict['Date Received to office'] || rowDict['Date Received'] || '';
+                                rowDict['Date Received to office'] = recvRaw;
+                                const dRecv = parseIndianDate(recvRaw);
+                                
+                                const origRaw = rowDict['Original Date of Letter/Mail'] || rowDict['Original Date'] || '';
+                                rowDict['Original Date of Letter/Mail'] = origRaw;
+                                const dOrig = parseIndianDate(origRaw);
+
                                 const dClose = parseIndianDate(rowDict['Final Closure Date']) || parseIndianDate(rowDict['Dispatched Date']);
 
                                 const effectiveStart = dRecv || dOrig;
@@ -1181,12 +1352,33 @@
                                 rowDict['project_name'] = prjInfo.name;
                                 rowDict['project_label'] = prjInfo.label;
 
-                                // Parse Nature of Request, Due Date, Timing, and Remarks
+                                // Sender & Inflow
+                                const deptRaw = cleanText(rowDict['Received From Department /Wing'] || rowDict['Received From Department'] || '');
+                                rowDict['Received From Department /Wing'] = deptRaw;
+
+                                const desigRaw = cleanText(rowDict['Received From Officer designation '] || rowDict['Received From Officer designation'] || rowDict['Received From Officer Designation'] || '');
+                                rowDict['Received From Officer designation '] = desigRaw;
+
+                                rowDict['Source'] = cleanText(rowDict['Source'] || '');
+                                rowDict['Received Through'] = cleanText(rowDict['Received Through'] || rowDict['Received Through '] || '');
+
+                                // Follow-up & Delay Days
+                                const followupRaw = cleanText(rowDict['Further Fallow up Required with Concerned Department '] || rowDict['Further Fallow up Required with Concerned Department'] || rowDict['Further Follow up Required with Concerned Department '] || rowDict['Further Follow up Required with Concerned Department'] || rowDict['Further Follow-up Required'] || '');
+                                rowDict['Further Fallow up Required with Concerned Department '] = followupRaw;
+                                rowDict['Further Follow-up Required'] = followupRaw;
+
+                                rowDict['Last Follow-up Date'] = cleanText(rowDict['Last Follow-up Date'] || rowDict['Last Followup Date'] || '');
+                                rowDict['Delay days'] = cleanText(rowDict['Delay days'] || rowDict['Delay Days'] || '');
+                                rowDict['Final Decision '] = cleanText(rowDict['Final Decision '] || rowDict['Final Decision'] || '');
+
+                                // Nature of Request, Due Date, Timing, and Remarks
                                 const natureRaw = cleanText(rowDict['Nature of Request'] || rowDict['Nature of request'] || rowDict['Nature'] || '');
                                 rowDict['nature_of_request'] = natureRaw !== 'N/A' ? natureRaw : 'General Action';
+                                rowDict['Nature of Request'] = rowDict['nature_of_request'];
 
                                 const dueDateRaw = cleanText(rowDict['Due date/Event date'] || rowDict['Due Date / Event Date'] || rowDict['Due date / Event date'] || rowDict['Due Date'] || '');
                                 rowDict['due_date_raw'] = dueDateRaw !== 'N/A' ? dueDateRaw : '';
+                                rowDict['Due date/Event date'] = rowDict['due_date_raw'];
                                 const dDue = parseIndianDate(rowDict['due_date_raw']);
                                 rowDict['due_date_iso'] = dDue ? dDue.toISOString().split('T')[0] : '';
 
@@ -1217,6 +1409,8 @@
 
                                 const remarksRaw = cleanText(rowDict['Remarks/other Information'] || rowDict['Remarks/other Information '] || rowDict['Remarks'] || rowDict['Remarks / Information'] || '');
                                 rowDict['remarks'] = remarksRaw !== 'N/A' ? remarksRaw : '';
+                                rowDict['Remarks'] = rowDict['remarks'];
+                                rowDict['Remarks/other Information '] = rowDict['remarks'];
 
                                 const urlMatch = rowDict['remarks'].match(/(https?:\/\/[^\s]+)/);
                                 rowDict['remarks_link'] = urlMatch ? urlMatch[1] : '';
@@ -1257,9 +1451,43 @@
                                     rowDict['calculated_aging_days'] = 0;
                                 }
 
-                                let priority = (rowDict['Priority'] || '').trim();
-                                if (!['Critical', 'High', 'Normal'].includes(priority)) priority = 'Normal';
-                                rowDict['Priority'] = priority;
+                                // VIP Priority Classification
+                                const vipReasons = [];
+                                if (VIP_DEPTS.some(d => deptRaw.toLowerCase().includes(d))) {
+                                    vipReasons.push(`VIP Dept: ${deptRaw}`);
+                                }
+                                if (VIP_STAGES.some(s => stageRaw.toLowerCase().includes(s))) {
+                                    vipReasons.push(`VIP Stage: ${stageRaw}`);
+                                }
+                                if (['yes', 'y', 'true'].includes(followupRaw.toLowerCase())) {
+                                    vipReasons.push("Follow-up Required with Dept");
+                                }
+                                if (VIP_DESIGS.some(dg => desigRaw.toLowerCase().includes(dg))) {
+                                    vipReasons.push(`VIP Officer: ${desigRaw}`);
+                                }
+
+                                const isVip = vipReasons.length > 0;
+                                rowDict['is_vip'] = isVip;
+                                rowDict['vip_reasons'] = vipReasons;
+
+                                let origPriority = (rowDict['Priority'] || '').trim();
+                                if (!['Critical', 'High', 'Normal'].includes(origPriority)) origPriority = '';
+
+                                if (isVip) {
+                                    if (origPriority === 'Critical' || 
+                                        ['yes', 'y', 'true'].includes(followupRaw.toLowerCase()) || 
+                                        deptRaw.toLowerCase().includes('dgp') || 
+                                        stageRaw.toLowerCase().includes('govt') || 
+                                        stageRaw.toLowerCase().includes('dgp') ||
+                                        deptRaw.toLowerCase().includes('highcourt') || 
+                                        deptRaw.toLowerCase().includes('high court')) {
+                                        rowDict['Priority'] = 'Critical';
+                                    } else {
+                                        rowDict['Priority'] = 'High';
+                                    }
+                                } else {
+                                    rowDict['Priority'] = (origPriority === 'Critical' || origPriority === 'High') ? origPriority : 'Normal';
+                                }
 
                                 records.push(rowDict);
                             }
@@ -1271,6 +1499,7 @@
                         const onholdClosed = records.filter(r => r.status_group === 'On Hold / Closed').length;
                         const critical = records.filter(r => r.Priority === 'Critical').length;
                         const high = records.filter(r => r.Priority === 'High').length;
+                        const vipCount = records.filter(r => r.is_vip).length;
 
                         const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
                         const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
@@ -1293,7 +1522,7 @@
                                     pro_id: r.officer_id,
                                     name: r.officer_name,
                                     rank: r.officer_rank,
-                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
+                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0, vip_count: 0,
                                     projects: new Set(),
                                     pending_files: [],
                                     inprogress_files: [],
@@ -1311,6 +1540,8 @@
                                 stage: r['Current Stage'] || 'N/A',
                                 age: r.display_time_metric,
                                 priority: r.Priority,
+                                is_vip: r.is_vip,
+                                vip_reasons: r.vip_reasons,
                                 recv_date: r['Date Received to office']
                             };
 
@@ -1329,13 +1560,56 @@
                             }
 
                             if (r.Priority === 'Critical' || r.Priority === 'High') offMap[off].critical++;
+                            if (r.is_vip) offMap[off].vip_count++;
                             if (r.project_label !== 'N/A') offMap[off].projects.add(r.project_label);
                         });
+
                         const officerAnalytics = Object.values(offMap).map(o => ({
                             ...o,
                             active_total: o.pending + o.inprogress + o.onhold,
                             projects: Array.from(o.projects).sort()
                         })).sort((a, b) => b.active_total - a.active_total);
+
+                        // Designation analytics
+                        const rankOrder = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
+                        const rankSummary = {};
+                        officerAnalytics.forEach(o => {
+                            const rnk = o.rank && o.rank !== 'Other' ? o.rank : (o.pro_id === 'N/A' ? 'Unassigned' : 'Other');
+                            if (!rankSummary[rnk]) {
+                                rankSummary[rnk] = {
+                                    rank: rnk,
+                                    officers_count: 0,
+                                    total: 0,
+                                    active_total: 0,
+                                    pending: 0,
+                                    inprogress: 0,
+                                    onhold: 0,
+                                    completed: 0,
+                                    critical: 0,
+                                    vip_count: 0,
+                                    officers: []
+                                };
+                            }
+                            const rs = rankSummary[rnk];
+                            rs.officers_count++;
+                            rs.total += o.total;
+                            rs.active_total += o.active_total;
+                            rs.pending += o.pending;
+                            rs.inprogress += o.inprogress;
+                            rs.onhold += o.onhold;
+                            rs.completed += o.completed;
+                            rs.critical += o.critical;
+                            rs.vip_count += o.vip_count;
+                            rs.officers.push(o);
+                        });
+
+                        const designationAnalytics = [];
+                        rankOrder.forEach(rnk => {
+                            if (rankSummary[rnk]) designationAnalytics.push(rankSummary[rnk]);
+                        });
+                        Object.keys(rankSummary).forEach(rnk => {
+                            if (!rankOrder.includes(rnk)) designationAnalytics.push(rankSummary[rnk]);
+                        });
 
                         const pMap = {};
                         records.forEach(r => {
@@ -1345,7 +1619,7 @@
                                     project: p,
                                     prj_id: r.project_id,
                                     name: r.project_name,
-                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0,
+                                    total: 0, completed: 0, inprogress: 0, pending: 0, onhold: 0, critical: 0, vip_count: 0,
                                     officers: new Set()
                                 };
                             }
@@ -1355,7 +1629,8 @@
                             else if (r.status_group === 'Pending') pMap[p].pending++;
                             else pMap[p].onhold++;
 
-                            if (r.Priority === 'Critical') pMap[p].critical++;
+                            if (r.Priority === 'Critical' || r.Priority === 'High') pMap[p].critical++;
+                            if (r.is_vip) pMap[p].vip_count++;
                             if (r.officer_label !== 'N/A' && r.officer_label !== 'Unassigned') pMap[p].officers.add(r.officer_label);
                         });
                         const projectAnalytics = Object.values(pMap).map(p => ({
@@ -1371,7 +1646,6 @@
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
 
                         // Extract and Sort Scheduled Events / Meetings / Workshops
-                        // Strictly qualify based on Nature of Request column (must match meeting/VC/seminar/workshop/training)
                         const eventKeywords = ['meeting', 'conference', 'vc', 'video', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'course'];
                         const scheduledEvents = [];
                         records.forEach(r => {
@@ -1397,6 +1671,8 @@
                                     status_group: r.status_group,
                                     current_stage: r['Current Stage'],
                                     priority: r.Priority,
+                                    is_vip: r.is_vip,
+                                    vip_reasons: r.vip_reasons,
                                     event_timing_status: r.event_timing_status,
                                     event_timing_label: r.event_timing_label,
                                     event_delta_days: r.event_delta_days
@@ -1405,19 +1681,18 @@
                         });
 
                         scheduledEvents.sort((a, b) => {
-                            const orderA = (a.event_delta_days >= 0 && a.event_delta_days < 9999) ? 0 : (a.event_delta_days === 9999 ? 1 : 2);
-                            const orderB = (b.event_delta_days >= 0 && b.event_delta_days < 9999) ? 0 : (b.event_delta_days === 9999 ? 1 : 2);
-                            if (orderA !== orderB) return orderA - orderB;
-                            return a.event_delta_days - b.event_delta_days;
+                            const rankA = (0 <= a.event_delta_days && a.event_delta_days < 9999) ? 0 : (a.event_delta_days === 9999 ? 1 : 2);
+                            const rankB = (0 <= b.event_delta_days && b.event_delta_days < 9999) ? 0 : (b.event_delta_days === 9999 ? 1 : 2);
+                            if (rankA !== rankB) return rankA - rankB;
+                            return (0 <= a.event_delta_days && a.event_delta_days < 9999) ? (a.event_delta_days - b.event_delta_days) : (b.event_delta_days - a.event_delta_days);
                         });
 
                         const upcomingEventsCount = scheduledEvents.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed').length;
 
-                        // Pending Abstract
-                        const activeOfficers = officerAnalytics.filter(o => o.active_total > 0).sort((a, b) => b.active_total - a.active_total);
-
                         resolve({
                             status: 'success',
+                            data_source: 'Google Sheets Direct Browser Parse',
+                            last_updated: new Date().toISOString(),
                             kpis: {
                                 total: records.length,
                                 completed,
@@ -1426,25 +1701,21 @@
                                 onhold_closed: onholdClosed,
                                 critical,
                                 high,
+                                vip_count: vipCount,
                                 avg_tat_days: avgTat
                             },
                             aging_buckets: agingBuckets,
                             officers: officerAnalytics,
+                            designations: designationAnalytics,
                             projects: projectAnalytics,
                             channels: channelAnalytics,
                             scheduled_events: scheduledEvents,
                             upcoming_events_count: upcomingEventsCount,
-                            records: records,
-                            pending_abstract: {
-                                total_pending: pending,
-                                total_inprogress: inprogress,
-                                total_na_stage: onholdClosed,
-                                officers_active: activeOfficers
-                            }
+                            records: records
                         });
                     },
                     error: function(err) {
-                        document.getElementById('permission-alert').classList.remove('hidden');
+                        console.error("PapaParse CSV Fetch Error:", err);
                         resolve(null);
                     }
                 });
@@ -1492,6 +1763,7 @@
             document.getElementById('kpi-completed').innerText = kpis.completed;
             document.getElementById('kpi-onhold').innerText = kpis.onhold_closed || 0;
             document.getElementById('kpi-critical').innerText = kpis.critical;
+            document.getElementById('kpi-vip').innerText = kpis.vip_count || 0;
             document.getElementById('kpi-tat').innerText = kpis.avg_tat_days;
             document.getElementById('header-pending-count').innerText = `${kpis.pending} Pending`;
 
@@ -1653,6 +1925,7 @@
                     <div>
                         <div class="flex items-center gap-1.5">
                             <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded bg-${r.Priority === 'Critical' ? 'rose-500/20 text-rose-300' : 'amber-500/20 text-amber-300'}">${r.Priority}</span>
+                            ${r.is_vip ? `<span class="text-[9.5px] font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300">⭐ VIP</span>` : ''}
                             <span class="text-xs font-bold text-white font-mono">${r.ID}</span>
                             <span class="text-[10.5px] text-cyan-400 font-medium">• ${r.project_label || 'Misc'}</span>
                         </div>
@@ -1713,7 +1986,10 @@
                                 <h3 class="text-base font-bold text-white mt-1">${o.name || o.officer}</h3>
                                 <p class="text-xs text-slate-400">${o.total} Assigned Files (Active: ${o.active_total || (o.pending + o.inprogress + o.onhold)})</p>
                             </div>
-                            ${o.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
+                            <div class="flex flex-col items-end gap-1">
+                                ${o.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
+                                ${o.vip_count > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-extrabold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">⭐ ${o.vip_count} VIP</span>` : ''}
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
@@ -1893,10 +2169,28 @@
             document.getElementById('abs-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('abs-kpi-na').innerText = kpis.onhold_closed || 0;
             document.getElementById('abs-kpi-done').innerText = kpis.completed;
+            document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
+
+            // Render Designation Summary Strip inside modal
+            const desigStrip = document.getElementById('abstract-designation-strip');
+            if (desigStrip && rawData.designations) {
+                desigStrip.innerHTML = rawData.designations.map(d => `
+                    <div class="bg-slate-900/90 p-2 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <span class="text-blue-400 font-bold text-xs uppercase">${d.rank} Rank</span>
+                            <span class="text-[10px] text-slate-400 block">${d.officers_count} Officer(s)</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-extrabold text-white">${d.active_total}</span>
+                            <span class="text-[9.5px] text-slate-400 block font-mono">(${d.pending}P / ${d.inprogress}IP / ${d.onhold}NA)</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
 
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
 
-            // 1. Formulate Detailed WhatsApp Text (With File IDs & Projects)
+            // 1. Formulate Detailed WhatsApp Text (Designation-Organized + VIP Highlights)
             let waDetailed = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waDetailed += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
             waDetailed += `📅 Date: ${dateStr}\n\n`;
@@ -1905,36 +2199,66 @@
             waDetailed += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
             waDetailed += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
             waDetailed += `• ⚪ Stage N/A (Notice Required): ${kpis.onhold_closed || 0} Files\n`;
-            waDetailed += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n\n`;
+            waDetailed += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n`;
+            waDetailed += `• ⭐ High Priority / VIP Files: ${kpis.vip_count || 0} Files\n\n`;
+            
             waDetailed += `───────────────────────────────\n`;
-            waDetailed += `👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*\n`;
+            waDetailed += `🎖️ *WORKLOAD BY DESIGNATION / RANK:*\n`;
             waDetailed += `───────────────────────────────\n`;
 
-            activeOfficers.forEach((o, idx) => {
-                const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                waDetailed += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
-                
-                if (o.pending_files && o.pending_files.length > 0) {
-                    waDetailed += `   🟡 *Pending Action:*\n`;
-                    o.pending_files.forEach(f => {
-                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
-                    });
-                }
-                
-                if (o.inprogress_files && o.inprogress_files.length > 0) {
-                    waDetailed += `   🔵 *In-Progress:*\n`;
-                    o.inprogress_files.forEach(f => {
-                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
-                    });
-                }
-                
-                if (o.na_stage_files && o.na_stage_files.length > 0) {
-                    waDetailed += `   ⚪ *Stage N/A (Notice Required):*\n`;
-                    o.na_stage_files.forEach(f => {
-                        waDetailed += `   - ${f.id} [${f.project}]: (${f.age || ''})\n`;
-                    });
-                }
-            });
+            if (rawData.designations) {
+                rawData.designations.forEach(da => {
+                    if (da.active_total > 0 || da.total > 0) {
+                        waDetailed += `🔹 *${da.rank} Rank (${da.officers_count} Officers)*: *${da.active_total} Active Files* (${da.pending} Pend / ${da.inprogress} In-Prog / ${da.onhold} N/A)\n`;
+                    }
+                });
+            }
+
+            waDetailed += `\n───────────────────────────────\n`;
+            waDetailed += `👤 *OFFICER-WISE DETAILED BREAKDOWN:*\n`;
+            waDetailed += `───────────────────────────────\n`;
+
+            if (rawData.designations) {
+                rawData.designations.forEach(da => {
+                    const rankActiveOfficers = da.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0);
+                    if (rankActiveOfficers.length > 0) {
+                        waDetailed += `\n👮 *[${da.rank} RANK OFFICERS]*\n`;
+                        rankActiveOfficers.forEach((o, idx) => {
+                            const actTotal = o.pending + o.inprogress + (o.onhold || 0);
+                            waDetailed += `${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
+                            
+                            if (o.pending_files && o.pending_files.length > 0) {
+                                waDetailed += `   🟡 *Pending Action:*\n`;
+                                o.pending_files.forEach(f => {
+                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
+                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
+                                });
+                            }
+                            
+                            if (o.inprogress_files && o.inprogress_files.length > 0) {
+                                waDetailed += `   🔵 *In-Progress:*\n`;
+                                o.inprogress_files.forEach(f => {
+                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
+                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
+                                });
+                            }
+                            
+                            if (o.na_stage_files && o.na_stage_files.length > 0) {
+                                waDetailed += `   ⚪ *Stage N/A (Notice Required):*\n`;
+                                o.na_stage_files.forEach(f => {
+                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
+                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                activeOfficers.forEach((o, idx) => {
+                    const actTotal = o.pending + o.inprogress + (o.onhold || 0);
+                    waDetailed += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
+                });
+            }
 
             waDetailed += `\n───────────────────────────────\n`;
             waDetailed += `🔗 *Update Status in Google Sheet:*\n`;
@@ -1946,9 +2270,22 @@
             let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
             waShort += `📅 Date: ${dateStr}\n\n`;
-            waShort += `📊 *Total: ${kpis.total}* | 🟡 *Pend: ${kpis.pending}* | 🔵 *In-Prog: ${kpis.inprogress}* | ⚪ *N/A: ${kpis.onhold_closed || 0}* | 🟢 *Done: ${kpis.completed}*\n\n`;
+            waShort += `📊 *Total: ${kpis.total}* | 🟡 *Pend: ${kpis.pending}* | 🔵 *In-Prog: ${kpis.inprogress}* | ⚪ *N/A: ${kpis.onhold_closed || 0}* | 🟢 *Done: ${kpis.completed}* | ⭐ *VIP: ${kpis.vip_count || 0}*\n\n`;
+            
             waShort += `───────────────────────────────\n`;
-            waShort += `👮 *OFFICER WORKLOAD [Active = Pend / InProg / N/A]:*\n`;
+            waShort += `🎖️ *RANK SUMMARY [Active = Pend / InProg / N/A]:*\n`;
+            waShort += `───────────────────────────────\n`;
+
+            if (rawData.designations) {
+                rawData.designations.forEach(da => {
+                    if (da.active_total > 0 || da.total > 0) {
+                        waShort += `• *${da.rank} Rank*: *${da.active_total}* (${da.pending} / ${da.inprogress} / ${da.onhold})\n`;
+                    }
+                });
+            }
+
+            waShort += `\n───────────────────────────────\n`;
+            waShort += `👮 *OFFICER WORKLOAD:*\n`;
             waShort += `───────────────────────────────\n`;
 
             activeOfficers.forEach((o, idx) => {
@@ -1998,8 +2335,8 @@
             waEvents += `───────────────────────────────\n`;
             waEvents += `_Generated from AP Police TS Executive Command Portal_`;
 
-            cachedDetailedWhatsappText = waDetailed;
-            cachedShortWhatsappText = waShort;
+            cachedDetailedWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_text ? rawData.pending_abstract.whatsapp_text : waDetailed;
+            cachedShortWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_short_text ? rawData.pending_abstract.whatsapp_short_text : waShort;
             cachedEventsWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_events_text ? rawData.pending_abstract.whatsapp_events_text : waEvents;
 
             // Apply active tab text
@@ -2264,7 +2601,7 @@
             });
         }
 
-        // ================= OFFICIAL PRINT EXECUTIVE MEMO HANDLER (NO FOOTER SIGN-OFF) =================
+        // ================= OFFICIAL PRINT EXECUTIVE MEMO HANDLER =================
         function printExecutiveMemo() {
             if (!rawData) return;
 
@@ -2279,6 +2616,23 @@
             document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
             document.getElementById('print-kpi-done').innerText = kpis.completed;
+            document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
+
+            // Render Designation Summary Table
+            const desigTbody = document.getElementById('print-designation-summary-tbody');
+            if (desigTbody && rawData.designations) {
+                desigTbody.innerHTML = rawData.designations.map(d => `
+                    <tr>
+                        <td class="font-bold">${d.rank} Rank</td>
+                        <td class="text-center font-mono">${d.officers_count}</td>
+                        <td class="text-center font-bold font-mono">${d.active_total}</td>
+                        <td class="text-center font-bold font-mono">${d.pending}</td>
+                        <td class="text-center font-bold font-mono">${d.inprogress}</td>
+                        <td class="text-center font-bold font-mono">${d.onhold}</td>
+                        <td class="text-center font-mono">${d.completed}</td>
+                    </tr>
+                `).join('');
+            }
 
             // Render Officer Summary Table
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
@@ -2300,7 +2654,7 @@
             const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed');
             detailedTbody.innerHTML = activeFiles.map((r, idx) => `
                 <tr>
-                    <td class="font-mono font-bold whitespace-nowrap">${r.ID}</td>
+                    <td class="font-mono font-bold whitespace-nowrap">${r.ID}${r.is_vip ? ' ⭐' : ''}</td>
                     <td class="font-mono whitespace-nowrap">${r['Date Received to office'] || 'N/A'}</td>
                     <td class="font-semibold">${r.project_label || 'Miscellaneous'}</td>
                     <td class="leading-snug">${r['Subject / Work Description'] || '—'}</td>
@@ -2333,18 +2687,29 @@
                         r.officer_rank,
                         r.officer_label,
                         r['Received From Department /Wing'],
+                        r['Received From Officer designation '],
                         r.project_id,
                         r.project_name,
                         r.project_label,
                         r['Current Stage'],
-                        r['Received Through']
+                        r['Received Through'],
+                        r['Source'],
+                        r['Nature of Request'],
+                        r['Remarks']
                     ].join(' ').toLowerCase();
                     if (!matchText.includes(search)) return false;
                 }
 
                 if (officer && (r.officer_label || 'Unassigned') !== officer) return false;
                 if (project && (r.project_label || 'Other / Misc') !== project) return false;
-                if (priority && r['Priority'] !== priority) return false;
+                
+                // Priority & VIP filter
+                if (priority === 'VIP') {
+                    if (!r.is_vip) return false;
+                } else if (priority && r['Priority'] !== priority) {
+                    return false;
+                }
+
                 if (status && r['status_group'] !== status) return false;
 
                 return true;
@@ -2383,11 +2748,14 @@
                     stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600/40">${r['Current Stage'] || 'N/A'}</span>`;
                 }
 
+                const vipIcon = r.is_vip ? `<span class="text-amber-400 font-bold ml-1" title="⭐ VIP Executive File: ${r.vip_reasons ? r.vip_reasons.join(', ') : ''}">⭐</span>` : '';
+                const channelDisplay = r['Received Through'] ? (r['Source'] && r['Source'] !== 'N/A' ? `${r['Received Through']} <span class="text-[9.5px] text-slate-400 block truncate max-w-[110px]" title="${r['Source']}">(${r['Source']})</span>` : r['Received Through']) : 'N/A';
+
                 return `
                     <tr onclick="openModal('${r.ID}')" class="hover:bg-blue-950/40 cursor-pointer transition">
-                        <td class="py-3 px-3 font-mono font-bold text-blue-400 whitespace-nowrap">${r.ID}</td>
+                        <td class="py-3 px-3 font-mono font-bold text-blue-400 whitespace-nowrap">${r.ID}${vipIcon}</td>
                         <td class="py-3 px-2.5 whitespace-nowrap text-slate-400 font-mono text-[11px]">${r['Date Received to office'] || 'N/A'}</td>
-                        <td class="py-3 px-2.5 whitespace-nowrap text-slate-300 text-xs">${r['Received Through'] || 'N/A'}</td>
+                        <td class="py-3 px-2.5 whitespace-nowrap text-slate-300 text-xs">${channelDisplay}</td>
                         <td class="py-3 px-3 whitespace-nowrap">${renderProjectBadge(r.project_label)}</td>
                         <td class="py-3 px-4 max-w-xs truncate text-slate-200" title="${r['Subject / Work Description']}">${r['Subject / Work Description'] || '—'}</td>
                         <td class="py-3 px-3 whitespace-nowrap">${renderOfficerBadge(r.officer_label)}</td>
@@ -2399,25 +2767,93 @@
             }).join('');
         }
 
+        // ================= FULL 21-COLUMN MODAL DISPLAY =================
         function openModal(id) {
             const r = rawData.records.find(item => item.ID === id);
             if (!r) return;
 
             document.getElementById('modal-id').innerText = r.ID;
-            document.getElementById('modal-project').innerHTML = `${renderProjectBadge(r.project_label)} <span class="text-xs text-slate-400 font-normal">• ${r['Nature of Request'] || 'General'}</span>`;
+
+            // Stage badge in modal header
+            let stageBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            if (r.status_group === 'Completed') stageBadgeClass = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+            else if (r.status_group === 'In-Progress') stageBadgeClass = "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
+            else if (r.status_group === 'On Hold / Closed') stageBadgeClass = "bg-slate-700 text-slate-300 border border-slate-600";
+            
+            const stageBadge = document.getElementById('modal-stage-badge');
+            stageBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-semibold ${stageBadgeClass}`;
+            stageBadge.innerText = `${r['Current Stage'] || 'Pending'} (${r.status_group})`;
+
+            // Priority badge
+            let priorityBadgeClass = "bg-slate-800 text-slate-300 border border-slate-700";
+            if (r.Priority === 'Critical') priorityBadgeClass = "bg-rose-500/20 text-rose-300 border border-rose-500/40";
+            else if (r.Priority === 'High') priorityBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/40";
+            const priorityBadge = document.getElementById('modal-priority-badge');
+            priorityBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-bold ${priorityBadgeClass}`;
+            priorityBadge.innerText = r.Priority || 'Normal';
+
+            // VIP status & banner
+            const vipBadge = document.getElementById('modal-vip-badge');
+            const vipBanner = document.getElementById('modal-vip-banner');
+            const vipReasonsEl = document.getElementById('modal-vip-reasons');
+            if (r.is_vip) {
+                vipBadge.classList.remove('hidden');
+                vipBanner.classList.remove('hidden');
+                vipReasonsEl.innerText = r.vip_reasons && r.vip_reasons.length > 0 ? r.vip_reasons.join(' • ') : 'Triggered by VIP authority / Executive criteria';
+            } else {
+                vipBadge.classList.add('hidden');
+                vipBanner.classList.add('hidden');
+            }
+
+            document.getElementById('modal-project-title').innerHTML = `${renderProjectBadge(r.project_label)} <span class="text-xs text-slate-400 font-normal">• ${r['Nature of Request'] || 'General Action'}</span>`;
             document.getElementById('modal-subject').innerText = r['Subject / Work Description'] || 'No description provided';
-            document.getElementById('modal-officer').innerHTML = renderOfficerBadge(r.officer_label);
-            document.getElementById('modal-recv').innerText = `${r['Received Through'] || 'N/A'} (Recv: ${r['Date Received to office'] || 'N/A'})`;
-            document.getElementById('modal-from').innerText = `${r['Received From Department /Wing'] || 'N/A'} - ${r['Received From Officer designation '] || r['Received From Officer Designation'] || 'N/A'}`;
+
+            // Card 1: Inflow & Receipt
+            document.getElementById('modal-recv-datetime').innerText = r['Date Received to office'] || r['Date & Time Received to office'] || 'N/A';
+            document.getElementById('modal-orig-date').innerText = r['Original Date of Letter/Mail'] || 'N/A';
+            document.getElementById('modal-channel').innerText = r['Received Through'] || 'N/A';
+            const sourceEl = document.getElementById('modal-source');
+            sourceEl.innerText = r['Source'] || 'N/A';
+            sourceEl.title = r['Source'] || '';
+
+            // Card 2: Sender Authority
+            document.getElementById('modal-from-dept').innerText = r['Received From Department /Wing'] || 'N/A';
+            document.getElementById('modal-from-desig').innerText = r['Received From Officer designation '] || 'N/A';
+
+            // Card 3: Project & Request
+            document.getElementById('modal-prj-badge').innerHTML = renderProjectBadge(r.project_label);
             document.getElementById('modal-nature').innerText = r['Nature of Request'] || 'N/A';
-            document.getElementById('modal-decision').innerText = r['Final Decision '] || r['Final Decision'] || 'N/A';
-            document.getElementById('modal-stage').innerHTML = `<span class="font-semibold text-white">${r['Current Stage'] || 'Pending'}</span> <span class="text-slate-400 text-xs">(${r.status_group})</span>`;
-            document.getElementById('modal-priority').innerText = r['Priority'] || 'Normal';
-            document.getElementById('modal-dispatch').innerText = r['Final Closure Date'] || r['Dispatched Date'] || 'Pending Resolution';
-            document.getElementById('modal-tat').innerText = r.display_time_metric ? `${r.display_time_metric}` : '—';
-            document.getElementById('modal-remarks').innerText = r['Remarks'] || 'No additional remarks';
+            
+            const dueDateDisplay = r['Due date/Event date'] ? (r.event_timing_label && r.event_timing_label !== '—' ? `${r['Due date/Event date']} (${r.event_timing_label})` : r['Due date/Event date']) : 'No specific due date';
+            document.getElementById('modal-due-date').innerText = dueDateDisplay;
+            document.getElementById('modal-delay-days').innerText = r['Delay days'] ? `${r['Delay days']} days` : '0 days';
+
+            // Card 4: Allocation & Stage
+            document.getElementById('modal-officer-badge').innerHTML = renderOfficerBadge(r.officer_label);
+            document.getElementById('modal-stage-detail').innerText = r['Current Stage'] || 'Pending';
+            document.getElementById('modal-decision').innerText = r['Final Decision '] || 'Pending Resolution';
+            document.getElementById('modal-tat').innerText = r.display_time_metric ? r.display_time_metric : '—';
+
+            // Card 5: Follow-Up & Milestones
+            const followupVal = r['Further Fallow up Required with Concerned Department '] || r['Further Follow-up Required'] || 'No / None';
+            const isFollowupYes = ['yes', 'y', 'true'].includes(followupVal.toLowerCase());
+            document.getElementById('modal-followup').innerHTML = isFollowupYes ? `<span class="text-rose-400 font-extrabold">Yes ⚠️ (Required)</span>` : `<span class="text-slate-400 font-medium">No</span>`;
+            document.getElementById('modal-last-followup').innerText = r['Last Follow-up Date'] || '—';
+            document.getElementById('modal-dispatched').innerText = r['Dispatched Date'] || 'Pending';
+            document.getElementById('modal-closure').innerText = r['Final Closure Date'] || 'Pending';
+
+            // Card 6: Remarks & VC Link
+            document.getElementById('modal-remarks').innerText = r['Remarks'] || r['Remarks/other Information '] || 'No additional remarks provided.';
+            const vcBtn = document.getElementById('modal-vc-btn');
+            if (r.remarks_link) {
+                vcBtn.href = r.remarks_link;
+                vcBtn.classList.remove('hidden');
+            } else {
+                vcBtn.classList.add('hidden');
+            }
 
             document.getElementById('record-modal').classList.remove('hidden');
+            lucide.createIcons();
         }
 
         function closeModal() {
@@ -2499,61 +2935,25 @@
         function updateThemeButtonUI() {
             const isLight = document.documentElement.classList.contains('light');
             
-            // Header Corner Switch Elements
-            const thumb = document.getElementById('theme-toggle-thumb');
-            const thumbIcon = document.getElementById('theme-thumb-icon');
-            const themeLabel = document.getElementById('theme-label');
-            const switchBtn = document.getElementById('theme-toggle-switch');
-
-            // Floating Corner Button
+            // Floating Corner Button ONLY
             const floatIcon = document.getElementById('floating-theme-icon');
             const floatBtn = document.getElementById('floating-theme-toggle');
 
             if (isLight) {
-                if (thumb) {
-                    thumb.className = "inline-block h-3.5 w-3.5 transform rounded-full bg-amber-500 shadow transition-transform duration-200 ease-in-out translate-x-0 flex items-center justify-center";
-                }
-                if (thumbIcon) {
-                    thumbIcon.setAttribute('data-lucide', 'sun');
-                    thumbIcon.className = "w-2 h-2 text-white";
-                }
-                if (themeLabel) {
-                    themeLabel.innerText = "Light";
-                    themeLabel.className = "text-[11px] font-bold text-amber-700 select-none hidden sm:inline";
-                }
-                if (switchBtn) {
-                    switchBtn.title = "Switch to Dark Mode";
-                    switchBtn.className = "flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-amber-100 hover:bg-amber-200/80 text-slate-800 border border-amber-300 shadow-sm transition-all active:scale-95 group";
-                }
                 if (floatIcon) {
                     floatIcon.setAttribute('data-lucide', 'moon');
                 }
                 if (floatBtn) {
                     floatBtn.title = "Switch to Dark Mode";
-                    floatBtn.className = "p-3 rounded-full bg-white text-indigo-700 hover:text-indigo-900 border-2 border-slate-300 hover:border-indigo-500 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
+                    floatBtn.className = "p-3.5 rounded-full bg-white text-indigo-700 hover:text-indigo-900 border-2 border-slate-300 hover:border-indigo-500 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
                 }
             } else {
-                if (thumb) {
-                    thumb.className = "inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ease-in-out translate-x-5 flex items-center justify-center";
-                }
-                if (thumbIcon) {
-                    thumbIcon.setAttribute('data-lucide', 'moon');
-                    thumbIcon.className = "w-2 h-2 text-slate-950";
-                }
-                if (themeLabel) {
-                    themeLabel.innerText = "Dark";
-                    themeLabel.className = "text-[11px] font-bold text-slate-300 group-hover:text-white select-none hidden sm:inline";
-                }
-                if (switchBtn) {
-                    switchBtn.title = "Switch to Light Mode";
-                    switchBtn.className = "flex items-center gap-1.5 p-1 px-2.5 rounded-full bg-slate-900/90 hover:bg-slate-900 text-slate-200 border border-slate-700/80 shadow-md transition-all active:scale-95 group";
-                }
                 if (floatIcon) {
                     floatIcon.setAttribute('data-lucide', 'sun');
                 }
                 if (floatBtn) {
                     floatBtn.title = "Switch to Light Mode";
-                    floatBtn.className = "p-3 rounded-full bg-slate-900/90 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
+                    floatBtn.className = "p-3.5 rounded-full bg-slate-900/95 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
                 }
             }
             lucide.createIcons();
@@ -2573,7 +2973,8 @@
                 }
             });
 
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-btn-${tabId}`);
             if (activeBtn) {
                 activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300', 'bg-white', 'text-slate-700', 'border', 'border-slate-200');
@@ -2586,7 +2987,7 @@
         function exportFilteredCSV() {
             if (!filteredRecords || filteredRecords.length === 0) return;
 
-            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric' && !k.endsWith('_id') && !k.endsWith('_name') && !k.endsWith('_rank') && !k.endsWith('_label'));
+            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric' && !k.endsWith('_id') && !k.endsWith('_name') && !k.endsWith('_rank') && !k.endsWith('_label') && k !== 'is_vip' && k !== 'vip_reasons' && k !== 'remarks_link' && k !== 'event_timing_status' && k !== 'event_timing_label' && k !== 'event_delta_days');
             const csvRows = [headers.join(',')];
 
             filteredRecords.forEach(r => {
@@ -2613,9 +3014,9 @@
         });
     </script>
 
-    <!-- FLOATING CORNER QUICK THEME SWITCH TOGGLE -->
+    <!-- FLOATING CORNER QUICK THEME SWITCH TOGGLE (ONLY TOGGLE) -->
     <div class="fixed bottom-5 right-5 z-40 no-print">
-        <button onclick="toggleTheme()" id="floating-theme-toggle" title="Toggle Light / Dark Mode" class="p-3 rounded-full bg-slate-900/90 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center">
+        <button onclick="toggleTheme()" id="floating-theme-toggle" title="Toggle Light / Dark Mode" class="p-3.5 rounded-full bg-slate-900/95 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center">
             <i data-lucide="sun" id="floating-theme-icon" class="w-5 h-5"></i>
         </button>
     </div>

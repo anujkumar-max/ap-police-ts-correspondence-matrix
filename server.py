@@ -20,6 +20,18 @@ STATIC_DIR = os.path.dirname(os.path.abspath(__file__))
 _cached_data = None
 _last_fetch_time = 0
 
+VIP_DEPTS = ['dgp', 'high court', 'highcourt', 'rtgs', 'ite&c', 'ite & c', 'mha', 'ncrb']
+VIP_STAGES = ['file with dgp', 'file with govt', 'pending for dgp approval', 'pending with dgp', 'pending for dgp']
+VIP_DESIGS = [
+    'dgp', 'director general of police',
+    'secretary to the govt of ap', 'secretary to the govt. of ap', 'secretary to the govt.of ap', 'secreatry to govt of india', 'secretary to govt',
+    'principal secretary', 'chief secretary', 'cs to the govt', 'cs to govt',
+    'registar highcourt', 'registrar it high court', 'registrar high court', 'registrar',
+    'adg', 'addl.director general of police', 'additional director general of police', 'addl.director general',
+    'igp', 'inspector general of police', 'deputy inspector general of police', 'deputy inspector general',
+    'deputy director'
+]
+
 def clean_text(val):
     if val is None:
         return 'N/A'
@@ -33,18 +45,18 @@ def clean_text(val):
 def parse_pro_id(val):
     cleaned = clean_text(val)
     if cleaned in ['N/A', 'ALL', 'Unassigned']:
-        return {'id': 'N/A', 'name': 'Unassigned', 'rank': '', 'label': 'Unassigned'}
+        return {'id': 'N/A', 'name': 'Unassigned', 'rank': 'Unassigned', 'label': 'Unassigned'}
     
     # Regex match for PRO-xxx - Name (Rank)
     m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
     if m:
         pro_id = m.group(1).strip()
         name = m.group(2).strip()
-        rank = (m.group(3) or '').strip()
+        rank = (m.group(3) or 'Other').strip()
         label = f"{pro_id} - {name}" + (f" ({rank})" if rank else "")
         return {'id': pro_id, 'name': name, 'rank': rank, 'label': label}
     
-    return {'id': 'PRO-GEN', 'name': cleaned, 'rank': '', 'label': cleaned}
+    return {'id': 'PRO-GEN', 'name': cleaned, 'rank': 'Other', 'label': cleaned}
 
 def parse_prj_id(val):
     cleaned = clean_text(val)
@@ -103,9 +115,18 @@ def calculate_analytics_from_records(records):
     today_display = datetime.now().strftime("%d-%m-%Y | %I:%M %p")
 
     for r in records:
-        d_recv = parse_indian_date(r.get('Date Received to office'))
-        d_orig = parse_indian_date(r.get('Original Date of Letter/Mail'))
-        d_close = parse_indian_date(r.get('Final Closure Date')) or parse_indian_date(r.get('Dispatched Date'))
+        # Resolve Date fields
+        recv_raw = r.get('Date & Time Received to office') or r.get('Date Received to office') or r.get('Date Received') or ''
+        r['Date Received to office'] = recv_raw # normalize standard key
+        d_recv = parse_indian_date(recv_raw)
+        
+        orig_raw = r.get('Original Date of Letter/Mail') or r.get('Original Date') or ''
+        r['Original Date of Letter/Mail'] = orig_raw
+        d_orig = parse_indian_date(orig_raw)
+
+        close_raw = r.get('Final Closure Date') or ''
+        disp_raw = r.get('Dispatched Date') or ''
+        d_close = parse_indian_date(close_raw) or parse_indian_date(disp_raw)
 
         effective_start = d_recv or d_orig
 
@@ -125,15 +146,42 @@ def calculate_analytics_from_records(records):
         r['project_name'] = prj_info['name']
         r['project_label'] = prj_info['label']
 
+        # Parse Source and Channel
+        r['Source'] = clean_text(r.get('Source') or '')
+        r['Received Through'] = clean_text(r.get('Received Through') or r.get('Received Through ') or '')
+
+        # Parse Sender Department & Officer Designation
+        dept_raw = clean_text(r.get('Received From Department /Wing') or r.get('Received From Department') or r.get('Received From Department / Wing') or '')
+        r['Received From Department /Wing'] = dept_raw
+
+        desig_raw = clean_text(r.get('Received From Officer designation ') or r.get('Received From Officer designation') or r.get('Received From Officer Designation') or '')
+        r['Received From Officer designation '] = desig_raw
+
         # Parse Nature of Request, Due/Event Date, and Remarks
         nature_raw = clean_text(r.get('Nature of Request') or r.get('Nature of request') or r.get('Nature') or '')
         r['nature_of_request'] = nature_raw if nature_raw != 'N/A' else 'General Action'
+        r['Nature of Request'] = r['nature_of_request']
 
         due_date_raw = clean_text(r.get('Due date/Event date') or r.get('Due Date / Event Date') or r.get('Due date / Event date') or r.get('Due Date') or '')
         r['due_date_raw'] = due_date_raw if due_date_raw != 'N/A' else ''
+        r['Due date/Event date'] = r['due_date_raw']
         d_due = parse_indian_date(r['due_date_raw'])
         r['due_date_iso'] = d_due.strftime("%Y-%m-%d") if d_due else ''
-        
+
+        # Parse Follow-up & Delay Days
+        followup_raw = clean_text(r.get('Further Fallow up Required with Concerned Department ') or r.get('Further Fallow up Required with Concerned Department') or r.get('Further Follow up Required with Concerned Department ') or r.get('Further Follow up Required with Concerned Department') or r.get('Further Follow-up Required') or '')
+        r['Further Fallow up Required with Concerned Department '] = followup_raw
+        r['Further Follow-up Required'] = followup_raw
+
+        last_followup_raw = clean_text(r.get('Last Follow-up Date') or r.get('Last Followup Date') or '')
+        r['Last Follow-up Date'] = last_followup_raw
+
+        delay_days_raw = clean_text(r.get('Delay days') or r.get('Delay Days') or '')
+        r['Delay days'] = delay_days_raw
+
+        decision_raw = clean_text(r.get('Final Decision ') or r.get('Final Decision') or '')
+        r['Final Decision '] = decision_raw
+
         # Calculate event timing / countdown
         if d_due:
             delta_days = (d_due - today).days
@@ -160,6 +208,8 @@ def calculate_analytics_from_records(records):
 
         remarks_raw = clean_text(r.get('Remarks/other Information') or r.get('Remarks/other Information ') or r.get('Remarks') or r.get('Remarks / Information') or '')
         r['remarks'] = remarks_raw if remarks_raw != 'N/A' else ''
+        r['Remarks'] = r['remarks']
+        r['Remarks/other Information '] = r['remarks']
         
         # Detect URLs in remarks for direct meeting access
         url_match = re.search(r'(https?://[^\s]+)', r['remarks'])
@@ -197,13 +247,41 @@ def calculate_analytics_from_records(records):
             r['calculated_tat_days'] = 0
             r['calculated_aging_days'] = 0
 
-        priority = (r.get('Priority') or '').strip()
-        if priority not in ['Critical', 'High', 'Normal']:
-            priority = 'Normal'
-        r['Priority'] = priority
+        # ================= INTELLIGENT VIP / CRITICAL PRIORITY DETECTION =================
+        vip_reasons = []
+        if any(d in dept_raw.lower() for d in VIP_DEPTS):
+            vip_reasons.append(f"VIP Dept: {dept_raw}")
+        if any(s in stage_raw.lower() for s in VIP_STAGES):
+            vip_reasons.append(f"VIP Stage: {stage_raw}")
+        if followup_raw.lower() in ['yes', 'y', 'true']:
+            vip_reasons.append("Follow-up Required with Dept")
+        if any(dg in desig_raw.lower() for dg in VIP_DESIGS):
+            vip_reasons.append(f"VIP Officer: {desig_raw}")
+
+        is_vip = len(vip_reasons) > 0
+        r['is_vip'] = is_vip
+        r['vip_reasons'] = vip_reasons
+
+        orig_priority = (r.get('Priority') or '').strip()
+        if orig_priority not in ['Critical', 'High', 'Normal']:
+            orig_priority = ''
+
+        if is_vip:
+            if (orig_priority == 'Critical' or 
+                followup_raw.lower() in ['yes', 'y', 'true'] or 
+                'dgp' in dept_raw.lower() or 
+                'govt' in stage_raw.lower() or 
+                'dgp' in stage_raw.lower() or
+                'highcourt' in dept_raw.lower() or 'high court' in dept_raw.lower()):
+                resolved_priority = 'Critical'
+            else:
+                resolved_priority = 'High'
+        else:
+            resolved_priority = orig_priority if orig_priority in ['Critical', 'High'] else 'Normal'
+
+        r['Priority'] = resolved_priority
 
     # Extract Scheduled Events / Meetings / Workshops
-    # Strictly qualify based on Nature of Request column (must match meeting/VC/seminar/workshop/training)
     event_keywords = ['meeting', 'conference', 'vc', 'video', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'course']
     scheduled_events = []
     for r in records:
@@ -229,6 +307,8 @@ def calculate_analytics_from_records(records):
                 'status_group': r.get('status_group'),
                 'current_stage': r.get('Current Stage'),
                 'priority': r.get('Priority'),
+                'is_vip': r.get('is_vip'),
+                'vip_reasons': r.get('vip_reasons'),
                 'event_timing_status': r.get('event_timing_status'),
                 'event_timing_label': r.get('event_timing_label'),
                 'event_delta_days': r.get('event_delta_days')
@@ -249,6 +329,7 @@ def calculate_analytics_from_records(records):
     onhold_closed_count = sum(1 for r in records if r['status_group'] == 'On Hold / Closed')
     critical_count = sum(1 for r in records if r['Priority'] == 'Critical')
     high_count = sum(1 for r in records if r['Priority'] == 'High')
+    vip_total_count = sum(1 for r in records if r.get('is_vip'))
 
     tat_list = [r['calculated_tat_days'] for r in records if r['status_group'] == 'Completed' and r['calculated_tat_days'] > 0]
     avg_tat = round(sum(tat_list) / len(tat_list), 1) if tat_list else 0
@@ -276,7 +357,7 @@ def calculate_analytics_from_records(records):
                 'pro_id': r['officer_id'],
                 'name': r['officer_name'],
                 'rank': r['officer_rank'],
-                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
+                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0, 'vip_count': 0,
                 'projects': set(),
                 'pending_files': [],
                 'inprogress_files': [],
@@ -295,6 +376,8 @@ def calculate_analytics_from_records(records):
             'stage': r.get('Current Stage') if r.get('Current Stage') else 'N/A',
             'age': r.get('display_time_metric'),
             'priority': r.get('Priority'),
+            'is_vip': r.get('is_vip'),
+            'vip_reasons': r.get('vip_reasons'),
             'recv_date': r.get('Date Received to office'),
             'due_date': r.get('due_date_raw'),
             'nature': r.get('nature_of_request'),
@@ -317,6 +400,9 @@ def calculate_analytics_from_records(records):
         if r['Priority'] in ['Critical', 'High']:
             om['critical'] += 1
         
+        if r.get('is_vip'):
+            om['vip_count'] += 1
+        
         if r['project_label'] not in ['N/A', '']:
             om['projects'].add(r['project_label'])
 
@@ -335,12 +421,52 @@ def calculate_analytics_from_records(records):
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
+            'vip_count': data['vip_count'],
             'projects': sorted(list(data['projects'])),
             'pending_files': data['pending_files'],
             'inprogress_files': data['inprogress_files'],
             'na_stage_files': data['na_stage_files'],
             'completed_files': data['completed_files']
         })
+
+    # ================= DESIGNATION / RANK-WISE HIERARCHICAL ANALYTICS =================
+    rank_order = ['DSP', 'CI', 'SI', 'Unassigned', 'Other']
+    rank_summary = {}
+    for o in officer_analytics:
+        rnk = o['rank'] if o['rank'] and o['rank'] != 'Other' else ('Unassigned' if o['pro_id'] == 'N/A' else 'Other')
+        if rnk not in rank_summary:
+            rank_summary[rnk] = {
+                'rank': rnk,
+                'officers_count': 0,
+                'total': 0,
+                'active_total': 0,
+                'pending': 0,
+                'inprogress': 0,
+                'onhold': 0,
+                'completed': 0,
+                'critical': 0,
+                'vip_count': 0,
+                'officers': []
+            }
+        rs = rank_summary[rnk]
+        rs['officers_count'] += 1
+        rs['total'] += o['total']
+        rs['active_total'] += o['active_total']
+        rs['pending'] += o['pending']
+        rs['inprogress'] += o['inprogress']
+        rs['onhold'] += o['onhold']
+        rs['completed'] += o['completed']
+        rs['critical'] += o['critical']
+        rs['vip_count'] += o['vip_count']
+        rs['officers'].append(o)
+
+    designation_analytics = []
+    for rnk in rank_order:
+        if rnk in rank_summary:
+            designation_analytics.append(rank_summary[rnk])
+    for rnk, data in rank_summary.items():
+        if rnk not in rank_order:
+            designation_analytics.append(data)
 
     # Group by Projects
     projects_map = {}
@@ -351,7 +477,7 @@ def calculate_analytics_from_records(records):
                 'project': prj_label,
                 'prj_id': r['project_id'],
                 'name': r['project_name'],
-                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0,
+                'total': 0, 'completed': 0, 'inprogress': 0, 'pending': 0, 'onhold': 0, 'critical': 0, 'vip_count': 0,
                 'officers': set()
             }
         pm = projects_map[prj_label]
@@ -367,6 +493,9 @@ def calculate_analytics_from_records(records):
 
         if r['Priority'] in ['Critical', 'High']:
             pm['critical'] += 1
+        
+        if r.get('is_vip'):
+            pm['vip_count'] += 1
 
         if r['officer_label'] not in ['N/A', '']:
             pm['officers'].add(r['officer_label'])
@@ -383,6 +512,7 @@ def calculate_analytics_from_records(records):
             'pending': data['pending'],
             'onhold': data['onhold'],
             'critical': data['critical'],
+            'vip_count': data['vip_count'],
             'officers': sorted(list(data['officers']))
         })
 
@@ -409,30 +539,48 @@ def calculate_analytics_from_records(records):
         f"• 🔵 Active In-Progress: {inprogress_count} Files",
         f"• ⚪ Stage N/A (Notice Required): {onhold_closed_count} Files",
         f"• 🟢 Completed / Dispatched: {completed_count} Files",
+        f"• ⭐ High Priority / VIP Files: {vip_total_count} Files",
         "",
         "───────────────────────────────",
-        "👤 *OFFICER-WISE WORKLOAD BREAKDOWN:*",
+        "🎖️ *WORKLOAD BY DESIGNATION / RANK:*",
         "───────────────────────────────"
     ]
 
-    for idx, o in enumerate(active_officers, 1):
+    for da in designation_analytics:
+        if da['active_total'] > 0 or da['total'] > 0:
+            wa_lines.append(f"🔹 *{da['rank']} Rank ({da['officers_count']} Officers)*: *{da['active_total']} Active Files* ({da['pending']} Pend / {da['inprogress']} In-Prog / {da['onhold']} N/A)")
+
+    wa_lines.append("")
+    wa_lines.append("───────────────────────────────")
+    wa_lines.append("👤 *OFFICER-WISE DETAILED BREAKDOWN:*")
+    wa_lines.append("───────────────────────────────")
+
+    for da in designation_analytics:
+        rank_active_officers = [o for o in da['officers'] if o['active_total'] > 0]
+        if not rank_active_officers:
+            continue
         wa_lines.append("")
-        wa_lines.append(f"{idx}. *{o['officer']}*: Total Active: {o['active_total']} ({o['pending']} Pending, {o['inprogress']} In-Prog, {o['onhold']} Stage N/A)")
-        
-        if o['pending_files']:
-            wa_lines.append("   🟡 *Pending Action:*")
-            for f in o['pending_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
-        
-        if o['inprogress_files']:
-            wa_lines.append("   🔵 *In-Progress:*")
-            for f in o['inprogress_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
-        
-        if o['na_stage_files']:
-            wa_lines.append("   ⚪ *Stage N/A (Notice Required):*")
-            for f in o['na_stage_files']:
-                wa_lines.append(f"   - {f['id']} [{f['project']}]: ({f['age']})")
+        wa_lines.append(f"👮 *[{da['rank']} RANK OFFICERS]*")
+        for idx, o in enumerate(rank_active_officers, 1):
+            wa_lines.append(f"{idx}. *{o['officer']}*: Total Active: {o['active_total']} ({o['pending']} Pending, {o['inprogress']} In-Prog, {o['onhold']} Stage N/A)")
+            
+            if o['pending_files']:
+                wa_lines.append("   🟡 *Pending Action:*")
+                for f in o['pending_files']:
+                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
+                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
+            
+            if o['inprogress_files']:
+                wa_lines.append("   🔵 *In-Progress:*")
+                for f in o['inprogress_files']:
+                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
+                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
+            
+            if o['na_stage_files']:
+                wa_lines.append("   ⚪ *Stage N/A (Notice Required):*")
+                for f in o['na_stage_files']:
+                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
+                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
 
     wa_lines.append("")
     wa_lines.append("───────────────────────────────")
@@ -448,12 +596,21 @@ def calculate_analytics_from_records(records):
         "⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*",
         f"📅 Date: {today_display}",
         "",
-        f"📊 *Total: {total_records}* | 🟡 *Pend: {pending_count}* | 🔵 *In-Prog: {inprogress_count}* | ⚪ *N/A: {onhold_closed_count}* | 🟢 *Done: {completed_count}*",
+        f"📊 *Total: {total_records}* | 🟡 *Pend: {pending_count}* | 🔵 *In-Prog: {inprogress_count}* | ⚪ *N/A: {onhold_closed_count}* | 🟢 *Done: {completed_count}* | ⭐ *VIP: {vip_total_count}*",
         "",
         "───────────────────────────────",
-        "👮 *OFFICER WORKLOAD [Active = Pend / InProg / N/A]:*",
+        "🎖️ *RANK SUMMARY [Active = Pend / InProg / N/A]:*",
         "───────────────────────────────"
     ]
+
+    for da in designation_analytics:
+        if da['active_total'] > 0 or da['total'] > 0:
+            wa_short_lines.append(f"• *{da['rank']}*: *{da['active_total']}* ({da['pending']} / {da['inprogress']} / {da['onhold']})")
+
+    wa_short_lines.append("")
+    wa_short_lines.append("───────────────────────────────")
+    wa_short_lines.append("👮 *OFFICER WORKLOAD:*")
+    wa_short_lines.append("───────────────────────────────")
 
     for idx, o in enumerate(active_officers, 1):
         wa_short_lines.append(f"{idx}. {o['officer']}: *{o['active_total']}* ({o['pending']} / {o['inprogress']} / {o['onhold']})")
@@ -520,10 +677,12 @@ def calculate_analytics_from_records(records):
             'onhold_closed': onhold_closed_count,
             'critical': critical_count,
             'high': high_count,
+            'vip_count': vip_total_count,
             'avg_tat_days': avg_tat
         },
         'aging_buckets': aging_buckets,
         'officers': officer_analytics,
+        'designations': designation_analytics,
         'projects': project_analytics,
         'channels': channel_analytics,
         'scheduled_events': scheduled_events,
@@ -533,7 +692,9 @@ def calculate_analytics_from_records(records):
             'total_pending': pending_count,
             'total_inprogress': inprogress_count,
             'total_na_stage': onhold_closed_count,
+            'vip_count': vip_total_count,
             'officers_active': active_officers,
+            'designations': designation_analytics,
             'whatsapp_text': whatsapp_text,
             'whatsapp_short_text': whatsapp_short_text,
             'whatsapp_events_text': whatsapp_events_text
@@ -570,6 +731,8 @@ def fetch_google_sheet_data():
                 row_dict = {}
                 has_data = False
                 for c_idx, h in enumerate(headers):
+                    if not h:
+                        continue
                     val = row[c_idx].strip() if c_idx < len(row) else ""
                     row_dict[h] = val
                     if c_idx > 0 and val not in ['', 'N/A', 'None']:
@@ -659,6 +822,7 @@ def start_server():
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
         print(f" Officer-Wise Pending & Active Workload Abstract Active")
+        print(f" Designation-Wise Summary Active: DSP, CI, SI, Unassigned")
         print(f"================================================================")
         httpd.serve_forever()
 
