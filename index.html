@@ -118,15 +118,19 @@
         html.light main h1, 
         html.light main h2, 
         html.light main h3,
+        html.light main h4,
         html.light .glass-card h2,
         html.light .glass-card h3,
+        html.light .glass-card h4,
         html.light #record-modal h2,
         html.light #record-modal h3,
-        html.light #pending-abstract-modal h2 {
+        html.light #pending-abstract-modal h2,
+        html.light #ai-chat-window h3 {
             color: #0f172a !important;
         }
 
-        html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *) {
+        /* Generic Slate & White Text Color Adjustments in Light Mode */
+        html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *):not(#whatsapp-textarea) {
             color: #0f172a !important;
         }
         html.light .text-slate-400:not(header *):not(#whatsapp-textarea) {
@@ -142,35 +146,121 @@
             color: #0f172a !important;
         }
 
+        /* High-contrast text colors in Light Theme (Ensures readability on light cards) */
+        html.light .text-amber-200,
+        html.light .text-amber-300,
         html.light .text-amber-400:not(button *):not(header *) {
-            color: #b45309 !important;
+            color: #92400e !important; /* amber-800 */
         }
+        html.light .text-cyan-200,
+        html.light .text-cyan-300,
         html.light .text-cyan-400:not(button *):not(header *) {
-            color: #0369a1 !important;
+            color: #0369a1 !important; /* sky-700 */
         }
+        html.light .text-blue-200,
+        html.light .text-blue-300,
         html.light .text-blue-400:not(button *):not(header *) {
-            color: #1d4ed8 !important;
+            color: #1d4ed8 !important; /* blue-700 */
         }
+        html.light .text-indigo-200,
+        html.light .text-indigo-300,
         html.light .text-indigo-400:not(button *):not(header *) {
-            color: #4338ca !important;
+            color: #3730a3 !important; /* indigo-800 */
         }
+        html.light .text-emerald-200,
+        html.light .text-emerald-300,
         html.light .text-emerald-400:not(button *):not(header *) {
-            color: #047857 !important;
+            color: #047857 !important; /* emerald-700 */
         }
+        html.light .text-rose-200,
+        html.light .text-rose-300,
         html.light .text-rose-400:not(button *):not(header *) {
-            color: #be123c !important;
+            color: #be123c !important; /* rose-700 */
+        }
+        html.light .text-purple-200,
+        html.light .text-purple-300,
+        html.light .text-purple-400:not(button *):not(header *) {
+            color: #6b21a8 !important; /* purple-700 */
         }
 
+        /* High-contrast badge backgrounds in Light Mode */
+        html.light .bg-amber-500\/10,
+        html.light .bg-amber-500\/15,
+        html.light .bg-amber-500\/20,
+        html.light .bg-amber-500\/30,
+        html.light .bg-amber-500\/40 {
+            background-color: #fef3c7 !important;
+            border-color: #fcd34d !important;
+            color: #92400e !important;
+        }
+        html.light .bg-blue-500\/10,
+        html.light .bg-blue-500\/15,
+        html.light .bg-blue-500\/20,
+        html.light .bg-blue-500\/30 {
+            background-color: #dbeafe !important;
+            border-color: #93c5fd !important;
+            color: #1e40af !important;
+        }
+        html.light .bg-cyan-500\/10,
+        html.light .bg-cyan-500\/15,
+        html.light .bg-cyan-500\/20,
+        html.light .bg-cyan-500\/30 {
+            background-color: #e0f2fe !important;
+            border-color: #7dd3fc !important;
+            color: #075985 !important;
+        }
+        html.light .bg-emerald-500\/10,
+        html.light .bg-emerald-500\/15,
+        html.light .bg-emerald-500\/20,
+        html.light .bg-emerald-500\/30 {
+            background-color: #d1fae5 !important;
+            border-color: #6ee7b7 !important;
+            color: #065f46 !important;
+        }
+        html.light .bg-rose-500\/10,
+        html.light .bg-rose-500\/15,
+        html.light .bg-rose-500\/20,
+        html.light .bg-rose-500\/30,
+        html.light .bg-rose-500\/40 {
+            background-color: #ffe4e6 !important;
+            border-color: #fda4af !important;
+            color: #9f1239 !important;
+        }
+        html.light .bg-purple-500\/10,
+        html.light .bg-purple-500\/15,
+        html.light .bg-purple-500\/20,
+        html.light .bg-purple-500\/30 {
+            background-color: #f3e8ff !important;
+            border-color: #d8b4fe !important;
+            color: #581c87 !important;
+        }
+        html.light .bg-indigo-500\/10,
+        html.light .bg-indigo-500\/15,
+        html.light .bg-indigo-500\/20,
+        html.light .bg-indigo-500\/30 {
+            background-color: #e0e7ff !important;
+            border-color: #a5b4fc !important;
+            color: #3730a3 !important;
+        }
+
+        /* Slate background conversions in Light Mode */
         html.light .bg-slate-900,
-        html.light .bg-slate-900\/80,
+        html.light .bg-slate-900\/95,
         html.light .bg-slate-900\/90,
+        html.light .bg-slate-900\/80,
+        html.light .bg-slate-900\/70,
         html.light .bg-slate-900\/60,
-        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn) {
+        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn),
+        html.light .bg-slate-950\/95,
+        html.light .bg-slate-950\/90,
+        html.light .bg-slate-950\/80,
+        html.light .bg-slate-950\/70 {
             background-color: #f8fafc !important;
             border-color: #e2e8f0 !important;
         }
 
         html.light .bg-slate-800,
+        html.light .bg-slate-800\/90,
         html.light .bg-slate-800\/80,
         html.light .bg-slate-800\/60,
         html.light .bg-slate-800\/40 {
@@ -180,7 +270,9 @@
         }
 
         html.light .border-slate-800,
-        html.light .border-slate-700 {
+        html.light .border-slate-800\/80,
+        html.light .border-slate-700,
+        html.light .border-slate-700\/80 {
             border-color: #e2e8f0 !important;
         }
 
@@ -194,6 +286,7 @@
             color: #94a3b8 !important;
         }
 
+        /* Table header and row styling in Light Mode */
         html.light table thead tr {
             background-color: #f1f5f9 !important;
             border-bottom: 2px solid #e2e8f0 !important;
@@ -209,12 +302,102 @@
             background-color: #f1f5f9 !important;
         }
 
+        /* Top 8 KPI Card Numbers in Light Mode */
+        html.light #kpi-total { color: #0f172a !important; }
+        html.light #kpi-pending { color: #b45309 !important; }
+        html.light #kpi-inprogress { color: #4338ca !important; }
+        html.light #kpi-completed { color: #047857 !important; }
+        html.light #kpi-onhold { color: #334155 !important; }
+        html.light #kpi-critical { color: #be123c !important; }
+        html.light #kpi-vip { color: #b45309 !important; }
+        html.light #kpi-tat { color: #0369a1 !important; }
+
+        /* Executive Situation Report Bar in Light Mode */
+        html.light #tab-overview > div:first-child {
+            background: linear-gradient(to right, #eff6ff, #f8fafc, #fffbeb) !important;
+            border-color: #bfdbfe !important;
+        }
+        html.light #executive-narrative-text {
+            color: #1e293b !important;
+        }
+        html.light #executive-narrative-text strong {
+            color: #0f172a !important;
+        }
+        html.light #sla-compliance-pct { color: #059669 !important; }
+        html.light #clearance-rate-pct { color: #0284c7 !important; }
+        html.light #active-vip-count { color: #d97706 !important; }
+
+        /* ================= EXECUTIVE AI COPILOT WINDOW IN LIGHT MODE ================= */
+        html.light #ai-chat-window {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        }
+        html.light #ai-chat-window > div:first-child {
+            background: linear-gradient(to right, #f8fafc, #f1f5f9, #f8fafc) !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light #ai-chat-messages {
+            background-color: #f8fafc !important;
+        }
+        html.light #ai-chat-messages .bg-slate-900\/90,
+        html.light #ai-chat-messages .bg-slate-900\/95,
+        html.light #ai-chat-messages .bg-slate-900 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            color: #1e293b !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        }
+        html.light #ai-chat-messages p,
+        html.light #ai-chat-messages div,
+        html.light #ai-chat-messages span:not(.font-mono):not(.text-cyan-400):not(.text-amber-400):not(.text-emerald-400):not(.text-rose-400) {
+            color: #1e293b;
+        }
+        html.light #ai-chat-messages strong {
+            color: #0f172a !important;
+        }
+        html.light #ai-settings-panel {
+            background-color: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light #ai-settings-panel span,
+        html.light #ai-settings-panel p {
+            color: #334155 !important;
+        }
+        html.light #ai-settings-panel input {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html.light #ai-chat-window form input {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html.light #ai-chat-window form input::placeholder {
+            color: #94a3b8 !important;
+        }
+        html.light #ai-chat-window .overflow-x-auto {
+            background-color: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+        }
+        html.light #ai-chat-window .overflow-x-auto button {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #334155 !important;
+        }
+        html.light #ai-chat-window .overflow-x-auto button:hover {
+            background-color: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        /* Modal Overlays & Inner Cards */
         html.light #record-modal > div,
         html.light #pending-abstract-modal > div {
             background-color: #ffffff !important;
             border-color: #cbd5e1 !important;
             color: #0f172a !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2) !important;
         }
 
         html.light #whatsapp-textarea {
@@ -3665,6 +3848,7 @@
                 const keyInput = document.getElementById('ai-api-key-input');
                 if (!panel.classList.contains('hidden') && keyInput) {
                     keyInput.value = localStorage.getItem('ap_police_gemini_api_key') || '';
+                    setTimeout(() => keyInput.focus(), 50);
                 }
             }
         }
@@ -3696,10 +3880,15 @@
                     <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-200 space-y-1.5 shadow-md max-w-[85%]">
                         <p class="font-semibold text-white">Jai Hind, Sir.</p>
                         <p>Conversation history cleared. I am ready to answer any questions on files, pending workloads, VCs, and VIP correspondence.</p>
+                        <button onclick="toggleAiSettings()" class="w-full mt-2 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                            <span>🔑 Setup Free Google Gemini API Key</span>
+                        </button>
                     </div>
                 </div>
             `;
             aiChatHistory = [];
+            lucide.createIcons();
         }
 
         function sendQuickPrompt(promptText) {
@@ -4122,8 +4311,12 @@ INSTRUCTIONS:
                 </div>
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-200 space-y-1.5 shadow-md max-w-[85%]">
                     <p class="font-semibold text-white">Jai Hind, Sir.</p>
-                    <p>I am your <strong>Technical Services (PCS&S) AI Copilot</strong>. I have real-time visibility into all 60 correspondence records, 40 VIP files, officer workloads, and upcoming scheduled events.</p>
+                    <p>I am your <strong>Technical Services (PCS&S) AI Copilot</strong>. I have real-time visibility into all correspondence records, VIP files, officer workloads, and upcoming scheduled events.</p>
                     <p class="text-[11px] text-slate-400">Ask any question or tap a prompt chip above to get an instant executive answer.</p>
+                    <button onclick="toggleAiSettings()" class="w-full mt-2 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                        <span>🔑 Setup Free Google Gemini API Key</span>
+                    </button>
                 </div>
             </div>
         </div>
