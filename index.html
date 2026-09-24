@@ -126,7 +126,6 @@
             color: #0f172a !important;
         }
 
-        /* Color contrast enhancements for light mode */
         html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *) {
             color: #0f172a !important;
         }
@@ -166,7 +165,7 @@
         html.light .bg-slate-900\/80,
         html.light .bg-slate-900\/90,
         html.light .bg-slate-900\/60,
-        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn) {
+        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn) {
             background-color: #f8fafc !important;
             border-color: #e2e8f0 !important;
         }
@@ -358,15 +357,15 @@
                 </div>
             </div>
 
-            <!-- VIP / High Attention Files Radar -->
-            <div onclick="filterByPriority('VIP')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-900/40 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-400 bg-amber-500/5">
+            <!-- VIP / High Attention Files Radar (Clicks to Dedicated VIP Screen) -->
+            <div onclick="switchTab('vip')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-900/40 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-400 bg-amber-500/5">
                 <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
                     <span class="text-amber-300 font-extrabold flex items-center gap-1">⭐ VIP Files</span>
                     <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
                 </div>
                 <div class="text-xl sm:text-2xl font-black text-amber-300" id="kpi-vip">--</div>
                 <div class="text-[10px] text-amber-400/90 mt-1 font-semibold truncate">
-                    <span>DGP/HC/Govt/Followup</span>
+                    <span>Command Tab ➔</span>
                 </div>
             </div>
 
@@ -402,6 +401,14 @@
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     <span>Executive Analytics</span>
                 </button>
+                
+                <!-- PRIMARY DEDICATED SCREEN: VIP & Critical Files Command Center -->
+                <button onclick="switchTab('vip')" id="tab-btn-vip" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <i data-lucide="star" class="w-4 h-4 text-amber-400"></i>
+                    <span>⭐ VIP & Critical Files Command</span>
+                    <span id="tab-vip-badge" class="px-1.5 py-0.5 text-xs rounded bg-amber-500/20 text-amber-300 font-mono font-bold">--</span>
+                </button>
+
                 <button onclick="switchTab('events')" id="tab-btn-events" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
                     <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
                     <span>Meetings & Event Schedules</span>
@@ -508,6 +515,177 @@
                     <div id="critical-items-list" class="space-y-2 overflow-y-auto max-h-56 pr-1">
                         <!-- Populated dynamically -->
                     </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= TAB: DEDICATED VIP & CRITICAL FILES COMMAND CENTER ================= -->
+        <div id="tab-vip" class="tab-content hidden space-y-5">
+            
+            <!-- VIP Screen Header Strip -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                        <i data-lucide="star" class="w-5 h-5 text-amber-400"></i>
+                        ⭐ VIP & High Priority Correspondence Command Center
+                    </h2>
+                    <p class="text-xs text-slate-400">Dedicated executive monitoring for high-level files based on 4 VIP Pillars (DGP, High Court, Govt of AP, Follow-Up Required & Senior Authorities)</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openVipAbstractModal()" class="px-3.5 py-1.5 text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95">
+                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                        <span>WhatsApp VIP Brief</span>
+                    </button>
+                    <button onclick="printVipExecutiveMemo()" class="px-3.5 py-1.5 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-xl flex items-center gap-1.5 transition">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                        <span>Print VIP Memo</span>
+                    </button>
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-xl flex items-center gap-1.5 transition">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">Sheet ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 VIP Pillar Radar Tiles -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                
+                <!-- Pillar 1: VIP Departments -->
+                <div onclick="filterVipPillar('dept')" id="vip-tile-dept" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-amber-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
+                    <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                        <span class="text-blue-300 font-bold flex items-center gap-1">🏛️ VIP Depts</span>
+                        <i data-lucide="building-2" class="w-4 h-4 text-blue-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-white" id="vip-pillar-dept-count">--</div>
+                    <div class="text-[10px] text-slate-400 mt-1 truncate">
+                        <span>DGP, High Court, MHA, NCRB, RTGS, ITE&C</span>
+                    </div>
+                </div>
+
+                <!-- Pillar 2: Govt & DGP Stages -->
+                <div onclick="filterVipPillar('stage')" id="vip-tile-stage" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-amber-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
+                    <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                        <span class="text-amber-300 font-bold flex items-center gap-1">📜 Govt / DGP Stage</span>
+                        <i data-lucide="file-check" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-amber-300" id="vip-pillar-stage-count">--</div>
+                    <div class="text-[10px] text-slate-400 mt-1 truncate">
+                        <span>File with DGP, Govt of AP, DGP Approval</span>
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Urgent Follow-Up Required -->
+                <div onclick="filterVipPillar('followup')" id="vip-tile-followup" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-rose-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500">
+                    <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                        <span class="text-rose-400 font-bold flex items-center gap-1">🚨 Urgent Follow-Up</span>
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-rose-400" id="vip-pillar-followup-count">--</div>
+                    <div class="text-[10px] text-slate-400 mt-1 truncate">
+                        <span>Marked 'Yes' with Concerned Dept</span>
+                    </div>
+                </div>
+
+                <!-- Pillar 4: VIP Dignitary Designations -->
+                <div onclick="filterVipPillar('desig')" id="vip-tile-desig" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-purple-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-purple-500">
+                    <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
+                        <span class="text-purple-300 font-bold flex items-center gap-1">🎖️ High Dignitaries</span>
+                        <i data-lucide="award" class="w-4 h-4 text-purple-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-purple-300" id="vip-pillar-desig-count">--</div>
+                    <div class="text-[10px] text-slate-400 mt-1 truncate">
+                        <span>CS, Principal Secy, ADG, IGP, Reg High Court</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- VIP Filter & Controls Toolbar -->
+            <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3 shadow-lg">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    
+                    <!-- Pillar Selector Switcher -->
+                    <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                        <button onclick="filterVipPillar('all')" id="vip-pillar-btn-all" class="px-3 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow">
+                            <span>🌟 All VIP Files (<span id="vip-count-all">--</span>)</span>
+                        </button>
+                        <button onclick="filterVipPillar('dept')" id="vip-pillar-btn-dept" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <span>🏛️ VIP Depts (<span id="vip-count-dept">--</span>)</span>
+                        </button>
+                        <button onclick="filterVipPillar('stage')" id="vip-pillar-btn-stage" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <span>📜 Govt/DGP Stage (<span id="vip-count-stage">--</span>)</span>
+                        </button>
+                        <button onclick="filterVipPillar('followup')" id="vip-pillar-btn-followup" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <span>🚨 Follow-Up Yes (<span id="vip-count-followup">--</span>)</span>
+                        </button>
+                        <button onclick="filterVipPillar('desig')" id="vip-pillar-btn-desig" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <span>🎖️ Dignitaries (<span id="vip-count-desig">--</span>)</span>
+                        </button>
+                    </div>
+
+                    <!-- View Switcher & Search Input -->
+                    <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
+                        <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
+                            <button onclick="switchVipView('cards')" id="vip-view-cards-btn" class="px-2.5 py-1 text-xs font-bold bg-slate-800 text-white rounded-lg transition" title="Cards Grid View">
+                                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="switchVipView('table')" id="vip-view-table-btn" class="px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-white rounded-lg transition" title="Table View">
+                                <i data-lucide="table" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <div class="relative w-64">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                            <input type="text" id="filter-vip-search" oninput="applyVipFilters()" placeholder="Search VIP correspondence..." class="w-full pl-9 pr-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Filter Bar (Status & Officer) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-slate-800/80 text-xs">
+                    <div>
+                        <select id="filter-vip-status" onchange="applyVipFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="">All VIP Statuses (Active & Completed)</option>
+                            <option value="active">⚡ Active VIP Files Only (Pending, In-Progress & Stage N/A)</option>
+                            <option value="pending">🟡 Pending Action Only</option>
+                            <option value="inprogress">🔵 In-Progress Only</option>
+                            <option value="completed">🟢 Completed / Dispatched</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="filter-vip-officer" onchange="applyVipFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="">All Assigned Officers (PRO-IDs)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIP Cards View Grid -->
+            <div id="vip-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- VIP Dedicated Table View Container (Hidden by default, switchable) -->
+            <div id="vip-table-container" class="hidden glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
+                <div class="overflow-x-auto max-h-[600px]">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+                            <tr>
+                                <th class="py-3 px-3">File ID</th>
+                                <th class="py-3 px-2.5">Received</th>
+                                <th class="py-3 px-3">VIP Triggers</th>
+                                <th class="py-3 px-3">Sender Authority</th>
+                                <th class="py-3 px-4">Subject / Work Description</th>
+                                <th class="py-3 px-3">Officer-in-Charge</th>
+                                <th class="py-3 px-2.5 text-center">Stage</th>
+                                <th class="py-3 px-2 text-center">Follow-Up</th>
+                                <th class="py-3 px-2.5 text-right">TAT / Age</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vip-table-tbody" class="divide-y divide-slate-800/70 hover:divide-slate-700/60">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -957,7 +1135,7 @@
             <!-- Action & Format Selector Bar -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <!-- Tab Mode Switcher -->
-                <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+                <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
                     <button onclick="switchAbstractFormat('detailed')" id="tab-detailed-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
                         <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
                         <span>Detailed Brief (With Files)</span>
@@ -968,7 +1146,11 @@
                     </button>
                     <button onclick="switchAbstractFormat('events')" id="tab-events-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>📅 Meetings & Events Brief</span>
+                        <span>📅 Events Brief</span>
+                    </button>
+                    <button onclick="switchAbstractFormat('vip')" id="tab-vip-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
+                        <span>⭐ VIP Executive Brief</span>
                     </button>
                 </div>
 
@@ -1011,7 +1193,7 @@
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
-            <div class="text-sm font-bold uppercase underline mt-2">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT</div>
+            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT</div>
             <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
                 <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
                 <span id="print-date-display">Date: 24-09-2026</span>
@@ -1046,7 +1228,7 @@
         </div>
 
         <!-- 2. Officer Designation & Rank Workload Breakdown Table -->
-        <div class="mb-4">
+        <div class="mb-4" id="print-section-designation">
             <div class="text-xs font-bold uppercase mb-1">2. Designation / Rank-Wise Workload Breakdown:</div>
             <table class="w-full text-xs">
                 <thead>
@@ -1067,7 +1249,7 @@
         </div>
 
         <!-- 3. Officer-Wise Workload Summary Table -->
-        <div class="mb-4">
+        <div class="mb-4" id="print-section-officers">
             <div class="text-xs font-bold uppercase mb-1">3. Officer-Wise Active Workload Summary:</div>
             <table class="w-full text-xs">
                 <thead>
@@ -1089,7 +1271,7 @@
 
         <!-- 4. Detailed Active Correspondence Inventory Table -->
         <div class="mb-5">
-            <div class="text-xs font-bold uppercase mb-1">4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1" id="print-inventory-title">4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1214,30 +1396,20 @@
             const stage = (stageRaw !== undefined && stageRaw !== null) ? String(stageRaw).trim() : '';
             const stageLower = stage.toLowerCase();
 
-            // 1. Explicitly Completed / Dispatched / Acknowledgement
             if (stageLower === 'completed' || stageLower === 'file dispatched' || stageLower === 'acknowledgement filed') {
                 return 'Completed';
             }
-
-            // 2. Explicitly On Hold / Cancelled / Closed / Inactive
             if (stageLower === 'on hold' || stageLower === 'cancelled' || stageLower === 'correspondence closed' || stageLower === 'inactive') {
                 return 'On Hold / Closed';
             }
-
-            // 3. Pending (Any stage mentioning "pending", or blank / N/A which represents intake awaiting action/assignment)
             if (stageLower.includes('pending') || !stage || stageLower === 'n/a' || stageLower === 'none' || stageLower === 'null') {
                 return 'Pending';
             }
-
-            // 4. Remaining all are In-Progress
             return 'In-Progress';
         }
 
         // Fetch Live Google Sheets Data
         async function fetchGoogleSheetData(showFeedback = false) {
-            const refreshIcon = document.getElementById('refresh-icon');
-            if (refreshIcon && showFeedback) refreshIcon.classList.add('animate-spin');
-
             try {
                 let data = null;
                 try {
@@ -1266,10 +1438,6 @@
 
             } catch (err) {
                 console.error("Google Sheet Sync Error:", err);
-            } finally {
-                if (refreshIcon) {
-                    setTimeout(() => refreshIcon.classList.remove('animate-spin'), 600);
-                }
             }
         }
 
@@ -1309,7 +1477,6 @@
                             });
 
                             if (hasData) {
-                                // Normalized date lookups
                                 const recvRaw = rowDict['Date & Time Received to office'] || rowDict['Date Received to office'] || rowDict['Date Received'] || '';
                                 rowDict['Date Received to office'] = recvRaw;
                                 const dRecv = parseIndianDate(recvRaw);
@@ -1337,7 +1504,6 @@
                                 rowDict['project_name'] = prjInfo.name;
                                 rowDict['project_label'] = prjInfo.label;
 
-                                // Sender & Inflow
                                 const deptRaw = cleanText(rowDict['Received From Department /Wing'] || rowDict['Received From Department'] || '');
                                 rowDict['Received From Department /Wing'] = deptRaw;
 
@@ -1347,7 +1513,6 @@
                                 rowDict['Source'] = cleanText(rowDict['Source'] || '');
                                 rowDict['Received Through'] = cleanText(rowDict['Received Through'] || rowDict['Received Through '] || '');
 
-                                // Follow-up & Delay Days
                                 const followupRaw = cleanText(rowDict['Further Fallow up Required with Concerned Department '] || rowDict['Further Fallow up Required with Concerned Department'] || rowDict['Further Follow up Required with Concerned Department '] || rowDict['Further Follow up Required with Concerned Department'] || rowDict['Further Follow-up Required'] || '');
                                 rowDict['Further Fallow up Required with Concerned Department '] = followupRaw;
                                 rowDict['Further Follow-up Required'] = followupRaw;
@@ -1356,7 +1521,6 @@
                                 rowDict['Delay days'] = cleanText(rowDict['Delay days'] || rowDict['Delay Days'] || '');
                                 rowDict['Final Decision '] = cleanText(rowDict['Final Decision '] || rowDict['Final Decision'] || '');
 
-                                // Nature of Request, Due Date, Timing, and Remarks
                                 const natureRaw = cleanText(rowDict['Nature of Request'] || rowDict['Nature of request'] || rowDict['Nature'] || '');
                                 rowDict['nature_of_request'] = natureRaw !== 'N/A' ? natureRaw : 'General Action';
                                 rowDict['Nature of Request'] = rowDict['nature_of_request'];
@@ -1422,7 +1586,7 @@
                                         rowDict['display_time_metric'] = '—';
                                     }
                                     rowDict['calculated_tat_days'] = 0;
-                                } else { // On Hold / Closed / Stage N/A
+                                } else {
                                     if (effectiveStart && dClose) {
                                         tatDays = Math.max(0, Math.round((dClose - effectiveStart) / (1000 * 60 * 60 * 24)));
                                         rowDict['display_time_metric'] = `${tatDays}d (TAT)`;
@@ -1436,23 +1600,24 @@
                                     rowDict['calculated_aging_days'] = 0;
                                 }
 
-                                // VIP Priority Classification
-                                const vipReasons = [];
-                                if (VIP_DEPTS.some(d => deptRaw.toLowerCase().includes(d))) {
-                                    vipReasons.push(`VIP Dept: ${deptRaw}`);
-                                }
-                                if (VIP_STAGES.some(s => stageRaw.toLowerCase().includes(s))) {
-                                    vipReasons.push(`VIP Stage: ${stageRaw}`);
-                                }
-                                if (['yes', 'y', 'true'].includes(followupRaw.toLowerCase())) {
-                                    vipReasons.push("Follow-up Required with Dept");
-                                }
-                                if (VIP_DESIGS.some(dg => desigRaw.toLowerCase().includes(dg))) {
-                                    vipReasons.push(`VIP Officer: ${desigRaw}`);
-                                }
+                                // 4 VIP Pillars Detection
+                                const isVipDept = VIP_DEPTS.some(d => deptRaw.toLowerCase().includes(d));
+                                const isVipStage = VIP_STAGES.some(s => stageRaw.toLowerCase().includes(s));
+                                const isVipFollowup = ['yes', 'y', 'true'].includes(followupRaw.toLowerCase());
+                                const isVipDesig = VIP_DESIGS.some(dg => desigRaw.toLowerCase().includes(dg));
 
-                                const isVip = vipReasons.length > 0;
+                                const vipReasons = [];
+                                if (isVipDept) vipReasons.push(`🏛️ VIP Dept: ${deptRaw}`);
+                                if (isVipStage) vipReasons.push(`📜 Govt/DGP Stage: ${stageRaw}`);
+                                if (isVipFollowup) vipReasons.push("🚨 Urgent Follow-Up Required (Yes)");
+                                if (isVipDesig) vipReasons.push(`🎖️ VIP Officer: ${desigRaw}`);
+
+                                const isVip = isVipDept || isVipStage || isVipFollowup || isVipDesig;
                                 rowDict['is_vip'] = isVip;
+                                rowDict['is_vip_dept'] = isVipDept;
+                                rowDict['is_vip_stage'] = isVipStage;
+                                rowDict['is_vip_followup'] = isVipFollowup;
+                                rowDict['is_vip_desig'] = isVipDesig;
                                 rowDict['vip_reasons'] = vipReasons;
 
                                 let origPriority = (rowDict['Priority'] || '').trim();
@@ -1460,7 +1625,7 @@
 
                                 if (isVip) {
                                     if (origPriority === 'Critical' || 
-                                        ['yes', 'y', 'true'].includes(followupRaw.toLowerCase()) || 
+                                        isVipFollowup || 
                                         deptRaw.toLowerCase().includes('dgp') || 
                                         stageRaw.toLowerCase().includes('govt') || 
                                         stageRaw.toLowerCase().includes('dgp') ||
@@ -1485,6 +1650,14 @@
                         const critical = records.filter(r => r.Priority === 'Critical').length;
                         const high = records.filter(r => r.Priority === 'High').length;
                         const vipCount = records.filter(r => r.is_vip).length;
+
+                        const vipRecords = records.filter(r => r.is_vip);
+                        const vipDeptRecords = records.filter(r => r.is_vip_dept);
+                        const vipStageRecords = records.filter(r => r.is_vip_stage);
+                        const vipFollowupRecords = records.filter(r => r.is_vip_followup);
+                        const vipDesigRecords = records.filter(r => r.is_vip_desig);
+                        const vipActiveRecords = vipRecords.filter(r => r.status_group !== 'Completed');
+                        const vipCompletedRecords = vipRecords.filter(r => r.status_group === 'Completed');
 
                         const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
                         const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
@@ -1630,7 +1803,7 @@
                         });
                         const channelAnalytics = Object.entries(chMap).map(([channel, count]) => ({ channel, count })).sort((a, b) => b.count - a.count);
 
-                        // Extract and Sort Scheduled Events / Meetings / Workshops
+                        // Scheduled Events
                         const eventKeywords = ['meeting', 'conference', 'vc', 'video', 'workshop', 'seminar', 'training', 'webinar', 'review', 'session', 'course'];
                         const scheduledEvents = [];
                         records.forEach(r => {
@@ -1696,6 +1869,16 @@
                             channels: channelAnalytics,
                             scheduled_events: scheduledEvents,
                             upcoming_events_count: upcomingEventsCount,
+                            vip_analytics: {
+                                total_count: vipRecords.length,
+                                dept_count: vipDeptRecords.length,
+                                stage_count: vipStageRecords.length,
+                                followup_count: vipFollowupRecords.length,
+                                desig_count: vipDesigRecords.length,
+                                active_count: vipActiveRecords.length,
+                                completed_count: vipCompletedRecords.length,
+                                records: vipRecords
+                            },
                             records: records
                         });
                     },
@@ -1759,6 +1942,9 @@
             document.getElementById('kpi-onhold-pct').innerText = Math.round(((kpis.onhold_closed || 0) / total) * 100) + '%';
             document.getElementById('tab-records-badge').innerText = total;
 
+            const tabVipBadge = document.getElementById('tab-vip-badge');
+            if (tabVipBadge) tabVipBadge.innerText = `${kpis.vip_count || 0} VIP`;
+
             const upcomingCount = rawData.upcoming_events_count !== undefined ? rawData.upcoming_events_count : (rawData.scheduled_events ? rawData.scheduled_events.length : 0);
             const eventsBadge = document.getElementById('tab-events-badge');
             if (eventsBadge) eventsBadge.innerText = `${upcomingCount} Active`;
@@ -1766,6 +1952,7 @@
             populateFilters();
             renderCharts();
             renderCriticalItems();
+            renderVipTab();
             renderEventsTab();
             renderOfficersTab();
             renderProjectsTab();
@@ -1928,18 +2115,23 @@
             const projectSel = document.getElementById('filter-project');
             const eventOfficerSel = document.getElementById('filter-event-officer');
             const eventProjectSel = document.getElementById('filter-event-project');
+            const vipOfficerSel = document.getElementById('filter-vip-officer');
 
             const currentOff = officerSel.value;
             const currentProj = projectSel.value;
             const currentEventOff = eventOfficerSel ? eventOfficerSel.value : '';
             const currentEventProj = eventProjectSel ? eventProjectSel.value : '';
+            const currentVipOff = vipOfficerSel ? vipOfficerSel.value : '';
 
             officerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
             if (eventOfficerSel) eventOfficerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
+            if (vipOfficerSel) vipOfficerSel.innerHTML = '<option value="">All Assigned Officers (PRO-IDs)</option>';
+
             rawData.officers.forEach(o => {
                 const opt = `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
                 officerSel.innerHTML += opt;
                 if (eventOfficerSel) eventOfficerSel.innerHTML += opt;
+                if (vipOfficerSel) vipOfficerSel.innerHTML += opt;
             });
 
             projectSel.innerHTML = '<option value="">All Projects (PRJ-IDs)</option>';
@@ -1954,6 +2146,330 @@
             if (currentProj) projectSel.value = currentProj;
             if (eventOfficerSel && currentEventOff) eventOfficerSel.value = currentEventOff;
             if (eventProjectSel && currentEventProj) eventProjectSel.value = currentEventProj;
+            if (vipOfficerSel && currentVipOff) vipOfficerSel.value = currentVipOff;
+        }
+
+        // ================= DEDICATED VIP SCREEN CONTROLLER =================
+        let currentVipPillarFilter = 'all'; // 'all', 'dept', 'stage', 'followup', 'desig'
+        let currentVipViewMode = 'cards'; // 'cards' or 'table'
+
+        function filterVipPillar(pillar) {
+            currentVipPillarFilter = pillar;
+            
+            const btnAll = document.getElementById('vip-pillar-btn-all');
+            const btnDept = document.getElementById('vip-pillar-btn-dept');
+            const btnStage = document.getElementById('vip-pillar-btn-stage');
+            const btnFollowup = document.getElementById('vip-pillar-btn-followup');
+            const btnDesig = document.getElementById('vip-pillar-btn-desig');
+
+            const activeClass = "px-3 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow";
+            const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800";
+
+            if (btnAll) btnAll.className = pillar === 'all' ? activeClass : inactiveClass;
+            if (btnDept) btnDept.className = pillar === 'dept' ? activeClass : inactiveClass;
+            if (btnStage) btnStage.className = pillar === 'stage' ? activeClass : inactiveClass;
+            if (btnFollowup) btnFollowup.className = pillar === 'followup' ? activeClass : inactiveClass;
+            if (btnDesig) btnDesig.className = pillar === 'desig' ? activeClass : inactiveClass;
+
+            applyVipFilters();
+        }
+
+        function switchVipView(mode) {
+            currentVipViewMode = mode;
+            const cardsGrid = document.getElementById('vip-cards-grid');
+            const tableContainer = document.getElementById('vip-table-container');
+            const cardsBtn = document.getElementById('vip-view-cards-btn');
+            const tableBtn = document.getElementById('vip-view-table-btn');
+
+            if (mode === 'cards') {
+                cardsGrid.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+                cardsBtn.className = "px-2.5 py-1 text-xs font-bold bg-slate-800 text-white rounded-lg transition";
+                tableBtn.className = "px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-white rounded-lg transition";
+            } else {
+                cardsGrid.classList.add('hidden');
+                tableContainer.classList.remove('hidden');
+                tableBtn.className = "px-2.5 py-1 text-xs font-bold bg-slate-800 text-white rounded-lg transition";
+                cardsBtn.className = "px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-white rounded-lg transition";
+            }
+            lucide.createIcons();
+        }
+
+        function renderVipTab() {
+            if (!rawData) return;
+            const va = rawData.vip_analytics || {};
+
+            const deptCount = va.dept_count !== undefined ? va.dept_count : rawData.records.filter(r => r.is_vip_dept).length;
+            const stageCount = va.stage_count !== undefined ? va.stage_count : rawData.records.filter(r => r.is_vip_stage).length;
+            const followupCount = va.followup_count !== undefined ? va.followup_count : rawData.records.filter(r => r.is_vip_followup).length;
+            const desigCount = va.desig_count !== undefined ? va.desig_count : rawData.records.filter(r => r.is_vip_desig).length;
+            const totalVip = va.total_count !== undefined ? va.total_count : rawData.records.filter(r => r.is_vip).length;
+
+            document.getElementById('vip-pillar-dept-count').innerText = deptCount;
+            document.getElementById('vip-pillar-stage-count').innerText = stageCount;
+            document.getElementById('vip-pillar-followup-count').innerText = followupCount;
+            document.getElementById('vip-pillar-desig-count').innerText = desigCount;
+
+            document.getElementById('vip-count-all').innerText = totalVip;
+            document.getElementById('vip-count-dept').innerText = deptCount;
+            document.getElementById('vip-count-stage').innerText = stageCount;
+            document.getElementById('vip-count-followup').innerText = followupCount;
+            document.getElementById('vip-count-desig').innerText = desigCount;
+
+            applyVipFilters();
+        }
+
+        function applyVipFilters() {
+            if (!rawData) return;
+
+            const search = (document.getElementById('filter-vip-search')?.value || '').toLowerCase().trim();
+            const status = document.getElementById('filter-vip-status')?.value || '';
+            const officer = document.getElementById('filter-vip-officer')?.value || '';
+
+            const allVipRecords = rawData.records.filter(r => r.is_vip);
+
+            const filtered = allVipRecords.filter(r => {
+                // Pillar filter
+                if (currentVipPillarFilter === 'dept' && !r.is_vip_dept) return false;
+                if (currentVipPillarFilter === 'stage' && !r.is_vip_stage) return false;
+                if (currentVipPillarFilter === 'followup' && !r.is_vip_followup) return false;
+                if (currentVipPillarFilter === 'desig' && !r.is_vip_desig) return false;
+
+                // Status filter
+                if (status === 'active' && r.status_group === 'Completed') return false;
+                if (status === 'pending' && r.status_group !== 'Pending') return false;
+                if (status === 'inprogress' && r.status_group !== 'In-Progress') return false;
+                if (status === 'completed' && r.status_group !== 'Completed') return false;
+
+                // Officer filter
+                if (officer && (r.officer_label || 'Unassigned') !== officer) return false;
+
+                // Search text filter
+                if (search) {
+                    const matchText = [
+                        r.ID,
+                        r['Subject / Work Description'],
+                        r.officer_label,
+                        r['Received From Department /Wing'],
+                        r['Received From Officer designation '],
+                        r.project_label,
+                        r['Current Stage'],
+                        r['Remarks']
+                    ].join(' ').toLowerCase();
+                    if (!matchText.includes(search)) return false;
+                }
+
+                return true;
+            });
+
+            // 1. Render VIP Cards Grid
+            const cardsGrid = document.getElementById('vip-cards-grid');
+            if (filtered.length === 0) {
+                cardsGrid.innerHTML = `
+                    <div class="col-span-full py-12 text-center glass-card rounded-2xl p-6 border border-slate-800 space-y-2">
+                        <i data-lucide="star-off" class="w-10 h-10 text-slate-500 mx-auto"></i>
+                        <h4 class="text-sm font-bold text-white">No VIP Files Found</h4>
+                        <p class="text-xs text-slate-400">No VIP correspondence matches the selected pillar or filter criteria.</p>
+                    </div>
+                `;
+            } else {
+                cardsGrid.innerHTML = filtered.map(r => {
+                    const pillarTags = [];
+                    if (r.is_vip_dept) pillarTags.push(`<span class="px-2 py-0.5 rounded text-[9.5px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">🏛️ VIP Dept</span>`);
+                    if (r.is_vip_stage) pillarTags.push(`<span class="px-2 py-0.5 rounded text-[9.5px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">📜 Govt/DGP Stage</span>`);
+                    if (r.is_vip_followup) pillarTags.push(`<span class="px-2 py-0.5 rounded text-[9.5px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse">🚨 Follow-Up: Yes</span>`);
+                    if (r.is_vip_desig) pillarTags.push(`<span class="px-2 py-0.5 rounded text-[9.5px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">🎖️ Dignitary</span>`);
+
+                    let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
+                    if (r.status_group === 'Completed') {
+                        stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">${r['Current Stage'] || 'Completed'}</span>`;
+                    } else if (r.status_group === 'In-Progress') {
+                        stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">${r['Current Stage'] || 'In-Progress'}</span>`;
+                    }
+
+                    return `
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-amber-500/40 hover:border-amber-400 hover:shadow-xl hover:shadow-amber-500/10 transition flex flex-col justify-between space-y-3.5 shadow-md">
+                            
+                            <!-- Top Header: File ID, Project & Pillar Badges -->
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-1.5">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-mono font-black text-amber-300 text-xs px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40">${r.ID}</span>
+                                        <span class="text-xs text-slate-500">•</span>
+                                        ${renderProjectBadge(r.project_label)}
+                                    </div>
+                                    <div>${stageBadge}</div>
+                                </div>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    ${pillarTags.join('')}
+                                </div>
+                            </div>
+
+                            <!-- Subject / Agenda -->
+                            <div>
+                                <h4 class="text-sm font-bold text-white leading-snug line-clamp-2" title="${r['Subject / Work Description'] || ''}">
+                                    ${r['Subject / Work Description'] || 'No description provided'}
+                                </h4>
+                            </div>
+
+                            <!-- Originating Authority Profile -->
+                            <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800 space-y-1 text-xs">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400 text-[10.5px]">From Department:</span>
+                                    <span class="text-white font-bold">${r['Received From Department /Wing'] || 'N/A'}</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400 text-[10.5px]">Sender Designation:</span>
+                                    <span class="text-amber-300 font-semibold truncate max-w-[180px]" title="${r['Received From Officer designation ']}">${r['Received From Officer designation '] || 'N/A'}</span>
+                                </div>
+                            </div>
+
+                            <!-- Assigned Officer & SLA Radar -->
+                            <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800/80">
+                                <div>
+                                    <span class="text-slate-400 text-[10px] block">Officer-in-Charge:</span>
+                                    <div>${renderOfficerBadge(r.officer_label)}</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-slate-400 text-[10px] block">Turnaround / Age:</span>
+                                    <span class="font-mono font-extrabold text-cyan-400">${r.display_time_metric || '—'}</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex items-center gap-2 pt-1 border-t border-slate-800/80 text-xs">
+                                <button onclick="copySingleVipWhatsApp('${r.ID}')" class="flex-1 py-1.5 font-semibold bg-slate-900 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-xl transition flex items-center justify-center gap-1">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span>Copy VIP Brief</span>
+                                </button>
+                                <button onclick="openModal('${r.ID}')" class="flex-1 py-1.5 font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1">
+                                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                                    <span>View File</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 2. Render VIP Table View
+            const tableTbody = document.getElementById('vip-table-tbody');
+            if (filtered.length === 0) {
+                tableTbody.innerHTML = `<tr><td colspan="9" class="py-8 text-center text-slate-500">No VIP correspondence matches the selected filters.</td></tr>`;
+            } else {
+                tableTbody.innerHTML = filtered.map(r => {
+                    const pillarPills = [];
+                    if (r.is_vip_dept) pillarPills.push('🏛️ Dept');
+                    if (r.is_vip_stage) pillarPills.push('📜 Stage');
+                    if (r.is_vip_followup) pillarPills.push('🚨 Follow-Up');
+                    if (r.is_vip_desig) pillarPills.push('🎖️ Dignitary');
+
+                    return `
+                        <tr onclick="openModal('${r.ID}')" class="hover:bg-amber-950/20 cursor-pointer transition">
+                            <td class="py-3 px-3 font-mono font-bold text-amber-300 whitespace-nowrap">⭐ ${r.ID}</td>
+                            <td class="py-3 px-2.5 whitespace-nowrap text-slate-400 font-mono text-[11px]">${r['Date Received to office'] || 'N/A'}</td>
+                            <td class="py-3 px-3 whitespace-nowrap">
+                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">${pillarPills.join(' • ')}</span>
+                            </td>
+                            <td class="py-3 px-3 whitespace-nowrap text-slate-200 font-medium">
+                                <div>${r['Received From Department /Wing'] || 'N/A'}</div>
+                                <div class="text-[10px] text-amber-300/80 truncate max-w-[150px]">${r['Received From Officer designation '] || ''}</div>
+                            </td>
+                            <td class="py-3 px-4 max-w-xs truncate text-slate-200" title="${r['Subject / Work Description']}">${r['Subject / Work Description'] || '—'}</td>
+                            <td class="py-3 px-3 whitespace-nowrap">${renderOfficerBadge(r.officer_label)}</td>
+                            <td class="py-3 px-2.5 text-center whitespace-nowrap">
+                                <span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>
+                            </td>
+                            <td class="py-3 px-2 text-center whitespace-nowrap">
+                                ${r.is_vip_followup ? `<span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-extrabold text-[10px]">Yes ⚠️</span>` : `<span class="text-slate-500 text-[10px]">No</span>`}
+                            </td>
+                            <td class="py-3 px-2.5 text-right font-mono font-bold text-cyan-400 whitespace-nowrap">${r.display_time_metric || '—'}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function copySingleVipWhatsApp(id) {
+            if (!rawData) return;
+            const r = rawData.records.find(item => item.ID === id);
+            if (!r) return;
+
+            let msg = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            msg += `⭐ *VIP & HIGH PRIORITY CORRESPONDENCE NOTICE*\n\n`;
+            msg += `• *File ID:* ${r.ID} [${r.project_label || 'Misc'}]\n`;
+            msg += `• *Received From:* ${r['Received From Department /Wing']} (${r['Received From Officer designation ']}\n`;
+            msg += `• *Current Stage:* ${r['Current Stage']} (${r.display_time_metric || ''})\n`;
+            msg += `• *Officer-in-Charge:* ${r.officer_label}\n`;
+            msg += `• *Subject:* ${r['Subject / Work Description']}\n`;
+            if (r.is_vip_followup) {
+                msg += `• ⚠️ *Urgent Liaison & Follow-up Required with Department*\n`;
+            }
+            if (r.remarks) {
+                msg += `• *Remarks / Venue:* ${r.remarks}\n`;
+            }
+            msg += `\n🔗 *Google Sheet Link:* ${GOOGLE_SHEET_URL}\n`;
+            msg += `_Generated from AP Police TS Executive Command Portal_`;
+
+            navigator.clipboard.writeText(msg).then(() => {
+                alert(`VIP Notice for ${r.ID} copied to clipboard! Ready to paste in WhatsApp.`);
+            });
+        }
+
+        function openVipAbstractModal() {
+            openPendingAbstractModal();
+            switchAbstractFormat('vip');
+        }
+
+        function printVipExecutiveMemo() {
+            if (!rawData) return;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('print-date-display').innerText = `Date: ${dateStr}`;
+            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON VIP & HIGH PRIORITY CORRESPONDENCE - EXECUTIVE RADAR";
+            document.getElementById('print-inventory-title').innerText = "2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):";
+
+            const kpis = rawData.kpis;
+            document.getElementById('print-kpi-total').innerText = kpis.total;
+            document.getElementById('print-kpi-pending').innerText = kpis.pending;
+            document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
+            document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
+            document.getElementById('print-kpi-done').innerText = kpis.completed;
+            document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
+
+            const desigSec = document.getElementById('print-section-designation');
+            const offSec = document.getElementById('print-section-officers');
+            if (desigSec) desigSec.style.display = 'none';
+            if (offSec) offSec.style.display = 'none';
+
+            const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
+            const vipFiles = rawData.records.filter(r => r.is_vip);
+            detailedTbody.innerHTML = vipFiles.map((r, idx) => `
+                <tr>
+                    <td class="font-mono font-bold whitespace-nowrap">⭐ ${r.ID}</td>
+                    <td class="font-mono whitespace-nowrap">${r['Date Received to office'] || 'N/A'}</td>
+                    <td class="font-semibold">${r.project_label || 'Miscellaneous'}</td>
+                    <td class="leading-snug">
+                        <strong>[From: ${r['Received From Department /Wing']} - ${r['Received From Officer designation ']}]</strong><br/>
+                        ${r['Subject / Work Description'] || '—'}
+                    </td>
+                    <td>${r.officer_label || 'Unassigned'}</td>
+                    <td class="text-center font-semibold">${r['Current Stage'] || 'N/A'}</td>
+                    <td class="text-right font-mono font-bold">${r.display_time_metric || '—'}</td>
+                </tr>
+            `).join('');
+
+            window.print();
+
+            setTimeout(() => {
+                if (desigSec) desigSec.style.display = '';
+                if (offSec) offSec.style.display = '';
+                document.getElementById('print-memo-title').innerText = "STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT";
+                document.getElementById('print-inventory-title').innerText = "4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):";
+            }, 1000);
         }
 
         function renderOfficersTab() {
@@ -2107,10 +2623,11 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
-        let currentAbstractFormat = 'detailed'; // 'detailed', 'short', or 'events'
+        let currentAbstractFormat = 'detailed'; // 'detailed', 'short', 'events', 'vip'
         let cachedDetailedWhatsappText = '';
         let cachedShortWhatsappText = '';
         let cachedEventsWhatsappText = '';
+        let cachedVipWhatsappText = '';
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
 
         function switchAbstractFormat(fmt) {
@@ -2118,6 +2635,7 @@
             const detailedBtn = document.getElementById('tab-detailed-btn');
             const shortBtn = document.getElementById('tab-short-btn');
             const eventsBtn = document.getElementById('tab-events-format-btn');
+            const vipBtn = document.getElementById('tab-vip-format-btn');
 
             const activeClass = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
             const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
@@ -2125,6 +2643,7 @@
             if (detailedBtn) detailedBtn.className = fmt === 'detailed' ? activeClass : inactiveClass;
             if (shortBtn) shortBtn.className = fmt === 'short' ? activeClass : inactiveClass;
             if (eventsBtn) eventsBtn.className = fmt === 'events' ? activeClass : inactiveClass;
+            if (vipBtn) vipBtn.className = fmt === 'vip' ? activeClass : inactiveClass;
 
             if (fmt === 'detailed') {
                 document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
@@ -2132,6 +2651,8 @@
                 document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
             } else if (fmt === 'events') {
                 document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
+            } else if (fmt === 'vip') {
+                document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
             }
             lucide.createIcons();
         }
@@ -2156,7 +2677,6 @@
             document.getElementById('abs-kpi-done').innerText = kpis.completed;
             document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
 
-            // Render Designation Summary Strip inside modal
             const desigStrip = document.getElementById('abstract-designation-strip');
             if (desigStrip && rawData.designations) {
                 desigStrip.innerHTML = rawData.designations.map(d => `
@@ -2175,7 +2695,7 @@
 
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
 
-            // 1. Formulate Detailed WhatsApp Text (Designation-Organized + VIP Highlights)
+            // 1. Detailed WhatsApp Text
             let waDetailed = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waDetailed += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
             waDetailed += `📅 Date: ${dateStr}\n\n`;
@@ -2238,11 +2758,6 @@
                         });
                     }
                 });
-            } else {
-                activeOfficers.forEach((o, idx) => {
-                    const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                    waDetailed += `\n${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
-                });
             }
 
             waDetailed += `\n───────────────────────────────\n`;
@@ -2251,7 +2766,7 @@
             waDetailed += `───────────────────────────────\n`;
             waDetailed += `_Generated from AP Police TS Executive Command Portal_`;
 
-            // 2. Formulate Option 2: Short Numbers-Only WhatsApp Text
+            // 2. Short WhatsApp Text
             let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
             waShort += `📅 Date: ${dateStr}\n\n`;
@@ -2284,7 +2799,7 @@
             waShort += `───────────────────────────────\n`;
             waShort += `_Generated from AP Police TS Executive Command Portal_`;
 
-            // 3. Formulate Format 3: Exclusive Meetings & Events WhatsApp Text
+            // 3. Events WhatsApp Text
             let waEvents = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waEvents += `📅 *UPCOMING MEETINGS, WORKSHOPS & EVENT SCHEDULE*\n`;
             waEvents += `📆 Date: ${dateStr}\n\n`;
@@ -2320,22 +2835,60 @@
             waEvents += `───────────────────────────────\n`;
             waEvents += `_Generated from AP Police TS Executive Command Portal_`;
 
+            // 4. VIP WhatsApp Text
+            let waVip = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
+            waVip += `⭐ *EXECUTIVE VIP & HIGH PRIORITY CORRESPONDENCE BRIEF*\n`;
+            waVip += `📅 Date: ${dateStr}\n\n`;
+            const vipFiles = rawData.records.filter(r => r.is_vip);
+            const vipActive = vipFiles.filter(r => r.status_group !== 'Completed');
+            const vipDone = vipFiles.filter(r => r.status_group === 'Completed');
+            waVip += `📊 *Executive VIP Overview:*\n`;
+            waVip += `• Total VIP Files: ${vipFiles.length}\n`;
+            waVip += `• 🟡 Active / Pending Resolution: ${vipActive.length} Files\n`;
+            waVip += `• 🟢 Completed / Dispatched: ${vipDone.length} Files\n\n`;
+            waVip += `───────────────────────────────\n`;
+            waVip += `📌 *ACTIVE VIP FILES DETAILS:*\n`;
+            waVip += `───────────────────────────────\n`;
+
+            if (vipActive.length === 0) {
+                waVip += `\n• No active VIP files pending resolution.\n`;
+            } else {
+                vipActive.forEach((r, idx) => {
+                    waVip += `\n${idx + 1}. ⭐ *${r.ID}* [${r.project_label || 'Misc'}]\n`;
+                    waVip += `   • *From:* ${r['Received From Department /Wing']} (${r['Received From Officer designation '] || 'N/A'})\n`;
+                    waVip += `   • *Stage:* ${r['Current Stage']} (${r.display_time_metric || ''})\n`;
+                    waVip += `   • *Officer:* ${r.officer_label}\n`;
+                    waVip += `   • *Subject:* ${r['Subject / Work Description']}\n`;
+                    if (r.is_vip_followup) {
+                        waVip += `   • ⚠️ *Urgent Liaison & Follow-up Required with Dept*\n`;
+                    }
+                });
+            }
+
+            waVip += `\n───────────────────────────────\n`;
+            waVip += `🔗 *Update Status in Google Sheet:*\n`;
+            waVip += `${GOOGLE_SHEET_URL}\n`;
+            waVip += `───────────────────────────────\n`;
+            waVip += `_Generated from AP Police TS Executive Command Portal_`;
+
             cachedDetailedWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_text ? rawData.pending_abstract.whatsapp_text : waDetailed;
             cachedShortWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_short_text ? rawData.pending_abstract.whatsapp_short_text : waShort;
             cachedEventsWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_events_text ? rawData.pending_abstract.whatsapp_events_text : waEvents;
+            cachedVipWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_vip_text ? rawData.pending_abstract.whatsapp_vip_text : waVip;
 
-            // Apply active tab text
             if (currentAbstractFormat === 'detailed') {
                 document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
             } else if (currentAbstractFormat === 'short') {
                 document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
-            } else {
+            } else if (currentAbstractFormat === 'events') {
                 document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
+            } else if (currentAbstractFormat === 'vip') {
+                document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
             }
         }
 
         // ================= MEETINGS & EVENTS SCHEDULES LOGIC =================
-        let currentEventTimingFilter = 'upcoming'; // 'upcoming', 'urgent', 'all'
+        let currentEventTimingFilter = 'upcoming';
 
         function filterEventsTiming(mode) {
             currentEventTimingFilter = mode;
@@ -2371,14 +2924,12 @@
             if (allCountEl) allCountEl.innerText = totalCount;
 
             const filtered = allEvents.filter(e => {
-                // Timing filter
                 if (currentEventTimingFilter === 'upcoming') {
                     if (e.event_delta_days < 0 && e.status_group === 'Completed') return false;
                 } else if (currentEventTimingFilter === 'urgent') {
                     if (e.event_delta_days !== 0 && e.event_delta_days !== 1) return false;
                 }
 
-                // Nature filter
                 if (nature) {
                     const nLow = (e.nature_of_request || '').toLowerCase();
                     if (nature === 'vc' && !nLow.includes('vc') && !nLow.includes('video') && !nLow.includes('conference')) return false;
@@ -2387,13 +2938,9 @@
                     if (nature === 'training' && !nLow.includes('training') && !nLow.includes('course')) return false;
                 }
 
-                // Officer filter
                 if (officer && (e.officer || 'Unassigned') !== officer) return false;
-
-                // Project filter
                 if (project && (e.project || 'Other / Misc') !== project) return false;
 
-                // Search text filter
                 if (search) {
                     const matchText = [
                         e.id,
@@ -2448,7 +2995,6 @@
                     cardAccent = 'border-purple-500/40';
                 }
 
-                // Timing Pill
                 let timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[10px] border border-slate-700">Date TBA</span>`;
                 if (ev.event_timing_status === 'Today') {
                     timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 animate-pulse flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Today ⭐</span>`;
@@ -2462,7 +3008,6 @@
 
                 return `
                     <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md">
-                        <!-- Top Header Strip: Nature Badge & Timing Pill -->
                         <div class="flex items-start justify-between gap-2">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${natureBadgeColor}">
                                 <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
@@ -2471,7 +3016,6 @@
                             <div>${timingPill}</div>
                         </div>
 
-                        <!-- Date & Time Highlight Box -->
                         <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800 flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="calendar" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
@@ -2485,7 +3029,6 @@
                             ` : ''}
                         </div>
 
-                        <!-- Subject / Agenda -->
                         <div>
                             <div class="flex items-center gap-1.5 mb-1">
                                 <span class="text-xs font-mono font-bold text-white cursor-pointer hover:underline" onclick="openModal('${ev.id}')">${ev.id}</span>
@@ -2497,13 +3040,11 @@
                             </h4>
                         </div>
 
-                        <!-- Officer in Charge -->
                         <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800/80">
                             <span class="text-slate-400 text-[10.5px]">Assigned Officer:</span>
                             <div>${renderOfficerBadge(ev.officer)}</div>
                         </div>
 
-                        <!-- VC Link or Venue Information -->
                         ${ev.remarks_link ? `
                             <div class="p-2.5 rounded-xl bg-blue-950/40 border border-blue-500/30 space-y-1.5">
                                 <div class="flex items-center justify-between">
@@ -2523,7 +3064,6 @@
                             </div>
                         ` : '')}
 
-                        <!-- Action Footer -->
                         <div class="flex items-center gap-2 pt-1 border-t border-slate-800/80 text-xs">
                             <button onclick="copySingleEventWhatsApp('${ev.id}')" class="flex-1 py-1.5 font-semibold bg-slate-900 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-xl transition flex items-center justify-center gap-1">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -2603,7 +3143,6 @@
             document.getElementById('print-kpi-done').innerText = kpis.completed;
             document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
 
-            // Render Designation Summary Table
             const desigTbody = document.getElementById('print-designation-summary-tbody');
             if (desigTbody && rawData.designations) {
                 desigTbody.innerHTML = rawData.designations.map(d => `
@@ -2619,7 +3158,6 @@
                 `).join('');
             }
 
-            // Render Officer Summary Table
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
             const officerTbody = document.getElementById('print-officer-summary-tbody');
             officerTbody.innerHTML = activeOfficers.map((o, idx) => `
@@ -2634,7 +3172,6 @@
                 </tr>
             `).join('');
 
-            // Render Detailed Active Files Inventory Table
             const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
             const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed');
             detailedTbody.innerHTML = activeFiles.map((r, idx) => `
@@ -2688,7 +3225,6 @@
                 if (officer && (r.officer_label || 'Unassigned') !== officer) return false;
                 if (project && (r.project_label || 'Other / Misc') !== project) return false;
                 
-                // Priority & VIP filter
                 if (priority === 'VIP') {
                     if (!r.is_vip) return false;
                 } else if (priority && r['Priority'] !== priority) {
@@ -2759,7 +3295,6 @@
 
             document.getElementById('modal-id').innerText = r.ID;
 
-            // Stage badge in modal header
             let stageBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
             if (r.status_group === 'Completed') stageBadgeClass = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
             else if (r.status_group === 'In-Progress') stageBadgeClass = "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
@@ -2769,7 +3304,6 @@
             stageBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-semibold ${stageBadgeClass}`;
             stageBadge.innerText = `${r['Current Stage'] || 'Pending'} (${r.status_group})`;
 
-            // Priority badge
             let priorityBadgeClass = "bg-slate-800 text-slate-300 border border-slate-700";
             if (r.Priority === 'Critical') priorityBadgeClass = "bg-rose-500/20 text-rose-300 border border-rose-500/40";
             else if (r.Priority === 'High') priorityBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/40";
@@ -2777,7 +3311,6 @@
             priorityBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-bold ${priorityBadgeClass}`;
             priorityBadge.innerText = r.Priority || 'Normal';
 
-            // VIP status & banner
             const vipBadge = document.getElementById('modal-vip-badge');
             const vipBanner = document.getElementById('modal-vip-banner');
             const vipReasonsEl = document.getElementById('modal-vip-reasons');
@@ -2793,7 +3326,6 @@
             document.getElementById('modal-project-title').innerHTML = `${renderProjectBadge(r.project_label)} <span class="text-xs text-slate-400 font-normal">• ${r['Nature of Request'] || 'General Action'}</span>`;
             document.getElementById('modal-subject').innerText = r['Subject / Work Description'] || 'No description provided';
 
-            // Card 1: Inflow & Receipt
             document.getElementById('modal-recv-datetime').innerText = r['Date Received to office'] || r['Date & Time Received to office'] || 'N/A';
             document.getElementById('modal-orig-date').innerText = r['Original Date of Letter/Mail'] || 'N/A';
             document.getElementById('modal-channel').innerText = r['Received Through'] || 'N/A';
@@ -2801,11 +3333,9 @@
             sourceEl.innerText = r['Source'] || 'N/A';
             sourceEl.title = r['Source'] || '';
 
-            // Card 2: Sender Authority
             document.getElementById('modal-from-dept').innerText = r['Received From Department /Wing'] || 'N/A';
             document.getElementById('modal-from-desig').innerText = r['Received From Officer designation '] || 'N/A';
 
-            // Card 3: Project & Request
             document.getElementById('modal-prj-badge').innerHTML = renderProjectBadge(r.project_label);
             document.getElementById('modal-nature').innerText = r['Nature of Request'] || 'N/A';
             
@@ -2813,13 +3343,11 @@
             document.getElementById('modal-due-date').innerText = dueDateDisplay;
             document.getElementById('modal-delay-days').innerText = r['Delay days'] ? `${r['Delay days']} days` : '0 days';
 
-            // Card 4: Allocation & Stage
             document.getElementById('modal-officer-badge').innerHTML = renderOfficerBadge(r.officer_label);
             document.getElementById('modal-stage-detail').innerText = r['Current Stage'] || 'Pending';
             document.getElementById('modal-decision').innerText = r['Final Decision '] || 'Pending Resolution';
             document.getElementById('modal-tat').innerText = r.display_time_metric ? r.display_time_metric : '—';
 
-            // Card 5: Follow-Up & Milestones
             const followupVal = r['Further Fallow up Required with Concerned Department '] || r['Further Follow-up Required'] || 'No / None';
             const isFollowupYes = ['yes', 'y', 'true'].includes(followupVal.toLowerCase());
             document.getElementById('modal-followup').innerHTML = isFollowupYes ? `<span class="text-rose-400 font-extrabold">Yes ⚠️ (Required)</span>` : `<span class="text-slate-400 font-medium">No</span>`;
@@ -2827,7 +3355,6 @@
             document.getElementById('modal-dispatched').innerText = r['Dispatched Date'] || 'Pending';
             document.getElementById('modal-closure').innerText = r['Final Closure Date'] || 'Pending';
 
-            // Card 6: Remarks & VC Link
             document.getElementById('modal-remarks').innerText = r['Remarks'] || r['Remarks/other Information '] || 'No additional remarks provided.';
             const vcBtn = document.getElementById('modal-vc-btn');
             if (r.remarks_link) {
@@ -2887,7 +3414,7 @@
             applyFilters();
         }
 
-        // ================= THEME CONTROLLER (LIGHT / DARK) =================
+        // ================= THEME CONTROLLER =================
         function initTheme() {
             const saved = localStorage.getItem('ts_dashboard_theme');
             if (saved === 'light') {
@@ -2919,23 +3446,17 @@
 
         function updateThemeButtonUI() {
             const isLight = document.documentElement.classList.contains('light');
-            
-            // Floating Corner Button ONLY
             const floatIcon = document.getElementById('floating-theme-icon');
             const floatBtn = document.getElementById('floating-theme-toggle');
 
             if (isLight) {
-                if (floatIcon) {
-                    floatIcon.setAttribute('data-lucide', 'moon');
-                }
+                if (floatIcon) floatIcon.setAttribute('data-lucide', 'moon');
                 if (floatBtn) {
                     floatBtn.title = "Switch to Dark Mode";
                     floatBtn.className = "p-3.5 rounded-full bg-white text-indigo-700 hover:text-indigo-900 border-2 border-slate-300 hover:border-indigo-500 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
                 }
             } else {
-                if (floatIcon) {
-                    floatIcon.setAttribute('data-lucide', 'sun');
-                }
+                if (floatIcon) floatIcon.setAttribute('data-lucide', 'sun');
                 if (floatBtn) {
                     floatBtn.title = "Switch to Light Mode";
                     floatBtn.className = "p-3.5 rounded-full bg-slate-900/95 text-amber-400 hover:text-white border-2 border-slate-700 hover:border-amber-400 shadow-2xl backdrop-blur-md transition transform hover:scale-110 active:scale-95 flex items-center justify-center";
@@ -2966,13 +3487,17 @@
                 activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
             }
 
+            if (tabId === 'vip') {
+                renderVipTab();
+            }
+
             lucide.createIcons();
         }
 
         function exportFilteredCSV() {
             if (!filteredRecords || filteredRecords.length === 0) return;
 
-            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric' && !k.endsWith('_id') && !k.endsWith('_name') && !k.endsWith('_rank') && !k.endsWith('_label') && k !== 'is_vip' && k !== 'vip_reasons' && k !== 'remarks_link' && k !== 'event_timing_status' && k !== 'event_timing_label' && k !== 'event_delta_days');
+            const headers = Object.keys(filteredRecords[0]).filter(k => !k.startsWith('calculated_') && k !== 'status_group' && k !== 'display_time_metric' && !k.endsWith('_id') && !k.endsWith('_name') && !k.endsWith('_rank') && !k.endsWith('_label') && k !== 'is_vip' && k !== 'is_vip_dept' && k !== 'is_vip_stage' && k !== 'is_vip_followup' && k !== 'is_vip_desig' && k !== 'vip_reasons' && k !== 'remarks_link' && k !== 'event_timing_status' && k !== 'event_timing_label' && k !== 'event_delta_days');
             const csvRows = [headers.join(',')];
 
             filteredRecords.forEach(r => {
@@ -2991,7 +3516,6 @@
             a.click();
         }
 
-        // Auto Sync every 8 seconds & initialize theme
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             fetchGoogleSheetData();

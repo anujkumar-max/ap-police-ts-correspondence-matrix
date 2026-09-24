@@ -38,7 +38,6 @@ def clean_text(val):
     s = str(val).strip()
     if not s or s.lower() in ['n/a', 'none', 'null', '']:
         return 'N/A'
-    # Sanitize unicode dashes and special characters
     s = s.replace('\ufffd', '-').replace('\u2013', '-').replace('\u2014', '-')
     return s
 
@@ -47,7 +46,6 @@ def parse_pro_id(val):
     if cleaned in ['N/A', 'ALL', 'Unassigned']:
         return {'id': 'N/A', 'name': 'Unassigned', 'rank': 'Unassigned', 'label': 'Unassigned'}
     
-    # Regex match for PRO-xxx - Name (Rank)
     m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
     if m:
         pro_id = m.group(1).strip()
@@ -63,7 +61,6 @@ def parse_prj_id(val):
     if cleaned in ['N/A', 'Miscellaneous']:
         return {'id': 'MISC', 'name': cleaned, 'label': cleaned}
     
-    # Regex match for PRJ-xxx - Project Name
     m = re.match(r'^(PRJ-\d+)\s*[-:]\s*(.+)$', cleaned)
     if m:
         prj_id = m.group(1).strip()
@@ -94,19 +91,12 @@ def categorize_stage(stage_raw):
     stage = str(stage_raw).strip() if stage_raw is not None else ""
     stage_lower = stage.lower()
 
-    # 1. Explicitly Completed / Dispatched / Acknowledgement
     if stage_lower in ['completed', 'file dispatched', 'acknowledgement filed']:
         return 'Completed'
-
-    # 2. Explicitly On Hold / Cancelled / Closed / Inactive
     if stage_lower in ['on hold', 'cancelled', 'correspondence closed', 'inactive']:
         return 'On Hold / Closed'
-
-    # 3. Pending (Any stage mentioning "pending", or blank / N/A which represents intake awaiting allocation/action)
     if 'pending' in stage_lower or stage_lower in ['n/a', 'none', 'null', '']:
         return 'Pending'
-
-    # 4. Remaining all are In-Progress
     return 'In-Progress'
 
 def calculate_analytics_from_records(records):
@@ -115,9 +105,8 @@ def calculate_analytics_from_records(records):
     today_display = datetime.now().strftime("%d-%m-%Y | %I:%M %p")
 
     for r in records:
-        # Resolve Date fields
         recv_raw = r.get('Date & Time Received to office') or r.get('Date Received to office') or r.get('Date Received') or ''
-        r['Date Received to office'] = recv_raw # normalize standard key
+        r['Date Received to office'] = recv_raw
         d_recv = parse_indian_date(recv_raw)
         
         orig_raw = r.get('Original Date of Letter/Mail') or r.get('Original Date') or ''
@@ -133,7 +122,6 @@ def calculate_analytics_from_records(records):
         stage_raw = r.get('Current Stage') or ''
         r['status_group'] = categorize_stage(stage_raw)
 
-        # Parse Pro-IDs & Project IDs
         off_info = parse_pro_id(r.get('Concerned Officer'))
         prj_info = parse_prj_id(r.get('Project'))
 
@@ -146,18 +134,15 @@ def calculate_analytics_from_records(records):
         r['project_name'] = prj_info['name']
         r['project_label'] = prj_info['label']
 
-        # Parse Source and Channel
         r['Source'] = clean_text(r.get('Source') or '')
         r['Received Through'] = clean_text(r.get('Received Through') or r.get('Received Through ') or '')
 
-        # Parse Sender Department & Officer Designation
         dept_raw = clean_text(r.get('Received From Department /Wing') or r.get('Received From Department') or r.get('Received From Department / Wing') or '')
         r['Received From Department /Wing'] = dept_raw
 
         desig_raw = clean_text(r.get('Received From Officer designation ') or r.get('Received From Officer designation') or r.get('Received From Officer Designation') or '')
         r['Received From Officer designation '] = desig_raw
 
-        # Parse Nature of Request, Due/Event Date, and Remarks
         nature_raw = clean_text(r.get('Nature of Request') or r.get('Nature of request') or r.get('Nature') or '')
         r['nature_of_request'] = nature_raw if nature_raw != 'N/A' else 'General Action'
         r['Nature of Request'] = r['nature_of_request']
@@ -168,7 +153,6 @@ def calculate_analytics_from_records(records):
         d_due = parse_indian_date(r['due_date_raw'])
         r['due_date_iso'] = d_due.strftime("%Y-%m-%d") if d_due else ''
 
-        # Parse Follow-up & Delay Days
         followup_raw = clean_text(r.get('Further Fallow up Required with Concerned Department ') or r.get('Further Fallow up Required with Concerned Department') or r.get('Further Follow up Required with Concerned Department ') or r.get('Further Follow up Required with Concerned Department') or r.get('Further Follow-up Required') or '')
         r['Further Fallow up Required with Concerned Department '] = followup_raw
         r['Further Follow-up Required'] = followup_raw
@@ -182,7 +166,6 @@ def calculate_analytics_from_records(records):
         decision_raw = clean_text(r.get('Final Decision ') or r.get('Final Decision') or '')
         r['Final Decision '] = decision_raw
 
-        # Calculate event timing / countdown
         if d_due:
             delta_days = (d_due - today).days
             if delta_days < 0:
@@ -211,7 +194,6 @@ def calculate_analytics_from_records(records):
         r['Remarks'] = r['remarks']
         r['Remarks/other Information '] = r['remarks']
         
-        # Detect URLs in remarks for direct meeting access
         url_match = re.search(r'(https?://[^\s]+)', r['remarks'])
         r['remarks_link'] = url_match.group(1) if url_match else ''
 
@@ -235,7 +217,7 @@ def calculate_analytics_from_records(records):
                 r['calculated_aging_days'] = 0
                 r['display_time_metric'] = "—"
             r['calculated_tat_days'] = 0
-        else: # On Hold / Closed / Stage N/A
+        else:
             if effective_start and d_close:
                 tat_days = max(0, (d_close - effective_start).days)
                 r['display_time_metric'] = f"{tat_days}d (TAT)"
@@ -247,19 +229,28 @@ def calculate_analytics_from_records(records):
             r['calculated_tat_days'] = 0
             r['calculated_aging_days'] = 0
 
-        # ================= INTELLIGENT VIP / CRITICAL PRIORITY DETECTION =================
+        # ================= 4 DEDICATED VIP PILLARS DETECTION =================
         vip_reasons = []
-        if any(d in dept_raw.lower() for d in VIP_DEPTS):
-            vip_reasons.append(f"VIP Dept: {dept_raw}")
-        if any(s in stage_raw.lower() for s in VIP_STAGES):
-            vip_reasons.append(f"VIP Stage: {stage_raw}")
-        if followup_raw.lower() in ['yes', 'y', 'true']:
-            vip_reasons.append("Follow-up Required with Dept")
-        if any(dg in desig_raw.lower() for dg in VIP_DESIGS):
-            vip_reasons.append(f"VIP Officer: {desig_raw}")
+        is_vip_dept = any(d in dept_raw.lower() for d in VIP_DEPTS)
+        is_vip_stage = any(s in stage_raw.lower() for s in VIP_STAGES)
+        is_vip_followup = followup_raw.lower() in ['yes', 'y', 'true']
+        is_vip_desig = any(dg in desig_raw.lower() for dg in VIP_DESIGS)
 
-        is_vip = len(vip_reasons) > 0
+        if is_vip_dept:
+            vip_reasons.append(f"🏛️ VIP Dept: {dept_raw}")
+        if is_vip_stage:
+            vip_reasons.append(f"📜 Govt/DGP Stage: {stage_raw}")
+        if is_vip_followup:
+            vip_reasons.append("🚨 Urgent Follow-Up Required (Yes)")
+        if is_vip_desig:
+            vip_reasons.append(f"🎖️ VIP Officer: {desig_raw}")
+
+        is_vip = (is_vip_dept or is_vip_stage or is_vip_followup or is_vip_desig)
         r['is_vip'] = is_vip
+        r['is_vip_dept'] = is_vip_dept
+        r['is_vip_stage'] = is_vip_stage
+        r['is_vip_followup'] = is_vip_followup
+        r['is_vip_desig'] = is_vip_desig
         r['vip_reasons'] = vip_reasons
 
         orig_priority = (r.get('Priority') or '').strip()
@@ -268,7 +259,7 @@ def calculate_analytics_from_records(records):
 
         if is_vip:
             if (orig_priority == 'Critical' or 
-                followup_raw.lower() in ['yes', 'y', 'true'] or 
+                is_vip_followup or 
                 'dgp' in dept_raw.lower() or 
                 'govt' in stage_raw.lower() or 
                 'dgp' in stage_raw.lower() or
@@ -314,7 +305,6 @@ def calculate_analytics_from_records(records):
                 'event_delta_days': r.get('event_delta_days')
             })
 
-    # Sort events: Upcoming first (0..n), then No Date, then Past (-1..-n)
     scheduled_events.sort(key=lambda x: (
         0 if 0 <= x['event_delta_days'] < 9999 else (1 if x['event_delta_days'] == 9999 else 2),
         x['event_delta_days'] if 0 <= x['event_delta_days'] < 9999 else (-x['event_delta_days'] if x['event_delta_days'] < 0 else 0)
@@ -322,6 +312,7 @@ def calculate_analytics_from_records(records):
 
     upcoming_events_count = sum(1 for e in scheduled_events if e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')
 
+    # Overall KPIs
     total_records = len(records)
     completed_count = sum(1 for r in records if r['status_group'] == 'Completed')
     inprogress_count = sum(1 for r in records if r['status_group'] == 'In-Progress')
@@ -330,6 +321,15 @@ def calculate_analytics_from_records(records):
     critical_count = sum(1 for r in records if r['Priority'] == 'Critical')
     high_count = sum(1 for r in records if r['Priority'] == 'High')
     vip_total_count = sum(1 for r in records if r.get('is_vip'))
+
+    # Dedicated VIP Analytics
+    vip_records = [r for r in records if r.get('is_vip')]
+    vip_dept_records = [r for r in records if r.get('is_vip_dept')]
+    vip_stage_records = [r for r in records if r.get('is_vip_stage')]
+    vip_followup_records = [r for r in records if r.get('is_vip_followup')]
+    vip_desig_records = [r for r in records if r.get('is_vip_desig')]
+    vip_active_records = [r for r in vip_records if r.get('status_group') != 'Completed']
+    vip_completed_records = [r for r in vip_records if r.get('status_group') == 'Completed']
 
     tat_list = [r['calculated_tat_days'] for r in records if r['status_group'] == 'Completed' and r['calculated_tat_days'] > 0]
     avg_tat = round(sum(tat_list) / len(tat_list), 1) if tat_list else 0
@@ -347,7 +347,7 @@ def calculate_analytics_from_records(records):
             else:
                 aging_buckets["15+ Days"] += 1
 
-    # Group by Officers with Complete Categorization (Pending, In-Progress, Stage N/A, Completed)
+    # Group by Officers
     officers_map = {}
     for r in records:
         off_label = r['officer_label']
@@ -429,7 +429,7 @@ def calculate_analytics_from_records(records):
             'completed_files': data['completed_files']
         })
 
-    # ================= DESIGNATION / RANK-WISE HIERARCHICAL ANALYTICS =================
+    # Designation-Wise Summary
     rank_order = ['DSP', 'CI', 'SI', 'Unassigned', 'Other']
     rank_summary = {}
     for o in officer_analytics:
@@ -526,7 +526,7 @@ def calculate_analytics_from_records(records):
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-    # Formulate Detailed WhatsApp Shareable Text
+    # Formulate Detailed WhatsApp Text
     active_officers = [o for o in officer_analytics if o['active_total'] > 0]
     wa_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
@@ -662,6 +662,64 @@ def calculate_analytics_from_records(records):
     events_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_events_text = "\n".join(events_lines)
 
+    # Formulate Format 4: Exclusive VIP & High Priority Files WhatsApp Text
+    vip_wa_lines = [
+        "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
+        "⭐ *EXECUTIVE VIP & HIGH PRIORITY CORRESPONDENCE BRIEF*",
+        f"📅 Date: {today_display}",
+        "",
+        "📊 *Executive Overview:*",
+        f"• Total VIP Files: {len(vip_records)}",
+        f"• 🟡 Active / Pending Action: {len(vip_active_records)} Files",
+        f"• 🟢 Completed / Dispatched: {len(vip_completed_records)} Files",
+        "",
+        "───────────────────────────────",
+        "🏛️ *VIP PILLARS BREAKDOWN:*",
+        "───────────────────────────────",
+        f"• 🏛️ VIP Depts (DGP, High Court, MHA, RTGS, etc.): {len(vip_dept_records)} Files",
+        f"• 📜 Govt & DGP Review Stages: {len(vip_stage_records)} Files",
+        f"• 🚨 Urgent Follow-Up Required: {len(vip_followup_records)} Files",
+        f"• 🎖️ High Dignitaries (CS, Secy, ADG, IGP): {len(vip_desig_records)} Files",
+        "",
+        "───────────────────────────────",
+        "📌 *ACTIVE VIP FILES DETAILS:*",
+        "───────────────────────────────"
+    ]
+
+    if not vip_active_records:
+        vip_wa_lines.append("")
+        vip_wa_lines.append("• No active VIP files pending resolution.")
+    else:
+        for idx, r in enumerate(vip_active_records, 1):
+            reasons_str = " | ".join(r['vip_reasons']) if r['vip_reasons'] else "VIP Priority"
+            vip_wa_lines.append(f"\n{idx}. ⭐ *{r['ID']}* [{r['project_label']}]")
+            vip_wa_lines.append(f"   • *From:* {r['Received From Department /Wing']} ({r['Received From Officer designation ']})")
+            vip_wa_lines.append(f"   • *Stage:* {r['Current Stage']} ({r['display_time_metric']})")
+            vip_wa_lines.append(f"   • *Officer:* {r['officer_label']}")
+            vip_wa_lines.append(f"   • *Subject:* {r['Subject / Work Description']}")
+            if r['is_vip_followup']:
+                vip_wa_lines.append("   • ⚠️ *Follow-up Required with Dept*")
+
+    vip_wa_lines.append("")
+    vip_wa_lines.append("───────────────────────────────")
+    vip_wa_lines.append("🔗 *Update Status in Google Sheet:*")
+    vip_wa_lines.append(GOOGLE_SHEET_URL)
+    vip_wa_lines.append("───────────────────────────────")
+    vip_wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
+    whatsapp_vip_text = "\n".join(vip_wa_lines)
+
+    vip_analytics_payload = {
+        'total_count': len(vip_records),
+        'dept_count': len(vip_dept_records),
+        'stage_count': len(vip_stage_records),
+        'followup_count': len(vip_followup_records),
+        'desig_count': len(vip_desig_records),
+        'active_count': len(vip_active_records),
+        'completed_count': len(vip_completed_records),
+        'records': vip_records,
+        'whatsapp_vip_text': whatsapp_vip_text
+    }
+
     return {
         'status': 'success',
         'data_source': 'Google Sheets Live Cloud',
@@ -687,6 +745,7 @@ def calculate_analytics_from_records(records):
         'channels': channel_analytics,
         'scheduled_events': scheduled_events,
         'upcoming_events_count': upcoming_events_count,
+        'vip_analytics': vip_analytics_payload,
         'records': records,
         'pending_abstract': {
             'total_pending': pending_count,
@@ -697,7 +756,8 @@ def calculate_analytics_from_records(records):
             'designations': designation_analytics,
             'whatsapp_text': whatsapp_text,
             'whatsapp_short_text': whatsapp_short_text,
-            'whatsapp_events_text': whatsapp_events_text
+            'whatsapp_events_text': whatsapp_events_text,
+            'whatsapp_vip_text': whatsapp_vip_text
         }
     }
 
@@ -822,7 +882,7 @@ def start_server():
         print(f" Running live on: http://localhost:{PORT}")
         print(f" Stage Grouping: Pending, In-Progress, Completed, On Hold/Closed")
         print(f" Officer-Wise Pending & Active Workload Abstract Active")
-        print(f" Designation-Wise Summary Active: DSP, CI, SI, Unassigned")
+        print(f" Dedicated VIP Command Center Active (4 Pillars)")
         print(f"================================================================")
         httpd.serve_forever()
 
