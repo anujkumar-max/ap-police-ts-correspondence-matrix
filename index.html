@@ -433,6 +433,47 @@
         <!-- ================= TAB 1: EXECUTIVE ANALYTICS ================= -->
         <div id="tab-overview" class="tab-content space-y-5">
 
+            <!-- EXECUTIVE SITUATION REPORT (THE 5-SECOND RULE FOR IPS OFFICERS) -->
+            <div class="glass-card rounded-2xl p-4 sm:p-5 border border-blue-500/30 bg-gradient-to-r from-blue-950/40 via-slate-900/70 to-amber-950/20 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                <div class="space-y-1.5 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Executive Situation Report
+                        </span>
+                        <span id="executive-narrative-timestamp" class="text-[11px] text-slate-400 font-mono">--</span>
+                        <span id="executive-narrative-alert-tag" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                            🚨 Action Required
+                        </span>
+                    </div>
+                    <p id="executive-narrative-text" class="text-xs sm:text-sm font-medium text-slate-200 leading-relaxed">
+                        Initializing real-time executive situation brief...
+                    </p>
+                </div>
+                
+                <!-- Quick Executive Scorecards (SLA & Clearance Rate & Active VIP) -->
+                <div class="flex items-center gap-2 sm:gap-3 w-full lg:w-auto shrink-0 justify-between sm:justify-start">
+                    <!-- SLA Compliance Widget -->
+                    <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center flex-1 sm:flex-initial min-w-[115px]">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">SLA Compliance</div>
+                        <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
+                        <div class="text-[9.5px] text-emerald-300/80 font-medium">Standard 7-15d</div>
+                    </div>
+                    <!-- Clearance Rate Widget -->
+                    <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center flex-1 sm:flex-initial min-w-[115px]">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Clearance Rate</div>
+                        <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-0.5" id="clearance-rate-pct">--%</div>
+                        <div class="text-[9.5px] text-cyan-300/80 font-medium" id="clearance-rate-sub">-- of -- Files</div>
+                    </div>
+                    <!-- Urgent VIP Pending Widget -->
+                    <div onclick="switchTab('vip')" class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-amber-500/30 hover:border-amber-400 cursor-pointer transition text-center flex-1 sm:flex-initial min-w-[115px] group">
+                        <div class="text-[10px] font-bold text-amber-300 uppercase tracking-wider group-hover:text-amber-200">Active VIP</div>
+                        <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-0.5" id="active-vip-count">--</div>
+                        <div class="text-[9.5px] text-amber-300/70 font-medium">View VIP Tab ➔</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ROW 1 CHARTS: Officer Workload & Project Distribution -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
                 
@@ -541,10 +582,6 @@
                         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                         <span>Print VIP Memo</span>
                     </button>
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-xl flex items-center gap-1.5 transition">
-                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                        <span class="hidden sm:inline">Sheet ↗</span>
-                    </a>
                 </div>
             </div>
 
@@ -605,22 +642,15 @@
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3 shadow-lg">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     
-                    <!-- Pillar Selector Switcher -->
-                    <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                        <button onclick="filterVipPillar('all')" id="vip-pillar-btn-all" class="px-3 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow">
-                            <span>🌟 All VIP Files (<span id="vip-count-all">--</span>)</span>
-                        </button>
-                        <button onclick="filterVipPillar('dept')" id="vip-pillar-btn-dept" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
-                            <span>🏛️ VIP Depts (<span id="vip-count-dept">--</span>)</span>
-                        </button>
-                        <button onclick="filterVipPillar('stage')" id="vip-pillar-btn-stage" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
-                            <span>📜 Govt/DGP Stage (<span id="vip-count-stage">--</span>)</span>
-                        </button>
-                        <button onclick="filterVipPillar('followup')" id="vip-pillar-btn-followup" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
-                            <span>🚨 Follow-Up Yes (<span id="vip-count-followup">--</span>)</span>
-                        </button>
-                        <button onclick="filterVipPillar('desig')" id="vip-pillar-btn-desig" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800">
-                            <span>🎖️ Dignitaries (<span id="vip-count-desig">--</span>)</span>
+                    <!-- Active Pillar Indicator / Reset -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-400 font-medium">Filtered Pillar:</span>
+                        <span id="vip-active-filter-badge" class="px-3 py-1 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 shadow flex items-center gap-1.5">
+                            <i data-lucide="star" class="w-3.5 h-3.5"></i>
+                            <span id="vip-active-filter-text">All VIP Files</span>
+                        </span>
+                        <button onclick="filterVipPillar('all')" id="vip-reset-filter-btn" class="hidden text-xs text-amber-400 hover:text-amber-300 underline transition ml-1">
+                            Reset to All
                         </button>
                     </div>
 
@@ -708,10 +738,6 @@
                         <i data-lucide="share-2" class="w-4 h-4"></i>
                         <span>WhatsApp Event Brief</span>
                     </button>
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-xl flex items-center gap-1.5 transition">
-                        <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
-                        <span class="hidden sm:inline">Add/Edit in Sheet ↗</span>
-                    </a>
                 </div>
             </div>
 
@@ -782,10 +808,6 @@
                     </h2>
                     <p class="text-xs text-slate-400">Track task volume, completion rates, pending queues, and managed projects by officer and rank</p>
                 </div>
-                <button onclick="openPendingAbstractModal()" class="px-3 py-1.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition">
-                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-                    <span>Officer Abstract (WhatsApp/Memo)</span>
-                </button>
             </div>
 
             <!-- Officer Cards Grid -->
@@ -853,12 +875,18 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between text-xs text-slate-400 pt-1 border-t border-slate-800/80">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 pt-1 border-t border-slate-800/80">
                     <div class="flex items-center gap-2">
                         <span>Showing <span id="filtered-count" class="text-white font-bold">--</span> of <span id="total-count" class="text-white font-bold">--</span> correspondence records</span>
                         <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
                     </div>
-                    <div class="text-[11px] text-slate-500">Click any row to open full file record & complete 21-column history</div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="exportFilteredCSV()" class="px-3 py-1 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg flex items-center gap-1.5 transition active:scale-95" title="Export current filtered view to CSV">
+                            <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
+                            <span>Export CSV</span>
+                        </button>
+                        <span class="text-[11px] text-slate-500 hidden sm:inline">Click any row for complete 21-column history</span>
+                    </div>
                 </div>
             </div>
 
@@ -1156,10 +1184,6 @@
 
                 <!-- Action Buttons -->
                 <div class="flex items-center gap-2">
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="px-3 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl flex items-center gap-1.5 transition border border-slate-700">
-                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span class="hidden sm:inline">Google Sheet</span>
-                    </a>
                     <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                         <span id="copy-btn-text">Copy WhatsApp Text</span>
@@ -1920,20 +1944,111 @@
             return `<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10.5px] font-medium">${label}</span>`;
         }
 
+        function animateNumber(elementId, targetValue) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const target = parseInt(targetValue, 10);
+            if (isNaN(target)) {
+                el.innerText = targetValue;
+                return;
+            }
+            const current = parseInt(el.innerText, 10) || 0;
+            if (current === target) {
+                el.innerText = target;
+                return;
+            }
+            const duration = 650;
+            const startTime = performance.now();
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOutQuad = progress * (2 - progress);
+                const value = Math.round(current + (target - current) * easeOutQuad);
+                el.innerText = value;
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    el.innerText = target;
+                }
+            }
+            requestAnimationFrame(updateCounter);
+        }
+
+        function updateExecutiveNarrative() {
+            if (!rawData) return;
+            const kpis = rawData.kpis || {};
+            const vip = rawData.vip_analytics || {};
+            const events = rawData.scheduled_events || [];
+            const totalRecords = (rawData.records || []).length;
+            
+            // SLA Compliance: Files completed <= 15 days, or currently open <= 15 days
+            const overdueRecords = (rawData.records || []).filter(r => {
+                if (r.status_group === 'Completed') {
+                    return (r.calculated_tat_days || 0) > 15;
+                } else {
+                    return (r.calculated_aging_days || 0) > 15;
+                }
+            }).length;
+            
+            const compliantCount = Math.max(0, totalRecords - overdueRecords);
+            const slaPct = totalRecords > 0 ? Math.round((compliantCount / totalRecords) * 100) : 100;
+            const clearancePct = totalRecords > 0 ? Math.round(((kpis.completed || 0) / totalRecords) * 100) : 0;
+            
+            const slaEl = document.getElementById('sla-compliance-pct');
+            if (slaEl) slaEl.innerText = `${slaPct}%`;
+            
+            const clrEl = document.getElementById('clearance-rate-pct');
+            if (clrEl) clrEl.innerText = `${clearancePct}%`;
+            
+            const clrSub = document.getElementById('clearance-rate-sub');
+            if (clrSub) clrSub.innerText = `${kpis.completed || 0} of ${totalRecords} Files`;
+            
+            const vipActiveEl = document.getElementById('active-vip-count');
+            if (vipActiveEl) vipActiveEl.innerText = vip.active_count !== undefined ? vip.active_count : 0;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const tsEl = document.getElementById('executive-narrative-timestamp');
+            if (tsEl) tsEl.innerText = `As on ${timeStr}`;
+            
+            // Build narrative
+            const upcomingEventsCount = events.filter(e => e.event_delta_days === 0 || e.event_delta_days === 1).length;
+            const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed').length;
+            
+            let narrative = `Sir, currently tracking <strong>${totalRecords} total correspondence files</strong> with a <strong>${clearancePct}% clearance rate</strong> (${kpis.completed || 0} dispatched). `;
+            narrative += `There are <strong>${vip.total_count || 0} VIP files</strong> identified across apex departments, of which <strong>${vip.active_count || 0} are actively pending resolution</strong>. `;
+            if (urgentFollowupCount > 0) {
+                narrative += `<span class="text-rose-400 font-bold">⚠️ ${urgentFollowupCount} VIP files urgently require department liaison/follow-up.</span> `;
+            }
+            if (upcomingEventsCount > 0) {
+                narrative += `<span class="text-amber-300 font-bold">📅 ${upcomingEventsCount} meeting/VC scheduled today or tomorrow.</span> `;
+            }
+            narrative += `Average turnaround time is <strong>${kpis.avg_tat_days || kpis.avg_tat || 0} days</strong> with overall <strong>${slaPct}% SLA compliance</strong>.`;
+            
+            const narrEl = document.getElementById('executive-narrative-text');
+            if (narrEl) narrEl.innerHTML = narrative;
+            
+            const alertTag = document.getElementById('executive-narrative-alert-tag');
+            if (alertTag) {
+                alertTag.classList.toggle('hidden', ((vip.active_count || 0) === 0 && urgentFollowupCount === 0));
+            }
+        }
+
         // Render All Dashboard Components
         function renderDashboard() {
             if (!rawData) return;
 
             const kpis = rawData.kpis;
-            document.getElementById('kpi-total').innerText = kpis.total;
-            document.getElementById('kpi-pending').innerText = kpis.pending;
-            document.getElementById('kpi-inprogress').innerText = kpis.inprogress;
-            document.getElementById('kpi-completed').innerText = kpis.completed;
-            document.getElementById('kpi-onhold').innerText = kpis.onhold_closed || 0;
-            document.getElementById('kpi-critical').innerText = kpis.critical;
-            document.getElementById('kpi-vip').innerText = kpis.vip_count || 0;
-            document.getElementById('kpi-tat').innerText = kpis.avg_tat_days;
+            animateNumber('kpi-total', kpis.total);
+            animateNumber('kpi-pending', kpis.pending);
+            animateNumber('kpi-inprogress', kpis.inprogress);
+            animateNumber('kpi-completed', kpis.completed);
+            animateNumber('kpi-onhold', kpis.onhold_closed || 0);
+            animateNumber('kpi-critical', kpis.critical);
+            animateNumber('kpi-vip', kpis.vip_count || 0);
+            document.getElementById('kpi-tat').innerText = kpis.avg_tat_days || kpis.avg_tat || 0;
             document.getElementById('header-pending-count').innerText = `${kpis.pending} Pending`;
+            updateExecutiveNarrative();
 
             const total = kpis.total || 1;
             document.getElementById('kpi-pending-pct').innerText = Math.round((kpis.pending / total) * 100) + '%';
@@ -2154,22 +2269,42 @@
         let currentVipViewMode = 'cards'; // 'cards' or 'table'
 
         function filterVipPillar(pillar) {
-            currentVipPillarFilter = pillar;
-            
-            const btnAll = document.getElementById('vip-pillar-btn-all');
-            const btnDept = document.getElementById('vip-pillar-btn-dept');
-            const btnStage = document.getElementById('vip-pillar-btn-stage');
-            const btnFollowup = document.getElementById('vip-pillar-btn-followup');
-            const btnDesig = document.getElementById('vip-pillar-btn-desig');
+            if (currentVipPillarFilter === pillar && pillar !== 'all') {
+                currentVipPillarFilter = 'all';
+            } else {
+                currentVipPillarFilter = pillar;
+            }
 
-            const activeClass = "px-3 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow";
-            const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1 text-slate-400 hover:text-white hover:bg-slate-800";
+            const tiles = {
+                'dept': document.getElementById('vip-tile-dept'),
+                'stage': document.getElementById('vip-tile-stage'),
+                'followup': document.getElementById('vip-tile-followup'),
+                'desig': document.getElementById('vip-tile-desig')
+            };
 
-            if (btnAll) btnAll.className = pillar === 'all' ? activeClass : inactiveClass;
-            if (btnDept) btnDept.className = pillar === 'dept' ? activeClass : inactiveClass;
-            if (btnStage) btnStage.className = pillar === 'stage' ? activeClass : inactiveClass;
-            if (btnFollowup) btnFollowup.className = pillar === 'followup' ? activeClass : inactiveClass;
-            if (btnDesig) btnDesig.className = pillar === 'desig' ? activeClass : inactiveClass;
+            const labels = {
+                'all': 'All VIP Files',
+                'dept': '🏛️ VIP Departments',
+                'stage': '📜 Govt / DGP Stage',
+                'followup': '🚨 Urgent Follow-Up Required',
+                'desig': '🎖️ High Dignitaries'
+            };
+
+            Object.keys(tiles).forEach(k => {
+                const el = tiles[k];
+                if (!el) return;
+                if (currentVipPillarFilter === k) {
+                    el.classList.add('ring-2', 'ring-amber-400', 'bg-amber-950/20');
+                } else {
+                    el.classList.remove('ring-2', 'ring-amber-400', 'bg-amber-950/20');
+                }
+            });
+
+            const filterTextEl = document.getElementById('vip-active-filter-text');
+            if (filterTextEl) filterTextEl.innerText = labels[currentVipPillarFilter] || 'All VIP Files';
+
+            const resetBtn = document.getElementById('vip-reset-filter-btn');
+            if (resetBtn) resetBtn.classList.toggle('hidden', currentVipPillarFilter === 'all');
 
             applyVipFilters();
         }
@@ -2203,18 +2338,11 @@
             const stageCount = va.stage_count !== undefined ? va.stage_count : rawData.records.filter(r => r.is_vip_stage).length;
             const followupCount = va.followup_count !== undefined ? va.followup_count : rawData.records.filter(r => r.is_vip_followup).length;
             const desigCount = va.desig_count !== undefined ? va.desig_count : rawData.records.filter(r => r.is_vip_desig).length;
-            const totalVip = va.total_count !== undefined ? va.total_count : rawData.records.filter(r => r.is_vip).length;
 
-            document.getElementById('vip-pillar-dept-count').innerText = deptCount;
-            document.getElementById('vip-pillar-stage-count').innerText = stageCount;
-            document.getElementById('vip-pillar-followup-count').innerText = followupCount;
-            document.getElementById('vip-pillar-desig-count').innerText = desigCount;
-
-            document.getElementById('vip-count-all').innerText = totalVip;
-            document.getElementById('vip-count-dept').innerText = deptCount;
-            document.getElementById('vip-count-stage').innerText = stageCount;
-            document.getElementById('vip-count-followup').innerText = followupCount;
-            document.getElementById('vip-count-desig').innerText = desigCount;
+            if (document.getElementById('vip-pillar-dept-count')) document.getElementById('vip-pillar-dept-count').innerText = deptCount;
+            if (document.getElementById('vip-pillar-stage-count')) document.getElementById('vip-pillar-stage-count').innerText = stageCount;
+            if (document.getElementById('vip-pillar-followup-count')) document.getElementById('vip-pillar-followup-count').innerText = followupCount;
+            if (document.getElementById('vip-pillar-desig-count')) document.getElementById('vip-pillar-desig-count').innerText = desigCount;
 
             applyVipFilters();
         }
@@ -2531,16 +2659,10 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-2 pt-1">
-                            ${o.pending > 0 ? `
-                                <button onclick="drillDownOfficer('${o.officer}', 'Pending')" class="flex-1 py-1.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded-xl transition flex items-center justify-center gap-1">
-                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                                    <span>${o.pending} Pending</span>
-                                </button>
-                            ` : ''}
-                            <button onclick="drillDownOfficer('${o.officer}')" class="flex-1 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1">
+                        <div class="pt-1">
+                            <button onclick="drillDownOfficer('${o.officer}')" class="w-full py-1.5 text-xs font-semibold bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
                                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                                <span>All Files (${o.total})</span>
+                                <span>View All Files (${o.total})</span>
                             </button>
                         </div>
                     </div>
@@ -3516,12 +3638,511 @@
             a.click();
         }
 
+        // ================= AP POLICE TS EXECUTIVE AI COPILOT (GEMINI AI CHATBOT) =================
+        let aiChatHistory = [];
+        let aiRecognition = null;
+
+        function toggleAiChat() {
+            const win = document.getElementById('ai-chat-window');
+            const isHidden = win.classList.contains('hidden');
+            if (isHidden) {
+                win.classList.remove('hidden');
+                setTimeout(() => {
+                    const inp = document.getElementById('ai-user-input');
+                    if (inp) inp.focus();
+                    scrollAiChatToBottom();
+                }, 100);
+            } else {
+                win.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleAiSettings() {
+            const panel = document.getElementById('ai-settings-panel');
+            if (panel) {
+                panel.classList.toggle('hidden');
+                const keyInput = document.getElementById('ai-api-key-input');
+                if (!panel.classList.contains('hidden') && keyInput) {
+                    keyInput.value = localStorage.getItem('ap_police_gemini_api_key') || '';
+                }
+            }
+        }
+
+        function saveAiApiKey() {
+            const keyInput = document.getElementById('ai-api-key-input');
+            const keyVal = (keyInput?.value || '').trim();
+            if (keyVal) {
+                localStorage.setItem('ap_police_gemini_api_key', keyVal);
+                alert("Google Gemini API Key saved successfully! AI Copilot is now connected live to Gemini.");
+                const modelPill = document.getElementById('ai-model-pill');
+                if (modelPill) modelPill.innerText = "Gemini Cloud Live";
+            } else {
+                localStorage.removeItem('ap_police_gemini_api_key');
+                alert("API Key cleared. AI Copilot will use instant Local Intelligence Engine.");
+                const modelPill = document.getElementById('ai-model-pill');
+                if (modelPill) modelPill.innerText = "Local Intelligence";
+            }
+            toggleAiSettings();
+        }
+
+        function clearAiChat() {
+            const container = document.getElementById('ai-chat-messages');
+            container.innerHTML = `
+                <div class="flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 border border-blue-400/40 text-white font-bold text-xs shadow">
+                        AI
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-200 space-y-1.5 shadow-md max-w-[85%]">
+                        <p class="font-semibold text-white">Jai Hind, Sir.</p>
+                        <p>Conversation history cleared. I am ready to answer any questions on files, pending workloads, VCs, and VIP correspondence.</p>
+                    </div>
+                </div>
+            `;
+            aiChatHistory = [];
+        }
+
+        function sendQuickPrompt(promptText) {
+            const inp = document.getElementById('ai-user-input');
+            if (inp) {
+                inp.value = promptText;
+                document.getElementById('ai-chat-form').dispatchEvent(new Event('submit'));
+            }
+        }
+
+        function scrollAiChatToBottom() {
+            const container = document.getElementById('ai-chat-messages');
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function formatAiMessage(text) {
+            if (!text) return '';
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Bold **text**
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Italic *text*
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Bullet points
+            html = html.replace(/^[•\-\*]\s+(.+)$/gm, '<div class="flex items-start gap-1.5 my-0.5"><span class="text-amber-400 font-bold">•</span><span>$1</span></div>');
+            // Line breaks
+            html = html.replace(/\n/g, '<br>');
+            // Clickable File IDs
+            html = html.replace(/(TS-COR-2026-\d{4})/g, '<span onclick="openModal(\'$1\')" class="font-mono text-cyan-400 font-bold underline cursor-pointer hover:text-cyan-300" title="Click to view file details">$1</span>');
+
+            return html;
+        }
+
+        function startVoiceRecognition() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                alert("Voice recognition is not supported in this browser. Please use Chrome or Edge.");
+                return;
+            }
+            if (aiRecognition && aiRecognition.running) {
+                aiRecognition.stop();
+                return;
+            }
+            aiRecognition = new SpeechRec();
+            aiRecognition.lang = 'en-IN';
+            aiRecognition.interimResults = false;
+            const voiceBtn = document.getElementById('ai-voice-btn');
+            const inp = document.getElementById('ai-user-input');
+
+            aiRecognition.onstart = () => {
+                aiRecognition.running = true;
+                if (voiceBtn) voiceBtn.classList.add('text-rose-400', 'animate-pulse');
+                if (inp) inp.placeholder = "Listening... Speak now, Sir...";
+            };
+
+            aiRecognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                if (inp) inp.value = transcript;
+                document.getElementById('ai-chat-form').dispatchEvent(new Event('submit'));
+            };
+
+            aiRecognition.onerror = (event) => {
+                console.warn('Speech recognition event:', event.error);
+                if (voiceBtn) voiceBtn.classList.remove('text-rose-400', 'animate-pulse');
+                if (inp) inp.placeholder = "Ask about files, officers, VCs, VIP stages...";
+                aiRecognition.running = false;
+            };
+
+            aiRecognition.onend = () => {
+                if (voiceBtn) voiceBtn.classList.remove('text-rose-400', 'animate-pulse');
+                if (inp) inp.placeholder = "Ask about files, officers, VCs, VIP stages...";
+                aiRecognition.running = false;
+            };
+
+            aiRecognition.start();
+        }
+
+        // Local Rule Intelligence Engine (Runs immediately without requiring an API key)
+        function generateLocalAiResponse(query) {
+            if (!rawData) return "Sir, correspondence data is still loading from the sheet. Please retry in a moment.";
+
+            const q = query.toLowerCase();
+            const kpis = rawData.kpis || {};
+            const vip = rawData.vip_analytics || {};
+            const records = rawData.records || [];
+            const officers = rawData.officers || [];
+            const events = rawData.scheduled_events || [];
+
+            // 1. Specific File ID Lookup (e.g. TS-COR-2026-0017 or 0017)
+            const idMatch = query.match(/TS-COR-2026-(\d{4})/i) || query.match(/\b(\d{4})\b/);
+            if (idMatch) {
+                const targetId = idMatch[0].toUpperCase().startsWith('TS-') ? idMatch[0].toUpperCase() : `TS-COR-2026-${idMatch[1]}`;
+                const file = records.find(r => r.ID === targetId);
+                if (file) {
+                    return `Sir, here are the live details for **${file.ID}**:\n` +
+                           `• **Project:** ${file.project_label || 'Miscellaneous'}\n` +
+                           `• **Sender:** ${file['Received From Department /Wing']} (${file['Received From Officer designation '] || 'N/A'})\n` +
+                           `• **Officer-in-Charge:** ${file.officer_label}\n` +
+                           `• **Current Stage:** ${file['Current Stage']} (${file.display_time_metric || '—'})\n` +
+                           `• **Subject:** ${file['Subject / Work Description']}\n` +
+                           (file.is_vip ? `• **VIP Priority:** Yes (⭐)\n` : '') +
+                           (file.is_vip_followup ? `• **⚠️ Warning:** Urgent department follow-up required!\n` : '') +
+                           `\n_Click the File ID above to inspect full 21-column correspondence history._`;
+                }
+            }
+
+            // 2. VIP / Critical Files Query
+            if (q.includes('vip') || q.includes('critical') || q.includes('urgent') || q.includes('dgp') || q.includes('high court')) {
+                const activeVip = records.filter(r => r.is_vip && r.status_group !== 'Completed');
+                if (activeVip.length === 0) {
+                    return "Sir, there are currently **no active VIP files pending resolution**. All VIP correspondence has been processed or dispatched.";
+                }
+                let resp = `Sir, there are **${activeVip.length} active VIP files** currently requiring attention:\n\n`;
+                activeVip.slice(0, 5).forEach((f, idx) => {
+                    resp += `${idx + 1}. **${f.ID}** [${f.project_label || 'Misc'}]\n` +
+                            `   • From: ${f['Received From Department /Wing']} (${f['Received From Officer designation '] || ''})\n` +
+                            `   • Stage: ${f['Current Stage']} (${f.display_time_metric})\n` +
+                            `   • Officer: ${f.officer_label}\n` +
+                            (f.is_vip_followup ? `   • 🚨 Urgent Follow-Up Required with Dept\n` : '');
+                });
+                if (activeVip.length > 5) {
+                    resp += `\n_...and ${activeVip.length - 5} more VIP files. You can view all in the ⭐ VIP Command Tab._`;
+                }
+                return resp;
+            }
+
+            // 3. Meetings / Events / VC Query
+            if (q.includes('meeting') || q.includes('vc') || q.includes('event') || q.includes('seminar') || q.includes('workshop') || q.includes('tomorrow') || q.includes('today')) {
+                const upcoming = events.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed');
+                if (upcoming.length === 0) {
+                    return "Sir, there are **no scheduled meetings, video conferences, or workshops** listed on the calendar right now.";
+                }
+                let resp = `Sir, here are the **upcoming scheduled meetings & VCs** (${upcoming.length} total):\n\n`;
+                upcoming.slice(0, 4).forEach((e, idx) => {
+                    resp += `${idx + 1}. 📅 **${e.nature_of_request || 'Event'}**: **${e.id}**\n` +
+                            `   • Date: ${e.due_date_raw} (${e.event_timing_label || 'TBA'})\n` +
+                            `   • Officer: ${e.officer}\n` +
+                            `   • Topic: ${e.subject}\n` +
+                            (e.remarks ? `   • Link/Venue: ${e.remarks}\n` : '');
+                });
+                return resp;
+            }
+
+            // 4. Officer Workloads Query
+            if (q.includes('officer') || q.includes('workload') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si')) {
+                const activeOfficers = officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a,b) => (b.pending + b.inprogress) - (a.pending + a.inprogress));
+                let resp = `Sir, here is the **active officer workload breakdown**:\n\n`;
+                activeOfficers.forEach((o, idx) => {
+                    const actTotal = o.pending + o.inprogress + (o.onhold || 0);
+                    resp += `${idx + 1}. **${o.officer}**: **${actTotal} Active Files** (🟡 ${o.pending} Pending, 🔵 ${o.inprogress} In-Prog)\n`;
+                });
+                resp += `\nTotal pending queue across all officers: **${kpis.pending} files**.`;
+                return resp;
+            }
+
+            // 5. General Brief / Status / SLA / Default
+            const total = records.length;
+            const clearance = total > 0 ? Math.round(((kpis.completed || 0) / total) * 100) : 0;
+            return `Sir, here is the **Executive Status Briefing**:\n\n` +
+                   `• **Total Intake:** ${total} Correspondence Files\n` +
+                   `• **🟢 Completed / Dispatched:** ${kpis.completed} Files (${clearance}% Clearance)\n` +
+                   `• **🟡 Pending Action:** ${kpis.pending} Files\n` +
+                   `• **🔵 Active In-Progress:** ${kpis.inprogress} Files\n` +
+                   `• **⭐ VIP Files:** ${vip.total_count || 0} Files (${vip.active_count || 0} Active)\n` +
+                   `• **⚡ Average Resolution TAT:** ${kpis.avg_tat_days || kpis.avg_tat || 0} Days\n\n` +
+                   `You may ask me about any **File ID** (e.g. \`TS-COR-2026-0001\`), specific **officers**, **VIP files**, or upcoming **VC meetings**.\n\n` +
+                   `<span class="text-[10px] text-slate-400">💡 Pro-Tip: Tap ⚙️ in the header to enter your free Google Gemini API Key for open conversational intelligence!</span>`;
+        }
+
+        // Live Google Gemini API Caller
+        async function callGeminiApi(userQuery) {
+            const apiKey = localStorage.getItem('ap_police_gemini_api_key');
+            if (!apiKey) {
+                return generateLocalAiResponse(userQuery);
+            }
+
+            const kpis = rawData?.kpis || {};
+            const vip = rawData?.vip_analytics || {};
+            const records = rawData?.records || [];
+            const officers = rawData?.officers || [];
+            const events = rawData?.scheduled_events || [];
+
+            // Compile concise executive context
+            const activeVipList = records.filter(r => r.is_vip && r.status_group !== 'Completed').slice(0, 15).map(r => 
+                `ID: ${r.ID} | Dept: ${r['Received From Department /Wing']} | Desig: ${r['Received From Officer designation ']} | Stage: ${r['Current Stage']} | Officer: ${r.officer_label} | Days: ${r.display_time_metric} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subject: ${r['Subject / Work Description']}`
+            ).join('\n');
+
+            const officerList = officers.map(o => `${o.officer}: Active ${o.pending + o.inprogress + (o.onhold || 0)} (Pending: ${o.pending}, InProg: ${o.inprogress}, Done: ${o.completed})`).join('\n');
+            const eventList = events.slice(0, 8).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
+
+            const systemPrompt = `You are the Executive AI Copilot for Andhra Pradesh Police Technical Services (PCS&S) Command Portal.
+You assist senior Indian Police Service (IPS) leadership (DGP, ADGP, SP Technical Services) with executive monitoring and decision support.
+Today's Date: ${new Date().toLocaleDateString('en-GB')}
+PORTAL LIVE CONTEXT:
+- Total Intake: ${records.length} files
+- Dispatched/Completed: ${kpis.completed} files
+- Active Pending Action: ${kpis.pending} files
+- Active In-Progress: ${kpis.inprogress} files
+- Stage N/A / Hold: ${kpis.onhold_closed || 0} files
+- Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days
+- VIP Correspondence: Total ${vip.total_count || 0} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
+ACTIVE VIP CORRESPONDENCE FILES:
+${activeVipList}
+OFFICER WORKLOADS:
+${officerList}
+SCHEDULED EVENTS & VCS:
+${eventList}
+
+INSTRUCTIONS:
+1. Address the senior officer respectfully ('Sir,' or 'Jai Hind, Sir.').
+2. Be crisp, authoritative, concise, and structured in bullet points.
+3. Cite File IDs exactly like TS-COR-2026-XXXX whenever referencing correspondence.
+4. If asked about something not in the context, politely state you only monitor portal correspondence.`;
+
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [
+                    {
+                        role: "user",
+                        parts: [
+                            { text: systemPrompt + "\n\nOFFICER QUESTION: " + userQuery }
+                        ]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.2,
+                    maxOutputTokens: 800
+                }
+            };
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const errJson = await res.json().catch(() => ({}));
+                    console.warn("Gemini API returned error:", errJson);
+                    return `⚠️ **Gemini Cloud Notice:** ${errJson.error?.message || 'API request error'}. Falling back to instant local intelligence:\n\n` + generateLocalAiResponse(userQuery);
+                }
+
+                const data = await res.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                return text || generateLocalAiResponse(userQuery);
+            } catch (err) {
+                console.error("Gemini fetch error:", err);
+                return `⚠️ **Gemini Connection Offline:** ${err.message}. Falling back to local intelligence:\n\n` + generateLocalAiResponse(userQuery);
+            }
+        }
+
+        async function handleAiSubmit(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('ai-user-input');
+            const query = (input?.value || '').trim();
+            if (!query) return;
+
+            input.value = '';
+            const container = document.getElementById('ai-chat-messages');
+
+            // 1. Add User Message Bubble
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = "flex items-start justify-end gap-2";
+            userMsgDiv.innerHTML = `
+                <div class="bg-blue-600 text-white rounded-2xl rounded-tr-sm p-3 text-xs leading-relaxed max-w-[85%] shadow-md">
+                    ${query}
+                </div>
+            `;
+            container.appendChild(userMsgDiv);
+            scrollAiChatToBottom();
+
+            // 2. Add Thinking / Loading Bubble
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = "ai-thinking-indicator";
+            thinkingDiv.className = "flex items-start gap-2.5";
+            thinkingDiv.innerHTML = `
+                <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 border border-blue-400/40 text-white font-bold text-xs shadow">
+                    AI
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-300 text-xs shadow-md flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span class="text-slate-400">Analyzing correspondence matrix...</span>
+                </div>
+            `;
+            container.appendChild(thinkingDiv);
+            scrollAiChatToBottom();
+
+            // 3. Fetch AI Response
+            const answer = await callGeminiApi(query);
+
+            // 4. Remove Thinking Bubble & Render Response
+            const thinkingEl = document.getElementById('ai-thinking-indicator');
+            if (thinkingEl) thinkingEl.remove();
+
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = "flex items-start gap-2.5";
+            botMsgDiv.innerHTML = `
+                <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 border border-blue-400/40 text-white font-bold text-xs shadow">
+                    AI
+                </div>
+                <div class="bg-slate-900/95 border border-slate-800 rounded-2xl rounded-tl-sm p-3.5 text-slate-200 text-xs leading-relaxed shadow-lg max-w-[85%] space-y-1">
+                    ${formatAiMessage(answer)}
+                </div>
+            `;
+            container.appendChild(botMsgDiv);
+            scrollAiChatToBottom();
+            lucide.createIcons();
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             fetchGoogleSheetData();
-            setInterval(() => fetchGoogleSheetData(false), 8000);
+            // Polling interval adjusted to 45 seconds to eliminate unnecessary network noise
+            setInterval(() => fetchGoogleSheetData(false), 45000);
+
+            // Initialize AI Copilot state
+            const savedKey = localStorage.getItem('ap_police_gemini_api_key');
+            const modelPill = document.getElementById('ai-model-pill');
+            if (modelPill) {
+                modelPill.innerText = savedKey ? "Gemini Cloud Live" : "Local Intelligence";
+            }
         });
     </script>
+
+    <!-- FLOATING AP POLICE TS EXECUTIVE AI COPILOT LAUNCHER -->
+    <div id="ai-chat-launcher" class="fixed bottom-5 right-20 z-40 no-print">
+        <button onclick="toggleAiChat()" id="ai-launcher-btn" title="Open AP Police TS AI Copilot (Powered by Google Gemini)" class="group px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 text-white font-bold text-xs shadow-2xl backdrop-blur-md transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-2 border border-white/20 hover:border-amber-300">
+            <div class="relative flex items-center justify-center">
+                <i data-lucide="bot" class="w-5 h-5 transition-transform group-hover:rotate-12"></i>
+                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full"></span>
+            </div>
+            <span class="font-extrabold tracking-wide hidden sm:inline">Executive AI Copilot</span>
+            <span class="px-1.5 py-0.2 rounded bg-amber-400/30 text-amber-200 text-[9.5px] font-mono">Gemini</span>
+        </button>
+    </div>
+
+    <!-- AI CHAT DRAWER / WINDOW -->
+    <div id="ai-chat-window" class="fixed bottom-20 right-5 sm:right-8 z-50 w-[95vw] sm:w-[440px] h-[580px] max-h-[85vh] glass-card rounded-2xl border border-indigo-500/40 shadow-2xl flex flex-col overflow-hidden hidden no-print backdrop-blur-xl bg-slate-950/95 transition-all duration-300">
+        
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950/80 to-slate-900 px-4 py-3 border-b border-indigo-500/30 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-2.5">
+                <img src="Police logo.jpeg" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-amber-400/80 shadow">
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <h3 class="text-xs font-bold text-white tracking-wide">TS Executive AI Copilot</h3>
+                        <span id="ai-model-pill" class="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">Local Intelligence</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-[10px] text-slate-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>Live Correspondence Radar Active</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-1">
+                <button onclick="toggleAiSettings()" title="API Key Settings" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+                <button onclick="clearAiChat()" title="Clear Conversation" class="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="toggleAiChat()" title="Minimize" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- API Key Settings Panel (Collapsible) -->
+        <div id="ai-settings-panel" class="hidden bg-slate-900/95 border-b border-slate-800 p-3 space-y-2 text-xs shrink-0">
+            <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-200 flex items-center gap-1">
+                    <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+                    Google Gemini API Key (Free Tier)
+                </span>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-blue-400 hover:underline flex items-center gap-0.5">
+                    <span>Get Free Key ↗</span>
+                </a>
+            </div>
+            <div class="flex gap-2">
+                <input type="password" id="ai-api-key-input" placeholder="Paste AI Studio Key (AIzaSy...)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+                <button onclick="saveAiApiKey()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs transition">Save</button>
+            </div>
+            <p class="text-[10px] text-slate-400 leading-tight">Key is stored strictly in your browser's localStorage. If left blank, Copilot operates with the built-in Local Intelligence Engine.</p>
+        </div>
+
+        <!-- Quick Prompt Chips Carousel -->
+        <div class="px-3 py-2 bg-slate-950/70 border-b border-slate-800/80 overflow-x-auto flex items-center gap-1.5 shrink-0 text-[10.5px] no-scrollbar">
+            <button onclick="sendQuickPrompt('Give me a 3-bullet executive briefing of today\'s correspondence status')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-blue-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                📊 Executive Brief
+            </button>
+            <button onclick="sendQuickPrompt('List all active VIP files pending resolution with their stages and officers')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-amber-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                ⭐ Overdue VIP Files
+            </button>
+            <button onclick="sendQuickPrompt('Which officers have the highest pending workloads right now?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-indigo-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                👮 Officer Workloads
+            </button>
+            <button onclick="sendQuickPrompt('Are there any scheduled meetings, workshops, or video conferences upcoming?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-emerald-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                📅 Scheduled VCs
+            </button>
+            <button onclick="sendQuickPrompt('What is our SLA compliance rate and average turnaround time?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-cyan-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                ⚡ SLA Report
+            </button>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 text-xs">
+            <!-- Default Welcome Message -->
+            <div class="flex items-start gap-2.5">
+                <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 border border-blue-400/40 text-white font-bold text-xs shadow">
+                    AI
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-200 space-y-1.5 shadow-md max-w-[85%]">
+                    <p class="font-semibold text-white">Jai Hind, Sir.</p>
+                    <p>I am your <strong>Technical Services (PCS&S) AI Copilot</strong>. I have real-time visibility into all 60 correspondence records, 40 VIP files, officer workloads, and upcoming scheduled events.</p>
+                    <p class="text-[11px] text-slate-400">Ask any question or tap a prompt chip above to get an instant executive answer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input Area with Voice & Send -->
+        <div class="p-2.5 bg-slate-900/95 border-t border-slate-800 shrink-0">
+            <form id="ai-chat-form" onsubmit="handleAiSubmit(event)" class="flex items-center gap-1.5">
+                <div class="relative flex-1">
+                    <input type="text" id="ai-user-input" placeholder="Ask about files, officers, VCs, VIP stages..." class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-3 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition" autocomplete="off">
+                    <button type="button" onclick="startVoiceRecognition()" id="ai-voice-btn" title="Voice Input (Click to speak)" class="absolute right-2 top-2 text-slate-400 hover:text-amber-400 transition">
+                        <i data-lucide="mic" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <button type="submit" id="ai-send-btn" class="p-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl transition shadow active:scale-95 flex items-center justify-center shrink-0">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- FLOATING CORNER QUICK THEME SWITCH TOGGLE (ONLY TOGGLE) -->
     <div class="fixed bottom-5 right-5 z-40 no-print">
