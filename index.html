@@ -3920,14 +3920,17 @@
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
 
+            // Markdown headings (### or ##)
+            html = html.replace(/^#{1,4}\s+(.+)$/gm, '<div class="font-bold text-amber-400 mt-2 mb-0.5">$1</div>');
             // Bold **text**
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Bullet points (run before single-* italic so bullet asterisks aren't treated as italics)
+            html = html.replace(/^\s*[•\-\*]\s+(.+)$/gm, '<div class="flex items-start gap-1.5 my-0.5"><span class="text-amber-400 font-bold">•</span><span>$1</span></div>');
             // Italic *text*
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            // Bullet points
-            html = html.replace(/^[•\-\*]\s+(.+)$/gm, '<div class="flex items-start gap-1.5 my-0.5"><span class="text-amber-400 font-bold">•</span><span>$1</span></div>');
+            html = html.replace(/\*([^\*\n]+)\*/g, '<em>$1</em>');
             // Line breaks
             html = html.replace(/\n/g, '<br>');
+            html = html.replace(/<\/div><br>/g, '</div>');
             // Clickable File IDs
             html = html.replace(/(TS-COR-2026-\d{4})/g, '<span onclick="openModal(\'$1\')" class="font-mono text-cyan-400 font-bold underline cursor-pointer hover:text-cyan-300" title="Click to view file details">$1</span>');
 
@@ -4003,38 +4006,74 @@
                            `• **Subject:** ${file['Subject / Work Description']}\n` +
                            (file.is_vip ? `• **VIP Priority:** Yes (⭐)\n` : '') +
                            (file.is_vip_followup ? `• **⚠️ Warning:** Urgent department follow-up required!\n` : '') +
-                           `\n_Click the File ID above to inspect full 21-column correspondence history._`;
+                           `\n*Click the File ID above to inspect full 21-column correspondence history.*`;
                 }
             }
 
-            // 2. VIP / Critical Files Query
+            // 2. Specific Officer Name Lookup (e.g. Anoj, Anuj, Kalpana, Aditya, Mohan, Satish, Sadhik, Vijaya, Ravi, Sudharshana, Sreekanth)
+            const normQuery = q.replace(/\banuj\b/g, 'anoj').replace(/\bsadiq\b/g, 'sadhik').replace(/\bsrikanth\b/g, 'sreekanth').replace(/\bsudarshan\b/g, 'sudharshana');
+            const matchedOfficer = officers.find(o => {
+                if (!o.officer || o.officer === 'Unassigned') return false;
+                const offLower = o.officer.toLowerCase();
+                const tokens = offLower.replace(/[^a-z0-9\s-]/g, ' ').split(/\s+/).filter(t => t.length >= 3 && !['pro', 'kumar', 'reddy', 'sri', 'smt'].includes(t));
+                return tokens.some(t => normQuery.includes(t));
+            });
+
+            if (matchedOfficer) {
+                const offName = matchedOfficer.officer;
+                const offFiles = records.filter(r => r.officer_label === offName);
+                const activeFiles = offFiles.filter(r => r.status_group === 'Pending' || r.status_group === 'In-Progress');
+                const completedFiles = offFiles.filter(r => r.status_group === 'Completed');
+                const vipCount = offFiles.filter(r => r.is_vip).length;
+
+                let resp = `Sir, here is the complete work portfolio for **${offName}**:\n\n` +
+                           `• **Total Assigned:** ${offFiles.length} Files (🟢 ${completedFiles.length} Completed | 🟡 ${matchedOfficer.pending} Pending | 🔵 ${matchedOfficer.inprogress} In-Progress | ⭐ ${vipCount} VIP)\n`;
+
+                if (activeFiles.length > 0) {
+                    resp += `\n### Active Works (${activeFiles.length} Files)\n`;
+                    activeFiles.slice(0, 10).forEach(f => {
+                        resp += `• **${f.ID}** [${f.project_label || 'Misc'}] — *${f['Current Stage']}* (${f.display_time_metric || 'Active'}): ${f['Subject / Work Description']}\n`;
+                    });
+                    if (activeFiles.length > 10) resp += `• *...and ${activeFiles.length - 10} more active files.*\n`;
+                }
+                if (completedFiles.length > 0) {
+                    resp += `\n### Completed / Dispatched (${completedFiles.length} Files)\n`;
+                    completedFiles.slice(0, 6).forEach(f => {
+                        resp += `• **${f.ID}** [${f.project_label || 'Misc'}]: ${f['Subject / Work Description']}\n`;
+                    });
+                    if (completedFiles.length > 6) resp += `• *...and ${completedFiles.length - 6} more completed files.*\n`;
+                }
+                return resp;
+            }
+
+            // 3. VIP / Critical Files Query
             if (q.includes('vip') || q.includes('critical') || q.includes('urgent') || q.includes('dgp') || q.includes('high court')) {
                 const activeVip = records.filter(r => r.is_vip && r.status_group !== 'Completed');
                 if (activeVip.length === 0) {
                     return "Sir, there are currently **no active VIP files pending resolution**. All VIP correspondence has been processed or dispatched.";
                 }
                 let resp = `Sir, there are **${activeVip.length} active VIP files** currently requiring attention:\n\n`;
-                activeVip.slice(0, 5).forEach((f, idx) => {
+                activeVip.slice(0, 6).forEach((f, idx) => {
                     resp += `${idx + 1}. **${f.ID}** [${f.project_label || 'Misc'}]\n` +
                             `   • From: ${f['Received From Department /Wing']} (${f['Received From Officer designation '] || ''})\n` +
                             `   • Stage: ${f['Current Stage']} (${f.display_time_metric})\n` +
                             `   • Officer: ${f.officer_label}\n` +
                             (f.is_vip_followup ? `   • 🚨 Urgent Follow-Up Required with Dept\n` : '');
                 });
-                if (activeVip.length > 5) {
-                    resp += `\n_...and ${activeVip.length - 5} more VIP files. You can view all in the ⭐ VIP Command Tab._`;
+                if (activeVip.length > 6) {
+                    resp += `\n*...and ${activeVip.length - 6} more VIP files. You can view all in the ⭐ VIP Command Tab.*`;
                 }
                 return resp;
             }
 
-            // 3. Meetings / Events / VC Query
+            // 4. Meetings / Events / VC Query
             if (q.includes('meeting') || q.includes('vc') || q.includes('event') || q.includes('seminar') || q.includes('workshop') || q.includes('tomorrow') || q.includes('today')) {
                 const upcoming = events.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed');
                 if (upcoming.length === 0) {
                     return "Sir, there are **no scheduled meetings, video conferences, or workshops** listed on the calendar right now.";
                 }
                 let resp = `Sir, here are the **upcoming scheduled meetings & VCs** (${upcoming.length} total):\n\n`;
-                upcoming.slice(0, 4).forEach((e, idx) => {
+                upcoming.slice(0, 5).forEach((e, idx) => {
                     resp += `${idx + 1}. 📅 **${e.nature_of_request || 'Event'}**: **${e.id}**\n` +
                             `   • Date: ${e.due_date_raw} (${e.event_timing_label || 'TBA'})\n` +
                             `   • Officer: ${e.officer}\n` +
@@ -4044,19 +4083,19 @@
                 return resp;
             }
 
-            // 4. Officer Workloads Query
-            if (q.includes('officer') || q.includes('workload') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si')) {
+            // 5. General Officer Workloads Query
+            if (q.includes('officer') || q.includes('workload') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si') || q.includes('ci')) {
                 const activeOfficers = officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a,b) => (b.pending + b.inprogress) - (a.pending + a.inprogress));
                 let resp = `Sir, here is the **active officer workload breakdown**:\n\n`;
                 activeOfficers.forEach((o, idx) => {
                     const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                    resp += `${idx + 1}. **${o.officer}**: **${actTotal} Active Files** (🟡 ${o.pending} Pending, 🔵 ${o.inprogress} In-Prog)\n`;
+                    resp += `${idx + 1}. **${o.officer}**: **${actTotal} Active Files** (🟡 ${o.pending} Pending, 🔵 ${o.inprogress} In-Prog, 🟢 ${o.completed} Done)\n`;
                 });
                 resp += `\nTotal pending queue across all officers: **${kpis.pending} files**.`;
                 return resp;
             }
 
-            // 5. General Brief / Status / SLA / Default
+            // 6. General Brief / Status / SLA / Default
             const total = records.length;
             const clearance = total > 0 ? Math.round(((kpis.completed || 0) / total) * 100) : 0;
             return `Sir, here is the **Executive Status Briefing**:\n\n` +
@@ -4066,10 +4105,10 @@
                    `• **🔵 Active In-Progress:** ${kpis.inprogress} Files\n` +
                    `• **⭐ VIP Files:** ${vip.total_count || 0} Files (${vip.active_count || 0} Active)\n` +
                    `• **⚡ Average Resolution TAT:** ${kpis.avg_tat_days || kpis.avg_tat || 0} Days\n\n` +
-                   `You may ask me about any **File ID** (e.g. \`TS-COR-2026-0001\`), specific **officers**, **VIP files**, or upcoming **VC meetings**.`;
+                   `You may ask me about any **Officer** (e.g. *Anoj*, *Kalpana*, *Mohan*), **File ID** (e.g. \`TS-COR-2026-0001\`), **VIP files**, or **VC meetings**.`;
         }
 
-        // Live Google Gemini API Caller
+        // Live Google Gemini API Caller with Full 67-Record Context & Multi-Model Failover
         async function callGeminiApi(userQuery) {
             const apiKey = getActiveGeminiKey();
             if (!apiKey) {
@@ -4082,39 +4121,40 @@
             const officers = rawData?.officers || [];
             const events = rawData?.scheduled_events || [];
 
-            // Compile concise executive context
-            const activeVipList = records.filter(r => r.is_vip && r.status_group !== 'Completed').slice(0, 20).map(r => 
-                `ID: ${r.ID} | Dept: ${r['Received From Department /Wing']} | Desig: ${r['Received From Officer designation ']} | Stage: ${r['Current Stage']} | Officer: ${r.officer_label} | Days: ${r.display_time_metric} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subject: ${r['Subject / Work Description']}`
+            // Compile ALL correspondence records so Gemini knows every single officer's works, projects, stages, and subjects
+            const allRecordsText = records.map(r => 
+                `${r.ID} | Off: ${r.officer_label || 'Unassigned'} | Proj: ${r.project_label || 'Misc'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || ''} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
             ).join('\n');
 
-            const officerList = officers.map(o => `${o.officer}: Active ${o.pending + o.inprogress + (o.onhold || 0)} (Pending: ${o.pending}, InProg: ${o.inprogress}, Done: ${o.completed})`).join('\n');
-            const eventList = events.slice(0, 10).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
+            const officerList = officers.map(o => `${o.officer}: Total ${o.total} (ActivePending: ${o.pending}, InProg: ${o.inprogress}, Completed: ${o.completed}, Hold: ${o.onhold || 0})`).join('\n');
+            const eventList = events.slice(0, 15).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
+
+            const recentHistory = aiChatHistory.slice(-4).map(h => `Officer: ${h.q}\nCopilot: ${h.a}`).join('\n\n');
 
             const systemPrompt = `You are the Executive AI Copilot for Andhra Pradesh Police Technical Services (PCS&S) Command Portal.
 You assist senior Indian Police Service (IPS) leadership (DGP, ADGP, SP Technical Services) with executive monitoring and decision support.
 Today's Date: ${new Date().toLocaleDateString('en-GB')}
-PORTAL LIVE CONTEXT:
-- Total Intake: ${records.length} files
-- Dispatched/Completed: ${kpis.completed} files
-- Active Pending Action: ${kpis.pending} files
-- Active In-Progress: ${kpis.inprogress} files
-- Stage N/A / Hold: ${kpis.onhold_closed || 0} files
+
+PORTAL LIVE SUMMARY:
+- Total Intake: ${records.length} files | Completed: ${kpis.completed} | Pending: ${kpis.pending} | In-Progress: ${kpis.inprogress} | Hold/NA: ${kpis.onhold_closed || 0}
 - Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days
 - VIP Correspondence: Total ${vip.total_count || 0} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
-ACTIVE VIP CORRESPONDENCE FILES:
-${activeVipList}
-OFFICER WORKLOADS:
+
+OFFICER WORKLOAD SUMMARY:
 ${officerList}
+
 SCHEDULED EVENTS & VCS:
 ${eventList}
 
-INSTRUCTIONS:
-1. Address the senior officer respectfully ('Sir,' or 'Jai Hind, Sir.').
-2. Be crisp, authoritative, concise, and structured in bullet points.
-3. Cite File IDs exactly like TS-COR-2026-XXXX whenever referencing correspondence.
-4. If asked about something not in the context, politely state you only monitor portal correspondence.`;
+COMPLETE CORRESPONDENCE DATABASE (ALL ${records.length} FILES):
+${allRecordsText}
 
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+${recentHistory ? 'RECENT CONVERSATION CONTEXT:\n' + recentHistory + '\n' : ''}
+INSTRUCTIONS:
+1. Address the senior officer respectfully ('Sir,').
+2. Answer the exact question asked using the COMPLETE CORRESPONDENCE DATABASE above. Note that 'Anoj' or 'Anuj' refers to 'PRO-136 - T. Anoj Kumar (SI)'.
+3. Be crisp, authoritative, and structured with clear headings (### Heading) and bullet points (• ).
+4. Always cite File IDs exactly like TS-COR-2026-XXXX so they become clickable links in the UI.`;
 
             const payload = {
                 contents: [
@@ -4127,30 +4167,48 @@ INSTRUCTIONS:
                 ],
                 generationConfig: {
                     temperature: 0.2,
-                    maxOutputTokens: 800
+                    maxOutputTokens: 2048
                 }
             };
 
-            try {
-                const res = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+            // High-availability cascade across verified fast Gemini models to avoid 503 server busy errors
+            const models = [
+                'gemini-flash-lite-latest',
+                'gemini-3.1-flash-lite',
+                'gemma-4-26b-a4b-it',
+                'gemini-flash-latest'
+            ];
 
-                if (!res.ok) {
-                    const errJson = await res.json().catch(() => ({}));
-                    console.warn("Gemini API returned error:", errJson);
-                    return generateLocalAiResponse(userQuery);
+            for (const modelName of models) {
+                try {
+                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+                    const res = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!res.ok) {
+                        console.warn(`Model ${modelName} returned HTTP ${res.status}, trying next...`);
+                        continue;
+                    }
+
+                    const data = await res.json();
+                    const parts = data.candidates?.[0]?.content?.parts || [];
+                    const text = parts.map(p => p.text || '').join('').trim();
+                    if (text) {
+                        aiChatHistory.push({ q: userQuery, a: text });
+                        return text;
+                    }
+                } catch (err) {
+                    console.warn(`Model ${modelName} fetch error:`, err);
                 }
-
-                const data = await res.json();
-                const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                return text || generateLocalAiResponse(userQuery);
-            } catch (err) {
-                console.error("Gemini fetch error:", err);
-                return generateLocalAiResponse(userQuery);
             }
+
+            // Fallback to Local Intelligence Engine only if all cloud models are unreachable
+            const localAns = generateLocalAiResponse(userQuery);
+            aiChatHistory.push({ q: userQuery, a: localAns });
+            return localAns;
         }
 
         async function handleAiSubmit(e) {
