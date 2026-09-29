@@ -316,7 +316,7 @@ def calculate_analytics_from_records(records):
         x['event_delta_days'] if 0 <= x['event_delta_days'] < 9999 else (-x['event_delta_days'] if x['event_delta_days'] < 0 else 0)
     ))
 
-    upcoming_events_count = sum(1 for e in scheduled_events if e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')
+    upcoming_events_count = sum(1 for e in scheduled_events if e['status_group'] != 'On Hold / Closed' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed'))
 
     # Overall KPIs
     total_records = len(records)
@@ -640,7 +640,7 @@ def calculate_analytics_from_records(records):
         "───────────────────────────────"
     ]
 
-    active_events = [e for e in scheduled_events if e['event_delta_days'] >= 0 or e['status_group'] != 'Completed']
+    active_events = [e for e in scheduled_events if e['status_group'] != 'On Hold / Closed' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')]
     if not active_events:
         events_lines.append("")
         events_lines.append("• No upcoming scheduled meetings/workshops at present.")

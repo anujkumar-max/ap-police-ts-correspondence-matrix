@@ -928,8 +928,8 @@
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3 shadow-lg">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     
-                    <!-- Timing Switcher (Upcoming vs Today/Tomorrow vs All) -->
-                    <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                    <!-- Timing Switcher (Upcoming vs Today/Tomorrow vs Cancelled vs All) -->
+                    <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 flex-wrap">
                         <button onclick="filterEventsTiming('upcoming')" id="event-timing-btn-upcoming" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
                             <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                             <span>⏳ Upcoming / Active (<span id="event-count-upcoming">--</span>)</span>
@@ -937,6 +937,10 @@
                         <button onclick="filterEventsTiming('urgent')" id="event-timing-btn-urgent" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i>
                             <span>Today & Tomorrow</span>
+                        </button>
+                        <button onclick="filterEventsTiming('cancelled')" id="event-timing-btn-cancelled" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <i data-lucide="x-circle" class="w-3.5 h-3.5 text-rose-400"></i>
+                            <span>🚫 Cancelled (<span id="event-count-cancelled">--</span>)</span>
                         </button>
                         <button onclick="filterEventsTiming('all')" id="event-timing-btn-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
@@ -2059,7 +2063,7 @@
                             return (0 <= a.event_delta_days && a.event_delta_days < 9999) ? (a.event_delta_days - b.event_delta_days) : (b.event_delta_days - a.event_delta_days);
                         });
 
-                        const upcomingEventsCount = scheduledEvents.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed').length;
+                        const upcomingEventsCount = scheduledEvents.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
 
                         resolve({
                             status: 'success',
@@ -3119,7 +3123,7 @@
             waEvents += `📌 *SCHEDULED EVENTS & MEETINGS:*\n`;
             waEvents += `───────────────────────────────\n`;
 
-            const eventsList = (rawData.scheduled_events || []).filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed');
+            const eventsList = (rawData.scheduled_events || []).filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
             if (eventsList.length === 0) {
                 waEvents += `\n• No upcoming scheduled meetings/workshops at present.\n`;
             } else {
@@ -3206,6 +3210,7 @@
             currentEventTimingFilter = mode;
             const upBtn = document.getElementById('event-timing-btn-upcoming');
             const urgBtn = document.getElementById('event-timing-btn-urgent');
+            const canBtn = document.getElementById('event-timing-btn-cancelled');
             const allBtn = document.getElementById('event-timing-btn-all');
 
             const activeClass = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
@@ -3213,6 +3218,7 @@
 
             if (upBtn) upBtn.className = mode === 'upcoming' ? activeClass : inactiveClass;
             if (urgBtn) urgBtn.className = mode === 'urgent' ? activeClass : inactiveClass;
+            if (canBtn) canBtn.className = mode === 'cancelled' ? activeClass.replace('bg-amber-500', 'bg-rose-500').replace('text-slate-950', 'text-white') : inactiveClass;
             if (allBtn) allBtn.className = mode === 'all' ? activeClass : inactiveClass;
 
             applyEventFilters();
@@ -3227,19 +3233,29 @@
             const project = document.getElementById('filter-event-project')?.value || '';
 
             const allEvents = rawData.scheduled_events;
-            const upcomingCount = allEvents.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed').length;
+            const cancelledEvents = allEvents.filter(e => e.status_group === 'On Hold / Closed');
+            const upcomingCount = allEvents.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+            const cancelledCount = cancelledEvents.length;
             const totalCount = allEvents.length;
 
             const upCountEl = document.getElementById('event-count-upcoming');
+            const canCountEl = document.getElementById('event-count-cancelled');
             const allCountEl = document.getElementById('event-count-all');
             if (upCountEl) upCountEl.innerText = upcomingCount;
+            if (canCountEl) canCountEl.innerText = cancelledCount;
             if (allCountEl) allCountEl.innerText = totalCount;
 
             const filtered = allEvents.filter(e => {
                 if (currentEventTimingFilter === 'upcoming') {
+                    // Exclude cancelled/on-hold events AND past completed events
+                    if (e.status_group === 'On Hold / Closed') return false;
                     if (e.event_delta_days < 0 && e.status_group === 'Completed') return false;
                 } else if (currentEventTimingFilter === 'urgent') {
+                    if (e.status_group === 'On Hold / Closed') return false;
                     if (e.event_delta_days !== 0 && e.event_delta_days !== 1) return false;
+                } else if (currentEventTimingFilter === 'cancelled') {
+                    // Show ONLY cancelled/on-hold events
+                    if (e.status_group !== 'On Hold / Closed') return false;
                 }
 
                 if (nature) {
@@ -3276,11 +3292,16 @@
             if (!grid) return;
 
             if (filtered.length === 0) {
+                const emptyIcon = currentEventTimingFilter === 'cancelled' ? 'check-circle' : 'calendar-x-2';
+                const emptyTitle = currentEventTimingFilter === 'cancelled' ? 'No Cancelled Events ✅' : 'No Scheduled Events Found';
+                const emptyMsg = currentEventTimingFilter === 'cancelled' 
+                    ? 'No events have been cancelled. All events are active / on schedule.' 
+                    : 'No meetings, seminars, or workshops match your current filter criteria.';
                 grid.innerHTML = `
                     <div class="col-span-full py-12 text-center glass-card rounded-2xl p-6 border border-slate-800 space-y-2">
-                        <i data-lucide="calendar-x-2" class="w-10 h-10 text-slate-500 mx-auto"></i>
-                        <h4 class="text-sm font-bold text-white">No Scheduled Events Found</h4>
-                        <p class="text-xs text-slate-400">No meetings, seminars, or workshops match your current filter criteria.</p>
+                        <i data-lucide="${emptyIcon}" class="w-10 h-10 ${currentEventTimingFilter === 'cancelled' ? 'text-emerald-400' : 'text-slate-500'} mx-auto"></i>
+                        <h4 class="text-sm font-bold text-white">${emptyTitle}</h4>
+                        <p class="text-xs text-slate-400">${emptyMsg}</p>
                     </div>
                 `;
                 lucide.createIcons();
@@ -3318,8 +3339,15 @@
                     timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 text-[10px] border border-slate-700">Concluded (${ev.event_timing_label})</span>`;
                 }
 
+                // Override styling for cancelled / on-hold events
+                const isCancelled = ev.status_group === 'On Hold / Closed';
+                if (isCancelled) {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600/25 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>🚫 CANCELLED</span>`;
+                    cardAccent = 'border-rose-500/40';
+                }
+
                 return `
-                    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md">
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border ${isCancelled ? 'border-rose-900/60 opacity-75' : 'border-slate-800'} hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md ${isCancelled ? 'relative' : ''}">${isCancelled ? '<div class="absolute top-2 right-2 bg-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">CANCELLED</div>' : ''}
                         <div class="flex items-start justify-between gap-2">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${natureBadgeColor}">
                                 <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
@@ -4075,11 +4103,13 @@
 
             // 4. Meetings / Events / VC Query
             if (q.includes('meeting') || q.includes('vc') || q.includes('event') || q.includes('seminar') || q.includes('workshop') || q.includes('tomorrow') || q.includes('today')) {
-                const upcoming = events.filter(e => e.event_delta_days >= 0 || e.status_group !== 'Completed');
+                const upcoming = events.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
+                const cancelledEvts = events.filter(e => e.status_group === 'On Hold / Closed');
                 if (upcoming.length === 0) {
-                    return "Sir, there are **no scheduled meetings, video conferences, or workshops** listed on the calendar right now.";
+                    return "Sir, there are **no scheduled meetings, video conferences, or workshops** listed on the calendar right now." +
+                        (cancelledEvts.length > 0 ? ` (Note: ${cancelledEvts.length} event(s) have been **cancelled**.)` : '');
                 }
-                let resp = `Sir, here are the **upcoming scheduled meetings & VCs** (${upcoming.length} total):\n\n`;
+                let resp = `Sir, here are the **upcoming scheduled meetings & VCs** (${upcoming.length} active):\n\n`;
                 upcoming.slice(0, 5).forEach((e, idx) => {
                     resp += `${idx + 1}. 📅 **${e.nature_of_request || 'Event'}**: **${e.id}**\n` +
                             `   • Date: ${e.due_date_raw} (${e.event_timing_label || 'TBA'})\n` +
@@ -4087,6 +4117,7 @@
                             `   • Topic: ${e.subject}\n` +
                             (e.remarks ? `   • Link/Venue: ${e.remarks}\n` : '');
                 });
+                if (cancelledEvts.length > 0) resp += `\n🚫 **${cancelledEvts.length} event(s) cancelled** — visible under the Cancelled tab in Events section.`;
                 return resp;
             }
 
