@@ -1515,11 +1515,11 @@
         const VIP_STAGES = ['file with dgp', 'file with govt', 'pending for dgp approval', 'pending with dgp', 'pending for dgp'];
         const VIP_DESIGS = [
             'dgp', 'director general of police',
-            'secretary to the govt of ap', 'secretary to the govt. of ap', 'secretary to the govt.of ap', 'secreatry to govt of india', 'secretary to govt',
+            'secretary', 'secreatry',
             'principal secretary', 'chief secretary', 'cs to the govt', 'cs to govt',
-            'registar highcourt', 'registrar it high court', 'registrar high court', 'registrar',
-            'adg', 'addl.director general of police', 'additional director general of police', 'addl.director general',
-            'igp', 'inspector general of police', 'deputy inspector general of police', 'deputy inspector general',
+            'registrar', 'registar',
+            'adg', 'addl.director general', 'additional director general',
+            'igp', 'inspector general of police', 'deputy inspector general',
             'deputy director'
         ];
 
@@ -1684,15 +1684,19 @@
                             });
 
                             if (hasData) {
-                                const recvRaw = rowDict['Date & Time Received to office'] || rowDict['Date Received to office'] || rowDict['Date Received'] || '';
+                                const recvRaw = rowDict['Date & Time Received in Office'] || rowDict['Date & Time Received to office'] || rowDict['Date Received in Office'] || rowDict['Date Received to office'] || rowDict['Date Received'] || '';
                                 rowDict['Date Received to office'] = recvRaw;
+                                rowDict['Date & Time Received in Office'] = recvRaw;
                                 const dRecv = parseIndianDate(recvRaw);
                                 
                                 const origRaw = rowDict['Original Date of Letter/Mail'] || rowDict['Original Date'] || '';
                                 rowDict['Original Date of Letter/Mail'] = origRaw;
                                 const dOrig = parseIndianDate(origRaw);
 
-                                const dClose = parseIndianDate(rowDict['Final Closure Date']) || parseIndianDate(rowDict['Dispatched Date']);
+                                const dispRaw = rowDict['File Dispatched Date'] || rowDict['Dispatched Date'] || '';
+                                rowDict['Dispatched Date'] = dispRaw;
+                                rowDict['File Dispatched Date'] = dispRaw;
+                                const dClose = parseIndianDate(rowDict['Final Closure Date']) || parseIndianDate(dispRaw);
 
                                 const effectiveStart = dRecv || dOrig;
 
@@ -1711,13 +1715,16 @@
                                 rowDict['project_name'] = prjInfo.name;
                                 rowDict['project_label'] = prjInfo.label;
 
-                                const deptRaw = cleanText(rowDict['Received From Department /Wing'] || rowDict['Received From Department'] || '');
+                                const deptRaw = cleanText(rowDict['Initiating Department / Wing'] || rowDict['Initiating Department /Wing'] || rowDict['Received From Department /Wing'] || rowDict['Received From Department'] || '');
                                 rowDict['Received From Department /Wing'] = deptRaw;
+                                rowDict['Initiating Department / Wing'] = deptRaw;
 
-                                const desigRaw = cleanText(rowDict['Received From Officer designation '] || rowDict['Received From Officer designation'] || rowDict['Received From Officer Designation'] || '');
+                                const desigRaw = cleanText(rowDict['Initiating Officer Designation'] || rowDict['Initiating Officer designation'] || rowDict['Received From Officer designation '] || rowDict['Received From Officer designation'] || rowDict['Received From Officer Designation'] || '');
                                 rowDict['Received From Officer designation '] = desigRaw;
+                                rowDict['Initiating Officer Designation'] = desigRaw;
 
-                                rowDict['Source'] = cleanText(rowDict['Source'] || '');
+                                rowDict['Source'] = cleanText(rowDict['Source / Instructing Officer'] || rowDict['Source'] || '');
+                                rowDict['Source / Instructing Officer'] = rowDict['Source'];
                                 rowDict['Received Through'] = cleanText(rowDict['Received Through'] || rowDict['Received Through '] || '');
 
                                 const followupRaw = cleanText(rowDict['Further Fallow up Required with Concerned Department '] || rowDict['Further Fallow up Required with Concerned Department'] || rowDict['Further Follow up Required with Concerned Department '] || rowDict['Further Follow up Required with Concerned Department'] || rowDict['Further Follow-up Required'] || '');

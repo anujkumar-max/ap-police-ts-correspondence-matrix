@@ -24,11 +24,11 @@ VIP_DEPTS = ['dgp', 'high court', 'highcourt', 'rtgs', 'ite&c', 'ite & c', 'mha'
 VIP_STAGES = ['file with dgp', 'file with govt', 'pending for dgp approval', 'pending with dgp', 'pending for dgp']
 VIP_DESIGS = [
     'dgp', 'director general of police',
-    'secretary to the govt of ap', 'secretary to the govt. of ap', 'secretary to the govt.of ap', 'secreatry to govt of india', 'secretary to govt',
+    'secretary', 'secreatry',
     'principal secretary', 'chief secretary', 'cs to the govt', 'cs to govt',
-    'registar highcourt', 'registrar it high court', 'registrar high court', 'registrar',
-    'adg', 'addl.director general of police', 'additional director general of police', 'addl.director general',
-    'igp', 'inspector general of police', 'deputy inspector general of police', 'deputy inspector general',
+    'registrar', 'registar',
+    'adg', 'addl.director general', 'additional director general',
+    'igp', 'inspector general of police', 'deputy inspector general',
     'deputy director'
 ]
 
@@ -105,8 +105,9 @@ def calculate_analytics_from_records(records):
     today_display = datetime.now().strftime("%d-%m-%Y | %I:%M %p")
 
     for r in records:
-        recv_raw = r.get('Date & Time Received to office') or r.get('Date Received to office') or r.get('Date Received') or ''
+        recv_raw = r.get('Date & Time Received in Office') or r.get('Date & Time Received to office') or r.get('Date Received in Office') or r.get('Date Received to office') or r.get('Date Received') or ''
         r['Date Received to office'] = recv_raw
+        r['Date & Time Received in Office'] = recv_raw
         d_recv = parse_indian_date(recv_raw)
         
         orig_raw = r.get('Original Date of Letter/Mail') or r.get('Original Date') or ''
@@ -114,7 +115,9 @@ def calculate_analytics_from_records(records):
         d_orig = parse_indian_date(orig_raw)
 
         close_raw = r.get('Final Closure Date') or ''
-        disp_raw = r.get('Dispatched Date') or ''
+        disp_raw = r.get('File Dispatched Date') or r.get('Dispatched Date') or ''
+        r['Dispatched Date'] = disp_raw
+        r['File Dispatched Date'] = disp_raw
         d_close = parse_indian_date(close_raw) or parse_indian_date(disp_raw)
 
         effective_start = d_recv or d_orig
@@ -134,14 +137,17 @@ def calculate_analytics_from_records(records):
         r['project_name'] = prj_info['name']
         r['project_label'] = prj_info['label']
 
-        r['Source'] = clean_text(r.get('Source') or '')
+        r['Source'] = clean_text(r.get('Source / Instructing Officer') or r.get('Source') or '')
+        r['Source / Instructing Officer'] = r['Source']
         r['Received Through'] = clean_text(r.get('Received Through') or r.get('Received Through ') or '')
 
-        dept_raw = clean_text(r.get('Received From Department /Wing') or r.get('Received From Department') or r.get('Received From Department / Wing') or '')
+        dept_raw = clean_text(r.get('Initiating Department / Wing') or r.get('Initiating Department /Wing') or r.get('Received From Department /Wing') or r.get('Received From Department') or r.get('Received From Department / Wing') or '')
         r['Received From Department /Wing'] = dept_raw
+        r['Initiating Department / Wing'] = dept_raw
 
-        desig_raw = clean_text(r.get('Received From Officer designation ') or r.get('Received From Officer designation') or r.get('Received From Officer Designation') or '')
+        desig_raw = clean_text(r.get('Initiating Officer Designation') or r.get('Initiating Officer designation') or r.get('Received From Officer designation ') or r.get('Received From Officer designation') or r.get('Received From Officer Designation') or '')
         r['Received From Officer designation '] = desig_raw
+        r['Initiating Officer Designation'] = desig_raw
 
         nature_raw = clean_text(r.get('Nature of Request') or r.get('Nature of request') or r.get('Nature') or '')
         r['nature_of_request'] = nature_raw if nature_raw != 'N/A' else 'General Action'
