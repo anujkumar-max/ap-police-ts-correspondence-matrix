@@ -8,10 +8,10 @@
     <link rel="icon" type="image/jpeg" href="Police logo.jpeg">
     <!-- Early Theme Initializer to prevent flash -->
     <script>
-        if (localStorage.getItem('ts_dashboard_theme') === 'light') {
-            document.documentElement.classList.add('light');
-        } else {
+        if (localStorage.getItem('ts_dashboard_theme') === 'dark') {
             document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.add('light');
         }
     </script>
     <!-- Tailwind CSS CDN -->
@@ -92,27 +92,80 @@
             background: #3b82f6;
         }
 
+        /* ================= RICOCHET360 ENTERPRISE DASHBOARD THEME ================= */
+        .ricochet-topbar {
+            background-color: #001b44 !important;
+            border-bottom: 1px solid #0b2e63 !important;
+        }
+        .ricochet-sidebar {
+            background: linear-gradient(180deg, #07377a 0%, #052c65 100%) !important;
+            border-right: 1px solid #0b2e63 !important;
+        }
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.5rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.82) !important;
+            transition: all 0.18s ease;
+            width: 100%;
+            text-align: left;
+        }
+        .sidebar-nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+        .sidebar-nav-item.active {
+            background-color: #1652a7 !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .ricochet-subtab {
+            padding: 0.65rem 1.1rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 2.5px solid transparent;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .ricochet-subtab:hover {
+            color: #1e293b;
+        }
+        .ricochet-subtab.active {
+            color: #2563eb !important;
+            border-bottom-color: #2563eb !important;
+            font-weight: 700;
+        }
+        html.dark .ricochet-subtab {
+            color: #94a3b8;
+        }
+        html.dark .ricochet-subtab:hover {
+            color: #f8fafc;
+        }
+        html.dark .ricochet-subtab.active {
+            color: #60a5fa !important;
+            border-bottom-color: #3b82f6 !important;
+        }
+
         /* ================= LIGHT MODE COMPREHENSIVE THEME ================= */
         html.light body {
-            background-color: #f8fafc !important;
-            color: #0f172a !important;
+            background-color: #f4f7fb !important;
+            color: #1e293b !important;
         }
 
         html.light .glass-card {
             background: #ffffff !important;
             backdrop-filter: blur(12px);
-            border: 1px solid #e2e8f0 !important;
-            box-shadow: 0 4px 16px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        html.light .tab-btn:not(.bg-blue-600) {
-            background-color: #ffffff !important;
-            color: #475569 !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        html.light .tab-btn:not(.bg-blue-600):hover {
-            background-color: #f1f5f9 !important;
-            color: #0f172a !important;
+            border: 1px solid #e5eaf2 !important;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
         }
 
         html.light main h1, 
@@ -126,23 +179,23 @@
         html.light #record-modal h3,
         html.light #pending-abstract-modal h2,
         html.light #ai-chat-window h3 {
-            color: #0f172a !important;
+            color: #1e293b !important;
         }
 
         /* Generic Slate & White Text Color Adjustments in Light Mode */
-        html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *):not(#whatsapp-textarea) {
-            color: #0f172a !important;
-        }
-        html.light .text-slate-400:not(header *):not(#whatsapp-textarea) {
-            color: #64748b !important;
-        }
-        html.light .text-slate-300:not(header *):not(#whatsapp-textarea) {
-            color: #334155 !important;
-        }
-        html.light .text-slate-200:not(header *):not(#whatsapp-textarea) {
+        html.light .text-white:not(button *):not(.bg-blue-600 *):not(.bg-amber-500 *):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *):not(#app-sidebar *):not(#bottom-help-btn *):not(#cta-abstract-btn *):not(#whatsapp-textarea) {
             color: #1e293b !important;
         }
-        html.light .text-slate-100:not(header *):not(#whatsapp-textarea) {
+        html.light .text-slate-400:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+            color: #64748b !important;
+        }
+        html.light .text-slate-300:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+            color: #334155 !important;
+        }
+        html.light .text-slate-200:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+            color: #1e293b !important;
+        }
+        html.light .text-slate-100:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
             color: #0f172a !important;
         }
 
@@ -417,48 +470,48 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 bg-slate-950 flex flex-col selection:bg-blue-600 selection:text-white">
+<body class="min-h-screen text-slate-800 bg-[#f4f7fb] flex flex-col selection:bg-blue-600 selection:text-white">
 
-    <!-- TOP EXECUTIVE HEADER BAR -->
-    <header class="sticky top-0 z-40 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 border-b border-blue-900/60 shadow-xl backdrop-blur-md no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
-            
-            <!-- AP Police Brand & Title -->
-            <div class="flex items-center space-x-3">
-                <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-11 h-11 rounded-xl object-contain shadow-lg shadow-blue-900/40 p-0.5 bg-white/10 backdrop-blur-sm border border-amber-400/40" />
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-[9.5px] font-extrabold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">AP POLICE • TECHNICAL SERVICES</span>
-                        <span id="sync-status-badge" class="flex items-center text-[9.5px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping mr-1.5"></span>
-                            <span>Google Sheets Live</span>
-                        </span>
-                    </div>
-                    <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2 mt-0.5">
-                        PCS&S Correspondence & Tappals Matrix
-                        <span class="text-xs font-normal text-slate-400 hidden md:inline">| Executive Command Dashboard</span>
-                    </h1>
+    <!-- TOP NAVY BAR (RICOCHET360 STYLE) -->
+    <header class="sticky top-0 z-50 ricochet-topbar h-14 px-4 flex items-center justify-between shadow-md no-print">
+        <!-- Left: Hamburger + Brand -->
+        <div class="flex items-center gap-3.5">
+            <button onclick="toggleSidebar()" class="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition" title="Toggle Navigation Sidebar">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('overview')">
+                <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-8 h-8 rounded-lg object-contain bg-white p-0.5 shadow" />
+                <div class="flex items-baseline gap-1.5">
+                    <span class="text-white font-black tracking-wider text-sm sm:text-base uppercase">AP POLICE • PCS&S</span>
+                    <span class="text-[10px] font-extrabold text-cyan-400 tracking-widest uppercase">360°</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Header Quick Actions & Pending Abstract Trigger -->
-            <div class="flex items-center flex-wrap gap-2">
-                
-                <!-- PRIMARY FEATURE: Instant Officer-Wise Abstract & WhatsApp Sharer -->
-                <button onclick="openPendingAbstractModal()" title="View Officer-Wise Active Workload & WhatsApp Abstract" class="px-3 py-1.5 text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95 animate-pulse">
-                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-                    <span>Officer-Wise Abstract (WhatsApp & Memo)</span>
-                    <span id="header-pending-count" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-mono font-black">--</span>
-                </button>
+        <!-- Right: Topbar Action Icons & Status Pill -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Quick Calendar / Events Icon -->
+            <button onclick="switchTab('events')" title="Meetings & VC Schedule" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition relative">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+            </button>
+            <!-- Quick Officers Icon -->
+            <button onclick="switchTab('officers')" title="Officer Workloads" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition">
+                <i data-lucide="users" class="w-4 h-4"></i>
+            </button>
+            <!-- Quick VIP Alert Bell -->
+            <button onclick="switchTab('vip')" title="VIP Command Center" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition relative">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                <span class="w-2 h-2 rounded-full bg-amber-400 absolute top-1.5 right-1.5"></span>
+            </button>
 
-                <div class="text-right hidden xl:block mr-1 text-[10px] text-slate-400">
-                    <div>Last Synced: <span id="sync-timestamp" class="text-blue-400 font-mono font-medium">Just now</span></div>
-                </div>
-
-                <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Google Sheet in new tab" class="px-2.5 py-1.5 text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg flex items-center gap-1.5 transition shadow-sm active:scale-95">
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                    <span class="hidden sm:inline">Sheet ↗</span>
-                </a>
+            <!-- Profile / Live Sync Pill -->
+            <div class="flex items-center gap-2 bg-[#0a2b63] border border-blue-400/30 rounded-lg px-2.5 py-1 text-xs text-white">
+                <img src="Police logo.jpeg" alt="Avatar" class="w-5 h-5 rounded-full object-contain bg-white p-0.5" />
+                <span id="sync-status-badge" class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Live Sync</span>
+                </span>
+                <span id="sync-timestamp" class="hidden md:inline text-[10px] text-blue-200 font-mono">Just now</span>
             </div>
         </div>
     </header>
@@ -474,275 +527,374 @@
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow space-y-5 no-print">
+    <!-- APP SHELL: LEFT DEEP-BLUE SIDEBAR + RIGHT MAIN WORKSPACE -->
+    <div class="flex flex-1 min-h-[calc(100vh-3.5rem)] relative no-print">
 
-        <!-- EXECUTIVE KPI CARDS (8 Categorized KPI Cards with VIP & Priority Radars) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
-            
-            <!-- Total Inflow -->
-            <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Total Inflow</span>
-                    <i data-lucide="inbox" class="w-3.5 h-3.5 text-blue-400"></i>
+        <!-- LEFT DEEP-BLUE NAVIGATION SIDEBAR -->
+        <aside id="app-sidebar" class="ricochet-sidebar w-60 flex-shrink-0 hidden lg:flex flex-col justify-between py-4 px-3 select-none z-40 transition-all duration-200">
+            <div class="space-y-5">
+                <!-- Primary Navigation Modules -->
+                <div class="space-y-1">
+                    <button onclick="switchTab('overview')" id="side-btn-overview" class="sidebar-nav-item active">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('vip')" id="side-btn-vip" class="sidebar-nav-item">
+                        <i data-lucide="star" class="w-4 h-4 text-amber-300"></i>
+                        <span class="flex-1">VIP Command</span>
+                        <span id="side-vip-badge" class="text-[10px] font-mono bg-white/15 px-1.5 py-0.5 rounded text-white">--</span>
+                    </button>
+                    <button onclick="switchTab('events')" id="side-btn-events" class="sidebar-nav-item">
+                        <i data-lucide="calendar-clock" class="w-4 h-4"></i>
+                        <span class="flex-1">Meetings & VCs</span>
+                    </button>
+                    <button onclick="switchTab('officers')" id="side-btn-officers" class="sidebar-nav-item">
+                        <i data-lucide="user-check" class="w-4 h-4"></i>
+                        <span>Officer Workloads</span>
+                    </button>
+                    <button onclick="switchTab('projects')" id="side-btn-projects" class="sidebar-nav-item">
+                        <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+                        <span>Technical Projects</span>
+                    </button>
+                    <button onclick="switchTab('explorer')" id="side-btn-explorer" class="sidebar-nav-item">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                        <span>All Tappals / Records</span>
+                    </button>
                 </div>
-                <div class="text-xl sm:text-2xl font-black text-white" id="kpi-total">--</div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    <span class="text-blue-400 font-semibold">100%</span> total intake
+
+                <!-- Settings & Reports Section (Ricochet360 Style) -->
+                <div class="pt-3 border-t border-white/10 space-y-1">
+                    <div class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-blue-200/60">REPORTS & TOOLS</div>
+                    
+                    <button onclick="openPendingAbstractModal()" class="sidebar-nav-item">
+                        <i data-lucide="message-square" class="w-4 h-4 text-emerald-300"></i>
+                        <span>WhatsApp Short Brief</span>
+                    </button>
+                    <button onclick="openVipAbstractModal()" class="sidebar-nav-item">
+                        <i data-lucide="award" class="w-4 h-4 text-amber-300"></i>
+                        <span>VIP Short Brief</span>
+                    </button>
+                    <button onclick="openEventsAbstractModal()" class="sidebar-nav-item">
+                        <i data-lucide="video" class="w-4 h-4 text-cyan-300"></i>
+                        <span>Scheduled VC Brief</span>
+                    </button>
+                    <button onclick="printExecutiveMemo()" class="sidebar-nav-item">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        <span>Print Official Memo</span>
+                    </button>
+                    <button onclick="exportFilteredCSV()" class="sidebar-nav-item">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Export CSV Report</span>
+                    </button>
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="sidebar-nav-item">
+                        <i data-lucide="external-link" class="w-4 h-4 text-emerald-300"></i>
+                        <span>Google Sheet Source</span>
+                    </a>
                 </div>
             </div>
 
-            <!-- Pending -->
-            <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span class="text-amber-400 font-bold">Pending ⚡</span>
-                    <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-amber-400" id="kpi-pending">--</div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-pending-pct" class="text-amber-400 font-semibold">--%</span> action queue
-                </div>
-            </div>
-
-            <!-- In Progress -->
-            <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>In-Progress</span>
-                    <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-indigo-400" id="kpi-inprogress">--</div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-inprogress-pct" class="text-indigo-400 font-semibold">--%</span> under action
-                </div>
-            </div>
-
-            <!-- Completed -->
-            <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Completed</span>
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-emerald-400" id="kpi-completed">--</div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-completed-pct" class="text-emerald-400 font-semibold">--%</span> dispatched
-                </div>
-            </div>
-
-            <!-- On Hold / Closed / NA -->
-            <div onclick="filterByStatusGroup('On Hold / Closed')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-slate-500/60 hover:shadow-lg hover:shadow-slate-800/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-slate-400">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Stage N/A</span>
-                    <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-slate-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-slate-300" id="kpi-onhold">--</div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    <span id="kpi-onhold-pct" class="text-slate-300 font-semibold">--%</span> notice req.
-                </div>
-            </div>
-
-            <!-- VIP / High Attention Files Radar (Clicks to Dedicated VIP Screen) -->
-            <div onclick="switchTab('vip')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-900/40 transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-400 bg-amber-500/5">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span class="text-amber-300 font-extrabold flex items-center gap-1">⭐ VIP Files</span>
-                    <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-amber-300" id="kpi-vip">--</div>
-                <div class="text-[10px] text-amber-400/90 mt-1 font-semibold truncate">
-                    <span>Command Tab ➔</span>
-                </div>
-            </div>
-
-            <!-- Critical Priority Alert -->
-            <div onclick="filterByPriority('Critical')" class="glass-card rounded-xl p-3 cursor-pointer hover:border-rose-500/60 hover:shadow-lg hover:shadow-rose-900/30 transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500 pulse-critical">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span class="text-rose-400 font-bold">Critical</span>
-                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-rose-400" id="kpi-critical">--</div>
-                <div class="text-[10px] text-rose-300/80 mt-1 font-semibold">
-                    <span>Urgent Action</span>
-                </div>
-            </div>
-
-            <!-- Average Turnaround Days -->
-            <div class="glass-card rounded-xl p-3 border-l-4 border-l-cyan-500">
-                <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                    <span>Avg TAT</span>
-                    <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
-                </div>
-                <div class="text-xl sm:text-2xl font-black text-cyan-400"><span id="kpi-tat">--</span> <span class="text-xs font-normal text-slate-400">d</span></div>
-                <div class="text-[10px] text-slate-400 mt-1">
-                    Recv to Close
-                </div>
-            </div>
-        </div>
-
-        <!-- NAVIGATION TABS -->
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-            <div class="flex space-x-2 sm:space-x-3 overflow-x-auto pb-1">
-                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg bg-blue-600 text-white flex items-center gap-2 shadow transition whitespace-nowrap">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                    <span>Executive Analytics</span>
-                </button>
-                
-                <!-- PRIMARY DEDICATED SCREEN: VIP & Critical Files Command Center -->
-                <button onclick="switchTab('vip')" id="tab-btn-vip" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400"></i>
-                    <span>⭐ VIP & Critical Files Command</span>
-                    <span id="tab-vip-badge" class="px-1.5 py-0.5 text-xs rounded bg-amber-500/20 text-amber-300 font-mono font-bold">--</span>
-                </button>
-
-                <button onclick="switchTab('events')" id="tab-btn-events" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                    <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
-                    <span>Meetings & Event Schedules</span>
-                    <span id="tab-events-badge" class="px-1.5 py-0.5 text-xs rounded bg-amber-500/20 text-amber-300 font-mono font-bold">--</span>
-                </button>
-                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                    <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Officers Workload (PRO-IDs)</span>
-                </button>
-                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                    <i data-lucide="folder-kanban" class="w-4 h-4"></i>
-                    <span>Projects Deep-Dive (PRJ-IDs)</span>
-                </button>
-                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                    <i data-lucide="table-2" class="w-4 h-4"></i>
-                    <span>Live Records Explorer</span>
-                    <span id="tab-records-badge" class="px-1.5 py-0.5 text-xs rounded bg-blue-900/60 text-blue-300 font-mono">--</span>
+            <!-- Bottom Active Report Pill (Matches 'Performance report' highlight in screenshot) -->
+            <div class="pt-4 border-t border-white/10 space-y-2">
+                <button onclick="switchTab('overview')" class="w-full py-2 px-3 rounded-lg bg-[#1652a7] text-white font-bold text-xs flex items-center justify-between shadow">
+                    <span>Performance Report</span>
+                    <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
                 </button>
             </div>
-        </div>
+        </aside>
 
-        <!-- ================= TAB 1: EXECUTIVE ANALYTICS ================= -->
-        <div id="tab-overview" class="tab-content space-y-5">
+        <!-- MAIN WORKSPACE CONTENT -->
+        <main class="flex-1 px-4 sm:px-6 lg:px-8 py-5 w-full max-w-[1600px] mx-auto space-y-5 overflow-x-hidden">
 
-            <!-- EXECUTIVE SITUATION REPORT (THE 5-SECOND RULE FOR IPS OFFICERS) -->
-            <div class="glass-card rounded-2xl p-4 sm:p-5 border border-blue-500/30 bg-gradient-to-r from-blue-950/40 via-slate-900/70 to-amber-950/20 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-                <div class="space-y-1.5 flex-1">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            Executive Situation Report
-                        </span>
-                        <span id="executive-narrative-timestamp" class="text-[11px] text-slate-400 font-mono">--</span>
-                        <span id="executive-narrative-alert-tag" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                            🚨 Action Required
-                        </span>
-                    </div>
-                    <p id="executive-narrative-text" class="text-xs sm:text-sm font-medium text-slate-200 leading-relaxed">
-                        Initializing real-time executive situation brief...
-                    </p>
+            <!-- PAGE TITLE BAR + RIGHT CTA & PERIOD BOX (RICOCHET360 HEADER MODEL) -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h1 id="page-main-title" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Performance Report</h1>
                 </div>
-                
-                <!-- Quick Executive Scorecards (SLA & Clearance Rate & Active VIP) -->
-                <div class="flex items-center gap-2 sm:gap-3 w-full lg:w-auto shrink-0 justify-between sm:justify-start">
-                    <!-- SLA Compliance Widget -->
-                    <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center flex-1 sm:flex-initial min-w-[115px]">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">SLA Compliance</div>
-                        <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
-                        <div class="text-[9.5px] text-emerald-300/80 font-medium">Standard 7-15d</div>
-                    </div>
-                    <!-- Clearance Rate Widget -->
-                    <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center flex-1 sm:flex-initial min-w-[115px]">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Clearance Rate</div>
-                        <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-0.5" id="clearance-rate-pct">--%</div>
-                        <div class="text-[9.5px] text-cyan-300/80 font-medium" id="clearance-rate-sub">-- of -- Files</div>
-                    </div>
-                    <!-- Urgent VIP Pending Widget -->
-                    <div onclick="switchTab('vip')" class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-amber-500/30 hover:border-amber-400 cursor-pointer transition text-center flex-1 sm:flex-initial min-w-[115px] group">
-                        <div class="text-[10px] font-bold text-amber-300 uppercase tracking-wider group-hover:text-amber-200">Active VIP</div>
-                        <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-0.5" id="active-vip-count">--</div>
-                        <div class="text-[9.5px] text-amber-300/70 font-medium">View VIP Tab ➔</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- ROW 1 CHARTS: Officer Workload & Project Distribution -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                
-                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center flex-wrap gap-2.5">
+                    <!-- Orange Primary CTA Button (Matches '+ Add Chart' button in screenshot) -->
+                    <button id="cta-abstract-btn" onclick="openPendingAbstractModal()" class="px-4 py-2 text-xs font-bold bg-[#f97316] hover:bg-[#ea580c] text-white rounded-md flex items-center gap-2 transition shadow-sm active:scale-95">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Officer Abstract</span>
+                        <span id="header-pending-count" class="px-1.5 py-0.5 rounded bg-black/20 text-white text-[10px] font-mono font-bold">--</span>
+                    </button>
+
+                    <!-- Period / Live Sync Box (Matches 'Period 03/27/21 - 04/07/21' box in screenshot) -->
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="glass-card px-3.5 py-1.5 rounded-md flex items-center gap-3 hover:border-blue-400 transition">
                         <div>
-                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                                <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-400"></i>
-                                Officer Active Workload & Completion Status
-                            </h2>
-                            <p class="text-[10.5px] text-slate-400">Categorized by Completed, In-Progress, Pending, and Stage N/A</p>
+                            <div class="text-[9.5px] text-slate-400 font-semibold uppercase leading-none">Data Source Period</div>
+                            <div class="text-xs font-bold text-slate-700 mt-0.5 flex items-center gap-1.5">
+                                <span>FY 2026 Live Matrix</span>
+                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                            </div>
                         </div>
-                        <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-2 py-0.5 rounded">Rank-Ordered</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- HORIZONTAL UNDERLINE SUB-TABS (MATCHES 'Vendors | Agents | Agent status | Deals | Commissions | Tags') -->
+            <div class="border-b border-slate-200 dark:border-slate-800 flex items-center gap-1 sm:gap-4 overflow-x-auto">
+                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn ricochet-subtab active">
+                    <span>Overview</span>
+                </button>
+                <button onclick="switchTab('vip')" id="tab-btn-vip" class="tab-btn ricochet-subtab">
+                    <span>VIP Command</span>
+                    <span id="tab-vip-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-amber-500/15 text-amber-700 font-mono font-bold">--</span>
+                </button>
+                <button onclick="switchTab('events')" id="tab-btn-events" class="tab-btn ricochet-subtab">
+                    <span>Meetings & VCs</span>
+                    <span id="tab-events-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-blue-500/15 text-blue-700 font-mono font-bold">--</span>
+                </button>
+                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn ricochet-subtab">
+                    <span>Officers (Hierarchy)</span>
+                </button>
+                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn ricochet-subtab">
+                    <span>Projects (PRJ)</span>
+                </button>
+                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn ricochet-subtab">
+                    <span>All Records</span>
+                    <span id="tab-records-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-slate-200 text-slate-700 font-mono font-bold">--</span>
+                </button>
+            </div>
+
+            <!-- TOP KPI CARDS (RICOCHET360 WHITE CARDS WITH TREND ICON SQUARES) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                
+                <!-- Card 1: Total Correspondence -->
+                <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-extrabold text-slate-800" id="kpi-total">--</div>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <span>Total correspondence</span>
+                            <span class="text-emerald-600 font-bold">+100%</span>
+                        </div>
                     </div>
-                    <div class="relative h-64 w-full">
-                        <canvas id="chart-officers"></canvas>
+                    <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-3">
-                        <div>
-                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                                <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
-                                Technical Projects Distribution
-                            </h2>
-                            <p class="text-[10.5px] text-slate-400">Volume across PRJ codes & modules</p>
+                <!-- Card 2: Pending Action + Stage N/A -->
+                <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-pending">--</span>
+                            <span class="text-xs text-slate-400 font-semibold">(N/A: <span id="kpi-onhold">--</span>)</span>
                         </div>
-                        <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-2 py-0.5 rounded">PRJ Matrix</span>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <span>Pending action queue</span>
+                            <span id="kpi-pending-pct" class="text-rose-500 font-bold">--%</span>
+                            <span id="kpi-onhold-pct" class="hidden">--%</span>
+                        </div>
                     </div>
-                    <div class="relative h-64 w-full flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
+                        <i data-lucide="trending-down" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3: Active In-Progress -->
+                <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-extrabold text-slate-800" id="kpi-inprogress">--</div>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <span>Active in-progress</span>
+                            <span id="kpi-inprogress-pct" class="text-blue-600 font-bold">--%</span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-slate-500 flex-shrink-0">
+                        <i data-lucide="move-right" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Completed & VIP Summary -->
+                <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-completed">--</span>
+                            <span class="text-xs font-bold text-amber-600 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <span>Completed dispatched</span>
+                            <span id="kpi-completed-pct" class="text-emerald-600 font-bold">+--%</span>
+                            <span id="kpi-critical" class="hidden">--</span>
+                            <span id="kpi-tat" class="hidden">--</span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= TAB 1: EXECUTIVE ANALYTICS (RICOCHET360 CHART CARDS) ================= -->
+            <div id="tab-overview" class="tab-content space-y-5">
+
+                <!-- ROW 1 CHARTS: Left Donut with Center Total & Legend (like 'Costs') + Right Stacked Bar (like 'Leads') -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    <!-- LEFT CARD: Correspondence Status Donut + Custom Right Legend -->
+                    <div class="lg:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <h2 class="text-sm font-bold text-slate-800">Stage Breakdown</h2>
+                                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-0.5"><span id="donut-subtitle-total">--</span> Total correspondence files</p>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="switchTab('explorer')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Filter Records">
+                                    <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="openPendingAbstractModal()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Abstract">
+                                    <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="printExecutiveMemo()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Print Memo">
+                                    <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-12 items-center gap-4 my-auto py-2">
+                            <!-- Donut Canvas with Center Label -->
+                            <div class="sm:col-span-6 relative h-52 flex items-center justify-center">
+                                <canvas id="chart-channels"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                    <span id="donut-center-total" class="text-xl font-extrabold text-slate-800">--</span>
+                                    <span class="text-[11px] text-slate-400">Total files</span>
+                                </div>
+                            </div>
+                            <!-- Custom Side Legend (Matches 'Cost in time frame / Cost per application' list) -->
+                            <div id="stage-legend-list" class="sm:col-span-6 space-y-3 text-xs">
+                                <!-- Populated dynamically in renderCharts() -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT CARD: Officer Workloads Bar Chart (Matches 'Leads' card in screenshot) -->
+                    <div class="lg:col-span-7 glass-card rounded-xl p-5 flex flex-col justify-between">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <h2 class="text-sm font-bold text-slate-800">Officer Workloads (Hierarchy Order)</h2>
+                                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-0.5">Active vs Completed files across concerned officers</p>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="switchTab('officers')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition relative" title="View Officers">
+                                    <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                                    <span class="w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[9px] font-bold flex items-center justify-center absolute -top-1.5 -right-1.5">✓</span>
+                                </button>
+                                <button onclick="switchTab('officers')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Officers Tab">
+                                    <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="openPendingAbstractModal()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Officer Abstract">
+                                    <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative h-60 w-full">
+                            <canvas id="chart-officers"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2 FULL-WIDTH BAR CHART: Technical Projects Distribution (Matches bottom 'Total leads' card in screenshot) -->
+                <div class="glass-card rounded-xl p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <h2 class="text-sm font-bold text-slate-800">Technical Projects Matrix (PRJ-IDs)</h2>
+                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-0.5">Total correspondence & active workload across technical projects</p>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="switchTab('projects')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Filter Projects">
+                                <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="switchTab('projects')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Projects">
+                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="switchTab('explorer')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="More Options">
+                                <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative h-56 w-full">
                         <canvas id="chart-projects"></canvas>
                     </div>
                 </div>
-            </div>
 
-            <!-- ROW 2 CHARTS: Channel Distribution, Aging Radar, Critical Action Queue -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                
-                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-3">
-                        <div>
-                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                                <i data-lucide="send" class="w-4 h-4 text-indigo-400"></i>
-                                Inflow Receipt Channels
-                            </h2>
-                            <p class="text-[10.5px] text-slate-400">eOffice vs Email vs Post</p>
+                <!-- ROW 3: EXECUTIVE SITUATION REPORT + AGING RADAR + CRITICAL ACTION QUEUE -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    <!-- Executive Situation Report & Scorecards -->
+                    <div class="lg:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-700 border border-blue-500/30 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Executive Situation Report
+                                </span>
+                                <span id="executive-narrative-timestamp" class="text-[11px] text-slate-400 font-mono">--</span>
+                                <span id="executive-narrative-alert-tag" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-600 border border-rose-500/30">
+                                    🚨 Action Required
+                                </span>
+                            </div>
+                            <p id="executive-narrative-text" class="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed pt-1">
+                                Initializing real-time executive situation brief...
+                            </p>
                         </div>
-                        <span class="text-[10px] text-indigo-400 font-semibold bg-indigo-500/10 px-2 py-0.5 rounded">Intake Medium</span>
-                    </div>
-                    <div class="relative h-56 w-full flex items-center justify-center">
-                        <canvas id="chart-channels"></canvas>
-                    </div>
-                </div>
 
-                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-3">
-                        <div>
-                            <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                                <i data-lucide="hourglass" class="w-4 h-4 text-amber-400"></i>
-                                Correspondence Aging (Open Files)
-                            </h2>
-                            <p class="text-[10.5px] text-slate-400">Days pending resolution (Standard DD/MM/YYYY)</p>
+                        <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+                            <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase">SLA Compliance</div>
+                                <div class="text-lg font-black text-emerald-600 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
+                            </div>
+                            <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase">Clearance</div>
+                                <div class="text-lg font-black text-blue-600 font-mono mt-0.5" id="clearance-rate-pct">--%</div>
+                                <div class="text-[9px] text-slate-400 hidden" id="clearance-rate-sub">--</div>
+                            </div>
+                            <div onclick="switchTab('vip')" class="bg-amber-50/80 p-2.5 rounded-lg border border-amber-200 cursor-pointer text-center hover:bg-amber-100/70 transition">
+                                <div class="text-[10px] font-bold text-amber-700 uppercase">Active VIP</div>
+                                <div class="text-lg font-black text-amber-600 font-mono mt-0.5" id="active-vip-count">--</div>
+                            </div>
                         </div>
-                        <span class="text-[10px] text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">SLA Radar</span>
                     </div>
-                    <div class="relative h-56 w-full">
-                        <canvas id="chart-aging"></canvas>
+
+                    <!-- Aging Chart -->
+                    <div class="lg:col-span-3 glass-card rounded-xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <h2 class="text-sm font-bold text-slate-800">Pending Aging</h2>
+                                <p class="text-[11px] text-slate-400">Open files by age bucket</p>
+                            </div>
+                        </div>
+                        <div class="relative h-48 w-full">
+                            <canvas id="chart-aging"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Critical & High Priority Queue -->
+                    <div class="lg:col-span-4 glass-card rounded-xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-2">
+                            <h2 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                                <i data-lucide="flame" class="w-4 h-4 text-rose-500"></i>
+                                Priority Action Queue
+                            </h2>
+                            <span id="critical-badge-count" class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">-- Items</span>
+                        </div>
+                        <div id="critical-items-list" class="space-y-2 overflow-y-auto max-h-48 pr-1">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="flame" class="w-4 h-4 text-rose-500"></i>
-                            Critical & High Priority Files
-                        </h2>
-                        <span id="critical-badge-count" class="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">-- Items</span>
-                    </div>
-                    <div id="critical-items-list" class="space-y-2 overflow-y-auto max-h-56 pr-1">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
             </div>
-
-        </div>
 
         <!-- ================= TAB: DEDICATED VIP & CRITICAL FILES COMMAND CENTER ================= -->
         <div id="tab-vip" class="tab-content hidden space-y-5">
@@ -1102,6 +1254,7 @@
         </div>
 
     </main>
+    </div>
 
     <!-- ================= COMPLETE 21-COLUMN TASK RECORD DETAILS MODAL ================= -->
     <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 no-print">
@@ -1493,11 +1646,28 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 no-print">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>Andhra Pradesh Police • Police Computer Services & Standardization (PCS&S)</span>
-            <span>Real-Time Cloud Correspondence Analytics • Connected to Google Sheets</span>
+    <!-- RICOCHET360 BOTTOM ACTION BAR -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-2.5 px-6 text-xs text-slate-500 no-print sticky bottom-0 z-30 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+        <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span class="text-[11px] font-medium text-slate-400 hidden md:inline">AP Police • PCS&S Technical Services Correspondence Matrix</span>
+            <div class="flex items-center gap-6 text-xs font-semibold text-slate-300">
+                <button onclick="openPendingAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
+                    <i data-lucide="phone-call" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>Officer Abstract</span>
+                </button>
+                <button onclick="openVIPAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
+                    <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>VIP Brief</span>
+                </button>
+                <button onclick="openEventsAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>Events / VC Brief</span>
+                </button>
+            </div>
+            <button onclick="toggleAiChat()" class="px-4 py-1.5 rounded-full text-xs font-bold text-white flex items-center gap-1.5 shadow-md transition hover:opacity-95" style="background-color:#001b44; color:#ffffff !important;">
+                <span class="w-4 h-4 rounded-full border border-white/60 flex items-center justify-center text-[10px] font-black" style="color:#ffffff !important;">?</span>
+                <span style="color:#ffffff !important;">AI Copilot Help</span>
+            </button>
         </div>
     </footer>
 
@@ -2323,6 +2493,8 @@
 
             const tabVipBadge = document.getElementById('tab-vip-badge');
             if (tabVipBadge) tabVipBadge.innerText = `${kpis.vip_count || 0} VIP`;
+            const sideVipBadge = document.getElementById('side-vip-badge');
+            if (sideVipBadge) sideVipBadge.innerText = `${kpis.vip_count || 0}`;
 
             const upcomingCount = rawData.upcoming_events_count !== undefined ? rawData.upcoming_events_count : (rawData.scheduled_events ? rawData.scheduled_events.length : 0);
             const eventsBadge = document.getElementById('tab-events-badge');
@@ -2340,95 +2512,161 @@
             lucide.createIcons();
         }
 
-        // Charts Rendering
+        // Charts Rendering (Ricochet360 Enterprise Palette & Layout)
         function renderCharts() {
             const isLight = document.documentElement.classList.contains('light');
-            const gridColor = isLight ? '#e2e8f0' : '#1e293b';
-            const tickColor = isLight ? '#475569' : '#94a3b8';
+            const gridColor = isLight ? '#f1f5f9' : '#1e293b';
+            const tickColor = isLight ? '#64748b' : '#94a3b8';
             const borderColor = isLight ? '#ffffff' : '#0f172a';
-            const tooltipBg = isLight ? '#1e293b' : '#0f172a';
+            const tooltipBg = isLight ? '#0f172a' : '#0f172a';
 
             Chart.defaults.color = tickColor;
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
+            // 1. RIGHT CARD: Officer Workloads Vertical Stacked Bar Chart (in Hierarchy Order)
             const ctxOff = document.getElementById('chart-officers').getContext('2d');
             if (chartOfficers) chartOfficers.destroy();
 
-            const officers = rawData.officers.slice(0, 8);
+            const officers = rawData.officers.slice(0, 10);
+            const shortOfficerLabels = officers.map(o => {
+                if (o.pro_id === 'ALL') return 'ALL (Common)';
+                if (o.pro_id && o.pro_id.startsWith('PRO-')) {
+                    const firstPart = (o.name || '').split(' ').slice(0, 2).join(' ');
+                    return `${o.pro_id} ${firstPart}`;
+                }
+                return (o.officer || '').substring(0, 14);
+            });
+
             chartOfficers = new Chart(ctxOff, {
                 type: 'bar',
                 data: {
-                    labels: officers.map(o => o.officer),
+                    labels: shortOfficerLabels,
                     datasets: [
-                        { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#10b981', borderRadius: 3 },
-                        { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 3 },
-                        { label: 'Pending', data: officers.map(o => o.pending), backgroundColor: '#f59e0b', borderRadius: 3 },
-                        { label: 'Hold / Closed / NA', data: officers.map(o => o.onhold || 0), backgroundColor: '#64748b', borderRadius: 3 }
+                        { label: 'Active In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 4, maxBarThickness: 22 },
+                        { label: 'Pending Action', data: officers.map(o => o.pending), backgroundColor: '#fb923c', borderRadius: 4, maxBarThickness: 22 },
+                        { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#84cc16', borderRadius: 4, maxBarThickness: 22 },
+                        { label: 'Stage N/A', data: officers.map(o => o.onhold || 0), backgroundColor: '#cbd5e1', borderRadius: 4, maxBarThickness: 22 }
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
+                    indexAxis: 'x',
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { stacked: true, grid: { color: gridColor }, ticks: { color: tickColor } },
-                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 10.5 }, color: tickColor } }
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10, weight: '600' }, color: tickColor, maxRotation: 28, minRotation: 0 } },
+                        y: { stacked: true, grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10.5 }, color: tickColor } }
                     },
                     plugins: {
-                        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10.5 }, color: tickColor } },
+                        legend: { position: 'top', align: 'end', labels: { boxWidth: 10, usePointStyle: true, pointStyle: 'rectRounded', font: { size: 10.5, weight: '600' }, color: tickColor } },
                         tooltip: { backgroundColor: tooltipBg, titleFont: { size: 12 }, bodyFont: { size: 11 } }
                     }
                 }
             });
 
+            // 2. ROW 2 FULL-WIDTH CARD: Technical Projects Matrix Multi-Bar Chart
             const ctxProj = document.getElementById('chart-projects').getContext('2d');
             if (chartProjects) chartProjects.destroy();
 
-            const topProjects = rawData.projects.slice(0, 7);
-            chartProjects = new Chart(ctxProj, {
-                type: 'doughnut',
-                data: {
-                    labels: topProjects.map(p => p.project),
-                    datasets: [{
-                        data: topProjects.map(p => p.total),
-                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#64748b'],
-                        borderWidth: 2,
-                        borderColor: borderColor
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10.5 }, color: tickColor } }
-                    },
-                    cutout: '62%'
+            const topProjects = rawData.projects.slice(0, 14);
+            const projLabels = topProjects.map(p => {
+                if (p.prj_id && p.prj_id.startsWith('PRJ-')) {
+                    const shortName = (p.name || '').length > 14 ? (p.name || '').substring(0, 14) + '…' : (p.name || '');
+                    return `${p.prj_id} (${shortName})`;
                 }
+                return (p.project || '').substring(0, 16);
             });
 
-            const ctxChan = document.getElementById('chart-channels').getContext('2d');
-            if (chartChannels) chartChannels.destroy();
-
-            chartChannels = new Chart(ctxChan, {
-                type: 'pie',
+            chartProjects = new Chart(ctxProj, {
+                type: 'bar',
                 data: {
-                    labels: rawData.channels.map(c => c.channel),
-                    datasets: [{
-                        data: rawData.channels.map(c => c.count),
-                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#6366f1', '#ec4899', '#64748b'],
-                        borderWidth: 2,
-                        borderColor: borderColor
-                    }]
+                    labels: projLabels,
+                    datasets: [
+                        { label: 'In-Progress', data: topProjects.map(p => p.inprogress), backgroundColor: '#818cf8', borderRadius: 4, maxBarThickness: 16 },
+                        { label: 'Completed', data: topProjects.map(p => p.completed), backgroundColor: '#84cc16', borderRadius: 4, maxBarThickness: 16 },
+                        { label: 'Pending', data: topProjects.map(p => p.pending), backgroundColor: '#fb923c', borderRadius: 4, maxBarThickness: 16 }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: false, grid: { display: false }, ticks: { font: { size: 10, weight: '600' }, color: tickColor, maxRotation: 25, minRotation: 0 } },
+                        y: { stacked: false, grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10.5 }, color: tickColor } }
+                    },
                     plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 }, color: tickColor } }
+                        legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true, pointStyle: 'rectRounded', font: { size: 11, weight: '600' }, color: tickColor, padding: 16 } },
+                        tooltip: { backgroundColor: tooltipBg }
                     }
                 }
             });
 
+            // 3. LEFT CARD: Stage Breakdown Donut Chart + Center Total + Ricochet360 Side Legend
+            const ctxChan = document.getElementById('chart-channels').getContext('2d');
+            if (chartChannels) chartChannels.destroy();
+
+            const kpis = rawData.kpis || {};
+            const totalFiles = kpis.total || 1;
+            const stageItems = [
+                { label: 'Completed', count: kpis.completed || 0, color: '#84cc16' },
+                { label: 'In-Progress', count: kpis.inprogress || 0, color: '#818cf8' },
+                { label: 'Pending Action', count: kpis.pending || 0, color: '#fb923c' },
+                { label: 'Stage N/A', count: kpis.onhold_closed || 0, color: '#cbd5e1' }
+            ];
+
+            const centerTotalEl = document.getElementById('donut-center-total');
+            if (centerTotalEl) centerTotalEl.innerText = kpis.total || 0;
+            const subTotalEl = document.getElementById('donut-subtitle-total');
+            if (subTotalEl) subTotalEl.innerText = `${kpis.total || 0} Files`;
+
+            const legendListEl = document.getElementById('stage-legend-list');
+            if (legendListEl) {
+                const stageRowsHtml = stageItems.map(item => {
+                    const pct = Math.round((item.count / totalFiles) * 100);
+                    return `
+                        <div class="flex items-center justify-between text-xs py-1 border-b border-slate-800/40 last:border-none">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-sm flex-shrink-0" style="background-color:${item.color}"></span>
+                                <span class="font-semibold text-slate-300">${item.label}</span>
+                            </div>
+                            <div class="flex items-center gap-2 font-mono">
+                                <span class="font-bold text-white">${item.count}</span>
+                                <span class="text-[11px] text-slate-400 w-9 text-right">${pct}%</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                const topChans = (rawData.channels || []).slice(0, 3).map(c =>
+                    `<span class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400 font-medium">${c.channel}: <strong class="text-white">${c.count}</strong></span>`
+                ).join(' ');
+
+                legendListEl.innerHTML = stageRowsHtml + (topChans ? `<div class="pt-2 flex flex-wrap gap-1.5">${topChans}</div>` : '');
+            }
+
+            chartChannels = new Chart(ctxChan, {
+                type: 'doughnut',
+                data: {
+                    labels: stageItems.map(s => s.label),
+                    datasets: [{
+                        data: stageItems.map(s => s.count),
+                        backgroundColor: stageItems.map(s => s.color),
+                        borderWidth: 3,
+                        borderColor: borderColor,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '72%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: tooltipBg }
+                    }
+                }
+            });
+
+            // 4. ROW 3 CARD: Pending Aging Analysis Bar Chart
             const ctxAge = document.getElementById('chart-aging').getContext('2d');
             if (chartAging) chartAging.destroy();
 
@@ -2442,16 +2680,17 @@
                     datasets: [{
                         label: 'Open Files',
                         data: ageVals,
-                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
-                        borderRadius: 6
+                        backgroundColor: ['#84cc16', '#818cf8', '#fb923c', '#ef4444'],
+                        borderRadius: 6,
+                        maxBarThickness: 28
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { grid: { color: gridColor }, ticks: { stepSize: 2, color: tickColor } },
-                        x: { grid: { display: false }, ticks: { color: tickColor } }
+                        y: { grid: { color: gridColor, drawBorder: false }, ticks: { stepSize: 2, color: tickColor } },
+                        x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10.5, weight: '600' } } }
                     },
                     plugins: {
                         legend: { display: false }
@@ -3090,6 +3329,11 @@
         function openEventsAbstractModal() {
             openPendingAbstractModal();
             switchAbstractFormat('events');
+        }
+
+        function openVIPAbstractModal() {
+            openPendingAbstractModal();
+            switchAbstractFormat('vip');
         }
 
         function renderPendingAbstractModalContent() {
@@ -3773,17 +4017,33 @@
             applyFilters();
         }
 
-        // ================= THEME CONTROLLER =================
+        // ================= THEME & RICOCHET360 SIDEBAR CONTROLLER =================
         function initTheme() {
             const saved = localStorage.getItem('ts_dashboard_theme');
-            if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.add('light');
-            } else {
+            if (saved === 'dark') {
                 document.documentElement.classList.remove('light');
                 document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
             }
             updateThemeButtonUI();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('app-sidebar');
+            if (!sidebar) return;
+            if (window.innerWidth < 1024) {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('inset-y-14');
+                sidebar.classList.toggle('left-0');
+                sidebar.classList.toggle('z-50');
+                sidebar.classList.toggle('flex');
+            } else {
+                sidebar.classList.toggle('lg:flex');
+                sidebar.classList.toggle('lg:hidden');
+            }
         }
 
         function toggleTheme() {
@@ -3825,26 +4085,41 @@
         }
 
         function switchTab(tabId) {
-            const isLight = document.documentElement.classList.contains('light');
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white', 'shadow');
-                if (isLight) {
-                    btn.classList.remove('bg-slate-800/80', 'text-slate-300');
-                    btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
-                } else {
-                    btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
-                    btn.classList.add('bg-slate-800/80', 'text-slate-300');
+
+            document.querySelectorAll('.ricochet-subtab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            document.querySelectorAll('#app-sidebar .sidebar-nav-item').forEach(item => {
+                if (item.id && item.id.startsWith('side-btn-')) {
+                    item.classList.remove('active');
                 }
             });
+            const activeSideBtn = document.getElementById(`side-btn-${tabId}`);
+            if (activeSideBtn) {
+                activeSideBtn.classList.add('active');
+            }
+
+            const pageTitles = {
+                overview: 'Performance Report',
+                vip: 'VIP Command Matrix',
+                events: 'Meetings & VCs Schedule',
+                officers: 'Officer Workloads (Hierarchy)',
+                projects: 'Technical Projects Matrix',
+                explorer: 'All Correspondence Records'
+            };
+            const titleEl = document.getElementById('page-main-title');
+            if (titleEl && pageTitles[tabId]) {
+                titleEl.innerText = pageTitles[tabId];
+            }
 
             const activeTab = document.getElementById(`tab-${tabId}`);
             if (activeTab) activeTab.classList.remove('hidden');
-            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300', 'bg-white', 'text-slate-700', 'border', 'border-slate-200');
-                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
-            }
 
             if (tabId === 'vip') {
                 renderVipTab();
