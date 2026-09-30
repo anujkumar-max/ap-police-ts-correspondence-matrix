@@ -1342,20 +1342,11 @@
                 </div>
             </div>
 
-            <!-- Designation Summary Mini-Cards -->
-            <div id="abstract-designation-strip" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs flex-shrink-0">
-                <!-- Populated dynamically with DSP, CI, SI, Unassigned cards -->
-            </div>
-
             <!-- Action & Format Selector Bar -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <!-- Tab Mode Switcher -->
                 <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
-                    <button onclick="switchAbstractFormat('detailed')" id="tab-detailed-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
-                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                        <span>Detailed Brief (With Files)</span>
-                    </button>
-                    <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                    <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
                         <i data-lucide="zap" class="w-3.5 h-3.5"></i>
                         <span>⚡ Short Numbers Brief</span>
                     </button>
@@ -1365,7 +1356,7 @@
                     </button>
                     <button onclick="switchAbstractFormat('vip')" id="tab-vip-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>⭐ VIP Executive Brief</span>
+                        <span>⭐ VIP Short Brief</span>
                     </button>
                 </div>
 
@@ -1545,7 +1536,10 @@
         // Parse Pro-ID (PRO-xxx - Name (Rank))
         function parseProId(val) {
             const cleaned = cleanText(val);
-            if (cleaned === 'N/A' || cleaned === 'ALL' || cleaned === 'Unassigned') {
+            if (cleaned.toUpperCase() === 'ALL') {
+                return { id: 'ALL', name: 'ALL (Common Task)', rank: 'Common Task', label: 'ALL' };
+            }
+            if (cleaned === 'N/A' || cleaned === 'Unassigned' || !cleaned) {
                 return { id: 'N/A', name: 'Unassigned', rank: 'Unassigned', label: 'Unassigned' };
             }
             const match = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$/);
@@ -1562,8 +1556,11 @@
         // Parse Project ID (PRJ-xxx - Project Name)
         function parsePrjId(val) {
             const cleaned = cleanText(val);
-            if (cleaned === 'N/A' || cleaned === 'Miscellaneous') {
-                return { id: 'MISC', name: cleaned, label: cleaned };
+            if (!cleaned || cleaned === 'N/A' || cleaned.toLowerCase() === 'miscellaneous') {
+                return { id: 'PRJ-037', name: 'Miscellaneous', label: 'PRJ-037 - Miscellaneous' };
+            }
+            if (cleaned.toUpperCase() === 'ALL') {
+                return { id: 'PRJ-038', name: 'ALL', label: 'PRJ-038 - ALL' };
             }
             const match = cleaned.match(/^(PRJ-\d+)\s*[-:]\s*(.+)$/);
             if (match) {
@@ -1572,7 +1569,7 @@
                 const label = `${prjId} - ${name}`;
                 return { id: prjId, name: name, label: label };
             }
-            return { id: 'PRJ-MISC', name: cleaned, label: cleaned };
+            return { id: 'PRJ-037', name: cleaned, label: `PRJ-037 - ${cleaned}` };
         }
 
         // Accurate Indian Standard Date Parser (DD/MM/YYYY)
@@ -1940,17 +1937,24 @@
                             if (r.project_label !== 'N/A') offMap[off].projects.add(r.project_label);
                         });
 
+                        const rankSortWeight = { 'DSP': 1, 'CI': 2, 'SI': 3, 'Common Task': 4, 'Unassigned': 5, 'Other': 6 };
                         const officerAnalytics = Object.values(offMap).map(o => ({
                             ...o,
                             active_total: o.pending + o.inprogress + o.onhold,
                             projects: Array.from(o.projects).sort()
-                        })).sort((a, b) => b.active_total - a.active_total);
+                        })).sort((a, b) => {
+                            const wA = rankSortWeight[a.rank] || 6;
+                            const wB = rankSortWeight[b.rank] || 6;
+                            if (wA !== wB) return wA - wB;
+                            if (b.active_total !== a.active_total) return b.active_total - a.active_total;
+                            return b.total - a.total;
+                        });
 
                         // Designation analytics
-                        const rankOrder = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
+                        const rankOrder = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other'];
                         const rankSummary = {};
                         officerAnalytics.forEach(o => {
-                            const rnk = o.rank && o.rank !== 'Other' ? o.rank : (o.pro_id === 'N/A' ? 'Unassigned' : 'Other');
+                            const rnk = o.rank && o.rank !== 'Other' ? o.rank : (o.pro_id === 'N/A' ? 'Unassigned' : (o.pro_id === 'ALL' ? 'Common Task' : 'Other'));
                             if (!rankSummary[rnk]) {
                                 rankSummary[rnk] = {
                                     rank: rnk,
@@ -2026,7 +2030,7 @@
                         const scheduledEvents = [];
                         records.forEach(r => {
                             const natureLower = (r.nature_of_request || '').toLowerCase();
-                            const isEvent = eventKeywords.some(kw => natureLower.includes(kw)) || Boolean(r.due_date_raw);
+                            const isEvent = eventKeywords.some(kw => natureLower.includes(kw));
 
                             if (isEvent) {
                                 scheduledEvents.push({
@@ -2114,6 +2118,12 @@
                 return `<span class="text-slate-500 italic text-[11px]">Unassigned</span>`;
             }
             const info = parseProId(label);
+            if (info.id === 'ALL') {
+                return `<span class="inline-flex items-center gap-1 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-500/40 text-[11px]">
+                    <span class="font-mono font-bold text-purple-300 text-[10px]">👥 ALL</span>
+                    <span class="text-purple-100 font-semibold">Common Task</span>
+                </span>`;
+            }
             if (info.id.startsWith('PRO-')) {
                 return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-amber-500/30 text-[11px]">
                     <span class="font-mono font-bold text-amber-400 text-[10px]">${info.id}</span>
@@ -2129,6 +2139,12 @@
                 return `<span class="text-slate-500 italic text-[11px]">Misc</span>`;
             }
             const info = parsePrjId(label);
+            if (info.id === 'PRJ-038') {
+                return `<span class="inline-flex items-center gap-1 bg-purple-950/80 px-1.5 py-0.5 rounded border border-purple-500/40 text-[11px]">
+                    <span class="font-mono font-bold text-purple-300 text-[10px]">${info.id}</span>
+                    <span class="text-purple-100 font-semibold">ALL Projects</span>
+                </span>`;
+            }
             if (info.id.startsWith('PRJ-')) {
                 return `<span class="inline-flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded border border-cyan-500/30 text-[11px]">
                     <span class="font-mono font-bold text-cyan-400 text-[10px]">${info.id}</span>
@@ -2206,7 +2222,9 @@
             if (tsEl) tsEl.innerText = `As on ${timeStr}`;
             
             // Build narrative (exclude Cancelled / On Hold and Completed items)
-            const activeUpcomingTasks = events.filter(e => e.status_group !== 'On Hold / Closed' && e.status_group !== 'Completed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
+            // Use ALL records with due dates for upcoming tasks (not just events/VCs)
+            const allRecordsWithDue = (rawData.records || []).filter(r => r.due_date_raw && r.status_group !== 'On Hold / Closed' && r.status_group !== 'Completed' && (r.event_delta_days >= 0));
+            const activeUpcomingTasks = allRecordsWithDue.sort((a, b) => (a.event_delta_days || 9999) - (b.event_delta_days || 9999));
             const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed' && r.status_group !== 'On Hold / Closed').length;
             
             let narrative = `Sir, currently tracking <strong>${totalRecords} total correspondence files</strong> with a <strong>${clearancePct}% clearance rate</strong> (${kpis.completed || 0} dispatched). `;
@@ -2215,8 +2233,12 @@
                 narrative += `<span class="text-rose-400 font-bold">⚠️ ${urgentFollowupCount} VIP files urgently require department liaison/follow-up.</span> `;
             }
             if (activeUpcomingTasks.length > 0) {
-                const taskSummary = activeUpcomingTasks.slice(0, 3).map(e => `${e.id} (${(e.due_date_raw || 'TBA').split(' ')[0]})`).join(', ');
-                narrative += `<span class="text-amber-300 font-bold">📅 ${activeUpcomingTasks.length} upcoming time-bound task${activeUpcomingTasks.length > 1 ? 's' : ''}/VC${activeUpcomingTasks.length > 1 ? 's' : ''} scheduled: ${taskSummary}.</span> `;
+                const taskSummary = activeUpcomingTasks.slice(0, 3).map(r => {
+                    const subj = (r['Subject / Work Description'] || '').substring(0, 40);
+                    const dateOnly = (r.due_date_raw || 'TBA').split(' ')[0];
+                    return `${r.ID} – ${subj}${subj.length >= 40 ? '…' : ''} (📅 ${dateOnly})`;
+                }).join('; ');
+                narrative += `<span class="text-amber-300 font-bold">📅 ${activeUpcomingTasks.length} upcoming time-bound task${activeUpcomingTasks.length > 1 ? 's' : ''}: ${taskSummary}.</span> `;
             }
             narrative += `Average turnaround time is <strong>${kpis.avg_tat_days || kpis.avg_tat || 0} days</strong> with overall <strong>${slaPct}% SLA compliance</strong>.`;
             
@@ -2797,7 +2819,50 @@
 
         function renderOfficersTab() {
             const grid = document.getElementById('officer-cards-grid');
-            grid.innerHTML = rawData.officers.map(o => {
+            const commonTaskGroup = rawData.officers.find(o => o.pro_id === 'ALL' || (o.officer || '').toUpperCase() === 'ALL');
+            const individualOfficers = rawData.officers.filter(o => o.pro_id !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
+            const commonFiles = (rawData.records || []).filter(r => r.officer_id === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL');
+
+            let commonTasksBanner = '';
+            if (commonTaskGroup && commonFiles.length > 0) {
+                commonTasksBanner = `
+                    <div class="col-span-full glass-card rounded-2xl p-4 sm:p-5 border-2 border-purple-500/40 bg-purple-950/20 space-y-3 shadow-lg">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="px-2.5 py-1 rounded-xl bg-purple-500/20 text-purple-300 font-mono font-extrabold text-xs border border-purple-500/40">👥 ALL OFFICERS</span>
+                                <div>
+                                    <h3 class="text-base font-extrabold text-white">Common Tasks (Assigned to All Officers)</h3>
+                                    <p class="text-xs text-slate-400">${commonTaskGroup.total} Common Task(s) — Active: ${commonTaskGroup.active_total || (commonTaskGroup.pending + commonTaskGroup.inprogress + (commonTaskGroup.onhold || 0))} (${commonTaskGroup.pending} Pending, ${commonTaskGroup.inprogress} In-Progress, ${commonTaskGroup.completed} Completed)</p>
+                                </div>
+                            </div>
+                            <button onclick="drillDownOfficer('${commonTaskGroup.officer}')" class="px-3 py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition flex items-center gap-1.5 shadow">
+                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                                <span>View Common Tasks (${commonTaskGroup.total})</span>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
+                            ${commonFiles.map(f => `
+                                <div class="bg-slate-900/90 p-3 rounded-xl border border-purple-500/30 flex items-start justify-between gap-3 cursor-pointer hover:border-purple-400 transition" onclick="openModal('${f.ID}')">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="font-mono font-bold text-xs text-purple-300">${f.ID}</span>
+                                            ${f.is_vip ? `<span class="px-1.5 py-0.5 text-[9.5px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">⭐ VIP</span>` : ''}
+                                            ${renderProjectBadge(f.project_label)}
+                                        </div>
+                                        <p class="text-xs text-white font-medium line-clamp-2">${f['Subject / Work Description'] || '—'}</p>
+                                    </div>
+                                    <div class="text-right whitespace-nowrap">
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">${f['Current Stage'] || 'Pending'}</span>
+                                        <div class="text-[10px] text-slate-400 font-mono mt-1">${f.display_time_metric || ''}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = commonTasksBanner + individualOfficers.map(o => {
                 const pct = o.total > 0 ? Math.round((o.completed / o.total) * 100) : 0;
                 return `
                     <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-800 hover:border-blue-500/50 transition space-y-3.5">
@@ -2863,6 +2928,7 @@
                     </div>
                 `;
             }).join('');
+            lucide.createIcons();
         }
 
         function renderProjectsTab() {
@@ -2940,7 +3006,7 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
-        let currentAbstractFormat = 'detailed'; // 'detailed', 'short', 'events', 'vip'
+        let currentAbstractFormat = 'short'; // 'short', 'events', 'vip'
         let cachedDetailedWhatsappText = '';
         let cachedShortWhatsappText = '';
         let cachedEventsWhatsappText = '';
@@ -2994,129 +3060,51 @@
             document.getElementById('abs-kpi-done').innerText = kpis.completed;
             document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
 
-            const desigStrip = document.getElementById('abstract-designation-strip');
-            if (desigStrip && rawData.designations) {
-                desigStrip.innerHTML = rawData.designations.map(d => `
-                    <div class="bg-slate-900/90 p-2 rounded-xl border border-slate-800 flex items-center justify-between">
-                        <div>
-                            <span class="text-blue-400 font-bold text-xs uppercase">${d.rank} Rank</span>
-                            <span class="text-[10px] text-slate-400 block">${d.officers_count} Officer(s)</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-sm font-extrabold text-white">${d.active_total}</span>
-                            <span class="text-[9.5px] text-slate-400 block font-mono">(${d.pending}P / ${d.inprogress}IP / ${d.onhold}NA)</span>
-                        </div>
-                    </div>
-                `).join('');
-            }
+            const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
+            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
+                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
+                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
+                if (rA !== rB) return rA - rB;
+                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+            });
 
-            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
-
-            // 1. Detailed WhatsApp Text
-            let waDetailed = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waDetailed += `📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*\n`;
-            waDetailed += `📅 Date: ${dateStr}\n\n`;
-            waDetailed += `📊 *Overall Abstract:*\n`;
-            waDetailed += `• Total Inflow: ${kpis.total} Files\n`;
-            waDetailed += `• 🟡 Pending Action: ${kpis.pending} Files\n`;
-            waDetailed += `• 🔵 Active In-Progress: ${kpis.inprogress} Files\n`;
-            waDetailed += `• ⚪ Stage N/A (Notice Required): ${kpis.onhold_closed || 0} Files\n`;
-            waDetailed += `• 🟢 Completed / Dispatched: ${kpis.completed} Files\n`;
-            waDetailed += `• ⭐ High Priority / VIP Files: ${kpis.vip_count || 0} Files\n\n`;
-            
-            waDetailed += `───────────────────────────────\n`;
-            waDetailed += `🎖️ *WORKLOAD BY DESIGNATION / RANK:*\n`;
-            waDetailed += `───────────────────────────────\n`;
-
-            if (rawData.designations) {
-                rawData.designations.forEach(da => {
-                    if (da.active_total > 0 || da.total > 0) {
-                        waDetailed += `🔹 *${da.rank} Rank (${da.officers_count} Officers)*: *${da.active_total} Active Files* (${da.pending} Pend / ${da.inprogress} In-Prog / ${da.onhold} N/A)\n`;
-                    }
-                });
-            }
-
-            waDetailed += `\n───────────────────────────────\n`;
-            waDetailed += `👤 *OFFICER-WISE DETAILED BREAKDOWN:*\n`;
-            waDetailed += `───────────────────────────────\n`;
-
-            if (rawData.designations) {
-                rawData.designations.forEach(da => {
-                    const rankActiveOfficers = da.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0);
-                    if (rankActiveOfficers.length > 0) {
-                        waDetailed += `\n👮 *[${da.rank} RANK OFFICERS]*\n`;
-                        rankActiveOfficers.forEach((o, idx) => {
-                            const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                            waDetailed += `${idx + 1}. *${o.officer}*: Total Active: ${actTotal} (${o.pending} Pending, ${o.inprogress} In-Prog, ${o.onhold || 0} Stage N/A)\n`;
-                            
-                            if (o.pending_files && o.pending_files.length > 0) {
-                                waDetailed += `   🟡 *Pending Action:*\n`;
-                                o.pending_files.forEach(f => {
-                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
-                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
-                                });
-                            }
-                            
-                            if (o.inprogress_files && o.inprogress_files.length > 0) {
-                                waDetailed += `   🔵 *In-Progress:*\n`;
-                                o.inprogress_files.forEach(f => {
-                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
-                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
-                                });
-                            }
-                            
-                            if (o.na_stage_files && o.na_stage_files.length > 0) {
-                                waDetailed += `   ⚪ *Stage N/A (Notice Required):*\n`;
-                                o.na_stage_files.forEach(f => {
-                                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
-                                    waDetailed += `   - ${f.id}${vipTag} [${f.project}]: (${f.age || ''})\n`;
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-
-            waDetailed += `\n───────────────────────────────\n`;
-            waDetailed += `🔗 *Update Status in Google Sheet:*\n`;
-            waDetailed += `${GOOGLE_SHEET_URL}\n`;
-            waDetailed += `───────────────────────────────\n`;
-            waDetailed += `_Generated from AP Police TS Executive Command Portal_`;
-
-            // 2. Short WhatsApp Text
+            // 1. Short WhatsApp Text (Default Officer-Wise Brief — Rank-Wise)
             let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
             waShort += `📅 Date: ${dateStr}\n\n`;
             waShort += `📊 *Total: ${kpis.total}* | 🟡 *Pend: ${kpis.pending}* | 🔵 *In-Prog: ${kpis.inprogress}* | ⚪ *N/A: ${kpis.onhold_closed || 0}* | 🟢 *Done: ${kpis.completed}* | ⭐ *VIP: ${kpis.vip_count || 0}*\n\n`;
-            
-            waShort += `───────────────────────────────\n`;
-            waShort += `🎖️ *RANK SUMMARY [Active = Pend / InProg / N/A]:*\n`;
-            waShort += `───────────────────────────────\n`;
 
-            if (rawData.designations) {
-                rawData.designations.forEach(da => {
-                    if (da.active_total > 0 || da.total > 0) {
-                        waShort += `• *${da.rank} Rank*: *${da.active_total}* (${da.pending} / ${da.inprogress} / ${da.onhold})\n`;
-                    }
-                });
-            }
-
-            waShort += `\n───────────────────────────────\n`;
-            waShort += `👮 *OFFICER WORKLOAD:*\n`;
             waShort += `───────────────────────────────\n`;
+            waShort += `👮 *OFFICER WORKLOAD Current stage:* [Active = Pend / InProg / N/A]\n`;
+            waShort += `───────────────────────────────\n\n`;
 
-            activeOfficers.forEach((o, idx) => {
+            const individualActiveOfficers = activeOfficers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
+            individualActiveOfficers.forEach((o, idx) => {
                 const actTotal = o.pending + o.inprogress + (o.onhold || 0);
                 waShort += `${idx + 1}. ${o.officer}: *${actTotal}* (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
             });
 
+            // Common Tasks (ALL officer) shown separately
+            const allOfficerFiles = (rawData.records || []).filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Completed');
+            if (allOfficerFiles.length > 0) {
+                waShort += `\n───────────────────────────────\n`;
+                waShort += `📢 *COMMON TASKS (Assigned to ALL Officers):*\n`;
+                waShort += `───────────────────────────────\n`;
+                allOfficerFiles.forEach((f, idx) => {
+                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
+                    waShort += `${idx + 1}. *${f.ID}*${vipTag} [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'Pending'}*\n`;
+                    waShort += `   • ${(f['Subject / Work Description'] || '').substring(0, 90)}\n`;
+                });
+            }
+
             waShort += `\n───────────────────────────────\n`;
+            waShort += `📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.\n`;
             waShort += `🔗 *Update Status in Google Sheet:*\n`;
             waShort += `${GOOGLE_SHEET_URL}\n`;
             waShort += `───────────────────────────────\n`;
             waShort += `_Generated from AP Police TS Executive Command Portal_`;
 
-            // 3. Events WhatsApp Text
+            // 2. Events WhatsApp Text
             let waEvents = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waEvents += `📅 *UPCOMING MEETINGS, WORKSHOPS & EVENT SCHEDULE*\n`;
             waEvents += `📆 Date: ${dateStr}\n\n`;
@@ -3152,55 +3140,46 @@
             waEvents += `───────────────────────────────\n`;
             waEvents += `_Generated from AP Police TS Executive Command Portal_`;
 
-            // 4. VIP WhatsApp Text
+            // 3. VIP WhatsApp Text (Short Brief)
             let waVip = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waVip += `⭐ *EXECUTIVE VIP & HIGH PRIORITY CORRESPONDENCE BRIEF*\n`;
+            waVip += `⭐ *VIP & HIGH PRIORITY CORRESPONDENCE SHORT BRIEF*\n`;
             waVip += `📅 Date: ${dateStr}\n\n`;
             const vipFiles = rawData.records.filter(r => r.is_vip);
             const vipActive = vipFiles.filter(r => r.status_group !== 'Completed');
             const vipDone = vipFiles.filter(r => r.status_group === 'Completed');
-            waVip += `📊 *Executive VIP Overview:*\n`;
-            waVip += `• Total VIP Files: ${vipFiles.length}\n`;
-            waVip += `• 🟡 Active / Pending Resolution: ${vipActive.length} Files\n`;
-            waVip += `• 🟢 Completed / Dispatched: ${vipDone.length} Files\n\n`;
+            const vipFollowup = vipActive.filter(r => r.is_vip_followup);
+            waVip += `📊 *VIP Overview:* Total: *${vipFiles.length}* | 🟡 Active: *${vipActive.length}* | 🟢 Done: *${vipDone.length}* | ⚠️ Follow-up: *${vipFollowup.length}*\n\n`;
             waVip += `───────────────────────────────\n`;
-            waVip += `📌 *ACTIVE VIP FILES DETAILS:*\n`;
+            waVip += `📌 *ACTIVE VIP FILES:*\n`;
             waVip += `───────────────────────────────\n`;
 
             if (vipActive.length === 0) {
-                waVip += `\n• No active VIP files pending resolution.\n`;
+                waVip += `\n✅ No active VIP files pending resolution.\n`;
             } else {
                 vipActive.forEach((r, idx) => {
-                    waVip += `\n${idx + 1}. ⭐ *${r.ID}* [${r.project_label || 'Misc'}]\n`;
-                    waVip += `   • *From:* ${r['Received From Department /Wing']} (${r['Received From Officer designation '] || 'N/A'})\n`;
-                    waVip += `   • *Stage:* ${r['Current Stage']} (${r.display_time_metric || ''})\n`;
-                    waVip += `   • *Officer:* ${r.officer_label}\n`;
-                    waVip += `   • *Subject:* ${r['Subject / Work Description']}\n`;
-                    if (r.is_vip_followup) {
-                        waVip += `   • ⚠️ *Urgent Liaison & Follow-up Required with Dept*\n`;
-                    }
+                    const followupTag = r.is_vip_followup ? " ⚠️" : "";
+                    waVip += `${idx + 1}. *${r.ID}*${followupTag} [${r.project_label || 'PRJ-037 - Miscellaneous'}] — ${r['Current Stage'] || 'N/A'} (${r.display_time_metric || ''}) — ${r.officer_label}\n`;
                 });
             }
 
             waVip += `\n───────────────────────────────\n`;
+            waVip += `📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.\n`;
             waVip += `🔗 *Update Status in Google Sheet:*\n`;
             waVip += `${GOOGLE_SHEET_URL}\n`;
             waVip += `───────────────────────────────\n`;
             waVip += `_Generated from AP Police TS Executive Command Portal_`;
 
-            cachedDetailedWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_text ? rawData.pending_abstract.whatsapp_text : waDetailed;
-            cachedShortWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_short_text ? rawData.pending_abstract.whatsapp_short_text : waShort;
-            cachedEventsWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_events_text ? rawData.pending_abstract.whatsapp_events_text : waEvents;
-            cachedVipWhatsappText = rawData.pending_abstract && rawData.pending_abstract.whatsapp_vip_text ? rawData.pending_abstract.whatsapp_vip_text : waVip;
+            cachedDetailedWhatsappText = waShort;
+            cachedShortWhatsappText = waShort;
+            cachedEventsWhatsappText = waEvents;
+            cachedVipWhatsappText = waVip;
 
-            if (currentAbstractFormat === 'detailed') {
-                document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
-            } else if (currentAbstractFormat === 'short') {
-                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
-            } else if (currentAbstractFormat === 'events') {
+            if (currentAbstractFormat === 'events') {
                 document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
             } else if (currentAbstractFormat === 'vip') {
                 document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
+            } else {
+                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
             }
         }
 
@@ -3484,27 +3463,21 @@
             document.getElementById('print-kpi-done').innerText = kpis.completed;
             document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
 
-            const desigTbody = document.getElementById('print-designation-summary-tbody');
-            if (desigTbody && rawData.designations) {
-                desigTbody.innerHTML = rawData.designations.map(d => `
-                    <tr>
-                        <td class="font-bold">${d.rank} Rank</td>
-                        <td class="text-center font-mono">${d.officers_count}</td>
-                        <td class="text-center font-bold font-mono">${d.active_total}</td>
-                        <td class="text-center font-bold font-mono">${d.pending}</td>
-                        <td class="text-center font-bold font-mono">${d.inprogress}</td>
-                        <td class="text-center font-bold font-mono">${d.onhold}</td>
-                        <td class="text-center font-mono">${d.completed}</td>
-                    </tr>
-                `).join('');
-            }
+            const desigSec = document.getElementById('print-section-designation');
+            if (desigSec) desigSec.style.display = 'none';
 
-            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0)));
+            const rankOrderList = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other'];
+            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
+                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
+                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
+                if (rA !== rB) return rA - rB;
+                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+            });
             const officerTbody = document.getElementById('print-officer-summary-tbody');
             officerTbody.innerHTML = activeOfficers.map((o, idx) => `
                 <tr>
                     <td class="text-center font-mono font-bold">${idx + 1}</td>
-                    <td class="font-semibold">${o.officer}</td>
+                    <td class="font-semibold">${o.pro_id === 'ALL' ? 'ALL (Common Task)' : o.officer}</td>
                     <td class="text-center font-bold font-mono">${o.active_total || (o.pending + o.inprogress + (o.onhold || 0))}</td>
                     <td class="text-center font-bold font-mono">${o.pending}</td>
                     <td class="text-center font-bold font-mono">${o.inprogress}</td>
@@ -4122,15 +4095,42 @@
                 return resp;
             }
 
-            // 5. General Officer Workloads Query
-            if (q.includes('officer') || q.includes('workload') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si') || q.includes('ci')) {
-                const activeOfficers = officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a,b) => (b.pending + b.inprogress) - (a.pending + a.inprogress));
-                let resp = `Sir, here is the **active officer workload breakdown**:\n\n`;
+            // 4.5 Common Tasks (ALL Officers / PRJ-038 - ALL) Query
+            if (q.includes('common') || q.includes('all officer') || q.includes('prj-038') || q.includes('prj-037')) {
+                const commonFiles = records.filter(r => (r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL' || r.project_id === 'PRJ-038');
+                if (commonFiles.length === 0) {
+                    return "Sir, there are currently **no common tasks (assigned to ALL officers)** in the correspondence matrix.";
+                }
+                let resp = `Sir, here are the **Common Tasks (Assigned to ALL Officers / PRJ-038 - ALL)** (${commonFiles.length} total):\n\n`;
+                commonFiles.forEach((f, idx) => {
+                    resp += `${idx + 1}. **${f.ID}** [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'Pending'}* (${f.display_time_metric || 'Active'})\n` +
+                            `   • Subject: ${f['Subject / Work Description']}\n`;
+                });
+                return resp;
+            }
+
+            // 5. General Officer Workloads Query (Rank-Wise)
+            if (q.includes('officer') || q.includes('workload') || q.includes('abstract') || q.includes('short brief') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si') || q.includes('ci')) {
+                const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
+                const activeOfficers = officers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL' && (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
+                    const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
+                    const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
+                    if (rA !== rB) return rA - rB;
+                    return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+                });
+                let resp = `Sir, here is the **Officer-Wise Active Workload (Rank-Wise)**\n**👮 OFFICER WORKLOAD Current stage:** [Active = Pend / InProg / N/A]\n\n`;
                 activeOfficers.forEach((o, idx) => {
                     const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                    resp += `${idx + 1}. **${o.officer}**: **${actTotal} Active Files** (🟡 ${o.pending} Pending, 🔵 ${o.inprogress} In-Prog, 🟢 ${o.completed} Done)\n`;
+                    resp += `${idx + 1}. **${o.officer}**: **${actTotal}** (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
                 });
-                resp += `\nTotal pending queue across all officers: **${kpis.pending} files**.`;
+                const commonActive = records.filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Completed');
+                if (commonActive.length > 0) {
+                    resp += `\n### 📢 Common Tasks (Assigned to ALL Officers)\n`;
+                    commonActive.forEach(f => {
+                        resp += `• **${f.ID}** [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'Pending'}*: ${f['Subject / Work Description']}\n`;
+                    });
+                }
+                resp += `\n📝 *Kindly update the current stages in the Google Sheet if there are any changes.*`;
                 return resp;
             }
 
@@ -4144,10 +4144,10 @@
                    `• **🔵 Active In-Progress:** ${kpis.inprogress} Files\n` +
                    `• **⭐ VIP Files:** ${vip.total_count || 0} Files (${vip.active_count || 0} Active)\n` +
                    `• **⚡ Average Resolution TAT:** ${kpis.avg_tat_days || kpis.avg_tat || 0} Days\n\n` +
-                   `You may ask me about any **Officer** (e.g. *Anoj*, *Kalpana*, *Mohan*), **File ID** (e.g. \`TS-COR-2026-0001\`), **VIP files**, or **VC meetings**.`;
+                   `You may ask me about any **Officer** (e.g. *Anoj*, *Kalpana*, *Mohan*), **Common Tasks (ALL)**, **File ID** (e.g. \`TS-COR-2026-0001\`), **VIP files**, or **VC meetings**.`;
         }
 
-        // Live Google Gemini API Caller with Full 67-Record Context & Multi-Model Failover
+        // Live Google Gemini API Caller with Full Record Context & Multi-Model Failover
         async function callGeminiApi(userQuery) {
             const apiKey = getActiveGeminiKey();
             if (!apiKey) {
@@ -4162,16 +4162,24 @@
 
             // Compile ALL correspondence records so Gemini knows every single officer's works, projects, stages, and subjects
             const allRecordsText = records.map(r => 
-                `${r.ID} | Off: ${r.officer_label || 'Unassigned'} | Proj: ${r.project_label || 'Misc'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || ''} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
+                `${r.ID} | Off: ${r.officer_label || 'Unassigned'} | Proj: ${r.project_label || 'PRJ-037 - Miscellaneous'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || ''} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
             ).join('\n');
 
-            const officerList = officers.map(o => `${o.officer}: Total ${o.total} (ActivePending: ${o.pending}, InProg: ${o.inprogress}, Completed: ${o.completed}, Hold: ${o.onhold || 0})`).join('\n');
-            const eventList = events.slice(0, 15).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
+            const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
+            const sortedOfficers = [...officers].filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL').sort((a, b) => {
+                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
+                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
+                if (rA !== rB) return rA - rB;
+                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+            });
+            const officerList = sortedOfficers.map((o, idx) => `${idx + 1}. ${o.officer}: Active ${o.pending + o.inprogress + (o.onhold || 0)} (${o.pending} Pend / ${o.inprogress} InProg / ${o.onhold || 0} N/A) | Done: ${o.completed} | Total: ${o.total}`).join('\n');
+            const commonTasksText = records.filter(r => (r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL').map(r => `${r.ID} [${r.project_label}] — Stage: ${r['Current Stage']} — ${r['Subject / Work Description']}`).join('\n') || 'None';
+            const eventList = events.filter(e => e.status_group !== 'On Hold / Closed').slice(0, 15).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
 
             const recentHistory = aiChatHistory.slice(-4).map(h => `Officer: ${h.q}\nCopilot: ${h.a}`).join('\n\n');
 
             const systemPrompt = `You are the Executive AI Copilot for Andhra Pradesh Police Technical Services (PCS&S) Command Portal.
-You assist senior Indian Police Service (IPS) leadership (DGP, ADGP, SP Technical Services) with executive monitoring and decision support.
+You assist senior Indian Police Service (IPS) leadership (DGP, ADGP, IGP Technical Services) with executive monitoring and decision support.
 Today's Date: ${new Date().toLocaleDateString('en-GB')}
 
 PORTAL LIVE SUMMARY:
@@ -4179,10 +4187,13 @@ PORTAL LIVE SUMMARY:
 - Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days
 - VIP Correspondence: Total ${vip.total_count || 0} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
 
-OFFICER WORKLOAD SUMMARY:
+OFFICER WORKLOAD Current stage [Active = Pend / InProg / N/A] (RANK-WISE ORDER: CI FIRST, THEN SI, THEN UNASSIGNED):
 ${officerList}
 
-SCHEDULED EVENTS & VCS:
+COMMON TASKS (ASSIGNED TO ALL OFFICERS / PRJ-038 - ALL):
+${commonTasksText}
+
+SCHEDULED EVENTS & VCS (ACTIVE):
 ${eventList}
 
 COMPLETE CORRESPONDENCE DATABASE (ALL ${records.length} FILES):
@@ -4192,8 +4203,9 @@ ${recentHistory ? 'RECENT CONVERSATION CONTEXT:\n' + recentHistory + '\n' : ''}
 INSTRUCTIONS:
 1. Address the senior officer respectfully ('Sir,').
 2. Answer the exact question asked using the COMPLETE CORRESPONDENCE DATABASE above. Note that 'Anoj' or 'Anuj' refers to 'PRO-136 - T. Anoj Kumar (SI)'.
-3. Be crisp, authoritative, and structured with clear headings (### Heading) and bullet points (• ).
-4. Always cite File IDs exactly like TS-COR-2026-XXXX so they become clickable links in the UI.`;
+3. When asked for Officer Workload or Short Brief, ALWAYS list officers strictly in RANK-WISE order (CI Rank officers first, then SI Rank officers, then Unassigned) in the format '1. PRO-xxx - Name (Rank): *Active* (Pend / InProg / N/A)', do NOT show a separate Rank Summary block, show Common Tasks (ALL) separately, and include a polite note asking officers to update current stages if there are any changes.
+4. Note that 'PRJ-037 - Miscellaneous' is the Miscellaneous project category and 'PRJ-038 - ALL' is for tasks spanning all projects.
+5. Always cite File IDs exactly like TS-COR-2026-XXXX so they become clickable links in the UI.`;
 
             const payload = {
                 contents: [

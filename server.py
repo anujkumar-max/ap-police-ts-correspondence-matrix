@@ -43,7 +43,9 @@ def clean_text(val):
 
 def parse_pro_id(val):
     cleaned = clean_text(val)
-    if cleaned in ['N/A', 'ALL', 'Unassigned']:
+    if cleaned.upper() == 'ALL':
+        return {'id': 'ALL', 'name': 'ALL (Common Task)', 'rank': 'Common Task', 'label': 'ALL'}
+    if cleaned in ['N/A', 'Unassigned', '']:
         return {'id': 'N/A', 'name': 'Unassigned', 'rank': 'Unassigned', 'label': 'Unassigned'}
     
     m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
@@ -58,8 +60,10 @@ def parse_pro_id(val):
 
 def parse_prj_id(val):
     cleaned = clean_text(val)
-    if cleaned in ['N/A', 'Miscellaneous']:
-        return {'id': 'MISC', 'name': cleaned, 'label': cleaned}
+    if cleaned in ['N/A', ''] or cleaned.lower() == 'miscellaneous':
+        return {'id': 'PRJ-037', 'name': 'Miscellaneous', 'label': 'PRJ-037 - Miscellaneous'}
+    if cleaned.upper() == 'ALL':
+        return {'id': 'PRJ-038', 'name': 'ALL', 'label': 'PRJ-038 - ALL'}
     
     m = re.match(r'^(PRJ-\d+)\s*[-:]\s*(.+)$', cleaned)
     if m:
@@ -68,7 +72,7 @@ def parse_prj_id(val):
         label = f"{prj_id} - {name}"
         return {'id': prj_id, 'name': name, 'label': label}
     
-    return {'id': 'PRJ-MISC', 'name': cleaned, 'label': cleaned}
+    return {'id': 'PRJ-037', 'name': cleaned, 'label': f"PRJ-037 - {cleaned}"}
 
 def parse_indian_date(val):
     if not val:
@@ -283,7 +287,7 @@ def calculate_analytics_from_records(records):
     scheduled_events = []
     for r in records:
         nature_lower = (r.get('nature_of_request') or '').lower()
-        is_event = any(kw in nature_lower for kw in event_keywords) or bool(r.get('due_date_raw'))
+        is_event = any(kw in nature_lower for kw in event_keywords)
         
         if is_event:
             scheduled_events.append({
@@ -412,8 +416,16 @@ def calculate_analytics_from_records(records):
         if r['project_label'] not in ['N/A', '']:
             om['projects'].add(r['project_label'])
 
+    rank_sort_weight = {'DSP': 1, 'CI': 2, 'SI': 3, 'Common Task': 4, 'Unassigned': 5, 'Other': 6}
     officer_analytics = []
-    for off_label, data in sorted(officers_map.items(), key=lambda x: (x[1]['pending'] + x[1]['inprogress'] + x[1]['onhold']), reverse=True):
+    for off_label, data in sorted(
+        officers_map.items(),
+        key=lambda x: (
+            rank_sort_weight.get(x[1]['rank'], 6),
+            -(x[1]['pending'] + x[1]['inprogress'] + x[1]['onhold']),
+            -x[1]['total']
+        )
+    ):
         active_total = data['pending'] + data['inprogress'] + data['onhold']
         officer_analytics.append({
             'officer': off_label,
@@ -436,10 +448,10 @@ def calculate_analytics_from_records(records):
         })
 
     # Designation-Wise Summary
-    rank_order = ['DSP', 'CI', 'SI', 'Unassigned', 'Other']
+    rank_order = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other']
     rank_summary = {}
     for o in officer_analytics:
-        rnk = o['rank'] if o['rank'] and o['rank'] != 'Other' else ('Unassigned' if o['pro_id'] == 'N/A' else 'Other')
+        rnk = o['rank'] if o['rank'] and o['rank'] != 'Other' else ('Unassigned' if o['pro_id'] == 'N/A' else ('Common Task' if o['pro_id'] == 'ALL' else 'Other'))
         if rnk not in rank_summary:
             rank_summary[rnk] = {
                 'rank': rnk,
@@ -596,7 +608,7 @@ def calculate_analytics_from_records(records):
     wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_text = "\n".join(wa_lines)
 
-    # Formulate Option 2: Short Numbers-Only WhatsApp Text
+    # Formulate Short Numbers-Only WhatsApp Text (Rank-Wise Officer Workload + Common Tasks)
     wa_short_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
         "⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*",
@@ -605,29 +617,35 @@ def calculate_analytics_from_records(records):
         f"📊 *Total: {total_records}* | 🟡 *Pend: {pending_count}* | 🔵 *In-Prog: {inprogress_count}* | ⚪ *N/A: {onhold_closed_count}* | 🟢 *Done: {completed_count}* | ⭐ *VIP: {vip_total_count}*",
         "",
         "───────────────────────────────",
-        "🎖️ *RANK SUMMARY [Active = Pend / InProg / N/A]:*",
-        "───────────────────────────────"
+        "👮 *OFFICER WORKLOAD Current stage:* [Active = Pend / InProg / N/A]",
+        "───────────────────────────────",
+        ""
     ]
 
-    for da in designation_analytics:
-        if da['active_total'] > 0 or da['total'] > 0:
-            wa_short_lines.append(f"• *{da['rank']}*: *{da['active_total']}* ({da['pending']} / {da['inprogress']} / {da['onhold']})")
-
-    wa_short_lines.append("")
-    wa_short_lines.append("───────────────────────────────")
-    wa_short_lines.append("👮 *OFFICER WORKLOAD:*")
-    wa_short_lines.append("───────────────────────────────")
-
-    for idx, o in enumerate(active_officers, 1):
+    individual_active_officers = [o for o in active_officers if o['pro_id'].upper() != 'ALL' and o['officer'].upper() != 'ALL']
+    for idx, o in enumerate(individual_active_officers, 1):
         wa_short_lines.append(f"{idx}. {o['officer']}: *{o['active_total']}* ({o['pending']} / {o['inprogress']} / {o['onhold']})")
 
+    common_active_files = [r for r in records if (r.get('officer_id', '').upper() == 'ALL' or r.get('officer_label', '').upper() == 'ALL') and r['status_group'] != 'Completed']
+    if common_active_files:
+        wa_short_lines.append("")
+        wa_short_lines.append("───────────────────────────────")
+        wa_short_lines.append("📢 *COMMON TASKS (Assigned to ALL Officers):*")
+        wa_short_lines.append("───────────────────────────────")
+        for idx, f in enumerate(common_active_files, 1):
+            vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
+            wa_short_lines.append(f"{idx}. *{f['ID']}*{vip_tag} [{f.get('project_label', 'PRJ-038 - ALL')}] — *{f.get('Current Stage') or 'Pending'}*")
+            wa_short_lines.append(f"   • {(f.get('Subject / Work Description') or '')[:90]}")
+
     wa_short_lines.append("")
     wa_short_lines.append("───────────────────────────────")
+    wa_short_lines.append("📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.")
     wa_short_lines.append("🔗 *Update Status in Google Sheet:*")
     wa_short_lines.append(GOOGLE_SHEET_URL)
     wa_short_lines.append("───────────────────────────────")
     wa_short_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_short_text = "\n".join(wa_short_lines)
+    whatsapp_text = whatsapp_short_text
 
     # Formulate Format 3: Exclusive Events & Meeting Schedules WhatsApp Text
     events_lines = [
@@ -668,46 +686,31 @@ def calculate_analytics_from_records(records):
     events_lines.append("_Generated from AP Police TS Executive Command Portal_")
     whatsapp_events_text = "\n".join(events_lines)
 
-    # Formulate Format 4: Exclusive VIP & High Priority Files WhatsApp Text
+    # Formulate Format 4: VIP Short Brief WhatsApp Text
+    vip_followup_active = [r for r in vip_active_records if r.get('is_vip_followup')]
     vip_wa_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
-        "⭐ *EXECUTIVE VIP & HIGH PRIORITY CORRESPONDENCE BRIEF*",
+        "⭐ *VIP & HIGH PRIORITY CORRESPONDENCE SHORT BRIEF*",
         f"📅 Date: {today_display}",
         "",
-        "📊 *Executive Overview:*",
-        f"• Total VIP Files: {len(vip_records)}",
-        f"• 🟡 Active / Pending Action: {len(vip_active_records)} Files",
-        f"• 🟢 Completed / Dispatched: {len(vip_completed_records)} Files",
+        f"📊 *VIP Overview:* Total: *{len(vip_records)}* | 🟡 Active: *{len(vip_active_records)}* | 🟢 Done: *{len(vip_completed_records)}* | ⚠️ Follow-up: *{len(vip_followup_active)}*",
         "",
         "───────────────────────────────",
-        "🏛️ *VIP PILLARS BREAKDOWN:*",
-        "───────────────────────────────",
-        f"• 🏛️ VIP Depts (DGP, High Court, MHA, RTGS, etc.): {len(vip_dept_records)} Files",
-        f"• 📜 Govt & DGP Review Stages: {len(vip_stage_records)} Files",
-        f"• 🚨 Urgent Follow-Up Required: {len(vip_followup_records)} Files",
-        f"• 🎖️ High Dignitaries (CS, Secy, ADG, IGP): {len(vip_desig_records)} Files",
-        "",
-        "───────────────────────────────",
-        "📌 *ACTIVE VIP FILES DETAILS:*",
+        "📌 *ACTIVE VIP FILES:*",
         "───────────────────────────────"
     ]
 
     if not vip_active_records:
         vip_wa_lines.append("")
-        vip_wa_lines.append("• No active VIP files pending resolution.")
+        vip_wa_lines.append("✅ No active VIP files pending resolution.")
     else:
         for idx, r in enumerate(vip_active_records, 1):
-            reasons_str = " | ".join(r['vip_reasons']) if r['vip_reasons'] else "VIP Priority"
-            vip_wa_lines.append(f"\n{idx}. ⭐ *{r['ID']}* [{r['project_label']}]")
-            vip_wa_lines.append(f"   • *From:* {r['Received From Department /Wing']} ({r['Received From Officer designation ']})")
-            vip_wa_lines.append(f"   • *Stage:* {r['Current Stage']} ({r['display_time_metric']})")
-            vip_wa_lines.append(f"   • *Officer:* {r['officer_label']}")
-            vip_wa_lines.append(f"   • *Subject:* {r['Subject / Work Description']}")
-            if r['is_vip_followup']:
-                vip_wa_lines.append("   • ⚠️ *Follow-up Required with Dept*")
+            followup_tag = " ⚠️" if r.get('is_vip_followup') else ""
+            vip_wa_lines.append(f"{idx}. *{r['ID']}*{followup_tag} [{r['project_label']}] — {r['Current Stage']} ({r['display_time_metric']}) — {r['officer_label']}")
 
     vip_wa_lines.append("")
     vip_wa_lines.append("───────────────────────────────")
+    vip_wa_lines.append("📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.")
     vip_wa_lines.append("🔗 *Update Status in Google Sheet:*")
     vip_wa_lines.append(GOOGLE_SHEET_URL)
     vip_wa_lines.append("───────────────────────────────")
