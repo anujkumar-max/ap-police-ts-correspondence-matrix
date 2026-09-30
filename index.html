@@ -1533,6 +1533,48 @@
             return s.replace(/\ufffd/g, '-').replace(/\u2013/g, '-').replace(/\u2014/g, '-');
         }
 
+        // Official AP Police TS Officer Seniority Hierarchy
+        const OFFICER_HIERARCHY_IDS = [
+            'PRO-045', // K. Sreelakshmi (SP)
+            'PRO-074', // G. Veeraraghava Reddy (Addl. SP)
+            'PRO-078', // V. Vishnu Swaroop (DSP)
+            'PRO-079', // M. Hema Latha (DSP)
+            'PRO-081', // P. Bhavana (DSP)
+            'PRO-082', // P. Sindhu Priya (DSP)
+            'PRO-159', // N. Sarojini (AAO)
+            'PRO-092', // V. Sudharshana Reddy (CI)
+            'PRO-094', // K. Satish (CI)
+            'PRO-095', // K. Vijaya Kumar (CI)
+            'PRO-106', // K. Sreekanth (CI)
+            'PRO-123', // M. Manohar Rao (CI)
+            'PRO-091', // M. Mohan (CI)
+            'PRO-153', // B. Vijay Kumar Reddy (SI)
+            'PRO-137', // G. Ravi Kiran (SI)
+            'PRO-124', // G. Jyothi (SI)
+            'PRO-140', // MD. Sadhik (SI)
+            'PRO-136', // T. Anoj Kumar (SI)
+            'PRO-154', // CJ. Bharath (SI)
+            'PRO-152', // Ch. Aditya Srinivas (SI)
+            'PRO-125', // J. Kalpana (SI)
+            'PRO-142', // K. Venkata Rao (SI)
+            'PRO-150', // D. Rama Koti Naik (SI)
+            'PRO-151', // P.V. Naidu (PMO) (SI)
+            'PRO-155', // S.S. Siva Rama Sastry (SI)
+            'PRO-157', // IR Koteswara Rao (SI)
+            'PRO-158'  // B. Rani (ASI)
+        ];
+        const RANK_HIERARCHY_ORDER = ['SP', 'Addl. SP', 'DSP', 'AAO', 'CI', 'SI', 'ASI', 'Common Task', 'Unassigned', 'Other'];
+
+        function getOfficerHierarchyWeight(officerObj) {
+            if (!officerObj) return 999;
+            const proId = (officerObj.pro_id || parseProId(officerObj.officer || '').id || '').trim().toUpperCase();
+            const idx = OFFICER_HIERARCHY_IDS.indexOf(proId);
+            if (idx !== -1) return idx;
+            const rnk = officerObj.rank || parseProId(officerObj.officer || '').rank || 'Other';
+            const rIdx = RANK_HIERARCHY_ORDER.indexOf(rnk);
+            return 100 + (rIdx !== -1 ? rIdx : 99);
+        }
+
         // Parse Pro-ID (PRO-xxx - Name (Rank))
         function parseProId(val) {
             const cleaned = cleanText(val);
@@ -1542,13 +1584,19 @@
             if (cleaned === 'N/A' || cleaned === 'Unassigned' || !cleaned) {
                 return { id: 'N/A', name: 'Unassigned', rank: 'Unassigned', label: 'Unassigned' };
             }
-            const match = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$/);
-            if (match) {
-                const proId = match[1].trim();
-                const name = match[2].trim();
-                const rank = (match[3] || 'Other').trim();
-                const label = `${proId} - ${name}` + (rank ? ` (${rank})` : '');
+            const matchWithRank = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+)\s*\(([^()]+)\)$/);
+            if (matchWithRank) {
+                const proId = matchWithRank[1].trim();
+                const name = matchWithRank[2].trim();
+                const rank = matchWithRank[3].trim();
+                const label = `${proId} - ${name} (${rank})`;
                 return { id: proId, name: name, rank: rank, label: label };
+            }
+            const matchNoRank = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+)$/);
+            if (matchNoRank) {
+                const proId = matchNoRank[1].trim();
+                const name = matchNoRank[2].trim();
+                return { id: proId, name: name, rank: 'Other', label: `${proId} - ${name}` };
             }
             return { id: 'PRO-GEN', name: cleaned, rank: 'Other', label: cleaned };
         }
@@ -1937,21 +1985,20 @@
                             if (r.project_label !== 'N/A') offMap[off].projects.add(r.project_label);
                         });
 
-                        const rankSortWeight = { 'DSP': 1, 'CI': 2, 'SI': 3, 'Common Task': 4, 'Unassigned': 5, 'Other': 6 };
                         const officerAnalytics = Object.values(offMap).map(o => ({
                             ...o,
                             active_total: o.pending + o.inprogress + o.onhold,
                             projects: Array.from(o.projects).sort()
                         })).sort((a, b) => {
-                            const wA = rankSortWeight[a.rank] || 6;
-                            const wB = rankSortWeight[b.rank] || 6;
+                            const wA = getOfficerHierarchyWeight(a);
+                            const wB = getOfficerHierarchyWeight(b);
                             if (wA !== wB) return wA - wB;
                             if (b.active_total !== a.active_total) return b.active_total - a.active_total;
                             return b.total - a.total;
                         });
 
                         // Designation analytics
-                        const rankOrder = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other'];
+                        const rankOrder = RANK_HIERARCHY_ORDER;
                         const rankSummary = {};
                         officerAnalytics.forEach(o => {
                             const rnk = o.rank && o.rank !== 'Other' ? o.rank : (o.pro_id === 'N/A' ? 'Unassigned' : (o.pro_id === 'ALL' ? 'Common Task' : 'Other'));
@@ -2459,7 +2506,7 @@
             if (eventOfficerSel) eventOfficerSel.innerHTML = '<option value="">All Officers (PRO-IDs)</option>';
             if (vipOfficerSel) vipOfficerSel.innerHTML = '<option value="">All Assigned Officers (PRO-IDs)</option>';
 
-            rawData.officers.forEach(o => {
+            [...rawData.officers].sort((a, b) => getOfficerHierarchyWeight(a) - getOfficerHierarchyWeight(b)).forEach(o => {
                 const opt = `<option value="${o.officer}">${o.officer} (${o.total})</option>`;
                 officerSel.innerHTML += opt;
                 if (eventOfficerSel) eventOfficerSel.innerHTML += opt;
@@ -2820,7 +2867,7 @@
         function renderOfficersTab() {
             const grid = document.getElementById('officer-cards-grid');
             const commonTaskGroup = rawData.officers.find(o => o.pro_id === 'ALL' || (o.officer || '').toUpperCase() === 'ALL');
-            const individualOfficers = rawData.officers.filter(o => o.pro_id !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
+            const individualOfficers = rawData.officers.filter(o => o.pro_id !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL').sort((a, b) => getOfficerHierarchyWeight(a) - getOfficerHierarchyWeight(b));
             const commonFiles = (rawData.records || []).filter(r => r.officer_id === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL');
 
             let commonTasksBanner = '';
@@ -3060,11 +3107,10 @@
             document.getElementById('abs-kpi-done').innerText = kpis.completed;
             document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
 
-            const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
-                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
-                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
-                if (rA !== rB) return rA - rB;
+                const wA = getOfficerHierarchyWeight(a);
+                const wB = getOfficerHierarchyWeight(b);
+                if (wA !== wB) return wA - wB;
                 return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
             });
 
@@ -3466,11 +3512,10 @@
             const desigSec = document.getElementById('print-section-designation');
             if (desigSec) desigSec.style.display = 'none';
 
-            const rankOrderList = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other'];
             const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
-                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
-                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
-                if (rA !== rB) return rA - rB;
+                const wA = getOfficerHierarchyWeight(a);
+                const wB = getOfficerHierarchyWeight(b);
+                if (wA !== wB) return wA - wB;
                 return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
             });
             const officerTbody = document.getElementById('print-officer-summary-tbody');
@@ -4111,14 +4156,13 @@
 
             // 5. General Officer Workloads Query (Rank-Wise)
             if (q.includes('officer') || q.includes('workload') || q.includes('abstract') || q.includes('short brief') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si') || q.includes('ci')) {
-                const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
                 const activeOfficers = officers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL' && (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
-                    const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
-                    const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
-                    if (rA !== rB) return rA - rB;
+                    const wA = getOfficerHierarchyWeight(a);
+                    const wB = getOfficerHierarchyWeight(b);
+                    if (wA !== wB) return wA - wB;
                     return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
                 });
-                let resp = `Sir, here is the **Officer-Wise Active Workload (Rank-Wise)**\n**👮 OFFICER WORKLOAD Current stage:** [Active = Pend / InProg / N/A]\n\n`;
+                let resp = `Sir, here is the **Officer-Wise Active Workload (Official Hierarchy Order)**\n**👮 OFFICER WORKLOAD Current stage:** [Active = Pend / InProg / N/A]\n\n`;
                 activeOfficers.forEach((o, idx) => {
                     const actTotal = o.pending + o.inprogress + (o.onhold || 0);
                     resp += `${idx + 1}. **${o.officer}**: **${actTotal}** (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
@@ -4165,11 +4209,10 @@
                 `${r.ID} | Off: ${r.officer_label || 'Unassigned'} | Proj: ${r.project_label || 'PRJ-037 - Miscellaneous'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || ''} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
             ).join('\n');
 
-            const rankOrderList = ['DSP', 'CI', 'SI', 'Unassigned', 'Other'];
             const sortedOfficers = [...officers].filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL').sort((a, b) => {
-                const rA = rankOrderList.indexOf(a.rank) !== -1 ? rankOrderList.indexOf(a.rank) : 99;
-                const rB = rankOrderList.indexOf(b.rank) !== -1 ? rankOrderList.indexOf(b.rank) : 99;
-                if (rA !== rB) return rA - rB;
+                const wA = getOfficerHierarchyWeight(a);
+                const wB = getOfficerHierarchyWeight(b);
+                if (wA !== wB) return wA - wB;
                 return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
             });
             const officerList = sortedOfficers.map((o, idx) => `${idx + 1}. ${o.officer}: Active ${o.pending + o.inprogress + (o.onhold || 0)} (${o.pending} Pend / ${o.inprogress} InProg / ${o.onhold || 0} N/A) | Done: ${o.completed} | Total: ${o.total}`).join('\n');
@@ -4187,7 +4230,7 @@ PORTAL LIVE SUMMARY:
 - Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days
 - VIP Correspondence: Total ${vip.total_count || 0} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
 
-OFFICER WORKLOAD Current stage [Active = Pend / InProg / N/A] (RANK-WISE ORDER: CI FIRST, THEN SI, THEN UNASSIGNED):
+OFFICER WORKLOAD Current stage [Active = Pend / InProg / N/A] (OFFICIAL OFFICER HIERARCHY ORDER):
 ${officerList}
 
 COMMON TASKS (ASSIGNED TO ALL OFFICERS / PRJ-038 - ALL):

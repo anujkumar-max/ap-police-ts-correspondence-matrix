@@ -41,6 +41,47 @@ def clean_text(val):
     s = s.replace('\ufffd', '-').replace('\u2013', '-').replace('\u2014', '-')
     return s
 
+# Official AP Police TS Officer Seniority Hierarchy
+OFFICER_HIERARCHY_IDS = [
+    'PRO-045', # K. Sreelakshmi (SP)
+    'PRO-074', # G. Veeraraghava Reddy (Addl. SP)
+    'PRO-078', # V. Vishnu Swaroop (DSP)
+    'PRO-079', # M. Hema Latha (DSP)
+    'PRO-081', # P. Bhavana (DSP)
+    'PRO-082', # P. Sindhu Priya (DSP)
+    'PRO-159', # N. Sarojini (AAO)
+    'PRO-092', # V. Sudharshana Reddy (CI)
+    'PRO-094', # K. Satish (CI)
+    'PRO-095', # K. Vijaya Kumar (CI)
+    'PRO-106', # K. Sreekanth (CI)
+    'PRO-123', # M. Manohar Rao (CI)
+    'PRO-091', # M. Mohan (CI)
+    'PRO-153', # B. Vijay Kumar Reddy (SI)
+    'PRO-137', # G. Ravi Kiran (SI)
+    'PRO-124', # G. Jyothi (SI)
+    'PRO-140', # MD. Sadhik (SI)
+    'PRO-136', # T. Anoj Kumar (SI)
+    'PRO-154', # CJ. Bharath (SI)
+    'PRO-152', # Ch. Aditya Srinivas (SI)
+    'PRO-125', # J. Kalpana (SI)
+    'PRO-142', # K. Venkata Rao (SI)
+    'PRO-150', # D. Rama Koti Naik (SI)
+    'PRO-151', # P.V. Naidu (PMO) (SI)
+    'PRO-155', # S.S. Siva Rama Sastry (SI)
+    'PRO-157', # IR Koteswara Rao (SI)
+    'PRO-158'  # B. Rani (ASI)
+]
+RANK_HIERARCHY_ORDER = ['SP', 'Addl. SP', 'DSP', 'AAO', 'CI', 'SI', 'ASI', 'Common Task', 'Unassigned', 'Other']
+
+def get_officer_hierarchy_weight(pro_id, rank):
+    pid = (pro_id or '').strip().upper()
+    if pid in OFFICER_HIERARCHY_IDS:
+        return OFFICER_HIERARCHY_IDS.index(pid)
+    rnk = rank or 'Other'
+    if rnk in RANK_HIERARCHY_ORDER:
+        return 100 + RANK_HIERARCHY_ORDER.index(rnk)
+    return 199
+
 def parse_pro_id(val):
     cleaned = clean_text(val)
     if cleaned.upper() == 'ALL':
@@ -48,13 +89,19 @@ def parse_pro_id(val):
     if cleaned in ['N/A', 'Unassigned', '']:
         return {'id': 'N/A', 'name': 'Unassigned', 'rank': 'Unassigned', 'label': 'Unassigned'}
     
-    m = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+?)(?:\s*\((.+?)\))?$', cleaned)
-    if m:
-        pro_id = m.group(1).strip()
-        name = m.group(2).strip()
-        rank = (m.group(3) or 'Other').strip()
-        label = f"{pro_id} - {name}" + (f" ({rank})" if rank else "")
+    m_with_rank = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+)\s*\(([^()]+)\)$', cleaned)
+    if m_with_rank:
+        pro_id = m_with_rank.group(1).strip()
+        name = m_with_rank.group(2).trim() if hasattr(m_with_rank.group(2), 'trim') else m_with_rank.group(2).strip()
+        rank = m_with_rank.group(3).strip()
+        label = f"{pro_id} - {name} ({rank})"
         return {'id': pro_id, 'name': name, 'rank': rank, 'label': label}
+
+    m_no_rank = re.match(r'^(PRO-\d+)\s*[-:]\s*(.+)$', cleaned)
+    if m_no_rank:
+        pro_id = m_no_rank.group(1).strip()
+        name = m_no_rank.group(2).strip()
+        return {'id': pro_id, 'name': name, 'rank': 'Other', 'label': f"{pro_id} - {name}"}
     
     return {'id': 'PRO-GEN', 'name': cleaned, 'rank': 'Other', 'label': cleaned}
 
@@ -416,12 +463,11 @@ def calculate_analytics_from_records(records):
         if r['project_label'] not in ['N/A', '']:
             om['projects'].add(r['project_label'])
 
-    rank_sort_weight = {'DSP': 1, 'CI': 2, 'SI': 3, 'Common Task': 4, 'Unassigned': 5, 'Other': 6}
     officer_analytics = []
     for off_label, data in sorted(
         officers_map.items(),
         key=lambda x: (
-            rank_sort_weight.get(x[1]['rank'], 6),
+            get_officer_hierarchy_weight(x[1]['pro_id'], x[1]['rank']),
             -(x[1]['pending'] + x[1]['inprogress'] + x[1]['onhold']),
             -x[1]['total']
         )
@@ -448,7 +494,7 @@ def calculate_analytics_from_records(records):
         })
 
     # Designation-Wise Summary
-    rank_order = ['DSP', 'CI', 'SI', 'Common Task', 'Unassigned', 'Other']
+    rank_order = RANK_HIERARCHY_ORDER
     rank_summary = {}
     for o in officer_analytics:
         rnk = o['rank'] if o['rank'] and o['rank'] != 'Other' else ('Unassigned' if o['pro_id'] == 'N/A' else ('Common Task' if o['pro_id'] == 'ALL' else 'Other'))
