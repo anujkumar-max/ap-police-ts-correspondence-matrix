@@ -283,7 +283,7 @@ def calculate_analytics_from_records(records):
     scheduled_events = []
     for r in records:
         nature_lower = (r.get('nature_of_request') or '').lower()
-        is_event = any(kw in nature_lower for kw in event_keywords)
+        is_event = any(kw in nature_lower for kw in event_keywords) or bool(r.get('due_date_raw'))
         
         if is_event:
             scheduled_events.append({

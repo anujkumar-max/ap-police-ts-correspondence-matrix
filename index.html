@@ -2026,7 +2026,7 @@
                         const scheduledEvents = [];
                         records.forEach(r => {
                             const natureLower = (r.nature_of_request || '').toLowerCase();
-                            const isEvent = eventKeywords.some(kw => natureLower.includes(kw));
+                            const isEvent = eventKeywords.some(kw => natureLower.includes(kw)) || Boolean(r.due_date_raw);
 
                             if (isEvent) {
                                 scheduledEvents.push({
@@ -2205,17 +2205,18 @@
             const tsEl = document.getElementById('executive-narrative-timestamp');
             if (tsEl) tsEl.innerText = `As on ${timeStr}`;
             
-            // Build narrative
-            const upcomingEventsCount = events.filter(e => e.event_delta_days === 0 || e.event_delta_days === 1).length;
-            const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed').length;
+            // Build narrative (exclude Cancelled / On Hold and Completed items)
+            const activeUpcomingTasks = events.filter(e => e.status_group !== 'On Hold / Closed' && e.status_group !== 'Completed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
+            const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed' && r.status_group !== 'On Hold / Closed').length;
             
             let narrative = `Sir, currently tracking <strong>${totalRecords} total correspondence files</strong> with a <strong>${clearancePct}% clearance rate</strong> (${kpis.completed || 0} dispatched). `;
             narrative += `There are <strong>${vip.total_count || 0} VIP files</strong> identified across apex departments, of which <strong>${vip.active_count || 0} are actively pending resolution</strong>. `;
             if (urgentFollowupCount > 0) {
                 narrative += `<span class="text-rose-400 font-bold">⚠️ ${urgentFollowupCount} VIP files urgently require department liaison/follow-up.</span> `;
             }
-            if (upcomingEventsCount > 0) {
-                narrative += `<span class="text-amber-300 font-bold">📅 ${upcomingEventsCount} meeting/VC scheduled today or tomorrow.</span> `;
+            if (activeUpcomingTasks.length > 0) {
+                const taskSummary = activeUpcomingTasks.slice(0, 3).map(e => `${e.id} (${(e.due_date_raw || 'TBA').split(' ')[0]})`).join(', ');
+                narrative += `<span class="text-amber-300 font-bold">📅 ${activeUpcomingTasks.length} upcoming time-bound task${activeUpcomingTasks.length > 1 ? 's' : ''}/VC${activeUpcomingTasks.length > 1 ? 's' : ''} scheduled: ${taskSummary}.</span> `;
             }
             narrative += `Average turnaround time is <strong>${kpis.avg_tat_days || kpis.avg_tat || 0} days</strong> with overall <strong>${slaPct}% SLA compliance</strong>.`;
             
