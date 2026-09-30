@@ -550,15 +550,15 @@
                     </button>
                     <button onclick="switchTab('officers')" id="side-btn-officers" class="sidebar-nav-item">
                         <i data-lucide="user-check" class="w-4 h-4"></i>
-                        <span>Officer Workloads</span>
+                        <span>Officers</span>
                     </button>
                     <button onclick="switchTab('projects')" id="side-btn-projects" class="sidebar-nav-item">
                         <i data-lucide="folder-kanban" class="w-4 h-4"></i>
-                        <span>Technical Projects</span>
+                        <span>Projects</span>
                     </button>
                     <button onclick="switchTab('explorer')" id="side-btn-explorer" class="sidebar-nav-item">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                        <span>All Tappals / Records</span>
+                        <span>All Records</span>
                     </button>
                 </div>
 
@@ -570,7 +570,7 @@
                         <i data-lucide="message-square" class="w-4 h-4 text-emerald-300"></i>
                         <span>WhatsApp Short Brief</span>
                     </button>
-                    <button onclick="openVipAbstractModal()" class="sidebar-nav-item">
+                    <button onclick="openVIPAbstractModal()" class="sidebar-nav-item">
                         <i data-lucide="award" class="w-4 h-4 text-amber-300"></i>
                         <span>VIP Short Brief</span>
                     </button>
@@ -632,7 +632,7 @@
                 </div>
             </div>
 
-            <!-- HORIZONTAL UNDERLINE SUB-TABS (MATCHES 'Vendors | Agents | Agent status | Deals | Commissions | Tags') -->
+            <!-- HORIZONTAL UNDERLINE SUB-TABS -->
             <div class="border-b border-slate-200 dark:border-slate-800 flex items-center gap-1 sm:gap-4 overflow-x-auto">
                 <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn ricochet-subtab active">
                     <span>Overview</span>
@@ -646,10 +646,10 @@
                     <span id="tab-events-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-blue-500/15 text-blue-700 font-mono font-bold">--</span>
                 </button>
                 <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn ricochet-subtab">
-                    <span>Officers (Hierarchy)</span>
+                    <span>Officers</span>
                 </button>
                 <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn ricochet-subtab">
-                    <span>Projects (PRJ)</span>
+                    <span>Projects</span>
                 </button>
                 <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn ricochet-subtab">
                     <span>All Records</span>
@@ -660,13 +660,13 @@
             <!-- TOP KPI CARDS (RICOCHET360 WHITE CARDS WITH TREND ICON SQUARES) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                 
-                <!-- Card 1: Total Correspondence -->
+                <!-- Card 1: Total Reportable Correspondence -->
                 <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
                     <div>
                         <div class="text-2xl font-extrabold text-slate-800" id="kpi-total">--</div>
                         <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Total correspondence</span>
-                            <span class="text-emerald-600 font-bold">+100%</span>
+                            <span>Total active & completed</span>
+                            <span class="text-emerald-600 font-bold">100%</span>
                         </div>
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
@@ -674,39 +674,21 @@
                     </div>
                 </div>
 
-                <!-- Card 2: Pending Action + Stage N/A -->
-                <div onclick="filterByStatusGroup('Pending')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
-                    <div>
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-pending">--</span>
-                            <span class="text-xs text-slate-400 font-semibold">(N/A: <span id="kpi-onhold">--</span>)</span>
-                        </div>
-                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Pending action queue</span>
-                            <span id="kpi-pending-pct" class="text-rose-500 font-bold">--%</span>
-                            <span id="kpi-onhold-pct" class="hidden">--%</span>
-                        </div>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
-                        <i data-lucide="trending-down" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <!-- Card 3: Active In-Progress -->
+                <!-- Card 2: In-Progress -->
                 <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
                     <div>
                         <div class="text-2xl font-extrabold text-slate-800" id="kpi-inprogress">--</div>
                         <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Active in-progress</span>
+                            <span>In-Progress stage</span>
                             <span id="kpi-inprogress-pct" class="text-blue-600 font-bold">--%</span>
                         </div>
                     </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-slate-500 flex-shrink-0">
+                    <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-blue-600 flex-shrink-0">
                         <i data-lucide="move-right" class="w-6 h-6"></i>
                     </div>
                 </div>
 
-                <!-- Card 4: Completed & VIP Summary -->
+                <!-- Card 3: Completed -->
                 <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
                     <div>
                         <div class="flex items-baseline gap-2">
@@ -714,7 +696,7 @@
                             <span class="text-xs font-bold text-amber-600 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
                         </div>
                         <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Completed dispatched</span>
+                            <span>Completed category</span>
                             <span id="kpi-completed-pct" class="text-emerald-600 font-bold">+--%</span>
                             <span id="kpi-critical" class="hidden">--</span>
                             <span id="kpi-tat" class="hidden">--</span>
@@ -722,6 +704,24 @@
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
                         <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Stage N/A (Not Updated Stage) -->
+                <div onclick="filterByStatusGroup('Stage N/A')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-onhold">--</span>
+                            <span class="hidden" id="kpi-pending">0</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <span>Stage N/A (Not updated)</span>
+                            <span id="kpi-onhold-pct" class="text-rose-500 font-bold">--%</span>
+                            <span id="kpi-pending-pct" class="hidden">--%</span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
+                        <i data-lucide="trending-down" class="w-6 h-6"></i>
                     </div>
                 </div>
 
@@ -1206,10 +1206,10 @@
                         </select>
                         <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Statuses</option>
-                            <option value="Pending">🟡 Pending Action</option>
                             <option value="In-Progress">🔵 In-Progress</option>
                             <option value="Completed">🟢 Completed</option>
-                            <option value="On Hold / Closed">⚪ Stage N/A / Hold</option>
+                            <option value="Stage N/A">⚪ Stage N/A (Not Updated)</option>
+                            <option value="Closed / Excluded">🚫 Closed / Cancelled</option>
                         </select>
                     </div>
                 </div>
@@ -1467,27 +1467,24 @@
                 </button>
             </div>
 
-            <!-- Top Summary Stats Strip (6 Clean Metrics) -->
-            <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs flex-shrink-0">
+            <!-- Top Summary Stats Strip (5 Clean Metrics: Total + 3 Categories + VIP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs flex-shrink-0">
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
-                    <span class="text-slate-400 text-[10px] block">Total Intake</span>
+                    <span class="text-slate-400 text-[10px] block">Total Briefed</span>
                     <span id="abs-kpi-total" class="text-base font-bold text-white">--</span>
-                </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-amber-500/30 bg-amber-500/5">
-                    <span class="text-amber-400 text-[10px] block font-semibold">🟡 Pending Action</span>
-                    <span id="abs-kpi-pending" class="text-base font-black text-amber-400">--</span>
+                    <span id="abs-kpi-pending" class="hidden">0</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5">
-                    <span class="text-indigo-400 text-[10px] block font-semibold">🔵 Active In-Progress</span>
+                    <span class="text-indigo-400 text-[10px] block font-semibold">🔵 In-Progress</span>
                     <span id="abs-kpi-inprog" class="text-base font-bold text-indigo-400">--</span>
-                </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700 bg-slate-800/40">
-                    <span class="text-slate-300 text-[10px] block font-semibold">⚪ Stage N/A (Notice)</span>
-                    <span id="abs-kpi-na" class="text-base font-bold text-slate-300">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
                     <span class="text-emerald-400 text-[10px] block font-semibold">🟢 Completed</span>
                     <span id="abs-kpi-done" class="text-base font-bold text-emerald-400">--</span>
+                </div>
+                <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700 bg-slate-800/40">
+                    <span class="text-slate-300 text-[10px] block font-semibold">⚪ Stage N/A (Not Updated)</span>
+                    <span id="abs-kpi-na" class="text-base font-bold text-slate-300">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-amber-400/30 bg-amber-500/10">
                     <span class="text-amber-300 text-[10px] block font-bold">⭐ VIP Attention</span>
@@ -1548,10 +1545,10 @@
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
-            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT</div>
+            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON CORRESPONDENCE WORKLOAD - OFFICER-WISE ABSTRACT</div>
             <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
                 <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
-                <span id="print-date-display">Date: 24-09-2026</span>
+                <span id="print-date-display">Date: 30-09-2026</span>
             </div>
         </div>
 
@@ -1561,61 +1558,43 @@
             <table class="w-full text-xs">
                 <thead>
                     <tr>
-                        <th class="text-center">Total Inflow</th>
-                        <th class="text-center">🟡 Pending Action</th>
-                        <th class="text-center">🔵 Active In-Progress</th>
-                        <th class="text-center">⚪ Stage N/A (Notice)</th>
-                        <th class="text-center">🟢 Completed / Dispatched</th>
+                        <th class="text-center">Total Files</th>
+                        <th class="text-center">🔵 In-Progress</th>
+                        <th class="text-center">🟢 Completed</th>
+                        <th class="text-center">⚪ Stage N/A (Not Updated)</th>
                         <th class="text-center">⭐ VIP Priority</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td id="print-kpi-total" class="text-center font-bold text-sm">--</td>
-                        <td id="print-kpi-pending" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-inprog" class="text-center font-bold text-sm">--</td>
-                        <td id="print-kpi-na" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-done" class="text-center font-bold text-sm">--</td>
+                        <td id="print-kpi-na" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-vip" class="text-center font-bold text-sm">--</td>
+                        <td id="print-kpi-pending" class="hidden">0</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- 2. Officer Designation & Rank Workload Breakdown Table -->
-        <div class="mb-4" id="print-section-designation">
-            <div class="text-xs font-bold uppercase mb-1">2. Designation / Rank-Wise Workload Breakdown:</div>
-            <table class="w-full text-xs">
-                <thead>
-                    <tr>
-                        <th>Designation / Rank</th>
-                        <th class="text-center w-28">Officers Count</th>
-                        <th class="text-center w-28">Total Active Files</th>
-                        <th class="text-center w-24">Pending Action</th>
-                        <th class="text-center w-24">In-Progress</th>
-                        <th class="text-center w-24">Stage N/A</th>
-                        <th class="text-center w-24">Completed</th>
-                    </tr>
-                </thead>
-                <tbody id="print-designation-summary-tbody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
+        <!-- 2. Officer Designation & Rank Workload Breakdown Table (Hidden) -->
+        <div class="mb-4 hidden" id="print-section-designation">
+            <tbody id="print-designation-summary-tbody"></tbody>
         </div>
 
         <!-- 3. Officer-Wise Workload Summary Table -->
         <div class="mb-4" id="print-section-officers">
-            <div class="text-xs font-bold uppercase mb-1">3. Officer-Wise Active Workload Summary:</div>
+            <div class="text-xs font-bold uppercase mb-1">2. Officer-Wise Workload Summary (In-Progress / Completed / Stage N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
                         <th class="text-center w-12">S.No</th>
                         <th>Concerned Officer (PRO-ID & Rank)</th>
-                        <th class="text-center w-24">Total Active Files</th>
-                        <th class="text-center w-20">Pending Action</th>
-                        <th class="text-center w-20">In-Progress</th>
-                        <th class="text-center w-20">Stage N/A</th>
-                        <th class="text-center w-20">Completed</th>
+                        <th class="text-center w-24">Total Files</th>
+                        <th class="text-center w-24">In-Progress</th>
+                        <th class="text-center w-24">Completed</th>
+                        <th class="text-center w-24">Stage N/A</th>
                     </tr>
                 </thead>
                 <tbody id="print-officer-summary-tbody">
@@ -1626,7 +1605,7 @@
 
         <!-- 4. Detailed Active Correspondence Inventory Table -->
         <div class="mb-5">
-            <div class="text-xs font-bold uppercase mb-1" id="print-inventory-title">4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1" id="print-inventory-title">3. Detailed Active Correspondence Inventory (In-Progress & Stage N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1817,19 +1796,57 @@
             return isNaN(dObj.getTime()) ? null : dObj;
         }
 
-        // Categorize Stage into 4 exact groups
+        // Official Stage Categorization Rules:
+        // 1. In-Progress (21 stages + Pending)
+        // 2. Completed ("Completed")
+        // 3. Stage N/A ("N/A" — not updated stage)
+        // Excluded from brief: "Correspondence Closed", "Cancelled", "Returned to concerned department"
+        const IN_PROGRESS_STAGES = [
+            'draft prepared',
+            'sent for approval',
+            'file sent through eoffice',
+            'file with ic',
+            'file with dsp',
+            'file with dig',
+            'file with igp',
+            'file with dgp',
+            'returned for corrections',
+            'pending for approval',
+            'file with govt. of ap',
+            'pending for dgp approval',
+            'approved',
+            'in progress',
+            'in-progress',
+            'work completed - pending for approval',
+            'file dispatched',
+            'mail sent',
+            'letter sent',
+            'proforma sent',
+            'on hold',
+            'overdue',
+            'pending'
+        ];
+        const EXCLUDED_BRIEF_STAGES = [
+            'correspondence closed',
+            'cancelled',
+            'returned to concerned department'
+        ];
+
         function categorizeStage(stageRaw) {
-            const stage = (stageRaw !== undefined && stageRaw !== null) ? String(stageRaw).trim() : '';
+            const stage = (stageRaw !== undefined && stageRaw !== null) ? String(stageRaw).trim().replace(/\s+/g, ' ') : '';
             const stageLower = stage.toLowerCase();
 
-            if (stageLower === 'completed' || stageLower === 'file dispatched' || stageLower === 'acknowledgement filed') {
+            if (EXCLUDED_BRIEF_STAGES.includes(stageLower)) {
+                return 'Closed / Excluded';
+            }
+            if (stageLower === 'completed') {
                 return 'Completed';
             }
-            if (stageLower === 'on hold' || stageLower === 'cancelled' || stageLower === 'correspondence closed' || stageLower === 'inactive') {
-                return 'On Hold / Closed';
+            if (stageLower === 'n/a' || stageLower === 'na' || stageLower === 'not available') {
+                return 'Stage N/A';
             }
-            if (stageLower.includes('pending') || !stage || stageLower === 'n/a' || stageLower === 'none' || stageLower === 'null') {
-                return 'Pending';
+            if (IN_PROGRESS_STAGES.includes(stageLower)) {
+                return 'In-Progress';
             }
             return 'In-Progress';
         }
@@ -1919,7 +1936,7 @@
 
                                 const effectiveStart = dRecv || dOrig;
 
-                                const stageRaw = rowDict['Current Stage'] || '';
+                                const stageRaw = rowDict['Current Stage'] !== undefined ? String(rowDict['Current Stage']).trim() : '';
                                 rowDict['status_group'] = categorizeStage(stageRaw);
 
                                 const offInfo = parseProId(rowDict['Concerned Officer']);
@@ -2009,7 +2026,7 @@
                                     rowDict['calculated_tat_days'] = isNaN(tatDays) ? 0 : tatDays;
                                     rowDict['calculated_aging_days'] = rowDict['calculated_tat_days'];
                                     rowDict['display_time_metric'] = effectiveStart ? `${rowDict['calculated_tat_days']}d (TAT)` : '—';
-                                } else if (rowDict['status_group'] === 'Pending' || rowDict['status_group'] === 'In-Progress') {
+                                } else if (rowDict['status_group'] === 'In-Progress' || rowDict['status_group'] === 'Stage N/A') {
                                     if (effectiveStart) {
                                         ageDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
                                         rowDict['calculated_aging_days'] = isNaN(ageDays) ? 0 : ageDays;
@@ -2020,15 +2037,7 @@
                                     }
                                     rowDict['calculated_tat_days'] = 0;
                                 } else {
-                                    if (effectiveStart && dClose) {
-                                        tatDays = Math.max(0, Math.round((dClose - effectiveStart) / (1000 * 60 * 60 * 24)));
-                                        rowDict['display_time_metric'] = `${tatDays}d (TAT)`;
-                                    } else if (effectiveStart) {
-                                        ageDays = Math.max(0, Math.round((todayStart - effectiveStart) / (1000 * 60 * 60 * 24)));
-                                        rowDict['display_time_metric'] = `${ageDays}d (Age)`;
-                                    } else {
-                                        rowDict['display_time_metric'] = '—';
-                                    }
+                                    rowDict['display_time_metric'] = '—';
                                     rowDict['calculated_tat_days'] = 0;
                                     rowDict['calculated_aging_days'] = 0;
                                 }
@@ -2076,27 +2085,30 @@
                             }
                         }
 
-                        const completed = records.filter(r => r.status_group === 'Completed').length;
-                        const inprogress = records.filter(r => r.status_group === 'In-Progress').length;
-                        const pending = records.filter(r => r.status_group === 'Pending').length;
-                        const onholdClosed = records.filter(r => r.status_group === 'On Hold / Closed').length;
-                        const critical = records.filter(r => r.Priority === 'Critical').length;
-                        const high = records.filter(r => r.Priority === 'High').length;
-                        const vipCount = records.filter(r => r.is_vip).length;
+                        // Exclude Closed / Cancelled / Returned from active brief metrics
+                        const reportableRecords = records.filter(r => r.status_group !== 'Closed / Excluded');
+                        const completed = reportableRecords.filter(r => r.status_group === 'Completed').length;
+                        const inprogress = reportableRecords.filter(r => r.status_group === 'In-Progress').length;
+                        const pending = 0;
+                        const onholdClosed = reportableRecords.filter(r => r.status_group === 'Stage N/A').length;
+                        const closedExcludedCount = records.filter(r => r.status_group === 'Closed / Excluded').length;
+                        const critical = reportableRecords.filter(r => r.Priority === 'Critical').length;
+                        const high = reportableRecords.filter(r => r.Priority === 'High').length;
+                        const vipCount = reportableRecords.filter(r => r.is_vip).length;
 
-                        const vipRecords = records.filter(r => r.is_vip);
-                        const vipDeptRecords = records.filter(r => r.is_vip_dept);
-                        const vipStageRecords = records.filter(r => r.is_vip_stage);
-                        const vipFollowupRecords = records.filter(r => r.is_vip_followup);
-                        const vipDesigRecords = records.filter(r => r.is_vip_desig);
+                        const vipRecords = reportableRecords.filter(r => r.is_vip);
+                        const vipDeptRecords = reportableRecords.filter(r => r.is_vip_dept);
+                        const vipStageRecords = reportableRecords.filter(r => r.is_vip_stage);
+                        const vipFollowupRecords = reportableRecords.filter(r => r.is_vip_followup);
+                        const vipDesigRecords = reportableRecords.filter(r => r.is_vip_desig);
                         const vipActiveRecords = vipRecords.filter(r => r.status_group !== 'Completed');
                         const vipCompletedRecords = vipRecords.filter(r => r.status_group === 'Completed');
 
-                        const tatList = records.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
+                        const tatList = reportableRecords.filter(r => r.status_group === 'Completed' && r.calculated_tat_days > 0).map(r => r.calculated_tat_days);
                         const avgTat = tatList.length > 0 ? (tatList.reduce((a, b) => a + b, 0) / tatList.length).toFixed(1) : 0;
 
                         const agingBuckets = { "< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0 };
-                        records.filter(r => (r.status_group === 'Pending' || r.status_group === 'In-Progress') && r.display_time_metric !== '—').forEach(r => {
+                        reportableRecords.filter(r => (r.status_group === 'In-Progress' || r.status_group === 'Stage N/A') && r.display_time_metric !== '—').forEach(r => {
                             const age = r.calculated_aging_days;
                             if (age <= 3) agingBuckets["< 3 Days"]++;
                             else if (age <= 7) agingBuckets["4 - 7 Days"]++;
@@ -2105,7 +2117,7 @@
                         });
 
                         const offMap = {};
-                        records.forEach(r => {
+                        reportableRecords.forEach(r => {
                             const off = r.officer_label;
                             if (!offMap[off]) {
                                 offMap[off] = {
@@ -2142,10 +2154,7 @@
                             } else if (r.status_group === 'In-Progress') {
                                 offMap[off].inprogress++;
                                 offMap[off].inprogress_files.push(fEntry);
-                            } else if (r.status_group === 'Pending') {
-                                offMap[off].pending++;
-                                offMap[off].pending_files.push(fEntry);
-                            } else {
+                            } else if (r.status_group === 'Stage N/A') {
                                 offMap[off].onhold++;
                                 offMap[off].na_stage_files.push(fEntry);
                             }
@@ -2157,7 +2166,7 @@
 
                         const officerAnalytics = Object.values(offMap).map(o => ({
                             ...o,
-                            active_total: o.pending + o.inprogress + o.onhold,
+                            active_total: o.inprogress + o.onhold,
                             projects: Array.from(o.projects).sort()
                         })).sort((a, b) => {
                             const wA = getOfficerHierarchyWeight(a);
@@ -2209,7 +2218,7 @@
                         });
 
                         const pMap = {};
-                        records.forEach(r => {
+                        reportableRecords.forEach(r => {
                             const p = r.project_label;
                             if (!pMap[p]) {
                                 pMap[p] = {
@@ -2223,8 +2232,7 @@
                             pMap[p].total++;
                             if (r.status_group === 'Completed') pMap[p].completed++;
                             else if (r.status_group === 'In-Progress') pMap[p].inprogress++;
-                            else if (r.status_group === 'Pending') pMap[p].pending++;
-                            else pMap[p].onhold++;
+                            else if (r.status_group === 'Stage N/A') pMap[p].onhold++;
 
                             if (r.Priority === 'Critical' || r.Priority === 'High') pMap[p].critical++;
                             if (r.is_vip) pMap[p].vip_count++;
@@ -2236,7 +2244,7 @@
                         })).sort((a, b) => b.total - a.total);
 
                         const chMap = {};
-                        records.forEach(r => {
+                        reportableRecords.forEach(r => {
                             const ch = cleanText(r['Received Through']) === 'N/A' ? 'Other' : cleanText(r['Received Through']);
                             chMap[ch] = (chMap[ch] || 0) + 1;
                         });
@@ -2284,18 +2292,20 @@
                             return (0 <= a.event_delta_days && a.event_delta_days < 9999) ? (a.event_delta_days - b.event_delta_days) : (b.event_delta_days - a.event_delta_days);
                         });
 
-                        const upcomingEventsCount = scheduledEvents.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+                        const upcomingEventsCount = scheduledEvents.filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
 
                         resolve({
                             status: 'success',
                             data_source: 'Google Sheets Direct Browser Parse',
                             last_updated: new Date().toISOString(),
                             kpis: {
-                                total: records.length,
+                                total: reportableRecords.length,
+                                raw_total: records.length,
                                 completed,
                                 inprogress,
                                 pending,
                                 onhold_closed: onholdClosed,
+                                closed_excluded: closedExcludedCount,
                                 critical,
                                 high,
                                 vip_count: vipCount,
@@ -2438,13 +2448,13 @@
             const tsEl = document.getElementById('executive-narrative-timestamp');
             if (tsEl) tsEl.innerText = `As on ${timeStr}`;
             
-            // Build narrative (exclude Cancelled / On Hold and Completed items)
+            // Build narrative (exclude Closed / Excluded and Completed items)
             // Use ALL records with due dates for upcoming tasks (not just events/VCs)
-            const allRecordsWithDue = (rawData.records || []).filter(r => r.due_date_raw && r.status_group !== 'On Hold / Closed' && r.status_group !== 'Completed' && (r.event_delta_days >= 0));
+            const allRecordsWithDue = (rawData.records || []).filter(r => r.due_date_raw && r.status_group !== 'Closed / Excluded' && r.status_group !== 'Completed' && (r.event_delta_days >= 0));
             const activeUpcomingTasks = allRecordsWithDue.sort((a, b) => (a.event_delta_days || 9999) - (b.event_delta_days || 9999));
-            const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed' && r.status_group !== 'On Hold / Closed').length;
+            const urgentFollowupCount = (rawData.records || []).filter(r => r.is_vip_followup && r.status_group !== 'Completed' && r.status_group !== 'Closed / Excluded').length;
             
-            let narrative = `Sir, currently tracking <strong>${totalRecords} total correspondence files</strong> with a <strong>${clearancePct}% clearance rate</strong> (${kpis.completed || 0} dispatched). `;
+            let narrative = `Sir, currently tracking <strong>${totalRecords} active & completed correspondence files</strong> with a <strong>${clearancePct}% completion rate</strong> (${kpis.completed || 0} completed, ${kpis.inprogress || 0} in-progress, ${kpis.onhold_closed || 0} stage N/A). `;
             narrative += `There are <strong>${vip.total_count || 0} VIP files</strong> identified across apex departments, of which <strong>${vip.active_count || 0} are actively pending resolution</strong>. `;
             if (urgentFollowupCount > 0) {
                 narrative += `<span class="text-rose-400 font-bold">⚠️ ${urgentFollowupCount} VIP files urgently require department liaison/follow-up.</span> `;
@@ -2481,7 +2491,7 @@
             animateNumber('kpi-critical', kpis.critical);
             animateNumber('kpi-vip', kpis.vip_count || 0);
             document.getElementById('kpi-tat').innerText = kpis.avg_tat_days || kpis.avg_tat || 0;
-            document.getElementById('header-pending-count').innerText = `${kpis.pending} Pending`;
+            document.getElementById('header-pending-count').innerText = `${kpis.inprogress} In-Prog`;
             updateExecutiveNarrative();
 
             const total = kpis.total || 1;
@@ -2542,10 +2552,9 @@
                 data: {
                     labels: shortOfficerLabels,
                     datasets: [
-                        { label: 'Active In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 4, maxBarThickness: 22 },
-                        { label: 'Pending Action', data: officers.map(o => o.pending), backgroundColor: '#fb923c', borderRadius: 4, maxBarThickness: 22 },
+                        { label: 'In-Progress', data: officers.map(o => o.inprogress), backgroundColor: '#6366f1', borderRadius: 4, maxBarThickness: 22 },
                         { label: 'Completed', data: officers.map(o => o.completed), backgroundColor: '#84cc16', borderRadius: 4, maxBarThickness: 22 },
-                        { label: 'Stage N/A', data: officers.map(o => o.onhold || 0), backgroundColor: '#cbd5e1', borderRadius: 4, maxBarThickness: 22 }
+                        { label: 'Stage N/A', data: officers.map(o => o.onhold || 0), backgroundColor: '#f59e0b', borderRadius: 4, maxBarThickness: 22 }
                     ]
                 },
                 options: {
@@ -2583,7 +2592,7 @@
                     datasets: [
                         { label: 'In-Progress', data: topProjects.map(p => p.inprogress), backgroundColor: '#818cf8', borderRadius: 4, maxBarThickness: 16 },
                         { label: 'Completed', data: topProjects.map(p => p.completed), backgroundColor: '#84cc16', borderRadius: 4, maxBarThickness: 16 },
-                        { label: 'Pending', data: topProjects.map(p => p.pending), backgroundColor: '#fb923c', borderRadius: 4, maxBarThickness: 16 }
+                        { label: 'Stage N/A', data: topProjects.map(p => p.onhold || 0), backgroundColor: '#f59e0b', borderRadius: 4, maxBarThickness: 16 }
                     ]
                 },
                 options: {
@@ -2607,10 +2616,9 @@
             const kpis = rawData.kpis || {};
             const totalFiles = kpis.total || 1;
             const stageItems = [
-                { label: 'Completed', count: kpis.completed || 0, color: '#84cc16' },
                 { label: 'In-Progress', count: kpis.inprogress || 0, color: '#818cf8' },
-                { label: 'Pending Action', count: kpis.pending || 0, color: '#fb923c' },
-                { label: 'Stage N/A', count: kpis.onhold_closed || 0, color: '#cbd5e1' }
+                { label: 'Completed', count: kpis.completed || 0, color: '#84cc16' },
+                { label: 'Stage N/A', count: kpis.onhold_closed || 0, color: '#f59e0b' }
             ];
 
             const centerTotalEl = document.getElementById('donut-center-total');
@@ -3065,7 +3073,8 @@
 
             const kpis = rawData.kpis;
             document.getElementById('print-kpi-total').innerText = kpis.total;
-            document.getElementById('print-kpi-pending').innerText = kpis.pending;
+            const pPend = document.getElementById('print-kpi-pending');
+            if (pPend) pPend.innerText = kpis.pending;
             document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
             document.getElementById('print-kpi-done').innerText = kpis.completed;
@@ -3077,7 +3086,7 @@
             if (offSec) offSec.style.display = 'none';
 
             const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
-            const vipFiles = rawData.records.filter(r => r.is_vip);
+            const vipFiles = rawData.records.filter(r => r.is_vip && r.status_group !== 'Closed / Excluded');
             detailedTbody.innerHTML = vipFiles.map((r, idx) => `
                 <tr>
                     <td class="font-mono font-bold whitespace-nowrap">⭐ ${r.ID}</td>
@@ -3099,7 +3108,7 @@
                 if (desigSec) desigSec.style.display = '';
                 if (offSec) offSec.style.display = '';
                 document.getElementById('print-memo-title').innerText = "STATUS REPORT ON ACTIVE CORRESPONDENCE & PENDING WORKLOAD - DESIGNATION-WISE ABSTRACT";
-                document.getElementById('print-inventory-title').innerText = "4. Detailed Active Correspondence Inventory (Pending, In-Progress & Stage N/A):";
+                document.getElementById('print-inventory-title').innerText = "4. Detailed Active Correspondence Inventory (In-Progress & Stage N/A):";
             }, 1000);
         }
 
@@ -3107,7 +3116,7 @@
             const grid = document.getElementById('officer-cards-grid');
             const commonTaskGroup = rawData.officers.find(o => o.pro_id === 'ALL' || (o.officer || '').toUpperCase() === 'ALL');
             const individualOfficers = rawData.officers.filter(o => o.pro_id !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL').sort((a, b) => getOfficerHierarchyWeight(a) - getOfficerHierarchyWeight(b));
-            const commonFiles = (rawData.records || []).filter(r => r.officer_id === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL');
+            const commonFiles = (rawData.records || []).filter(r => (r.officer_id === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Closed / Excluded');
 
             let commonTasksBanner = '';
             if (commonTaskGroup && commonFiles.length > 0) {
@@ -3118,7 +3127,7 @@
                                 <span class="px-2.5 py-1 rounded-xl bg-purple-500/20 text-purple-300 font-mono font-extrabold text-xs border border-purple-500/40">👥 ALL OFFICERS</span>
                                 <div>
                                     <h3 class="text-base font-extrabold text-white">Common Tasks (Assigned to All Officers)</h3>
-                                    <p class="text-xs text-slate-400">${commonTaskGroup.total} Common Task(s) — Active: ${commonTaskGroup.active_total || (commonTaskGroup.pending + commonTaskGroup.inprogress + (commonTaskGroup.onhold || 0))} (${commonTaskGroup.pending} Pending, ${commonTaskGroup.inprogress} In-Progress, ${commonTaskGroup.completed} Completed)</p>
+                                    <p class="text-xs text-slate-400">${commonTaskGroup.total} Common Task(s) — (${commonTaskGroup.inprogress} In-Progress, ${commonTaskGroup.completed} Completed, ${commonTaskGroup.onhold || 0} Stage N/A)</p>
                                 </div>
                             </div>
                             <button onclick="drillDownOfficer('${commonTaskGroup.officer}')" class="px-3 py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition flex items-center gap-1.5 shadow">
@@ -3138,7 +3147,7 @@
                                         <p class="text-xs text-white font-medium line-clamp-2">${f['Subject / Work Description'] || '—'}</p>
                                     </div>
                                     <div class="text-right whitespace-nowrap">
-                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">${f['Current Stage'] || 'Pending'}</span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">${f['Current Stage'] || 'In-Progress'}</span>
                                         <div class="text-[10px] text-slate-400 font-mono mt-1">${f.display_time_metric || ''}</div>
                                     </div>
                                 </div>
@@ -3159,7 +3168,7 @@
                                     ${o.rank ? `<span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">${o.rank}</span>` : ''}
                                 </div>
                                 <h3 class="text-base font-bold text-white mt-1">${o.name || o.officer}</h3>
-                                <p class="text-xs text-slate-400">${o.total} Assigned Files (Active: ${o.active_total || (o.pending + o.inprogress + o.onhold)})</p>
+                                <p class="text-xs text-slate-400">${o.total} Assigned Files (Active: ${o.active_total !== undefined ? o.active_total : (o.inprogress + (o.onhold || 0))})</p>
                             </div>
                             <div class="flex flex-col items-end gap-1">
                                 ${o.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${o.critical} Critical</span>` : ''}
@@ -3167,22 +3176,18 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'Pending')">
-                                <div class="text-amber-400 font-bold text-sm">${o.pending}</div>
-                                <div class="text-[9px] text-slate-400">Pending</div>
-                            </div>
+                        <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-indigo-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'In-Progress')">
                                 <div class="text-indigo-400 font-bold text-sm">${o.inprogress}</div>
-                                <div class="text-[9px] text-slate-400">In-Prog</div>
+                                <div class="text-[9px] text-slate-400">In-Progress</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-emerald-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'Completed')">
                                 <div class="text-emerald-400 font-bold text-sm">${o.completed}</div>
-                                <div class="text-[9px] text-slate-400">Done</div>
+                                <div class="text-[9px] text-slate-400">Completed</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'On Hold / Closed')">
-                                <div class="text-slate-300 font-bold text-sm">${o.onhold || 0}</div>
-                                <div class="text-[9px] text-slate-400">Hold/NA</div>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-500/50 transition" onclick="drillDownOfficer('${o.officer}', 'Stage N/A')">
+                                <div class="text-amber-400 font-bold text-sm">${o.onhold || 0}</div>
+                                <div class="text-[9px] text-slate-400">Stage N/A</div>
                             </div>
                         </div>
 
@@ -3234,22 +3239,18 @@
                             ${p.critical > 0 ? `<span class="px-2 py-0.5 text-[10.5px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">${p.critical} Critical</span>` : ''}
                         </div>
 
-                        <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
-                                <div class="text-amber-400 font-bold text-sm">${p.pending}</div>
-                                <div class="text-[9px] text-slate-400">Pending</div>
-                            </div>
+                        <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-indigo-400 font-bold text-sm">${p.inprogress}</div>
-                                <div class="text-[9px] text-slate-400">In-Prog</div>
+                                <div class="text-[9px] text-slate-400">In-Progress</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
                                 <div class="text-emerald-400 font-bold text-sm">${p.completed}</div>
-                                <div class="text-[9px] text-slate-400">Done</div>
+                                <div class="text-[9px] text-slate-400">Completed</div>
                             </div>
                             <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
-                                <div class="text-slate-300 font-bold text-sm">${p.onhold || 0}</div>
-                                <div class="text-[9px] text-slate-400">Hold/NA</div>
+                                <div class="text-amber-400 font-bold text-sm">${p.onhold || 0}</div>
+                                <div class="text-[9px] text-slate-400">Stage N/A</div>
                             </div>
                         </div>
 
@@ -3345,44 +3346,45 @@
 
             const kpis = rawData.kpis;
             document.getElementById('abs-kpi-total').innerText = kpis.total;
-            document.getElementById('abs-kpi-pending').innerText = kpis.pending;
+            const absPendEl = document.getElementById('abs-kpi-pending');
+            if (absPendEl) absPendEl.innerText = kpis.pending;
             document.getElementById('abs-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('abs-kpi-na').innerText = kpis.onhold_closed || 0;
             document.getElementById('abs-kpi-done').innerText = kpis.completed;
             document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
 
-            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
+            // Officers with files in the 3 reportable categories (In-Progress, Completed, Stage N/A) sorted by Hierarchy
+            const reportableOfficers = rawData.officers.filter(o => o.total > 0).sort((a, b) => {
                 const wA = getOfficerHierarchyWeight(a);
                 const wB = getOfficerHierarchyWeight(b);
                 if (wA !== wB) return wA - wB;
-                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+                return b.total - a.total;
             });
 
-            // 1. Short WhatsApp Text (Default Officer-Wise Brief — Rank-Wise)
+            // 1. Short WhatsApp Text (Default Officer-Wise Brief — Only 3 Categories: In-Progress, Completed, N/A)
             let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
             waShort += `📅 Date: ${dateStr}\n\n`;
-            waShort += `📊 *Total: ${kpis.total}* | 🟡 *Pend: ${kpis.pending}* | 🔵 *In-Prog: ${kpis.inprogress}* | ⚪ *N/A: ${kpis.onhold_closed || 0}* | 🟢 *Done: ${kpis.completed}* | ⭐ *VIP: ${kpis.vip_count || 0}*\n\n`;
+            waShort += `📊 *Total: ${kpis.total}* | 🔵 *In-Progress: ${kpis.inprogress}* | 🟢 *Completed: ${kpis.completed}* | ⚪ *N/A: ${kpis.onhold_closed || 0}*\n\n`;
 
             waShort += `───────────────────────────────\n`;
-            waShort += `👮 *OFFICER WORKLOAD Current stage:* [Active = Pend / InProg / N/A]\n`;
+            waShort += `👮 *OFFICER WORKLOAD Current stage:* [Total = In-Prog / Completed / N/A]\n`;
             waShort += `───────────────────────────────\n\n`;
 
-            const individualActiveOfficers = activeOfficers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
-            individualActiveOfficers.forEach((o, idx) => {
-                const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                waShort += `${idx + 1}. ${o.officer}: *${actTotal}* (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
+            const individualReportableOfficers = reportableOfficers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
+            individualReportableOfficers.forEach((o, idx) => {
+                waShort += `${idx + 1}. ${o.officer}: *${o.total}* (${o.inprogress} / ${o.completed} / ${o.onhold || 0})\n`;
             });
 
-            // Common Tasks (ALL officer) shown separately
-            const allOfficerFiles = (rawData.records || []).filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Completed');
+            // Common Tasks (ALL officer) shown separately (excluding Closed / Excluded)
+            const allOfficerFiles = (rawData.records || []).filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Closed / Excluded');
             if (allOfficerFiles.length > 0) {
                 waShort += `\n───────────────────────────────\n`;
                 waShort += `📢 *COMMON TASKS (Assigned to ALL Officers):*\n`;
                 waShort += `───────────────────────────────\n`;
                 allOfficerFiles.forEach((f, idx) => {
                     const vipTag = f.is_vip ? " ⭐[VIP]" : "";
-                    waShort += `${idx + 1}. *${f.ID}*${vipTag} [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'Pending'}*\n`;
+                    waShort += `${idx + 1}. *${f.ID}*${vipTag} [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'In-Progress'}*\n`;
                     waShort += `   • ${(f['Subject / Work Description'] || '').substring(0, 90)}\n`;
                 });
             }
@@ -3402,7 +3404,7 @@
             waEvents += `📌 *SCHEDULED EVENTS & MEETINGS:*\n`;
             waEvents += `───────────────────────────────\n`;
 
-            const eventsList = (rawData.scheduled_events || []).filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
+            const eventsList = (rawData.scheduled_events || []).filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
             if (eventsList.length === 0) {
                 waEvents += `\n• No upcoming scheduled meetings/workshops at present.\n`;
             } else {
@@ -3430,15 +3432,15 @@
             waEvents += `───────────────────────────────\n`;
             waEvents += `_Generated from AP Police TS Executive Command Portal_`;
 
-            // 3. VIP WhatsApp Text (Short Brief)
+            // 3. VIP WhatsApp Text (Short Brief — Excludes Closed / Excluded)
             let waVip = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
             waVip += `⭐ *VIP & HIGH PRIORITY CORRESPONDENCE SHORT BRIEF*\n`;
             waVip += `📅 Date: ${dateStr}\n\n`;
-            const vipFiles = rawData.records.filter(r => r.is_vip);
+            const vipFiles = rawData.records.filter(r => r.is_vip && r.status_group !== 'Closed / Excluded');
             const vipActive = vipFiles.filter(r => r.status_group !== 'Completed');
             const vipDone = vipFiles.filter(r => r.status_group === 'Completed');
             const vipFollowup = vipActive.filter(r => r.is_vip_followup);
-            waVip += `📊 *VIP Overview:* Total: *${vipFiles.length}* | 🟡 Active: *${vipActive.length}* | 🟢 Done: *${vipDone.length}* | ⚠️ Follow-up: *${vipFollowup.length}*\n\n`;
+            waVip += `📊 *VIP Overview:* Total: *${vipFiles.length}* | 🔵 In-Prog / N/A: *${vipActive.length}* | 🟢 Completed: *${vipDone.length}* | ⚠️ Follow-up: *${vipFollowup.length}*\n\n`;
             waVip += `───────────────────────────────\n`;
             waVip += `📌 *ACTIVE VIP FILES:*\n`;
             waVip += `───────────────────────────────\n`;
@@ -3503,8 +3505,8 @@
             const project = document.getElementById('filter-event-project')?.value || '';
 
             const allEvents = rawData.scheduled_events;
-            const cancelledEvents = allEvents.filter(e => e.status_group === 'On Hold / Closed');
-            const upcomingCount = allEvents.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+            const cancelledEvents = allEvents.filter(e => e.status_group === 'Closed / Excluded');
+            const upcomingCount = allEvents.filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
             const cancelledCount = cancelledEvents.length;
             const totalCount = allEvents.length;
 
@@ -3517,15 +3519,15 @@
 
             const filtered = allEvents.filter(e => {
                 if (currentEventTimingFilter === 'upcoming') {
-                    // Exclude cancelled/on-hold events AND past completed events
-                    if (e.status_group === 'On Hold / Closed') return false;
+                    // Exclude cancelled/closed events AND past completed events
+                    if (e.status_group === 'Closed / Excluded') return false;
                     if (e.event_delta_days < 0 && e.status_group === 'Completed') return false;
                 } else if (currentEventTimingFilter === 'urgent') {
-                    if (e.status_group === 'On Hold / Closed') return false;
+                    if (e.status_group === 'Closed / Excluded') return false;
                     if (e.event_delta_days !== 0 && e.event_delta_days !== 1) return false;
                 } else if (currentEventTimingFilter === 'cancelled') {
-                    // Show ONLY cancelled/on-hold events
-                    if (e.status_group !== 'On Hold / Closed') return false;
+                    // Show ONLY cancelled/closed events
+                    if (e.status_group !== 'Closed / Excluded') return false;
                 }
 
                 if (nature) {
@@ -3609,8 +3611,8 @@
                     timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 text-[10px] border border-slate-700">Concluded (${ev.event_timing_label})</span>`;
                 }
 
-                // Override styling for cancelled / on-hold events
-                const isCancelled = ev.status_group === 'On Hold / Closed';
+                // Override styling for cancelled / closed events
+                const isCancelled = ev.status_group === 'Closed / Excluded';
                 if (isCancelled) {
                     timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600/25 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>🚫 CANCELLED</span>`;
                     cardAccent = 'border-rose-500/40';
@@ -3747,7 +3749,8 @@
 
             const kpis = rawData.kpis;
             document.getElementById('print-kpi-total').innerText = kpis.total;
-            document.getElementById('print-kpi-pending').innerText = kpis.pending;
+            const pPend = document.getElementById('print-kpi-pending');
+            if (pPend) pPend.innerText = kpis.pending;
             document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
             document.getElementById('print-kpi-done').innerText = kpis.completed;
@@ -3756,27 +3759,26 @@
             const desigSec = document.getElementById('print-section-designation');
             if (desigSec) desigSec.style.display = 'none';
 
-            const activeOfficers = rawData.officers.filter(o => (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
+            const reportableOfficers = rawData.officers.filter(o => o.total > 0).sort((a, b) => {
                 const wA = getOfficerHierarchyWeight(a);
                 const wB = getOfficerHierarchyWeight(b);
                 if (wA !== wB) return wA - wB;
-                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+                return b.total - a.total;
             });
             const officerTbody = document.getElementById('print-officer-summary-tbody');
-            officerTbody.innerHTML = activeOfficers.map((o, idx) => `
+            officerTbody.innerHTML = reportableOfficers.map((o, idx) => `
                 <tr>
                     <td class="text-center font-mono font-bold">${idx + 1}</td>
                     <td class="font-semibold">${o.pro_id === 'ALL' ? 'ALL (Common Task)' : o.officer}</td>
-                    <td class="text-center font-bold font-mono">${o.active_total || (o.pending + o.inprogress + (o.onhold || 0))}</td>
-                    <td class="text-center font-bold font-mono">${o.pending}</td>
+                    <td class="text-center font-bold font-mono">${o.total}</td>
                     <td class="text-center font-bold font-mono">${o.inprogress}</td>
+                    <td class="text-center font-bold font-mono">${o.completed}</td>
                     <td class="text-center font-bold font-mono">${o.onhold || 0}</td>
-                    <td class="text-center font-mono">${o.completed}</td>
                 </tr>
             `).join('');
 
             const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
-            const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed');
+            const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed' && r.status_group !== 'Closed / Excluded');
             detailedTbody.innerHTML = activeFiles.map((r, idx) => `
                 <tr>
                     <td class="font-mono font-bold whitespace-nowrap">${r.ID}${r.is_vip ? ' ⭐' : ''}</td>
@@ -3863,13 +3865,13 @@
                     priorityBadge = `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">High</span>`;
                 }
 
-                let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'Pending'}</span>`;
+                let stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">${r['Current Stage'] || 'In-Progress'}</span>`;
                 if (r.status_group === 'Completed') {
                     stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">${r['Current Stage'] || 'Completed'}</span>`;
-                } else if (r.status_group === 'In-Progress') {
-                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">${r['Current Stage'] || 'In-Progress'}</span>`;
-                } else if (r.status_group === 'On Hold / Closed') {
-                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600/40">${r['Current Stage'] || 'N/A'}</span>`;
+                } else if (r.status_group === 'Stage N/A') {
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">${r['Current Stage'] || 'N/A'}</span>`;
+                } else if (r.status_group === 'Closed / Excluded') {
+                    stageBadge = `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600/40">${r['Current Stage'] || 'Closed'}</span>`;
                 }
 
                 const vipIcon = r.is_vip ? `<span class="text-amber-400 font-bold ml-1" title="⭐ VIP Executive File: ${r.vip_reasons ? r.vip_reasons.join(', ') : ''}">⭐</span>` : '';
@@ -3898,14 +3900,14 @@
 
             document.getElementById('modal-id').innerText = r.ID;
 
-            let stageBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            let stageBadgeClass = "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
             if (r.status_group === 'Completed') stageBadgeClass = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-            else if (r.status_group === 'In-Progress') stageBadgeClass = "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
-            else if (r.status_group === 'On Hold / Closed') stageBadgeClass = "bg-slate-700 text-slate-300 border border-slate-600";
+            else if (r.status_group === 'Stage N/A') stageBadgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            else if (r.status_group === 'Closed / Excluded') stageBadgeClass = "bg-slate-700 text-slate-300 border border-slate-600";
             
             const stageBadge = document.getElementById('modal-stage-badge');
             stageBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-semibold ${stageBadgeClass}`;
-            stageBadge.innerText = `${r['Current Stage'] || 'Pending'} (${r.status_group})`;
+            stageBadge.innerText = `${r['Current Stage'] || 'N/A'} (${r.status_group})`;
 
             let priorityBadgeClass = "bg-slate-800 text-slate-300 border border-slate-700";
             if (r.Priority === 'Critical') priorityBadgeClass = "bg-rose-500/20 text-rose-300 border border-rose-500/40";
@@ -4109,8 +4111,8 @@
                 overview: 'Performance Report',
                 vip: 'VIP Command Matrix',
                 events: 'Meetings & VCs Schedule',
-                officers: 'Officer Workloads (Hierarchy)',
-                projects: 'Technical Projects Matrix',
+                officers: 'Officers',
+                projects: 'Projects',
                 explorer: 'All Correspondence Records'
             };
             const titleEl = document.getElementById('page-main-title');

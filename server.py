@@ -140,14 +140,26 @@ def parse_indian_date(val):
 
 def categorize_stage(stage_raw):
     stage = str(stage_raw).strip() if stage_raw is not None else ""
-    stage_lower = stage.lower()
+    stage_lower = re.sub(r'\s+', ' ', stage.lower())
 
-    if stage_lower in ['completed', 'file dispatched', 'acknowledgement filed']:
+    # Excluded categories (NOT required to show in brief / active KPIs)
+    if (stage_lower in ['correspondence closed', 'cancelled', 'canceled', 'returned to concerned department'] or
+        'correspondence closed' in stage_lower or
+        'returned to concerned department' in stage_lower):
+        return 'Closed / Excluded'
+
+    # Category 2: "Completed" is separate category
+    if stage_lower == 'completed':
         return 'Completed'
-    if stage_lower in ['on hold', 'cancelled', 'correspondence closed', 'inactive']:
-        return 'On Hold / Closed'
-    if 'pending' in stage_lower or stage_lower in ['n/a', 'none', 'null', '']:
-        return 'Pending'
+
+    # Category 3: "N/A" is separate category because stage is not updated
+    if stage_lower in ['n/a', 'na', 'not available']:
+        return 'Stage N/A'
+
+    # Category 1: In-Progress categories (Draft Prepared, Sent for Approval, File Sent through eOffice,
+    # File with IC/DSP/DIG/IGP/DGP/Govt. of AP, Returned for Corrections, Pending for Approval,
+    # Pending for DGP Approval, Approved, In Progress, Work Completed - Pending for Approval,
+    # File Dispatched, Mail Sent, Letter Sent, Proforma Sent, On Hold, Overdue, etc.)
     return 'In-Progress'
 
 def calculate_analytics_from_records(records):
@@ -265,7 +277,7 @@ def calculate_analytics_from_records(records):
             r['calculated_tat_days'] = tat_days
             r['calculated_aging_days'] = tat_days
             r['display_time_metric'] = f"{tat_days}d (TAT)" if effective_start else "—"
-        elif r['status_group'] in ['Pending', 'In-Progress']:
+        elif r['status_group'] in ['In-Progress', 'Stage N/A']:
             if effective_start:
                 age_days = max(0, (today - effective_start).days)
                 r['calculated_aging_days'] = age_days
@@ -367,33 +379,35 @@ def calculate_analytics_from_records(records):
         x['event_delta_days'] if 0 <= x['event_delta_days'] < 9999 else (-x['event_delta_days'] if x['event_delta_days'] < 0 else 0)
     ))
 
-    upcoming_events_count = sum(1 for e in scheduled_events if e['status_group'] != 'On Hold / Closed' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed'))
+    upcoming_events_count = sum(1 for e in scheduled_events if e['status_group'] != 'Closed / Excluded' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed'))
 
-    # Overall KPIs
-    total_records = len(records)
-    completed_count = sum(1 for r in records if r['status_group'] == 'Completed')
-    inprogress_count = sum(1 for r in records if r['status_group'] == 'In-Progress')
-    pending_count = sum(1 for r in records if r['status_group'] == 'Pending')
-    onhold_closed_count = sum(1 for r in records if r['status_group'] == 'On Hold / Closed')
-    critical_count = sum(1 for r in records if r['Priority'] == 'Critical')
-    high_count = sum(1 for r in records if r['Priority'] == 'High')
-    vip_total_count = sum(1 for r in records if r.get('is_vip'))
+    # Overall KPIs (Only the 3 reportable categories: In-Progress, Completed, Stage N/A)
+    reportable_records = [r for r in records if r['status_group'] != 'Closed / Excluded']
+    total_records = len(reportable_records)
+    completed_count = sum(1 for r in reportable_records if r['status_group'] == 'Completed')
+    inprogress_count = sum(1 for r in reportable_records if r['status_group'] == 'In-Progress')
+    pending_count = 0
+    onhold_closed_count = sum(1 for r in reportable_records if r['status_group'] == 'Stage N/A')
+    excluded_count = sum(1 for r in records if r['status_group'] == 'Closed / Excluded')
+    critical_count = sum(1 for r in reportable_records if r['Priority'] == 'Critical')
+    high_count = sum(1 for r in reportable_records if r['Priority'] == 'High')
+    vip_total_count = sum(1 for r in reportable_records if r.get('is_vip'))
 
     # Dedicated VIP Analytics
-    vip_records = [r for r in records if r.get('is_vip')]
-    vip_dept_records = [r for r in records if r.get('is_vip_dept')]
-    vip_stage_records = [r for r in records if r.get('is_vip_stage')]
-    vip_followup_records = [r for r in records if r.get('is_vip_followup')]
-    vip_desig_records = [r for r in records if r.get('is_vip_desig')]
+    vip_records = [r for r in reportable_records if r.get('is_vip')]
+    vip_dept_records = [r for r in reportable_records if r.get('is_vip_dept')]
+    vip_stage_records = [r for r in reportable_records if r.get('is_vip_stage')]
+    vip_followup_records = [r for r in reportable_records if r.get('is_vip_followup')]
+    vip_desig_records = [r for r in reportable_records if r.get('is_vip_desig')]
     vip_active_records = [r for r in vip_records if r.get('status_group') != 'Completed']
     vip_completed_records = [r for r in vip_records if r.get('status_group') == 'Completed']
 
-    tat_list = [r['calculated_tat_days'] for r in records if r['status_group'] == 'Completed' and r['calculated_tat_days'] > 0]
+    tat_list = [r['calculated_tat_days'] for r in reportable_records if r['status_group'] == 'Completed' and r['calculated_tat_days'] > 0]
     avg_tat = round(sum(tat_list) / len(tat_list), 1) if tat_list else 0
 
     aging_buckets = {"< 3 Days": 0, "4 - 7 Days": 0, "8 - 15 Days": 0, "15+ Days": 0}
-    for r in records:
-        if r['status_group'] in ['Pending', 'In-Progress'] and r['display_time_metric'] != '—':
+    for r in reportable_records:
+        if r['status_group'] in ['In-Progress', 'Stage N/A'] and r['display_time_metric'] != '—':
             age = r['calculated_aging_days']
             if age <= 3:
                 aging_buckets["< 3 Days"] += 1
@@ -404,9 +418,9 @@ def calculate_analytics_from_records(records):
             else:
                 aging_buckets["15+ Days"] += 1
 
-    # Group by Officers
+    # Group by Officers (Exclude Closed / Excluded from officer brief & counts)
     officers_map = {}
-    for r in records:
+    for r in reportable_records:
         off_label = r['officer_label']
         if off_label not in officers_map:
             officers_map[off_label] = {
@@ -447,9 +461,6 @@ def calculate_analytics_from_records(records):
         elif r['status_group'] == 'In-Progress':
             om['inprogress'] += 1
             om['inprogress_files'].append(file_entry)
-        elif r['status_group'] == 'Pending':
-            om['pending'] += 1
-            om['pending_files'].append(file_entry)
         else:
             om['onhold'] += 1
             om['na_stage_files'].append(file_entry)
@@ -468,11 +479,11 @@ def calculate_analytics_from_records(records):
         officers_map.items(),
         key=lambda x: (
             get_officer_hierarchy_weight(x[1]['pro_id'], x[1]['rank']),
-            -(x[1]['pending'] + x[1]['inprogress'] + x[1]['onhold']),
+            -(x[1]['inprogress'] + x[1]['onhold']),
             -x[1]['total']
         )
     ):
-        active_total = data['pending'] + data['inprogress'] + data['onhold']
+        active_total = data['inprogress'] + data['onhold']
         officer_analytics.append({
             'officer': off_label,
             'pro_id': data['pro_id'],
@@ -482,7 +493,7 @@ def calculate_analytics_from_records(records):
             'active_total': active_total,
             'completed': data['completed'],
             'inprogress': data['inprogress'],
-            'pending': data['pending'],
+            'pending': 0,
             'onhold': data['onhold'],
             'critical': data['critical'],
             'vip_count': data['vip_count'],
@@ -532,9 +543,9 @@ def calculate_analytics_from_records(records):
         if rnk not in rank_order:
             designation_analytics.append(data)
 
-    # Group by Projects
+    # Group by Projects (Exclude Closed / Excluded)
     projects_map = {}
-    for r in records:
+    for r in reportable_records:
         prj_label = r['project_label']
         if prj_label not in projects_map:
             projects_map[prj_label] = {
@@ -550,8 +561,6 @@ def calculate_analytics_from_records(records):
             pm['completed'] += 1
         elif r['status_group'] == 'In-Progress':
             pm['inprogress'] += 1
-        elif r['status_group'] == 'Pending':
-            pm['pending'] += 1
         else:
             pm['onhold'] += 1
 
@@ -573,7 +582,7 @@ def calculate_analytics_from_records(records):
             'total': data['total'],
             'completed': data['completed'],
             'inprogress': data['inprogress'],
-            'pending': data['pending'],
+            'pending': 0,
             'onhold': data['onhold'],
             'critical': data['critical'],
             'vip_count': data['vip_count'],
@@ -582,7 +591,7 @@ def calculate_analytics_from_records(records):
 
     # Group by Channels
     channels_map = {}
-    for r in records:
+    for r in reportable_records:
         ch = (r.get('Received Through') or r.get('Received Through ') or '').strip()
         if not ch or ch in ['N/A', 'None']:
             ch = 'Other'
@@ -590,97 +599,34 @@ def calculate_analytics_from_records(records):
 
     channel_analytics = [{'channel': k, 'count': v} for k, v in sorted(channels_map.items(), key=lambda x: x[1], reverse=True)]
 
-    # Formulate Detailed WhatsApp Text
-    active_officers = [o for o in officer_analytics if o['active_total'] > 0]
-    wa_lines = [
-        "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
-        "📋 *OFFICER-WISE ACTIVE WORKLOAD & PENDING ABSTRACT*",
-        f"📅 Date: {today_display}",
-        "",
-        "📊 *Overall Abstract:*",
-        f"• Total Inflow: {total_records} Files",
-        f"• 🟡 Pending Action: {pending_count} Files",
-        f"• 🔵 Active In-Progress: {inprogress_count} Files",
-        f"• ⚪ Stage N/A (Notice Required): {onhold_closed_count} Files",
-        f"• 🟢 Completed / Dispatched: {completed_count} Files",
-        f"• ⭐ High Priority / VIP Files: {vip_total_count} Files",
-        "",
-        "───────────────────────────────",
-        "🎖️ *WORKLOAD BY DESIGNATION / RANK:*",
-        "───────────────────────────────"
-    ]
-
-    for da in designation_analytics:
-        if da['active_total'] > 0 or da['total'] > 0:
-            wa_lines.append(f"🔹 *{da['rank']} Rank ({da['officers_count']} Officers)*: *{da['active_total']} Active Files* ({da['pending']} Pend / {da['inprogress']} In-Prog / {da['onhold']} N/A)")
-
-    wa_lines.append("")
-    wa_lines.append("───────────────────────────────")
-    wa_lines.append("👤 *OFFICER-WISE DETAILED BREAKDOWN:*")
-    wa_lines.append("───────────────────────────────")
-
-    for da in designation_analytics:
-        rank_active_officers = [o for o in da['officers'] if o['active_total'] > 0]
-        if not rank_active_officers:
-            continue
-        wa_lines.append("")
-        wa_lines.append(f"👮 *[{da['rank']} RANK OFFICERS]*")
-        for idx, o in enumerate(rank_active_officers, 1):
-            wa_lines.append(f"{idx}. *{o['officer']}*: Total Active: {o['active_total']} ({o['pending']} Pending, {o['inprogress']} In-Prog, {o['onhold']} Stage N/A)")
-            
-            if o['pending_files']:
-                wa_lines.append("   🟡 *Pending Action:*")
-                for f in o['pending_files']:
-                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
-                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
-            
-            if o['inprogress_files']:
-                wa_lines.append("   🔵 *In-Progress:*")
-                for f in o['inprogress_files']:
-                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
-                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
-            
-            if o['na_stage_files']:
-                wa_lines.append("   ⚪ *Stage N/A (Notice Required):*")
-                for f in o['na_stage_files']:
-                    vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
-                    wa_lines.append(f"   - {f['id']}{vip_tag} [{f['project']}]: ({f['age']})")
-
-    wa_lines.append("")
-    wa_lines.append("───────────────────────────────")
-    wa_lines.append("🔗 *Update Status in Google Sheet:*")
-    wa_lines.append(GOOGLE_SHEET_URL)
-    wa_lines.append("───────────────────────────────")
-    wa_lines.append("_Generated from AP Police TS Executive Command Portal_")
-    whatsapp_text = "\n".join(wa_lines)
-
-    # Formulate Short Numbers-Only WhatsApp Text (Rank-Wise Officer Workload + Common Tasks)
+    # Formulate Short Numbers-Only WhatsApp Text (Only 3 Categories: In-Progress, Completed, N/A)
+    reportable_officers = [o for o in officer_analytics if o['total'] > 0]
     wa_short_lines = [
         "🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*",
         "⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*",
         f"📅 Date: {today_display}",
         "",
-        f"📊 *Total: {total_records}* | 🟡 *Pend: {pending_count}* | 🔵 *In-Prog: {inprogress_count}* | ⚪ *N/A: {onhold_closed_count}* | 🟢 *Done: {completed_count}* | ⭐ *VIP: {vip_total_count}*",
+        f"📊 *Total: {total_records}* | 🔵 *In-Progress: {inprogress_count}* | 🟢 *Completed: {completed_count}* | ⚪ *N/A: {onhold_closed_count}*",
         "",
         "───────────────────────────────",
-        "👮 *OFFICER WORKLOAD Current stage:* [Active = Pend / InProg / N/A]",
+        "👮 *OFFICER WORKLOAD Current stage:* [Total = In-Prog / Completed / N/A]",
         "───────────────────────────────",
         ""
     ]
 
-    individual_active_officers = [o for o in active_officers if o['pro_id'].upper() != 'ALL' and o['officer'].upper() != 'ALL']
-    for idx, o in enumerate(individual_active_officers, 1):
-        wa_short_lines.append(f"{idx}. {o['officer']}: *{o['active_total']}* ({o['pending']} / {o['inprogress']} / {o['onhold']})")
+    individual_reportable_officers = [o for o in reportable_officers if o['pro_id'].upper() != 'ALL' and o['officer'].upper() != 'ALL']
+    for idx, o in enumerate(individual_reportable_officers, 1):
+        wa_short_lines.append(f"{idx}. {o['officer']}: *{o['total']}* ({o['inprogress']} / {o['completed']} / {o['onhold']})")
 
-    common_active_files = [r for r in records if (r.get('officer_id', '').upper() == 'ALL' or r.get('officer_label', '').upper() == 'ALL') and r['status_group'] != 'Completed']
-    if common_active_files:
+    common_reportable_files = [r for r in reportable_records if (r.get('officer_id', '').upper() == 'ALL' or r.get('officer_label', '').upper() == 'ALL')]
+    if common_reportable_files:
         wa_short_lines.append("")
         wa_short_lines.append("───────────────────────────────")
         wa_short_lines.append("📢 *COMMON TASKS (Assigned to ALL Officers):*")
         wa_short_lines.append("───────────────────────────────")
-        for idx, f in enumerate(common_active_files, 1):
+        for idx, f in enumerate(common_reportable_files, 1):
             vip_tag = " ⭐[VIP]" if f.get('is_vip') else ""
-            wa_short_lines.append(f"{idx}. *{f['ID']}*{vip_tag} [{f.get('project_label', 'PRJ-038 - ALL')}] — *{f.get('Current Stage') or 'Pending'}*")
+            wa_short_lines.append(f"{idx}. *{f['ID']}*{vip_tag} [{f.get('project_label', 'PRJ-038 - ALL')}] — *{f.get('Current Stage') or 'In-Progress'}*")
             wa_short_lines.append(f"   • {(f.get('Subject / Work Description') or '')[:90]}")
 
     wa_short_lines.append("")
@@ -704,7 +650,7 @@ def calculate_analytics_from_records(records):
         "───────────────────────────────"
     ]
 
-    active_events = [e for e in scheduled_events if e['status_group'] != 'On Hold / Closed' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')]
+    active_events = [e for e in scheduled_events if e['status_group'] != 'Closed / Excluded' and (e['event_delta_days'] >= 0 or e['status_group'] != 'Completed')]
     if not active_events:
         events_lines.append("")
         events_lines.append("• No upcoming scheduled meetings/workshops at present.")
@@ -739,7 +685,7 @@ def calculate_analytics_from_records(records):
         "⭐ *VIP & HIGH PRIORITY CORRESPONDENCE SHORT BRIEF*",
         f"📅 Date: {today_display}",
         "",
-        f"📊 *VIP Overview:* Total: *{len(vip_records)}* | 🟡 Active: *{len(vip_active_records)}* | 🟢 Done: *{len(vip_completed_records)}* | ⚠️ Follow-up: *{len(vip_followup_active)}*",
+        f"📊 *VIP Overview:* Total: *{len(vip_records)}* | 🔵 In-Prog / N/A: *{len(vip_active_records)}* | 🟢 Completed: *{len(vip_completed_records)}* | ⚠️ Follow-up: *{len(vip_followup_active)}*",
         "",
         "───────────────────────────────",
         "📌 *ACTIVE VIP FILES:*",
@@ -788,6 +734,7 @@ def calculate_analytics_from_records(records):
             'inprogress': inprogress_count,
             'pending': pending_count,
             'onhold_closed': onhold_closed_count,
+            'excluded_closed': excluded_count,
             'critical': critical_count,
             'high': high_count,
             'vip_count': vip_total_count,
@@ -807,7 +754,7 @@ def calculate_analytics_from_records(records):
             'total_inprogress': inprogress_count,
             'total_na_stage': onhold_closed_count,
             'vip_count': vip_total_count,
-            'officers_active': active_officers,
+            'officers_active': reportable_officers,
             'designations': designation_analytics,
             'whatsapp_text': whatsapp_text,
             'whatsapp_short_text': whatsapp_short_text,
