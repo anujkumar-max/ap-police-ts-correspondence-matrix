@@ -69,7 +69,7 @@
             .no-print { display: none !important; }
             body { background: #ffffff !important; color: #000000 !important; font-size: 10pt; }
             #print-executive-memo { display: block !important; }
-            main, header, footer, #record-modal, #pending-abstract-modal { display: none !important; }
+            main, header, footer, #record-modal, #pending-abstract-modal, #help-guide-modal { display: none !important; }
             table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
             th, td { border: 1px solid #333333 !important; padding: 4px 6px !important; color: #000000 !important; font-size: 9pt !important; }
             th { background-color: #f1f5f9 !important; font-weight: bold !important; text-transform: uppercase !important; }
@@ -178,6 +178,8 @@
         html.light #record-modal h2,
         html.light #record-modal h3,
         html.light #pending-abstract-modal h2,
+        html.light #help-guide-modal h2,
+        html.light #help-guide-modal h3,
         html.light #ai-chat-window h3 {
             color: #1e293b !important;
         }
@@ -446,7 +448,8 @@
 
         /* Modal Overlays & Inner Cards */
         html.light #record-modal > div,
-        html.light #pending-abstract-modal > div {
+        html.light #pending-abstract-modal > div,
+        html.light #help-guide-modal > div {
             background-color: #ffffff !important;
             border-color: #cbd5e1 !important;
             color: #0f172a !important;
@@ -566,30 +569,14 @@
                 <div class="pt-3 border-t border-white/10 space-y-1">
                     <div class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-blue-200/60">REPORTS & TOOLS</div>
                     
-                    <button onclick="openPendingAbstractModal()" class="sidebar-nav-item">
-                        <i data-lucide="message-square" class="w-4 h-4 text-emerald-300"></i>
-                        <span>WhatsApp Short Brief</span>
-                    </button>
-                    <button onclick="openVIPAbstractModal()" class="sidebar-nav-item">
-                        <i data-lucide="award" class="w-4 h-4 text-amber-300"></i>
-                        <span>VIP Short Brief</span>
-                    </button>
-                    <button onclick="openEventsAbstractModal()" class="sidebar-nav-item">
-                        <i data-lucide="video" class="w-4 h-4 text-cyan-300"></i>
-                        <span>Scheduled VC Brief</span>
-                    </button>
-                    <button onclick="printExecutiveMemo()" class="sidebar-nav-item">
-                        <i data-lucide="printer" class="w-4 h-4"></i>
-                        <span>Print Official Memo</span>
-                    </button>
                     <button onclick="exportFilteredCSV()" class="sidebar-nav-item">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span>Export CSV Report</span>
                     </button>
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="sidebar-nav-item">
-                        <i data-lucide="external-link" class="w-4 h-4 text-emerald-300"></i>
-                        <span>Google Sheet Source</span>
-                    </a>
+                    <button onclick="openHelpGuideModal()" class="sidebar-nav-item">
+                        <i data-lucide="book-open" class="w-4 h-4 text-cyan-300"></i>
+                        <span>Help Guide</span>
+                    </button>
                 </div>
             </div>
 
@@ -1257,7 +1244,7 @@
     </div>
 
     <!-- ================= COMPLETE 21-COLUMN TASK RECORD DETAILS MODAL ================= -->
-    <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 no-print">
+    <div id="record-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 no-print" onclick="if(event.target === this) closeModal()">
         <div class="glass-card rounded-2xl border border-blue-900/80 max-w-4xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
             
             <!-- Modal Header Strip -->
@@ -1445,7 +1432,7 @@
     </div>
 
     <!-- ================= EXPANDED EXECUTIVE PENDING ABSTRACT & WHATSAPP MODAL ================= -->
-    <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print">
+    <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print" onclick="if(event.target === this) closePendingAbstractModal()">
         <div class="glass-card rounded-2xl border border-amber-500/50 max-w-6xl w-full h-[92vh] max-h-[95vh] p-5 sm:p-6 shadow-2xl flex flex-col justify-between space-y-3">
             
             <!-- Modal Header -->
@@ -4152,6 +4139,57 @@
             a.click();
         }
 
+        // ================= HELP GUIDE MODAL FUNCTIONS =================
+        function openHelpGuideModal() {
+            document.getElementById('help-guide-modal').classList.remove('hidden');
+            switchGuideSection('overview-guide');
+            lucide.createIcons();
+        }
+
+        function closeHelpGuideModal() {
+            document.getElementById('help-guide-modal').classList.add('hidden');
+        }
+
+        function switchGuideSection(sectionId) {
+            // Hide all guide sections
+            document.querySelectorAll('.guide-section').forEach(s => s.classList.add('hidden'));
+            // Show target section
+            const target = document.getElementById('guide-section-' + sectionId);
+            if (target) target.classList.remove('hidden');
+
+            // Update tab button styles
+            const activeClass = "guide-tab-btn px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-cyan-500 text-slate-950 shadow whitespace-nowrap";
+            const inactiveClass = "guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap";
+            document.querySelectorAll('.guide-tab-btn').forEach(btn => {
+                btn.className = (btn.getAttribute('data-guide-tab') === sectionId) ? activeClass : inactiveClass;
+            });
+
+            // Scroll content to top
+            const contentArea = document.getElementById('help-guide-content');
+            if (contentArea) contentArea.scrollTop = 0;
+        }
+
+        // Global Escape key listener to close modals
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const guideModal = document.getElementById('help-guide-modal');
+                if (guideModal && !guideModal.classList.contains('hidden')) {
+                    closeHelpGuideModal();
+                    return;
+                }
+                const absModal = document.getElementById('pending-abstract-modal');
+                if (absModal && !absModal.classList.contains('hidden')) {
+                    closePendingAbstractModal();
+                    return;
+                }
+                const recModal = document.getElementById('record-modal');
+                if (recModal && !recModal.classList.contains('hidden')) {
+                    closeModal();
+                    return;
+                }
+            }
+        });
+
         // ================= AP POLICE TS EXECUTIVE AI COPILOT (GEMINI AI CHATBOT) =================
         let aiChatHistory = [];
         let aiRecognition = null;
@@ -4769,6 +4807,534 @@ INSTRUCTIONS:
                     <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- ============================== HELP GUIDE MODAL ============================== -->
+    <div id="help-guide-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print" onclick="if(event.target === this) closeHelpGuideModal()">
+        <div class="glass-card rounded-2xl border border-cyan-500/40 max-w-5xl w-full h-[92vh] max-h-[95vh] p-5 sm:p-6 shadow-2xl flex flex-col space-y-3">
+            
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between border-b border-slate-800 pb-3 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow border border-cyan-400/40">
+                        <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">SYSTEM GUIDE</span>
+                            <span class="text-xs text-slate-400">v2.0</span>
+                        </div>
+                        <h2 class="text-base sm:text-lg font-extrabold text-white mt-0.5">
+                            TS Correspondence Matrix — Complete Help Guide
+                        </h2>
+                    </div>
+                </div>
+                <button onclick="closeHelpGuideModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Guide Navigation Tabs -->
+            <div class="flex flex-wrap gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 flex-shrink-0 overflow-x-auto">
+                <button onclick="switchGuideSection('overview-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-cyan-500 text-slate-950 shadow whitespace-nowrap" data-guide-tab="overview-guide">
+                    📋 Overview
+                </button>
+                <button onclick="switchGuideSection('tabs-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="tabs-guide">
+                    🗂️ Dashboard Tabs
+                </button>
+                <button onclick="switchGuideSection('stages-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="stages-guide">
+                    🔄 Stage Categories
+                </button>
+                <button onclick="switchGuideSection('officers-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="officers-guide">
+                    👮 Officers & Hierarchy
+                </button>
+                <button onclick="switchGuideSection('whatsapp-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="whatsapp-guide">
+                    💬 WhatsApp Briefs
+                </button>
+                <button onclick="switchGuideSection('vip-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="vip-guide">
+                    ⭐ VIP Classification
+                </button>
+                <button onclick="switchGuideSection('sheet-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="sheet-guide">
+                    📊 Google Sheet
+                </button>
+                <button onclick="switchGuideSection('workflow-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="workflow-guide">
+                    🔧 Workflows & Tips
+                </button>
+            </div>
+
+            <!-- Guide Content Area -->
+            <div class="flex-grow overflow-y-auto rounded-xl bg-slate-950/80 border border-slate-800 p-4 sm:p-6 text-sm text-slate-200 leading-relaxed space-y-1" id="help-guide-content">
+                
+                <!-- SECTION: Overview -->
+                <div id="guide-section-overview-guide" class="guide-section space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📋 What is the TS Correspondence Matrix?</h3>
+                    <p>The <strong class="text-white">TS Correspondence Matrix</strong> is the official correspondence tracking and management dashboard for the <strong class="text-amber-300">Andhra Pradesh Police — Technical Services (PCS&S)</strong> wing. It provides <strong class="text-white">real-time tracking</strong> of all incoming and outgoing correspondence files.</p>
+                    
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🎯 Key Purpose</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Track every correspondence file from receipt to completion</li>
+                            <li>Monitor officer-wise workload distribution and pending tasks</li>
+                            <li>Identify VIP/critical files requiring immediate attention</li>
+                            <li>Track scheduled events like Video Conferences and Meetings</li>
+                            <li>Generate WhatsApp-ready briefings for quick officer communication</li>
+                            <li>Calculate SLA compliance and turnaround time metrics</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🌐 How It Works</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li><strong class="text-cyan-300">Data Source:</strong> All data lives in a Google Sheet — the single source of truth</li>
+                            <li><strong class="text-cyan-300">Live Sync:</strong> The dashboard fetches live data from the Google Sheet every time you open it or click Refresh</li>
+                            <li><strong class="text-cyan-300">No Login Required:</strong> Anyone with the dashboard link can view the data (read-only)</li>
+                            <li><strong class="text-cyan-300">Update Data:</strong> To add/edit correspondence files, update the Google Sheet directly. Changes reflect on the dashboard immediately on refresh</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
+                        <h4 class="text-sm font-bold text-blue-300">📱 Quick Start for New Users</h4>
+                        <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Open the dashboard — it loads with the <strong>Overview</strong> tab showing all KPIs</li>
+                            <li>Use the <strong class="text-amber-300">Officer Abstract</strong> button (orange, top-right) to open the Briefing Tool</li>
+                            <li>Click <strong class="text-emerald-300">Copy WhatsApp Text</strong> to send daily briefs to officers</li>
+                            <li>Use the <strong>sidebar tabs</strong> (left) to navigate between VIP files, Events, Officers, Projects, and Explorer views</li>
+                            <li>Click any <strong>correspondence ID</strong> (e.g., TS-COR-2026-0001) to view full file details in a popup</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- SECTION: Dashboard Tabs -->
+                <div id="guide-section-tabs-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">🗂️ Dashboard Tabs Explained</h3>
+                    <p>The dashboard has <strong class="text-white">6 main tabs</strong> accessible from the left sidebar. Each provides a different view of the same correspondence data.</p>
+
+                    <div class="space-y-3">
+                        <!-- Overview Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-blue-500/30 space-y-2">
+                            <h4 class="text-sm font-bold text-blue-300">1️⃣ Overview (Performance Report)</h4>
+                            <p class="text-xs text-slate-300">The home screen showing all key performance indicators at a glance.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li><strong class="text-white">KPI Cards:</strong> Total files, In-Progress count, Completed count, SLA compliance %, Average turnaround time, VIP file count</li>
+                                <li><strong class="text-white">Charts:</strong> Stage Distribution donut, Officer Workload bar chart, Project Progress bar chart, Monthly Trends</li>
+                                <li><strong class="text-white">Executive Narrative:</strong> AI-generated situation summary in plain English</li>
+                                <li><strong class="text-white">Correspondence Table:</strong> Full sortable, searchable table of all files with quick filters</li>
+                            </ul>
+                        </div>
+
+                        <!-- VIP Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-amber-500/30 space-y-2">
+                            <h4 class="text-sm font-bold text-amber-300">2️⃣ VIP (High-Priority Files)</h4>
+                            <p class="text-xs text-slate-300">Shows only files classified as VIP — from apex departments, senior officers, or with urgent deadlines.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li>VIP files are auto-detected based on 4 classification pillars (see VIP section)</li>
+                                <li>Shows VIP KPIs: total VIP, resolved, pending, require follow-up</li>
+                                <li>Filterable by classification reason, status, and assigned officer</li>
+                            </ul>
+                        </div>
+
+                        <!-- Events Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-purple-500/30 space-y-2">
+                            <h4 class="text-sm font-bold text-purple-300">3️⃣ Events (Meetings & VC)</h4>
+                            <p class="text-xs text-slate-300">Tracks scheduled Video Conferences (VC), Meetings, and other time-bound events.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li>Shows only files with Nature of Request = "Video Conference" or "Meeting"</li>
+                                <li>Calendar-style view with upcoming/past event classification</li>
+                                <li>Useful for daily readiness checks and advance preparation</li>
+                            </ul>
+                        </div>
+
+                        <!-- Officers Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-emerald-500/30 space-y-2">
+                            <h4 class="text-sm font-bold text-emerald-300">4️⃣ Officers (Workload Distribution)</h4>
+                            <p class="text-xs text-slate-300">Officer-wise breakdown showing each officer's assigned files and their current stages.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li>Officers displayed in official hierarchy order (SP → Addl. SP → DSP → AAO → CI → SI → ASI)</li>
+                                <li>Each officer card shows: Total files, In-Progress, Completed, Stage N/A counts</li>
+                                <li>Click an officer card to see all files assigned to them</li>
+                                <li>Tasks assigned to "ALL" officers appear separately as Common Tasks</li>
+                            </ul>
+                        </div>
+
+                        <!-- Projects Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-rose-500/30 space-y-2">
+                            <h4 class="text-sm font-bold text-rose-300">5️⃣ Projects (PRJ Grouping)</h4>
+                            <p class="text-xs text-slate-300">Groups correspondence files by their assigned Project code (PRJ-001, PRJ-002, etc.).</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li>Each project card shows: total files, In-Progress / Completed / N/A breakdown</li>
+                                <li>Special projects like "PRJ-037 Miscellaneous" and "PRJ-038 ALL" are handled separately</li>
+                                <li>Click a project to drill down into its individual files</li>
+                            </ul>
+                        </div>
+
+                        <!-- Explorer Tab -->
+                        <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-600 space-y-2">
+                            <h4 class="text-sm font-bold text-slate-200">6️⃣ Explorer (Full Data Table)</h4>
+                            <p class="text-xs text-slate-300">Advanced table view with powerful filtering, sorting, and search capabilities.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
+                                <li>Full-width sortable table with all columns visible</li>
+                                <li>Multi-filter: by Stage, Officer, Project, Priority, Department, Date Range</li>
+                                <li>Click any column header to sort ascending/descending</li>
+                                <li>Use the search box for free-text search across all fields</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Stage Categories -->
+                <div id="guide-section-stages-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">🔄 Stage Categories — How Files Are Classified</h3>
+                    <p>Every correspondence file has a <strong class="text-white">"Current Stage"</strong> field in the Google Sheet. The dashboard classifies all stages into <strong class="text-amber-300">3 main categories</strong> for reporting, plus 1 exclusion category.</p>
+
+                    <!-- In-Progress -->
+                    <div class="bg-indigo-900/20 rounded-xl p-4 border border-indigo-500/40 space-y-2">
+                        <h4 class="text-sm font-bold text-indigo-300">🔵 Category 1: In-Progress</h4>
+                        <p class="text-xs text-slate-300">Files that are currently being worked on at various stages of the processing pipeline. This includes files that are pending, being drafted, sent for approval, or even on hold.</p>
+                        <div class="bg-slate-950/60 rounded-lg p-3 mt-2">
+                            <p class="text-[10px] font-bold text-indigo-400 uppercase mb-1.5">All In-Progress Stages:</p>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Draft Prepared</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Sent for Approval</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File Sent through eOffice</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with IC</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with DSP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with DIG</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with IGP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with DGP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Returned for Corrections</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Pending for Approval</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File with Govt. of AP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Pending for DGP Approval</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Approved</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">In Progress</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Work Completed - Pending for Approval</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">File Dispatched</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Mail Sent</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Letter Sent</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Proforma Sent</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">On Hold</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Overdue</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Pending</span>
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-2 italic">Note: If the stage field is blank or any unrecognized value, it also defaults to In-Progress.</p>
+                        </div>
+                    </div>
+
+                    <!-- Completed -->
+                    <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/40 space-y-2">
+                        <h4 class="text-sm font-bold text-emerald-300">🟢 Category 2: Completed</h4>
+                        <p class="text-xs text-slate-300">Files where all work is finished. Only the <strong class="text-white">exact stage value "Completed"</strong> qualifies.</p>
+                        <div class="bg-slate-950/60 rounded-lg p-3 mt-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Completed</span>
+                        </div>
+                    </div>
+
+                    <!-- Stage N/A -->
+                    <div class="bg-slate-800/40 rounded-xl p-4 border border-slate-600 space-y-2">
+                        <h4 class="text-sm font-bold text-slate-200">⚪ Category 3: Stage N/A (Not Updated)</h4>
+                        <p class="text-xs text-slate-300">Files where the concerned officer has not yet updated the current stage. The value in the sheet is explicitly set to <strong class="text-white">"N/A"</strong>.</p>
+                        <div class="bg-slate-950/60 rounded-lg p-3 mt-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-500/20 text-slate-300 border border-slate-500/30">N/A</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-500/20 text-slate-300 border border-slate-500/30">NA</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-500/20 text-slate-300 border border-slate-500/30">Not Available</span>
+                        </div>
+                        <p class="text-[10px] text-amber-400 mt-1 italic">⚠️ These files require the officer to update their current stage in the Google Sheet.</p>
+                    </div>
+
+                    <!-- Closed / Excluded -->
+                    <div class="bg-rose-900/20 rounded-xl p-4 border border-rose-500/40 space-y-2">
+                        <h4 class="text-sm font-bold text-rose-300">🚫 Excluded from Briefs: Closed / Excluded</h4>
+                        <p class="text-xs text-slate-300">These files are excluded from all WhatsApp briefs, VIP reports, and active tracking. They appear in the data table but are NOT counted in KPIs or officer workload.</p>
+                        <div class="bg-slate-950/60 rounded-lg p-3 mt-2 flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">Correspondence Closed</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">Cancelled</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">Returned to concerned department</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Officers & Hierarchy -->
+                <div id="guide-section-officers-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">👮 Officers & Hierarchy</h3>
+                    <p>Officers are displayed in the official AP Police <strong class="text-white">rank hierarchy</strong>. Each officer has a unique profile code (PRO-XXX) and is assigned correspondence files.</p>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-3">
+                        <h4 class="text-sm font-bold text-white">📊 Officer Hierarchy (Top to Bottom)</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 bg-amber-500/10 p-2 rounded-lg border border-amber-500/20">
+                                <span class="text-xs font-bold text-amber-300 w-20">SP</span>
+                                <span class="text-xs text-slate-300">PRO-045 — K. Sreelakshmi (Superintendent of Police)</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-amber-500/5 p-2 rounded-lg border border-amber-500/15">
+                                <span class="text-xs font-bold text-amber-200 w-20">Addl. SP</span>
+                                <span class="text-xs text-slate-300">PRO-074 — G. Veeraraghava Reddy</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-blue-500/10 p-2 rounded-lg border border-blue-500/20">
+                                <span class="text-xs font-bold text-blue-300 w-20">DSP</span>
+                                <span class="text-xs text-slate-300">PRO-078 V. Vishnu Swaroop · PRO-079 M. Hema Latha · PRO-081 P. Bhavana · PRO-082 P. Sindhu Priya</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-purple-500/10 p-2 rounded-lg border border-purple-500/20">
+                                <span class="text-xs font-bold text-purple-300 w-20">AAO</span>
+                                <span class="text-xs text-slate-300">PRO-159 — N. Sarojini</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                                <span class="text-xs font-bold text-emerald-300 w-20">CI</span>
+                                <span class="text-xs text-slate-300">PRO-092 V. Sudharshana Reddy · PRO-094 K. Satish · PRO-095 K. Vijaya Kumar · PRO-106 K. Sreekanth · PRO-123 M. Manohar Rao · PRO-091 M. Mohan</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-cyan-500/10 p-2 rounded-lg border border-cyan-500/20">
+                                <span class="text-xs font-bold text-cyan-300 w-20">SI</span>
+                                <span class="text-xs text-slate-300">PRO-153 B. Vijay Kumar Reddy · PRO-137 G. Ravi Kiran · PRO-124 G. Jyothi · PRO-140 MD. Sadhik · PRO-136 T. Anoj Kumar · PRO-154 CJ. Bharath · PRO-152 Ch. Aditya Srinivas · PRO-125 J. Kalpana · PRO-142 K. Venkata Rao · PRO-150 D. Rama Koti Naik · PRO-151 P.V. Naidu (PMO) · PRO-155 S.S. Siva Rama Sastry · PRO-157 IR Koteswara Rao</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-slate-700/40 p-2 rounded-lg border border-slate-600">
+                                <span class="text-xs font-bold text-slate-300 w-20">ASI</span>
+                                <span class="text-xs text-slate-300">PRO-158 — B. Rani</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">📋 Workload Calculation</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Each officer's workload = <strong class="text-white">Total reportable files assigned to them</strong></li>
+                            <li>Format: <code class="text-cyan-300 bg-slate-950 px-1 rounded">Total [Total = In-Prog / Completed / N/A]</code></li>
+                            <li>"Closed / Excluded" files are <strong>not counted</strong> in any officer's workload</li>
+                            <li>Files with <strong class="text-amber-300">Concerned Officer = "ALL"</strong> appear as <strong>Common Tasks</strong> visible to every officer</li>
+                            <li>Unassigned files (no officer) are grouped under <strong class="text-slate-400">"Unassigned"</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-amber-900/20 rounded-xl p-4 border border-amber-500/30 space-y-2">
+                        <h4 class="text-sm font-bold text-amber-300">📝 How to Assign Officers</h4>
+                        <p class="text-xs text-slate-300">In the Google Sheet, update the <strong class="text-white">"Concerned Officer"</strong> column with the officer's profile code and name (e.g., <code class="text-cyan-300 bg-slate-950 px-1 rounded">PRO-136 - T. Anoj Kumar (SI)</code>). Set it to <strong>"ALL"</strong> if the task applies to all officers.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION: WhatsApp Briefs -->
+                <div id="guide-section-whatsapp-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">💬 WhatsApp Briefs — Daily Officer Communication</h3>
+                    <p>The dashboard generates <strong class="text-white">WhatsApp-ready text</strong> that can be copied and pasted directly into WhatsApp groups for daily officer status updates.</p>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">📍 How to Access WhatsApp Briefs</h4>
+                        <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Click the orange <strong class="text-amber-300">"Officer Abstract"</strong> button (top-right of dashboard)</li>
+                            <li>The <strong>Executive Briefing Tool</strong> modal opens with the Short Brief loaded by default</li>
+                            <li>Switch between brief formats using the tabs at the top of the modal</li>
+                            <li>Click <strong class="text-emerald-300">"Copy WhatsApp Text"</strong> to copy the entire brief to clipboard</li>
+                            <li>Paste directly into your WhatsApp group</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-3">
+                        <h4 class="text-sm font-bold text-white">📄 Brief Formats Available</h4>
+                        
+                        <div class="bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/30 space-y-1">
+                            <h5 class="text-xs font-bold text-emerald-300">⚡ Short Numbers Brief (Default)</h5>
+                            <p class="text-[11px] text-slate-300">Quick numeric summary of officer-wise workload. Shows each officer's name, rank, total files, and [In-Prog / Completed / N/A] breakdown. Officers listed in rank hierarchy order. Includes "Kindly update the current stages" note for officers.</p>
+                        </div>
+
+                        <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/30 space-y-1">
+                            <h5 class="text-xs font-bold text-purple-300">📅 Events Brief</h5>
+                            <p class="text-[11px] text-slate-300">Lists upcoming and recent Video Conferences, Meetings, and other scheduled events. Includes date, time, subject, and assigned officer for each event.</p>
+                        </div>
+
+                        <div class="bg-amber-900/20 p-3 rounded-lg border border-amber-500/30 space-y-1">
+                            <h5 class="text-xs font-bold text-amber-300">⭐ VIP Short Brief</h5>
+                            <p class="text-[11px] text-slate-300">Focused brief covering only VIP/critical files. Shows VIP KPIs (total, In-Progress, Completed) and lists each VIP file with its status, assigned officer, and reason for VIP classification.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
+                        <h4 class="text-sm font-bold text-blue-300">💡 Tips for Effective Briefing</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Send the <strong>Short Brief</strong> daily to keep officers updated on their workload</li>
+                            <li>Send the <strong>VIP Brief</strong> when escalation or urgent follow-up is needed</li>
+                            <li>Send the <strong>Events Brief</strong> before upcoming VCs/meetings for preparation</li>
+                            <li>The briefs also include a <strong>Print Memo</strong> button for generating official printable memos</li>
+                            <li>All briefs exclude "Closed / Excluded" files automatically</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SECTION: VIP Classification -->
+                <div id="guide-section-vip-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">⭐ VIP Classification — The 4 Pillars</h3>
+                    <p>Files are automatically classified as <strong class="text-amber-300">VIP</strong> based on 4 detection rules. A file needs to match <strong class="text-white">at least one</strong> pillar to be flagged as VIP.</p>
+
+                    <div class="space-y-3">
+                        <div class="bg-amber-900/20 rounded-xl p-4 border border-amber-500/40 space-y-2">
+                            <h4 class="text-sm font-bold text-amber-300">🏛️ Pillar 1: Apex Department Source</h4>
+                            <p class="text-xs text-slate-300">File originates from a high-authority department or body such as:</p>
+                            <div class="flex flex-wrap gap-1.5 mt-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">DGP Office</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">IGP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">Home Ministry</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">Govt. of AP</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">High Court</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">NHRC / SHRC</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20">Legislature</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-rose-900/20 rounded-xl p-4 border border-rose-500/40 space-y-2">
+                            <h4 class="text-sm font-bold text-rose-300">🔴 Pillar 2: High Priority</h4>
+                            <p class="text-xs text-slate-300">File has an explicitly set <strong class="text-white">Priority = "High"</strong> or <strong class="text-white">"Urgent"</strong> in the Google Sheet.</p>
+                        </div>
+
+                        <div class="bg-purple-900/20 rounded-xl p-4 border border-purple-500/40 space-y-2">
+                            <h4 class="text-sm font-bold text-purple-300">⏰ Pillar 3: Deadline Approaching / Overdue</h4>
+                            <p class="text-xs text-slate-300">File has a due date that is <strong class="text-white">within 7 days</strong> or <strong class="text-rose-300">already past</strong> and is not yet completed.</p>
+                        </div>
+
+                        <div class="bg-blue-900/20 rounded-xl p-4 border border-blue-500/40 space-y-2">
+                            <h4 class="text-sm font-bold text-blue-300">🏷️ Pillar 4: Senior Designation</h4>
+                            <p class="text-xs text-slate-300">The sender holds a senior designation such as <strong class="text-white">DG, ADG, IG, DIG, SP, Collector, Secretary</strong>, or equivalent senior posts.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">📊 VIP Dashboard Metrics</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li><strong class="text-white">Total VIP:</strong> All files matching at least 1 pillar</li>
+                            <li><strong class="text-emerald-300">VIP Resolved:</strong> VIP files with stage = "Completed"</li>
+                            <li><strong class="text-amber-300">VIP Pending:</strong> VIP files with In-Progress or Stage N/A</li>
+                            <li><strong class="text-rose-300">Require Follow-up:</strong> VIP files with pending status that have no recent activity</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SECTION: Google Sheet -->
+                <div id="guide-section-sheet-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📊 Google Sheet — Data Source & Columns</h3>
+                    <p>The Google Sheet is the <strong class="text-amber-300">single source of truth</strong>. All data shown on the dashboard is pulled directly from this sheet.</p>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🔗 Sheet Access</h4>
+                        <p class="text-xs text-slate-300">The sheet must have <strong class="text-white">"Anyone with the link can view"</strong> sharing enabled for the dashboard to fetch data. Only authorized editors can modify data.</p>
+                        <p class="text-xs text-slate-400 mt-1">To open the sheet directly, click the <strong>"FY 2026 Live Matrix"</strong> link in the dashboard header.</p>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-3">
+                        <h4 class="text-sm font-bold text-white">📋 Column Reference (Key Fields)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-700">
+                                        <th class="text-left py-2 px-2 text-cyan-300 font-bold">Column</th>
+                                        <th class="text-left py-2 px-2 text-cyan-300 font-bold">Description</th>
+                                        <th class="text-left py-2 px-2 text-cyan-300 font-bold">Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-300">
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">S.No</td><td class="py-1.5 px-2">Serial number</td><td class="py-1.5 px-2 text-slate-400">1, 2, 3...</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Correspondence ID</td><td class="py-1.5 px-2">Unique tracking ID</td><td class="py-1.5 px-2 text-slate-400">TS-COR-2026-0001</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Date of Receipt</td><td class="py-1.5 px-2">When file was received</td><td class="py-1.5 px-2 text-slate-400">15-Jan-2026</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Original Letter Date</td><td class="py-1.5 px-2">Date on the original letter</td><td class="py-1.5 px-2 text-slate-400">10-Jan-2026</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Mode of Receipt</td><td class="py-1.5 px-2">How file was received</td><td class="py-1.5 px-2 text-slate-400">eOffice, Letter, WhatsApp</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Received From</td><td class="py-1.5 px-2">Source department / person</td><td class="py-1.5 px-2 text-slate-400">DGP Office, Vijayawada</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Department</td><td class="py-1.5 px-2">Source department full name</td><td class="py-1.5 px-2 text-slate-400">IT&C Department</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Designation</td><td class="py-1.5 px-2">Sender's rank/post</td><td class="py-1.5 px-2 text-slate-400">IGP, Secretary</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Subject</td><td class="py-1.5 px-2">Brief subject of the correspondence</td><td class="py-1.5 px-2 text-slate-400">Regarding CCTV tender...</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Nature of Request</td><td class="py-1.5 px-2">Type of request</td><td class="py-1.5 px-2 text-slate-400">Information, Compliance, Meeting, Video Conference</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Priority</td><td class="py-1.5 px-2">Urgency level</td><td class="py-1.5 px-2 text-slate-400">Normal, High, Urgent</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Project</td><td class="py-1.5 px-2">Project grouping code</td><td class="py-1.5 px-2 text-slate-400">PRJ-001 - CCTNS, PRJ-037 - Miscellaneous</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Concerned Officer</td><td class="py-1.5 px-2">Assigned officer</td><td class="py-1.5 px-2 text-slate-400">PRO-136 - T. Anoj Kumar (SI), ALL</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Current Stage</td><td class="py-1.5 px-2">Processing status</td><td class="py-1.5 px-2 text-slate-400">In Progress, Completed, N/A</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Decision/Remarks</td><td class="py-1.5 px-2">Notes / supervisor remarks</td><td class="py-1.5 px-2 text-slate-400">File forwarded to DIG</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Due Date</td><td class="py-1.5 px-2">Deadline for completion</td><td class="py-1.5 px-2 text-slate-400">30-Jan-2026</td></tr>
+                                    <tr class="border-b border-slate-800"><td class="py-1.5 px-2 font-semibold text-white">Follow Up Required</td><td class="py-1.5 px-2">Whether follow-up is needed</td><td class="py-1.5 px-2 text-slate-400">Yes, No</td></tr>
+                                    <tr><td class="py-1.5 px-2 font-semibold text-white">Last Follow-Up Date</td><td class="py-1.5 px-2">Most recent follow-up date</td><td class="py-1.5 px-2 text-slate-400">25-Jan-2026</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-900/20 rounded-xl p-4 border border-amber-500/30 space-y-2">
+                        <h4 class="text-sm font-bold text-amber-300">⚠️ Important Rules for Data Entry</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Always use the <strong class="text-white">exact stage names</strong> listed in the Stage Categories section</li>
+                            <li>Use <strong class="text-white">"ALL"</strong> in Concerned Officer for tasks that apply to all officers</li>
+                            <li>Date format should be consistent: <strong class="text-white">DD-Mon-YYYY</strong> (e.g., 15-Jan-2026)</li>
+                            <li>Do not delete rows — set stage to <strong class="text-white">"Correspondence Closed"</strong> or <strong class="text-white">"Cancelled"</strong> instead</li>
+                            <li>The Correspondence ID must be unique for each row</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SECTION: Workflows & Tips -->
+                <div id="guide-section-workflow-guide" class="guide-section hidden space-y-4">
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">🔧 Workflows & Tips</h3>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">📝 Daily Workflow (Recommended)</h4>
+                        <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+                            <li><strong class="text-cyan-300">Morning:</strong> Open the dashboard → Check Overview KPIs → Note any new files</li>
+                            <li><strong class="text-cyan-300">Check VIP:</strong> Go to VIP tab → Review files requiring urgent attention</li>
+                            <li><strong class="text-cyan-300">Events Check:</strong> Go to Events tab → See today's/tomorrow's scheduled VCs/meetings</li>
+                            <li><strong class="text-cyan-300">Send Brief:</strong> Click "Officer Abstract" → Copy Short Brief → Paste to WhatsApp group</li>
+                            <li><strong class="text-cyan-300">Follow-up:</strong> Review officers with pending files → Request stage updates</li>
+                            <li><strong class="text-cyan-300">Update Sheet:</strong> As files progress, update the "Current Stage" column in Google Sheet</li>
+                            <li><strong class="text-cyan-300">End of Day:</strong> Refresh dashboard → Verify all updates reflected → Send closing brief if needed</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🆕 How to Add a New Correspondence File</h4>
+                        <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Open the Google Sheet (click "FY 2026 Live Matrix" header link)</li>
+                            <li>Go to the last row and add a new entry</li>
+                            <li>Fill in: S.No, Correspondence ID (next sequence), Date of Receipt, Subject, Department, Concerned Officer, Nature of Request</li>
+                            <li>Set Current Stage to <strong class="text-white">"Pending"</strong> or <strong class="text-white">"In Progress"</strong></li>
+                            <li>Set Priority to Normal, High, or Urgent</li>
+                            <li>Save — changes appear on dashboard within seconds on refresh</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🔄 How to Update File Stage</h4>
+                        <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Open Google Sheet → Find the file by its Correspondence ID</li>
+                            <li>Update the <strong class="text-white">"Current Stage"</strong> column to one of the official stage values</li>
+                            <li>Add remarks in <strong>"Decision/Remarks"</strong> column if needed</li>
+                            <li>Update <strong>"Last Follow-Up Date"</strong> to today's date</li>
+                            <li>If completed, set stage to <strong class="text-emerald-300">"Completed"</strong></li>
+                            <li>If no longer needed, set to <strong>"Correspondence Closed"</strong> or <strong>"Cancelled"</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">📤 Export CSV Report</h4>
+                        <p class="text-xs text-slate-300">Click <strong class="text-white">"Export CSV Report"</strong> in the sidebar to download the currently visible (filtered) data as a CSV file. This can be opened in Excel for custom analysis or printing.</p>
+                    </div>
+
+                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
+                        <h4 class="text-sm font-bold text-white">🤖 AI Copilot</h4>
+                        <p class="text-xs text-slate-300">The floating <strong class="text-amber-300">"Executive AI Copilot"</strong> button (bottom-left) opens an AI-powered assistant that can answer questions about the correspondence data, help identify urgent files, and provide quick summaries. It is powered by Google Gemini and has real-time visibility into all dashboard data.</p>
+                    </div>
+
+                    <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
+                        <h4 class="text-sm font-bold text-blue-300">💡 Quick Tips</h4>
+                        <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
+                            <li>Use <strong class="text-white">Ctrl+F</strong> on the Explorer tab for quick text search</li>
+                            <li>Click any <strong>column header</strong> in tables to sort data</li>
+                            <li>Use <strong class="text-white">Light/Dark mode</strong> toggle (bottom-right sun icon) for your preference</li>
+                            <li>The dashboard works on mobile — use the hamburger menu (☰) to access sidebar on small screens</li>
+                            <li>Bookmark the dashboard URL for quick daily access</li>
+                            <li>If data doesn't load, check if the Google Sheet sharing is set to "Anyone with the link can view"</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div><!-- /help-guide-content -->
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between border-t border-slate-800 pt-3 flex-shrink-0">
+                <p class="text-[10px] text-slate-500">AP Police Technical Services (PCS&S) — Correspondence Management System Guide v2.0</p>
+                <button onclick="closeHelpGuideModal()" class="px-4 py-1.5 text-xs font-bold bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition">
+                    Close Guide
+                </button>
+            </div>
         </div>
     </div>
 
