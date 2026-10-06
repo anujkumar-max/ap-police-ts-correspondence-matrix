@@ -1077,6 +1077,10 @@
                             <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i>
                             <span>Today & Tomorrow</span>
                         </button>
+                        <button onclick="filterEventsTiming('postponed')" id="event-timing-btn-postponed" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+                            <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-amber-400"></i>
+                            <span>⏸️ Postponed (<span id="event-count-postponed">--</span>)</span>
+                        </button>
                         <button onclick="filterEventsTiming('cancelled')" id="event-timing-btn-cancelled" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="x-circle" class="w-3.5 h-3.5 text-rose-400"></i>
                             <span>🚫 Cancelled (<span id="event-count-cancelled">--</span>)</span>
@@ -1811,6 +1815,7 @@
             'proforma sent',
             'on hold',
             'overdue',
+            'postponed',
             'pending'
         ];
         const EXCLUDED_BRIEF_STAGES = [
@@ -3396,16 +3401,21 @@
                 waEvents += `\n• No upcoming scheduled meetings/workshops at present.\n`;
             } else {
                 eventsList.forEach((ev, idx) => {
+                    const isPostponed = (ev.current_stage || '').toLowerCase().trim() === 'postponed' || (ev.remarks || '').toLowerCase().includes('postponed');
                     const dateVal = ev.due_date_raw || 'Date TBA';
                     const timing = ev.event_timing_label && ev.event_timing_label !== '—' ? ` (${ev.event_timing_label})` : '';
                     const nature = ev.nature_of_request || 'Meeting';
                     const natureLow = nature.toLowerCase();
                     const icon = (natureLow.includes('vc') || natureLow.includes('video') || natureLow.includes('conference')) ? '💻' : ((natureLow.includes('workshop') || natureLow.includes('seminar') || natureLow.includes('training')) ? '🎓' : '🏢');
+                    const statusTag = isPostponed ? ' ⏸️ *[POSTPONED]*' : '';
 
-                    waEvents += `\n${idx + 1}. ${icon} *${nature}*\n`;
+                    waEvents += `\n${idx + 1}. ${icon} *${nature}*${statusTag}\n`;
                     waEvents += `   • *File ID:* ${ev.id} [${ev.project}]\n`;
                     waEvents += `   • *Date / Time:* 📅 ${dateVal}${timing}\n`;
                     waEvents += `   • *Officer:* ${ev.officer}\n`;
+                    if (isPostponed) {
+                        waEvents += `   • *Status:* ⏸️ *Postponed (Awaiting Rescheduled Date)*\n`;
+                    }
                     waEvents += `   • *Subject:* ${ev.subject}\n`;
                     if (ev.remarks) {
                         waEvents += `   • *Venue / VC Link:* ${ev.remarks}\n`;
@@ -3469,6 +3479,7 @@
             currentEventTimingFilter = mode;
             const upBtn = document.getElementById('event-timing-btn-upcoming');
             const urgBtn = document.getElementById('event-timing-btn-urgent');
+            const postBtn = document.getElementById('event-timing-btn-postponed');
             const canBtn = document.getElementById('event-timing-btn-cancelled');
             const allBtn = document.getElementById('event-timing-btn-all');
 
@@ -3477,6 +3488,7 @@
 
             if (upBtn) upBtn.className = mode === 'upcoming' ? activeClass : inactiveClass;
             if (urgBtn) urgBtn.className = mode === 'urgent' ? activeClass : inactiveClass;
+            if (postBtn) postBtn.className = mode === 'postponed' ? activeClass : inactiveClass;
             if (canBtn) canBtn.className = mode === 'cancelled' ? activeClass.replace('bg-amber-500', 'bg-rose-500').replace('text-slate-950', 'text-white') : inactiveClass;
             if (allBtn) allBtn.className = mode === 'all' ? activeClass : inactiveClass;
 
@@ -3492,26 +3504,42 @@
             const project = document.getElementById('filter-event-project')?.value || '';
 
             const allEvents = rawData.scheduled_events;
+            const isEventPostponed = (e) => {
+                const st = (e.current_stage || '').toLowerCase().trim();
+                const rem = (e.remarks || '').toLowerCase().trim();
+                return st === 'postponed' || rem.includes('postponed');
+            };
+
+            const postponedEvents = allEvents.filter(isEventPostponed);
             const cancelledEvents = allEvents.filter(e => e.status_group === 'Closed / Excluded');
-            const upcomingCount = allEvents.filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+            const upcomingCount = allEvents.filter(e => !isEventPostponed(e) && e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+            const postponedCount = postponedEvents.length;
             const cancelledCount = cancelledEvents.length;
             const totalCount = allEvents.length;
 
             const upCountEl = document.getElementById('event-count-upcoming');
+            const postCountEl = document.getElementById('event-count-postponed');
             const canCountEl = document.getElementById('event-count-cancelled');
             const allCountEl = document.getElementById('event-count-all');
             if (upCountEl) upCountEl.innerText = upcomingCount;
+            if (postCountEl) postCountEl.innerText = postponedCount;
             if (canCountEl) canCountEl.innerText = cancelledCount;
             if (allCountEl) allCountEl.innerText = totalCount;
 
             const filtered = allEvents.filter(e => {
+                const isPostponed = isEventPostponed(e);
                 if (currentEventTimingFilter === 'upcoming') {
-                    // Exclude cancelled/closed events AND past completed events
+                    // Exclude cancelled/closed events AND postponed events AND past completed events
                     if (e.status_group === 'Closed / Excluded') return false;
+                    if (isPostponed) return false;
                     if (e.event_delta_days < 0 && e.status_group === 'Completed') return false;
                 } else if (currentEventTimingFilter === 'urgent') {
                     if (e.status_group === 'Closed / Excluded') return false;
+                    if (isPostponed) return false;
                     if (e.event_delta_days !== 0 && e.event_delta_days !== 1) return false;
+                } else if (currentEventTimingFilter === 'postponed') {
+                    // Show ONLY postponed events
+                    if (!isPostponed) return false;
                 } else if (currentEventTimingFilter === 'cancelled') {
                     // Show ONLY cancelled/closed events
                     if (e.status_group !== 'Closed / Excluded') return false;
@@ -3538,6 +3566,7 @@
                         e.project,
                         e.prj_id,
                         e.nature_of_request,
+                        e.current_stage,
                         e.due_date_raw,
                         e.remarks
                     ].join(' ').toLowerCase();
@@ -3551,14 +3580,21 @@
             if (!grid) return;
 
             if (filtered.length === 0) {
-                const emptyIcon = currentEventTimingFilter === 'cancelled' ? 'check-circle' : 'calendar-x-2';
-                const emptyTitle = currentEventTimingFilter === 'cancelled' ? 'No Cancelled Events ✅' : 'No Scheduled Events Found';
-                const emptyMsg = currentEventTimingFilter === 'cancelled' 
+                let emptyIcon = currentEventTimingFilter === 'cancelled' ? 'check-circle' : 'calendar-x-2';
+                let emptyTitle = currentEventTimingFilter === 'cancelled' ? 'No Cancelled Events ✅' : 'No Scheduled Events Found';
+                let emptyMsg = currentEventTimingFilter === 'cancelled' 
                     ? 'No events have been cancelled. All events are active / on schedule.' 
                     : 'No meetings, seminars, or workshops match your current filter criteria.';
+                
+                if (currentEventTimingFilter === 'postponed') {
+                    emptyIcon = 'pause-circle';
+                    emptyTitle = 'No Postponed Events ✅';
+                    emptyMsg = 'No meetings or VCs have been postponed. All events are proceeding as scheduled.';
+                }
+
                 grid.innerHTML = `
                     <div class="col-span-full py-12 text-center glass-card rounded-2xl p-6 border border-slate-800 space-y-2">
-                        <i data-lucide="${emptyIcon}" class="w-10 h-10 ${currentEventTimingFilter === 'cancelled' ? 'text-emerald-400' : 'text-slate-500'} mx-auto"></i>
+                        <i data-lucide="${emptyIcon}" class="w-10 h-10 ${currentEventTimingFilter === 'cancelled' ? 'text-emerald-400' : (currentEventTimingFilter === 'postponed' ? 'text-amber-400' : 'text-slate-500')} mx-auto"></i>
                         <h4 class="text-sm font-bold text-white">${emptyTitle}</h4>
                         <p class="text-xs text-slate-400">${emptyMsg}</p>
                     </div>
@@ -3587,8 +3623,17 @@
                     cardAccent = 'border-purple-500/40';
                 }
 
+                const isCancelled = ev.status_group === 'Closed / Excluded';
+                const isPostponed = isEventPostponed(ev);
+
                 let timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[10px] border border-slate-700">Date TBA</span>`;
-                if (ev.event_timing_status === 'Today') {
+                if (isCancelled) {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600/25 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>🚫 CANCELLED</span>`;
+                    cardAccent = 'border-rose-500/40';
+                } else if (isPostponed) {
+                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/25 text-amber-300 font-extrabold text-[10.5px] border border-amber-500/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>⏸️ POSTPONED</span>`;
+                    cardAccent = 'border-amber-500/40';
+                } else if (ev.event_timing_status === 'Today') {
                     timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 animate-pulse flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Today ⭐</span>`;
                 } else if (ev.event_timing_status === 'Tomorrow') {
                     timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold text-[10.5px] border border-amber-500/40">Tomorrow ⏳</span>`;
@@ -3598,15 +3643,14 @@
                     timingPill = `<span class="px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 text-[10px] border border-slate-700">Concluded (${ev.event_timing_label})</span>`;
                 }
 
-                // Override styling for cancelled / closed events
-                const isCancelled = ev.status_group === 'Closed / Excluded';
-                if (isCancelled) {
-                    timingPill = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600/25 text-rose-300 font-extrabold text-[10.5px] border border-rose-500/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>🚫 CANCELLED</span>`;
-                    cardAccent = 'border-rose-500/40';
-                }
+                let cardBorderClass = 'border-slate-800';
+                if (isCancelled) cardBorderClass = 'border-rose-900/60 opacity-75';
+                else if (isPostponed) cardBorderClass = 'border-amber-500/50 bg-amber-950/10';
 
                 return `
-                    <div class="glass-card rounded-2xl p-4 sm:p-5 border ${isCancelled ? 'border-rose-900/60 opacity-75' : 'border-slate-800'} hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md ${isCancelled ? 'relative' : ''}">${isCancelled ? '<div class="absolute top-2 right-2 bg-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">CANCELLED</div>' : ''}
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border ${cardBorderClass} hover:${cardAccent} transition flex flex-col justify-between space-y-3.5 shadow-md relative">
+                        ${isCancelled ? '<div class="absolute top-2 right-2 bg-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">CANCELLED</div>' : ''}
+                        ${isPostponed && !isCancelled ? '<div class="absolute top-2 right-2 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">POSTPONED</div>' : ''}
                         <div class="flex items-start justify-between gap-2">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${natureBadgeColor}">
                                 <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
@@ -3615,15 +3659,15 @@
                             <div>${timingPill}</div>
                         </div>
 
-                        <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800 flex items-center justify-between">
+                        <div class="bg-slate-900/90 rounded-xl p-2.5 border ${isPostponed ? 'border-amber-500/30' : 'border-slate-800'} flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="calendar" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
                                 <div>
-                                    <div class="text-[9.5px] text-slate-400 uppercase font-semibold">Scheduled Date / Time</div>
-                                    <div class="text-xs font-bold text-white font-mono">${ev.due_date_raw || 'Schedule Pending / TBA'}</div>
+                                    <div class="text-[9.5px] text-slate-400 uppercase font-semibold">${isPostponed ? 'Deferred Schedule / Status' : 'Scheduled Date / Time'}</div>
+                                    <div class="text-xs font-bold text-white font-mono">${ev.due_date_raw || 'Schedule Pending / TBA'} ${isPostponed ? '<span class="text-amber-400 text-[10.5px] font-bold block sm:inline sm:ml-1">(Awaiting Fresh Date)</span>' : ''}</div>
                                 </div>
                             </div>
-                            ${ev.event_timing_label && ev.event_timing_label !== '—' && ev.event_timing_status !== 'Past' ? `
+                            ${ev.event_timing_label && ev.event_timing_label !== '—' && ev.event_timing_status !== 'Past' && !isPostponed ? `
                                 <span class="text-[11px] font-extrabold text-amber-400 font-mono">${ev.event_timing_label}</span>
                             ` : ''}
                         </div>
@@ -4937,11 +4981,12 @@ INSTRUCTIONS:
                         <!-- Events Tab -->
                         <div class="bg-slate-900/80 rounded-xl p-4 border border-purple-500/30 space-y-2">
                             <h4 class="text-sm font-bold text-purple-300">3️⃣ Events (Meetings & VC)</h4>
-                            <p class="text-xs text-slate-300">Tracks scheduled Video Conferences (VC), Meetings, and other time-bound events.</p>
+                            <p class="text-xs text-slate-300">Tracks scheduled Video Conferences (VC), Meetings, Seminars, Workshops, and key calendar milestones.</p>
                             <ul class="list-disc list-inside space-y-1 text-xs text-slate-400">
-                                <li>Shows only files with Nature of Request = "Video Conference" or "Meeting"</li>
-                                <li>Calendar-style view with upcoming/past event classification</li>
-                                <li>Useful for daily readiness checks and advance preparation</li>
+                                <li>Shows files with Nature of Request = "Video Conference", "Meeting", "Workshop", "Seminar", etc.</li>
+                                <li><strong>5 Timing & Status Filters:</strong> ⏳ Upcoming / Active, 🔥 Today & Tomorrow, ⏸️ Postponed (awaiting fresh schedule), 🚫 Cancelled, and 📁 All Events</li>
+                                <li>Postponed events are highlighted with amber warning badges so officers know they are deferred</li>
+                                <li>Useful for daily readiness checks, advance preparation, and WhatsApp event briefings</li>
                             </ul>
                         </div>
 
@@ -5015,6 +5060,7 @@ INSTRUCTIONS:
                                 <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Proforma Sent</span>
                                 <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">On Hold</span>
                                 <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Overdue</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">Postponed</span>
                                 <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Pending</span>
                             </div>
                             <p class="text-[10px] text-slate-500 mt-2 italic">Note: If the stage field is blank or any unrecognized value, it also defaults to In-Progress.</p>

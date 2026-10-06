@@ -660,12 +660,16 @@ def calculate_analytics_from_records(records):
             timing = f" ({ev['event_timing_label']})" if ev['event_timing_label'] != '—' else ''
             nature = ev['nature_of_request']
             icon = "💻" if any(k in nature.lower() for k in ['vc', 'video', 'conference']) else ("🎓" if any(k in nature.lower() for k in ['workshop', 'seminar', 'training']) else "🏢")
+            is_postponed = (ev.get('current_stage') or '').lower().strip() == 'postponed' or 'postponed' in (ev.get('remarks') or '').lower()
+            status_tag = " ⏸️ *[POSTPONED]*" if is_postponed else ""
             
             events_lines.append("")
-            events_lines.append(f"{idx}. {icon} *{nature}*")
+            events_lines.append(f"{idx}. {icon} *{nature}*{status_tag}")
             events_lines.append(f"   • *File ID:* {ev['id']} [{ev['project']}]")
             events_lines.append(f"   • *Date / Time:* 📅 {date_str}{timing}")
             events_lines.append(f"   • *Officer:* {ev['officer']}")
+            if is_postponed:
+                events_lines.append(f"   • *Status:* ⏸️ *Postponed (Awaiting Rescheduled Date)*")
             events_lines.append(f"   • *Subject:* {ev['subject']}")
             if ev['remarks']:
                 events_lines.append(f"   • *Venue / VC Link:* {ev['remarks']}")
