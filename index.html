@@ -644,78 +644,78 @@
                 </button>
             </div>
 
-            <!-- TOP KPI CARDS (RICOCHET360 WHITE CARDS WITH TREND ICON SQUARES) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                
-                <!-- Card 1: Total Reportable Correspondence -->
-                <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
-                    <div>
-                        <div class="text-2xl font-extrabold text-slate-800" id="kpi-total">--</div>
-                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Total active & completed</span>
-                            <span class="text-emerald-600 font-bold">100%</span>
-                        </div>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
-                        <i data-lucide="trending-up" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <!-- Card 2: In-Progress -->
-                <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
-                    <div>
-                        <div class="text-2xl font-extrabold text-slate-800" id="kpi-inprogress">--</div>
-                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>In-Progress stage</span>
-                            <span id="kpi-inprogress-pct" class="text-blue-600 font-bold">--%</span>
-                        </div>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-blue-600 flex-shrink-0">
-                        <i data-lucide="move-right" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <!-- Card 3: Completed -->
-                <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
-                    <div>
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-completed">--</span>
-                            <span class="text-xs font-bold text-amber-600 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
-                        </div>
-                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Completed category</span>
-                            <span id="kpi-completed-pct" class="text-emerald-600 font-bold">+--%</span>
-                            <span id="kpi-critical" class="hidden">--</span>
-                            <span id="kpi-tat" class="hidden">--</span>
-                        </div>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
-                        <i data-lucide="trending-up" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <!-- Card 4: Stage N/A (Not Updated Stage) -->
-                <div onclick="filterByStatusGroup('Stage N/A')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
-                    <div>
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-2xl font-extrabold text-slate-800" id="kpi-onhold">--</span>
-                            <span class="hidden" id="kpi-pending">0</span>
-                        </div>
-                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                            <span>Stage N/A (Not updated)</span>
-                            <span id="kpi-onhold-pct" class="text-rose-500 font-bold">--%</span>
-                            <span id="kpi-pending-pct" class="hidden">--%</span>
-                        </div>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
-                        <i data-lucide="trending-down" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-            </div>
-
             <!-- ================= TAB 1: EXECUTIVE ANALYTICS (RICOCHET360 CHART CARDS) ================= -->
             <div id="tab-overview" class="tab-content space-y-5">
+
+                <!-- TOP KPI CARDS (RICOCHET360 WHITE CARDS WITH TREND ICON SQUARES - DASHBOARD ONLY) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    
+                    <!-- Card 1: Total Reportable Correspondence -->
+                    <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-extrabold text-slate-800" id="kpi-total">--</div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                                <span>Total active & completed</span>
+                                <span class="text-emerald-600 font-bold">100%</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                            <i data-lucide="trending-up" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: In-Progress -->
+                    <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-extrabold text-slate-800" id="kpi-inprogress">--</div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                                <span>In-Progress stage</span>
+                                <span id="kpi-inprogress-pct" class="text-blue-600 font-bold">--%</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-blue-600 flex-shrink-0">
+                            <i data-lucide="move-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Completed -->
+                    <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                        <div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-extrabold text-slate-800" id="kpi-completed">--</span>
+                                <span class="text-xs font-bold text-amber-600 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                                <span>Completed category</span>
+                                <span id="kpi-completed-pct" class="text-emerald-600 font-bold">+--%</span>
+                                <span id="kpi-critical" class="hidden">--</span>
+                                <span id="kpi-tat" class="hidden">--</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                            <i data-lucide="trending-up" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Stage N/A (Not Updated Stage) -->
+                    <div onclick="filterByStatusGroup('Stage N/A')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                        <div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-extrabold text-slate-800" id="kpi-onhold">--</span>
+                                <span class="hidden" id="kpi-pending">0</span>
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                                <span>Stage N/A (Not updated)</span>
+                                <span id="kpi-onhold-pct" class="text-rose-500 font-bold">--%</span>
+                                <span id="kpi-pending-pct" class="hidden">--%</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
+                            <i data-lucide="trending-down" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                </div>
 
                 <!-- ROW 1 CHARTS: Left Donut with Center Total & Legend (like 'Costs') + Right Stacked Bar (like 'Leads') -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
