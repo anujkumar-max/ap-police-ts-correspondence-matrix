@@ -1912,6 +1912,16 @@
                             });
 
                             if (hasData) {
+                                // Robust mapping for Subject / Work Description (Column 7 / H)
+                                const subjRaw = cleanText(
+                                    rowDict['Subject / Work Description'] || 
+                                    rowDict['Subject'] || 
+                                    rowDict['Work Description'] || 
+                                    (row.length > 7 && row[7] ? row[7] : '')
+                                );
+                                rowDict['Subject / Work Description'] = subjRaw;
+                                rowDict['Subject'] = subjRaw;
+
                                 const recvRaw = rowDict['Date & Time Received in Office'] || rowDict['Date & Time Received to office'] || rowDict['Date Received in Office'] || rowDict['Date Received to office'] || rowDict['Date Received'] || '';
                                 rowDict['Date Received to office'] = recvRaw;
                                 rowDict['Date & Time Received in Office'] = recvRaw;

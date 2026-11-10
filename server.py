@@ -804,6 +804,9 @@ def fetch_google_sheet_data():
                     if c_idx > 0 and val not in ['', 'N/A', 'None']:
                         has_data = True
                 if has_data:
+                    # Robust Subject fallback if column H header was renamed
+                    if 'Subject / Work Description' not in row_dict or not row_dict['Subject / Work Description']:
+                        row_dict['Subject / Work Description'] = row[7].strip() if len(row) > 7 else ''
                     records.append(row_dict)
 
             _cached_data = calculate_analytics_from_records(records)
@@ -841,6 +844,9 @@ def fetch_google_sheet_data():
                     else:
                         row_dict[h] = ""
                 if has_data:
+                    # Robust Subject fallback if column H header was renamed
+                    if 'Subject / Work Description' not in row_dict or not row_dict['Subject / Work Description']:
+                        row_dict['Subject / Work Description'] = row[7].strip() if len(row) > 7 else ''
                     records.append(row_dict)
 
             _cached_data = calculate_analytics_from_records(records)
