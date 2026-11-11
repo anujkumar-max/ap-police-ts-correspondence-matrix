@@ -1583,7 +1583,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #92400e;">4. DEDICATED VIP CORRESPONDENCE INVENTORY</div>
-                                <div class="text-[10px]" style="color: #64748b;">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages (Excludes Follow-Up Required, Completed &amp; Closed)</div>
+                                <div class="text-[10px]" style="color: #64748b;">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A &amp; Letter Sent stages (Excludes Postponed, Follow-Up Required, Completed &amp; Closed)</div>
                             </div>
                             <span id="abs-vip-inventory-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fffbeb; border-color: #fcd34d; color: #92400e;">0 Files</span>
                         </div>
@@ -1781,7 +1781,7 @@
                 <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">4. DEDICATED VIP CORRESPONDENCE INVENTORY:</div>
                 <span class="text-[10px] font-mono font-bold" id="print-vip-inventory-count">0 Files</span>
             </div>
-            <div class="text-[10px] text-slate-600 mb-1">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages (Excludes Follow-Up Required, Completed &amp; Closed).</div>
+            <div class="text-[10px] text-slate-600 mb-1">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A &amp; Letter Sent stages (Excludes Postponed, Follow-Up Required, Completed &amp; Closed).</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -3350,14 +3350,14 @@
             return raw === 'yes' || raw === 'y' || raw === 'true';
         }
 
-        /** Scope filter for VIP 4 Pillars Inventory: only Pending, In Progress, On Hold, Unassigned, N/A, Postponed, Letter Sent (excludes Follow-Up Required tasks shown in Table 5). */
+        /** Scope filter for VIP 4 Pillars Inventory: only Pending, In Progress, On Hold, Unassigned, N/A, Letter Sent (excludes Postponed, Follow-Up Required tasks shown in Table 5, Completed & Closed). */
         function isVipInventoryReportRecord(r) {
             if (!r || !r.is_vip) return false;
             if (r.status_group === 'Closed / Excluded') return false;
             if (isFollowupRequiredRecord(r)) return false;
 
             const stageLower = String(r['Current Stage'] || '').trim().toLowerCase().replace(/\s+/g, ' ');
-            if (stageLower === 'completed') return false;
+            if (stageLower === 'completed' || stageLower.includes('postponed')) return false;
             if (!stageLower || isOfficerUnassignedRecord(r)) return true;
 
             const allowedStages = [
@@ -3370,7 +3370,6 @@
                 'n/a',
                 'na',
                 'not available',
-                'postponed',
                 'letter sent'
             ];
             return allowedStages.some(st => stageLower === st || stageLower.includes(st));
@@ -5740,7 +5739,7 @@ INSTRUCTIONS:
                             <li><strong class="text-indigo-300">OFFICER-WISE WORKLOAD SUMMARY:</strong> Official AP Police rank hierarchy workload table (Total, In-Progress, Completed, Current Stage N/A) plus explicit Concerned Officer N/A accountability row.</li>
                             <li><strong class="text-cyan-300">PROJECT-WISE TASK ABSTRACT:</strong> Standardized Technical Project (PRJ-ID) task distribution across Total, In-Progress, Completed, and Current Stage N/A counts.</li>
                             <li><strong class="text-blue-300">UPCOMING VIDEO CONFERENCES:</strong> Active scheduled Video Conferences with date, timing badge, agenda, concerned officer, stage, and VC link/remarks (excludes postponed, completed &amp; cancelled).</li>
-                            <li><strong class="text-amber-300">DEDICATED VIP CORRESPONDENCE INVENTORY:</strong> Strictly filtered to 4-Pillars active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
+                            <li><strong class="text-amber-300">DEDICATED VIP CORRESPONDENCE INVENTORY:</strong> Strictly filtered to 4-Pillars active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Postponed, Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
                             <li><strong class="text-rose-300">FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS:</strong> Dedicated separate report table listing all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
                         </ol>
                     </div>
@@ -5794,7 +5793,7 @@ INSTRUCTIONS:
                         <h4 class="text-sm font-bold text-white">📊 VIP Command List View &amp; Report Rules</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
                             <li><strong class="text-white">Unified List View:</strong> The VIP Command module displays all VIP files in a clean sortable table layout matching All Records — click any row for full 21-column history.</li>
-                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>4. DEDICATED VIP CORRESPONDENCE INVENTORY</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Follow-Up Required (Yes)</strong> tasks (shown separately in Section 5), Completed &amp; Closed.</li>
+                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>4. DEDICATED VIP CORRESPONDENCE INVENTORY</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Postponed, Follow-Up Required (Yes)</strong> tasks (shown separately in Section 5), Completed &amp; Closed.</li>
                         </ul>
                     </div>
                 </div>
