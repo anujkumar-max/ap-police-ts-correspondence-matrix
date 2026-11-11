@@ -157,19 +157,19 @@
         }
 
         /* Generic Slate & White Text Color Adjustments in Light Mode */
-        html.light .text-white:not(button):not(button *):not(.bg-blue-600):not(.bg-blue-600 *):not(.bg-indigo-600):not(.bg-indigo-600 *):not(.bg-amber-500 *):not(.bg-emerald-600):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *):not(#app-sidebar *):not(#bottom-help-btn *):not(#cta-abstract-btn *):not(#screenshot-brand-banner *):not(#screenshot-toast *):not(#whatsapp-textarea) {
+        html.light .text-white:not(button):not(button *):not(.bg-blue-600):not(.bg-blue-600 *):not(.bg-indigo-600):not(.bg-indigo-600 *):not(.bg-amber-500 *):not(.bg-emerald-600):not(.bg-emerald-600 *):not(.bg-rose-600 *):not(header *):not(#app-sidebar *):not(#bottom-help-btn *):not(#cta-abstract-btn *):not(#screenshot-brand-banner *):not(#screenshot-toast *):not(#officer-abstract-capture-target *) {
             color: #1e293b !important;
         }
-        html.light .text-slate-400:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+        html.light .text-slate-400:not(header *):not(#app-sidebar *):not(#officer-abstract-capture-target *) {
             color: #64748b !important;
         }
-        html.light .text-slate-300:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+        html.light .text-slate-300:not(header *):not(#app-sidebar *):not(#officer-abstract-capture-target *) {
             color: #334155 !important;
         }
-        html.light .text-slate-200:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+        html.light .text-slate-200:not(header *):not(#app-sidebar *):not(#officer-abstract-capture-target *) {
             color: #1e293b !important;
         }
-        html.light .text-slate-100:not(header *):not(#app-sidebar *):not(#whatsapp-textarea) {
+        html.light .text-slate-100:not(header *):not(#app-sidebar *):not(#officer-abstract-capture-target *) {
             color: #0f172a !important;
         }
 
@@ -277,7 +277,7 @@
         html.light .bg-slate-900\/80,
         html.light .bg-slate-900\/70,
         html.light .bg-slate-900\/60,
-        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn),
+        html.light .bg-slate-950:not(header *),
         html.light .bg-slate-950\/95,
         html.light .bg-slate-950\/90,
         html.light .bg-slate-950\/80,
@@ -437,12 +437,6 @@
             border-color: #cbd5e1 !important;
             color: #0f172a !important;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2) !important;
-        }
-
-        html.light #whatsapp-textarea {
-            background-color: #090d16 !important;
-            color: #6ee7b7 !important;
-            border-color: #1e293b !important;
         }
 
         html.light ::-webkit-scrollbar-track {
@@ -1354,9 +1348,9 @@
         </div>
     </div>
 
-    <!-- ================= EXPANDED EXECUTIVE PENDING ABSTRACT & WHATSAPP MODAL ================= -->
+    <!-- ================= EXPANDED EXECUTIVE OFFICER ABSTRACT MODAL ================= -->
     <div id="pending-abstract-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 no-print" onclick="if(event.target === this) closePendingAbstractModal()">
-        <div class="glass-card rounded-2xl border border-amber-500/50 max-w-6xl w-full h-[92vh] max-h-[95vh] p-5 sm:p-6 shadow-2xl flex flex-col justify-between space-y-3">
+        <div class="glass-card rounded-2xl border border-amber-500/50 max-w-6xl w-full h-[92vh] max-h-[95vh] p-4 sm:p-6 shadow-2xl flex flex-col justify-between space-y-3">
             
             <!-- Modal Header -->
             <div class="flex items-start justify-between border-b border-slate-800 pb-3 flex-shrink-0">
@@ -1364,11 +1358,11 @@
                     <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-11 h-11 rounded-xl object-contain bg-white/10 p-0.5 border border-amber-500/40 shadow" />
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">EXECUTIVE BRIEFING TOOL</span>
-                            <span class="text-xs text-slate-400" id="abstract-timestamp">--</span>
+                            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">EXECUTIVE REPORT</span>
+                            <span class="text-xs text-slate-400" id="abstract-modal-subtitle">Officer-Wise Workload Statement</span>
                         </div>
                         <h2 class="text-base sm:text-lg font-extrabold text-white mt-0.5">
-                            Officer-Wise Active Workload & Pending Abstract (Designation-Wise)
+                            Officer-Wise Correspondence Abstract (Hierarchy Order)
                         </h2>
                     </div>
                 </div>
@@ -1377,70 +1371,104 @@
                 </button>
             </div>
 
-            <!-- Top Summary Stats Strip (5 Clean Metrics: Total + 3 Categories + VIP) -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs flex-shrink-0">
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
-                    <span class="text-slate-400 text-[10px] block">Total Briefed</span>
-                    <span id="abs-kpi-total" class="text-base font-bold text-white">--</span>
-                    <span id="abs-kpi-pending" class="hidden">0</span>
+            <!-- Action Bar (Only Generate Image + Print Officer Abstract) -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 px-3 py-2.5 rounded-xl border border-slate-800 flex-shrink-0">
+                <div class="text-xs text-slate-400 font-medium">
+                    Includes officer-wise totals, <span class="text-slate-200 font-semibold">Current Stage N/A</span> &amp; <span class="text-amber-300 font-semibold">Concerned Officer N/A</span> counts.
                 </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5">
-                    <span class="text-indigo-400 text-[10px] block font-semibold">In-Progress</span>
-                    <span id="abs-kpi-inprog" class="text-base font-bold text-indigo-400">--</span>
-                </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
-                    <span class="text-emerald-400 text-[10px] block font-semibold">Completed</span>
-                    <span id="abs-kpi-done" class="text-base font-bold text-emerald-400">--</span>
-                </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700 bg-slate-800/40">
-                    <span class="text-slate-300 text-[10px] block font-semibold">Stage N/A (Not Updated)</span>
-                    <span id="abs-kpi-na" class="text-base font-bold text-slate-300">--</span>
-                </div>
-                <div class="bg-slate-900/80 p-2 rounded-xl border border-amber-400/30 bg-amber-500/10">
-                    <span class="text-amber-300 text-[10px] block font-bold">VIP Attention</span>
-                    <span id="abs-kpi-vip" class="text-base font-black text-amber-300">--</span>
-                </div>
-            </div>
-
-            <!-- Action & Format Selector Bar -->
-            <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex-shrink-0">
-                <!-- Tab Mode Switcher -->
-                <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
-                    <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
-                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                        <span>Short Numbers Brief</span>
+                <div class="flex items-center gap-2.5">
+                    <button onclick="generateOfficerAbstractImage(this)" id="btn-generate-abstract-image" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
+                        <i data-lucide="image" class="w-4 h-4"></i>
+                        <span>Generate Image</span>
                     </button>
-                    <button onclick="switchAbstractFormat('events')" id="tab-events-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
-                        <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>Events Brief</span>
-                    </button>
-                    <button onclick="switchAbstractFormat('vip')" id="tab-vip-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
-                        <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>VIP Short Brief</span>
-                    </button>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex items-center gap-2">
-                    <button onclick="copyCurrentAbstract()" id="copy-abstract-btn" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                        <span id="copy-btn-text">Copy WhatsApp Text</span>
-                    </button>
-                    <button onclick="printExecutiveMemo()" class="px-4 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-blue-900/40 active:scale-95">
+                    <button onclick="printExecutiveMemo()" id="btn-print-officer-abstract" class="px-4 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-blue-900/40 active:scale-95">
                         <i data-lucide="printer" class="w-4 h-4"></i>
-                        <span class="hidden sm:inline">Print Memo</span>
+                        <span>Print Officer Abstract</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Expanded WhatsApp Share Text Area -->
-            <div class="flex-grow flex flex-col space-y-1 overflow-hidden min-h-[350px]">
-                <textarea id="whatsapp-textarea" readonly class="w-full h-full flex-grow bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs sm:text-sm font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all overflow-y-auto"></textarea>
+            <!-- Scrollable Official Report Preview & Image Capture Target -->
+            <div class="flex-grow overflow-y-auto pr-1 rounded-xl">
+                <div id="officer-abstract-capture-target" class="rounded-xl p-5 sm:p-6 space-y-4 border border-slate-200 shadow-sm" style="background-color: #ffffff; color: #0f172a;">
+                    <!-- Official Statement Header -->
+                    <div class="rounded-xl px-4 py-3.5 flex flex-wrap items-center justify-between gap-3" style="background-color: #001b44; color: #ffffff;">
+                        <div class="flex items-center gap-3">
+                            <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-11 h-11 rounded-lg object-contain bg-white p-0.5 flex-shrink-0" />
+                            <div>
+                                <div class="text-[10px] font-bold uppercase tracking-widest" style="color: #93c5fd;">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
+                                <div class="text-sm sm:text-base font-extrabold uppercase tracking-wide" style="color: #ffffff;">POLICE COMPUTER SERVICES &amp; STANDARDIZATION (PCS&amp;S) / TECHNICAL SERVICES</div>
+                                <div class="text-xs font-semibold" style="color: #67e8f9;">Officer-Wise Correspondence Abstract Statement (Rank Hierarchy)</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div id="abstract-timestamp" class="text-xs font-mono font-bold" style="color: #fcd34d;">--</div>
+                            <div class="text-[10px]" style="color: #bfdbfe;">Live Correspondence Matrix</div>
+                        </div>
+                    </div>
+
+                    <!-- Top Summary Stats Strip (6 Metrics: Total + In-Prog + Completed + Current Stage N/A + Concerned Officer N/A + VIP) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center text-xs">
+                        <div class="p-2.5 rounded-lg border" style="background-color: #f8fafc; border-color: #e2e8f0;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #64748b;">Total Files</span>
+                            <span id="abs-kpi-total" class="text-lg font-black font-mono mt-0.5 block" style="color: #0f172a;">--</span>
+                            <span id="abs-kpi-pending" class="hidden">0</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg border" style="background-color: #eef2ff; border-color: #c7d2fe;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #4338ca;">In-Progress</span>
+                            <span id="abs-kpi-inprog" class="text-lg font-black font-mono mt-0.5 block" style="color: #3730a3;">--</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg border" style="background-color: #ecfdf5; border-color: #a7f3d0;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #047857;">Completed</span>
+                            <span id="abs-kpi-done" class="text-lg font-black font-mono mt-0.5 block" style="color: #065f46;">--</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg border" style="background-color: #f1f5f9; border-color: #cbd5e1;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #334155;">Current Stage N/A</span>
+                            <span id="abs-kpi-na" class="text-lg font-black font-mono mt-0.5 block" style="color: #1e293b;">--</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg border" style="background-color: #fff1f2; border-color: #fecdd3;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #be123c;">Concerned Officer N/A</span>
+                            <span id="abs-kpi-officer-na" class="text-lg font-black font-mono mt-0.5 block" style="color: #9f1239;">--</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg border" style="background-color: #fffbeb; border-color: #fde68a;">
+                            <span class="text-[10px] font-bold uppercase block" style="color: #b45309;">VIP Attention</span>
+                            <span id="abs-kpi-vip" class="text-lg font-black font-mono mt-0.5 block" style="color: #92400e;">--</span>
+                        </div>
+                    </div>
+
+                    <!-- Officer-Wise Breakdown Table -->
+                    <div class="overflow-x-auto rounded-lg border" style="border-color: #cbd5e1;">
+                        <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                            <thead>
+                                <tr style="background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                                    <th class="py-2.5 px-3 text-center font-bold uppercase tracking-wider w-14" style="color: #334155;">S.No</th>
+                                    <th class="py-2.5 px-3 font-bold uppercase tracking-wider" style="color: #334155;">Concerned Officer (PRO-ID &amp; Rank)</th>
+                                    <th class="py-2.5 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #334155;">Total Files</th>
+                                    <th class="py-2.5 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
+                                    <th class="py-2.5 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #065f46;">Completed</th>
+                                    <th class="py-2.5 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #334155;">Current Stage N/A</th>
+                                </tr>
+                            </thead>
+                            <tbody id="abstract-officer-summary-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                            <tfoot id="abstract-officer-summary-tfoot">
+                                <!-- Totals row populated dynamically -->
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Statement Footer -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t text-[11px]" style="border-color: #e2e8f0; color: #64748b;">
+                        <span>AP Police Technical Services (PCS&amp;S) HQ, Mangalagiri — Official Abstract Statement</span>
+                        <span id="abstract-footer-note">Excluded: Correspondence Closed / Cancelled / Returned</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal Footer -->
             <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-400 flex-shrink-0">
-                <span>Andhra Pradesh Police Technical Services Command Brief</span>
+                <span>Andhra Pradesh Police Technical Services Executive Command</span>
                 <button onclick="closePendingAbstractModal()" class="px-5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition">Close</button>
             </div>
         </div>
@@ -1469,10 +1497,11 @@
                 <thead>
                     <tr>
                         <th class="text-center">Total Files</th>
-                        <th class="text-center">🔵 In-Progress</th>
-                        <th class="text-center">🟢 Completed</th>
-                        <th class="text-center">⚪ Stage N/A (Not Updated)</th>
-                        <th class="text-center">⭐ VIP Priority</th>
+                        <th class="text-center">In-Progress</th>
+                        <th class="text-center">Completed</th>
+                        <th class="text-center">Current Stage N/A</th>
+                        <th class="text-center">Concerned Officer N/A</th>
+                        <th class="text-center">VIP Priority</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1481,6 +1510,7 @@
                         <td id="print-kpi-inprog" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-done" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-na" class="text-center font-bold text-sm">--</td>
+                        <td id="print-kpi-officer-na" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-vip" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-pending" class="hidden">0</td>
                     </tr>
@@ -1495,7 +1525,7 @@
 
         <!-- 3. Officer-Wise Workload Summary Table -->
         <div class="mb-4" id="print-section-officers">
-            <div class="text-xs font-bold uppercase mb-1">2. Officer-Wise Workload Summary (In-Progress / Completed / Stage N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1">2. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1504,12 +1534,15 @@
                         <th class="text-center w-24">Total Files</th>
                         <th class="text-center w-24">In-Progress</th>
                         <th class="text-center w-24">Completed</th>
-                        <th class="text-center w-24">Stage N/A</th>
+                        <th class="text-center w-28">Current Stage N/A</th>
                     </tr>
                 </thead>
                 <tbody id="print-officer-summary-tbody">
                     <!-- Populated dynamically -->
                 </tbody>
+                <tfoot id="print-officer-summary-tfoot">
+                    <!-- Totals row populated dynamically -->
+                </tfoot>
             </table>
         </div>
 
@@ -1615,7 +1648,8 @@
             if (cleaned.toUpperCase() === 'ALL') {
                 return { id: 'ALL', name: 'ALL (Common Task)', rank: 'Common Task', label: 'ALL' };
             }
-            if (cleaned === 'N/A' || cleaned === 'Unassigned' || !cleaned) {
+            const low = cleaned.toLowerCase();
+            if (!cleaned || low === 'n/a' || low === 'na' || low === 'unassigned' || low === 'not assigned' || low === 'not applicable' || cleaned === '-') {
                 return { id: 'N/A', name: 'Unassigned', rank: 'Unassigned', label: 'Unassigned' };
             }
             const matchWithRank = cleaned.match(/^(PRO-\d+)\s*[-:]\s*(.+)\s*\(([^()]+)\)$/);
@@ -1735,6 +1769,13 @@
                 return 'In-Progress';
             }
             return 'In-Progress';
+        }
+
+        function isEventPostponed(e) {
+            if (!e) return false;
+            const st = (e.current_stage || '').toLowerCase().trim();
+            const rem = (e.remarks || '').toLowerCase().trim();
+            return st === 'postponed' || rem.includes('postponed');
         }
 
         // Fetch Live Google Sheets Data
@@ -2188,7 +2229,7 @@
                             return (0 <= a.event_delta_days && a.event_delta_days < 9999) ? (a.event_delta_days - b.event_delta_days) : (b.event_delta_days - a.event_delta_days);
                         });
 
-                        const upcomingEventsCount = scheduledEvents.filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
+                        const upcomingEventsCount = scheduledEvents.filter(e => !isEventPostponed(e) && e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
 
                         resolve({
                             status: 'success',
@@ -2353,16 +2394,9 @@
             const vipActive = vip.active_count || 0;
             const urgentFollowupCount = reportableRecords.filter(r => r.is_vip_followup && r.status_group !== 'Completed').length;
 
-            const upcomingEventsCount = rawData.upcoming_events_count !== undefined
-                ? rawData.upcoming_events_count
-                : events.filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length;
-
-            const postponedEventsCount = events.filter(e => {
-                if (e.status_group === 'Closed / Excluded' || e.status_group === 'Completed') return false;
-                const st = (e.current_stage || '').toLowerCase().trim();
-                const rem = (e.remarks || '').toLowerCase().trim();
-                return st === 'postponed' || rem.includes('postponed');
-            }).length;
+            const upcomingEventsCount = events.length > 0
+                ? events.filter(e => !isEventPostponed(e) && e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed')).length
+                : (rawData.upcoming_events_count || 0);
 
             const breakdownHtmlParts = [
                 `<strong>${completedCount} completed</strong>`,
@@ -2378,10 +2412,10 @@
             }
 
             const eventsHtmlPart = upcomingEventsCount > 0
-                ? ` alongside <strong>${upcomingEventsCount} scheduled VC/meeting engagement${upcomingEventsCount === 1 ? '' : 's'}</strong>` + (postponedEventsCount > 0 ? ` (${postponedEventsCount} postponed)` : '')
+                ? ` alongside <strong>${upcomingEventsCount} upcoming VC/meeting engagement${upcomingEventsCount === 1 ? '' : 's'}</strong>`
                 : '';
             const eventsPlainPart = upcomingEventsCount > 0
-                ? ` alongside *${upcomingEventsCount} scheduled VC/meeting engagement${upcomingEventsCount === 1 ? '' : 's'}*` + (postponedEventsCount > 0 ? ` (${postponedEventsCount} postponed)` : '')
+                ? ` alongside *${upcomingEventsCount} upcoming VC/meeting engagement${upcomingEventsCount === 1 ? '' : 's'}*`
                 : '';
 
             let focusHtml = '';
@@ -3011,11 +3045,14 @@
             document.getElementById('print-inventory-title').innerText = "2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):";
 
             const kpis = rawData.kpis;
+            const vipAbstractSummary = buildOfficerAbstractReportRows();
             document.getElementById('print-kpi-total').innerText = kpis.total;
             const pPend = document.getElementById('print-kpi-pending');
             if (pPend) pPend.innerText = kpis.pending;
             document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
             document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
+            const pOffNa = document.getElementById('print-kpi-officer-na');
+            if (pOffNa) pOffNa.innerText = vipAbstractSummary.officerNaCount;
             document.getElementById('print-kpi-done').innerText = kpis.completed;
             document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
 
@@ -3221,18 +3258,139 @@
             }).join('');
         }
 
-        // ================= EXECUTIVE PENDING ABSTRACT & WHATSAPP LOGIC =================
+        // ================= EXECUTIVE OFFICER ABSTRACT REPORT LOGIC =================
         let activeTabId = 'overview';
-        let currentAbstractFormat = 'short'; // 'short', 'events', 'vip'
-        let cachedShortWhatsappText = '';
-        let cachedEventsWhatsappText = '';
-        let cachedVipWhatsappText = '';
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
 
-        function openPendingAbstractModal(explicitFmt) {
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function isOfficerUnassignedRecord(r) {
+            if (!r) return false;
+            const oid = (r.officer_id || '').toUpperCase().trim();
+            const olab = (r.officer_label || r['Concerned Officer'] || '').toLowerCase().trim();
+            if (oid && oid !== 'N/A' && oid !== 'NA' && oid !== 'UNASSIGNED') return false;
+            return !olab || olab === 'unassigned' || olab === 'n/a' || olab === 'na' || oid === 'N/A' || oid === 'NA';
+        }
+
+        /** Builds hierarchy-ordered officer rows plus explicit Concerned Officer N/A & Current Stage N/A counts. */
+        function buildOfficerAbstractReportRows() {
+            const reportableRecords = (rawData?.records || []).filter(r => r.status_group !== 'Closed / Excluded');
+            const officers = (rawData?.officers || []).filter(o => o.total > 0);
+            const officerNaRecords = reportableRecords.filter(isOfficerUnassignedRecord);
+
+            const assignedOfficers = officers.filter(o => {
+                const pid = (o.pro_id || '').toUpperCase().trim();
+                const lab = (o.officer || '').toLowerCase().trim();
+                return pid !== 'N/A' && pid !== 'NA' && pid !== 'ALL' && lab !== 'unassigned' && lab !== 'n/a' && lab !== 'na' && lab !== 'all';
+            }).sort((a, b) => {
+                const wA = getOfficerHierarchyWeight(a);
+                const wB = getOfficerHierarchyWeight(b);
+                if (wA !== wB) return wA - wB;
+                return b.total - a.total;
+            });
+
+            const allTaskOfficer = officers.find(o => (o.pro_id || '').toUpperCase().trim() === 'ALL' || (o.officer || '').toUpperCase().trim() === 'ALL');
+
+            const officerNaRow = {
+                officer: 'Concerned Officer N/A (Unassigned)',
+                pro_id: 'N/A',
+                total: officerNaRecords.length,
+                inprogress: officerNaRecords.filter(r => r.status_group === 'In-Progress').length,
+                completed: officerNaRecords.filter(r => r.status_group === 'Completed').length,
+                onhold: officerNaRecords.filter(r => r.status_group === 'Stage N/A').length,
+                isOfficerNaRow: true
+            };
+
+            const rows = [...assignedOfficers];
+            if (allTaskOfficer) {
+                rows.push({ ...allTaskOfficer, officer: 'ALL (Common Tasks)' });
+            }
+            rows.push(officerNaRow);
+
+            const kpis = rawData?.kpis || {};
+            return {
+                rows,
+                officerNaCount: officerNaRecords.length,
+                stageNaCount: kpis.onhold_closed !== undefined ? kpis.onhold_closed : reportableRecords.filter(r => r.status_group === 'Stage N/A').length,
+                totalFiles: kpis.total !== undefined ? kpis.total : reportableRecords.length,
+                inprogressTotal: kpis.inprogress !== undefined ? kpis.inprogress : reportableRecords.filter(r => r.status_group === 'In-Progress').length,
+                completedTotal: kpis.completed !== undefined ? kpis.completed : reportableRecords.filter(r => r.status_group === 'Completed').length,
+                vipTotal: kpis.vip_count !== undefined ? kpis.vip_count : reportableRecords.filter(r => r.is_vip).length
+            };
+        }
+
+        function renderOfficerAbstractTable(tbodyId, tfootId, summary, isPrintMode) {
+            const tbody = document.getElementById(tbodyId);
+            const tfoot = document.getElementById(tfootId);
+            if (!tbody) return;
+
+            tbody.innerHTML = summary.rows.map((o, idx) => {
+                const isNaRow = Boolean(o.isOfficerNaRow);
+                const stageNa = o.onhold || 0;
+                if (isPrintMode) {
+                    const rowClass = isNaRow && o.total > 0 ? 'bg-amber-50' : '';
+                    return `
+                        <tr class="${rowClass}">
+                            <td class="text-center font-mono font-bold">${idx + 1}</td>
+                            <td class="font-semibold">${escapeHtml(o.officer)}</td>
+                            <td class="text-center font-bold font-mono">${o.total}</td>
+                            <td class="text-center font-bold font-mono">${o.inprogress}</td>
+                            <td class="text-center font-bold font-mono">${o.completed}</td>
+                            <td class="text-center font-bold font-mono">${stageNa}</td>
+                        </tr>
+                    `;
+                }
+                const bgStyle = isNaRow
+                    ? (o.total > 0 ? 'background-color: #fff1f2; border-bottom: 1px solid #fecdd3;' : 'background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;')
+                    : (idx % 2 === 1 ? 'background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;' : 'background-color: #ffffff; border-bottom: 1px solid #e2e8f0;');
+                const nameColor = isNaRow && o.total > 0 ? '#be123c' : '#0f172a';
+                const naBadgeStyle = stageNa > 0 ? 'color: #b45309; font-weight: 800;' : 'color: #64748b; font-weight: 600;';
+                return `
+                    <tr style="${bgStyle}">
+                        <td class="py-2 px-3 text-center font-mono font-bold" style="color: #475569;">${idx + 1}</td>
+                        <td class="py-2 px-3 font-semibold" style="color: ${nameColor};">${escapeHtml(o.officer)}</td>
+                        <td class="py-2 px-3 text-center font-extrabold font-mono" style="color: #0f172a;">${o.total}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #3730a3;">${o.inprogress}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #065f46;">${o.completed}</td>
+                        <td class="py-2 px-3 text-center font-mono" style="${naBadgeStyle}">${stageNa}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (tfoot) {
+                tfoot.innerHTML = isPrintMode
+                    ? `
+                        <tr class="font-extrabold bg-slate-100">
+                            <td class="text-center font-mono">—</td>
+                            <td>GRAND TOTAL (Concerned Officer N/A: ${summary.officerNaCount})</td>
+                            <td class="text-center font-mono">${summary.totalFiles}</td>
+                            <td class="text-center font-mono">${summary.inprogressTotal}</td>
+                            <td class="text-center font-mono">${summary.completedTotal}</td>
+                            <td class="text-center font-mono">${summary.stageNaCount}</td>
+                        </tr>
+                    `
+                    : `
+                        <tr style="background-color: #e2e8f0; border-top: 2px solid #94a3b8; color: #0f172a;">
+                            <td class="py-2.5 px-3 text-center font-mono font-extrabold">—</td>
+                            <td class="py-2.5 px-3 font-extrabold">GRAND TOTAL <span class="text-[10.5px] font-semibold ml-1" style="color: #9f1239;">(Concerned Officer N/A: ${summary.officerNaCount})</span></td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono">${summary.totalFiles}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #3730a3;">${summary.inprogressTotal}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #065f46;">${summary.completedTotal}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #92400e;">${summary.stageNaCount}</td>
+                        </tr>
+                    `;
+            }
+        }
+
+        function openPendingAbstractModal() {
             renderPendingAbstractModalContent();
-            const fmt = explicitFmt || (activeTabId === 'vip' ? 'vip' : (activeTabId === 'events' ? 'events' : 'short'));
-            switchAbstractFormat(fmt);
             document.getElementById('pending-abstract-modal').classList.remove('hidden');
             lucide.createIcons();
         }
@@ -3241,169 +3399,26 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
-        function switchAbstractFormat(fmt) {
-            currentAbstractFormat = fmt;
-            const shortBtn = document.getElementById('tab-short-btn');
-            const eventsBtn = document.getElementById('tab-events-format-btn');
-            const vipBtn = document.getElementById('tab-vip-format-btn');
-
-            const activeClass = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
-            const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
-
-            if (shortBtn) shortBtn.className = fmt === 'short' ? activeClass : inactiveClass;
-            if (eventsBtn) eventsBtn.className = fmt === 'events' ? activeClass : inactiveClass;
-            if (vipBtn) vipBtn.className = fmt === 'vip' ? activeClass : inactiveClass;
-
-            if (fmt === 'events') {
-                document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
-            } else if (fmt === 'vip') {
-                document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
-            } else {
-                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
-            }
-            lucide.createIcons();
-        }
-
         function renderPendingAbstractModalContent() {
             if (!rawData) return;
 
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' | ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('abstract-timestamp').innerText = dateStr;
+            const tsEl = document.getElementById('abstract-timestamp');
+            if (tsEl) tsEl.innerText = dateStr;
 
-            const kpis = rawData.kpis;
-            document.getElementById('abs-kpi-total').innerText = kpis.total;
+            const summary = buildOfficerAbstractReportRows();
+            document.getElementById('abs-kpi-total').innerText = summary.totalFiles;
             const absPendEl = document.getElementById('abs-kpi-pending');
-            if (absPendEl) absPendEl.innerText = kpis.pending;
-            document.getElementById('abs-kpi-inprog').innerText = kpis.inprogress;
-            document.getElementById('abs-kpi-na').innerText = kpis.onhold_closed || 0;
-            document.getElementById('abs-kpi-done').innerText = kpis.completed;
-            document.getElementById('abs-kpi-vip').innerText = kpis.vip_count || 0;
+            if (absPendEl) absPendEl.innerText = rawData.kpis?.pending || 0;
+            document.getElementById('abs-kpi-inprog').innerText = summary.inprogressTotal;
+            document.getElementById('abs-kpi-done').innerText = summary.completedTotal;
+            document.getElementById('abs-kpi-na').innerText = summary.stageNaCount;
+            const absOffNaEl = document.getElementById('abs-kpi-officer-na');
+            if (absOffNaEl) absOffNaEl.innerText = summary.officerNaCount;
+            document.getElementById('abs-kpi-vip').innerText = summary.vipTotal;
 
-            // Officers with files in the 3 reportable categories (In-Progress, Completed, Stage N/A) sorted by Hierarchy
-            const reportableOfficers = rawData.officers.filter(o => o.total > 0).sort((a, b) => {
-                const wA = getOfficerHierarchyWeight(a);
-                const wB = getOfficerHierarchyWeight(b);
-                if (wA !== wB) return wA - wB;
-                return b.total - a.total;
-            });
-
-            // 1. Short WhatsApp Text (Default Officer-Wise Brief — Only 3 Categories: In-Progress, Completed, N/A)
-            let waShort = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waShort += `⚡ *DAILY BRIEF - CORRESPONDENCE STATUS*\n`;
-            waShort += `📅 Date: ${dateStr}\n\n`;
-            waShort += `📊 *Total: ${kpis.total}* | 🔵 *In-Progress: ${kpis.inprogress}* | 🟢 *Completed: ${kpis.completed}* | ⚪ *N/A: ${kpis.onhold_closed || 0}*\n\n`;
-
-            waShort += `───────────────────────────────\n`;
-            waShort += `👮 *OFFICER WORKLOAD Current stage:* [Total = In-Prog / Completed / N/A]\n`;
-            waShort += `───────────────────────────────\n\n`;
-
-            const individualReportableOfficers = reportableOfficers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL');
-            individualReportableOfficers.forEach((o, idx) => {
-                waShort += `${idx + 1}. ${o.officer}: *${o.total}* (${o.inprogress} / ${o.completed} / ${o.onhold || 0})\n`;
-            });
-
-            // Common Tasks (ALL officer) shown separately (excluding Closed / Excluded)
-            const allOfficerFiles = (rawData.records || []).filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Closed / Excluded');
-            if (allOfficerFiles.length > 0) {
-                waShort += `\n───────────────────────────────\n`;
-                waShort += `📢 *COMMON TASKS (Assigned to ALL Officers):*\n`;
-                waShort += `───────────────────────────────\n`;
-                allOfficerFiles.forEach((f, idx) => {
-                    const vipTag = f.is_vip ? " ⭐[VIP]" : "";
-                    waShort += `${idx + 1}. *${f.ID}*${vipTag} [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'In-Progress'}*\n`;
-                    waShort += `   • ${(f['Subject / Work Description'] || '').substring(0, 90)}\n`;
-                });
-            }
-
-            waShort += `\n───────────────────────────────\n`;
-            waShort += `📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.\n`;
-            waShort += `🔗 *Update Status in Google Sheet:*\n`;
-            waShort += `${GOOGLE_SHEET_URL}\n`;
-            waShort += `───────────────────────────────\n`;
-            waShort += `_Generated from AP Police TS Executive Command Portal_`;
-
-            // 2. Events WhatsApp Text
-            let waEvents = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waEvents += `📅 *UPCOMING MEETINGS, WORKSHOPS & EVENT SCHEDULE*\n`;
-            waEvents += `📆 Date: ${dateStr}\n\n`;
-            waEvents += `───────────────────────────────\n`;
-            waEvents += `📌 *SCHEDULED EVENTS & MEETINGS:*\n`;
-            waEvents += `───────────────────────────────\n`;
-
-            const eventsList = (rawData.scheduled_events || []).filter(e => e.status_group !== 'Closed / Excluded' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
-            if (eventsList.length === 0) {
-                waEvents += `\n• No upcoming scheduled meetings/workshops at present.\n`;
-            } else {
-                eventsList.forEach((ev, idx) => {
-                    const isPostponed = (ev.current_stage || '').toLowerCase().trim() === 'postponed' || (ev.remarks || '').toLowerCase().includes('postponed');
-                    const dateVal = ev.due_date_raw || 'Date TBA';
-                    const timing = ev.event_timing_label && ev.event_timing_label !== '—' ? ` (${ev.event_timing_label})` : '';
-                    const nature = ev.nature_of_request || 'Meeting';
-                    const natureLow = nature.toLowerCase();
-                    const icon = (natureLow.includes('vc') || natureLow.includes('video') || natureLow.includes('conference')) ? '💻' : ((natureLow.includes('workshop') || natureLow.includes('seminar') || natureLow.includes('training')) ? '🎓' : '🏢');
-                    const statusTag = isPostponed ? ' ⏸️ *[POSTPONED]*' : '';
-
-                    waEvents += `\n${idx + 1}. ${icon} *${nature}*${statusTag}\n`;
-                    waEvents += `   • *File ID:* ${ev.id} [${ev.project}]\n`;
-                    waEvents += `   • *Date / Time:* 📅 ${dateVal}${timing}\n`;
-                    waEvents += `   • *Officer:* ${ev.officer}\n`;
-                    if (isPostponed) {
-                        waEvents += `   • *Status:* ⏸️ *Postponed (Awaiting Rescheduled Date)*\n`;
-                    }
-                    waEvents += `   • *Subject:* ${ev.subject}\n`;
-                    if (ev.remarks) {
-                        waEvents += `   • *Venue / VC Link:* ${ev.remarks}\n`;
-                    }
-                });
-            }
-
-            waEvents += `\n───────────────────────────────\n`;
-            waEvents += `🔗 *Update Status in Google Sheet:*\n`;
-            waEvents += `${GOOGLE_SHEET_URL}\n`;
-            waEvents += `───────────────────────────────\n`;
-            waEvents += `_Generated from AP Police TS Executive Command Portal_`;
-
-            // 3. VIP WhatsApp Text (Short Brief — Excludes Closed / Excluded)
-            let waVip = `🏛️ *AP POLICE TECHNICAL SERVICES (PCS&S)*\n`;
-            waVip += `⭐ *VIP & HIGH PRIORITY CORRESPONDENCE SHORT BRIEF*\n`;
-            waVip += `📅 Date: ${dateStr}\n\n`;
-            const vipFiles = rawData.records.filter(r => r.is_vip && r.status_group !== 'Closed / Excluded');
-            const vipActive = vipFiles.filter(r => r.status_group !== 'Completed');
-            const vipDone = vipFiles.filter(r => r.status_group === 'Completed');
-            const vipFollowup = vipActive.filter(r => r.is_vip_followup);
-            waVip += `📊 *VIP Overview:* Total: *${vipFiles.length}* | 🔵 In-Prog / N/A: *${vipActive.length}* | 🟢 Completed: *${vipDone.length}* | ⚠️ Follow-up: *${vipFollowup.length}*\n\n`;
-            waVip += `───────────────────────────────\n`;
-            waVip += `📌 *ACTIVE VIP FILES:*\n`;
-            waVip += `───────────────────────────────\n`;
-
-            if (vipActive.length === 0) {
-                waVip += `\n✅ No active VIP files pending resolution.\n`;
-            } else {
-                vipActive.forEach((r, idx) => {
-                    const followupTag = r.is_vip_followup ? " ⚠️" : "";
-                    waVip += `${idx + 1}. *${r.ID}*${followupTag} [${r.project_label || 'PRJ-037 - Miscellaneous'}] — ${r['Current Stage'] || 'N/A'} (${r.display_time_metric || ''}) — ${r.officer_label}\n`;
-                });
-            }
-
-            waVip += `\n───────────────────────────────\n`;
-            waVip += `📝 *Note:* Kindly update the current stages in the Google Sheet if there are any changes.\n`;
-            waVip += `🔗 *Update Status in Google Sheet:*\n`;
-            waVip += `${GOOGLE_SHEET_URL}\n`;
-            waVip += `───────────────────────────────\n`;
-            waVip += `_Generated from AP Police TS Executive Command Portal_`;
-
-            cachedShortWhatsappText = waShort;
-            cachedEventsWhatsappText = waEvents;
-            cachedVipWhatsappText = waVip;
-
-            if (currentAbstractFormat === 'events') {
-                document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
-            } else if (currentAbstractFormat === 'vip') {
-                document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
-            } else {
-                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
-            }
+            renderOfficerAbstractTable('abstract-officer-summary-tbody', 'abstract-officer-summary-tfoot', summary, false);
         }
 
         // ================= MEETINGS & EVENTS SCHEDULES LOGIC =================
@@ -3438,11 +3453,6 @@
             const project = document.getElementById('filter-event-project')?.value || '';
 
             const allEvents = rawData.scheduled_events;
-            const isEventPostponed = (e) => {
-                const st = (e.current_stage || '').toLowerCase().trim();
-                const rem = (e.remarks || '').toLowerCase().trim();
-                return st === 'postponed' || rem.includes('postponed');
-            };
 
             const postponedEvents = allEvents.filter(isEventPostponed);
             const cancelledEvents = allEvents.filter(e => e.status_group === 'Closed / Excluded');
@@ -3691,18 +3701,6 @@
             });
         }
 
-        function copyCurrentAbstract() {
-            const textToCopy = document.getElementById('whatsapp-textarea').value;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const btnText = document.getElementById('copy-btn-text');
-                const prev = btnText.innerText;
-                btnText.innerText = 'Copied to Clipboard! ✓';
-                setTimeout(() => btnText.innerText = prev, 2500);
-            }).catch(err => {
-                console.error('Clipboard copy error:', err);
-            });
-        }
-
         // ================= OFFICIAL PRINT EXECUTIVE MEMO HANDLER =================
         function printExecutiveMemo() {
             if (!rawData) return;
@@ -3711,46 +3709,36 @@
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             document.getElementById('print-date-display').innerText = `Date: ${dateStr}`;
+            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON CORRESPONDENCE WORKLOAD - OFFICER-WISE ABSTRACT";
+            document.getElementById('print-inventory-title').innerText = "3. Detailed Active Correspondence Inventory (In-Progress & Current Stage N/A):";
 
-            const kpis = rawData.kpis;
-            document.getElementById('print-kpi-total').innerText = kpis.total;
+            const summary = buildOfficerAbstractReportRows();
+            document.getElementById('print-kpi-total').innerText = summary.totalFiles;
             const pPend = document.getElementById('print-kpi-pending');
-            if (pPend) pPend.innerText = kpis.pending;
-            document.getElementById('print-kpi-inprog').innerText = kpis.inprogress;
-            document.getElementById('print-kpi-na').innerText = kpis.onhold_closed || 0;
-            document.getElementById('print-kpi-done').innerText = kpis.completed;
-            document.getElementById('print-kpi-vip').innerText = kpis.vip_count || 0;
+            if (pPend) pPend.innerText = rawData.kpis?.pending || 0;
+            document.getElementById('print-kpi-inprog').innerText = summary.inprogressTotal;
+            document.getElementById('print-kpi-done').innerText = summary.completedTotal;
+            document.getElementById('print-kpi-na').innerText = summary.stageNaCount;
+            const pOffNa = document.getElementById('print-kpi-officer-na');
+            if (pOffNa) pOffNa.innerText = summary.officerNaCount;
+            document.getElementById('print-kpi-vip').innerText = summary.vipTotal;
 
             const desigSec = document.getElementById('print-section-designation');
             if (desigSec) desigSec.style.display = 'none';
+            const offSec = document.getElementById('print-section-officers');
+            if (offSec) offSec.style.display = '';
 
-            const reportableOfficers = rawData.officers.filter(o => o.total > 0).sort((a, b) => {
-                const wA = getOfficerHierarchyWeight(a);
-                const wB = getOfficerHierarchyWeight(b);
-                if (wA !== wB) return wA - wB;
-                return b.total - a.total;
-            });
-            const officerTbody = document.getElementById('print-officer-summary-tbody');
-            officerTbody.innerHTML = reportableOfficers.map((o, idx) => `
-                <tr>
-                    <td class="text-center font-mono font-bold">${idx + 1}</td>
-                    <td class="font-semibold">${o.pro_id === 'ALL' ? 'ALL (Common Task)' : o.officer}</td>
-                    <td class="text-center font-bold font-mono">${o.total}</td>
-                    <td class="text-center font-bold font-mono">${o.inprogress}</td>
-                    <td class="text-center font-bold font-mono">${o.completed}</td>
-                    <td class="text-center font-bold font-mono">${o.onhold || 0}</td>
-                </tr>
-            `).join('');
+            renderOfficerAbstractTable('print-officer-summary-tbody', 'print-officer-summary-tfoot', summary, true);
 
             const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
             const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed' && r.status_group !== 'Closed / Excluded');
-            detailedTbody.innerHTML = activeFiles.map((r, idx) => `
+            detailedTbody.innerHTML = activeFiles.map((r) => `
                 <tr>
                     <td class="font-mono font-bold whitespace-nowrap">${r.ID}${r.is_vip ? ' ⭐' : ''}</td>
                     <td class="font-mono whitespace-nowrap">${r['Date Received to office'] || 'N/A'}</td>
                     <td class="font-semibold">${r.project_label || 'Miscellaneous'}</td>
                     <td class="leading-snug">${r['Subject / Work Description'] || '—'}</td>
-                    <td>${r.officer_label || 'Unassigned'}</td>
+                    <td>${r.officer_label || 'Concerned Officer N/A'}</td>
                     <td class="text-center font-semibold">${r['Current Stage'] || 'N/A'}</td>
                     <td class="text-right font-mono font-bold">${r.display_time_metric || '—'}</td>
                 </tr>
@@ -4199,9 +4187,8 @@
             }
         }
 
-        async function captureDashboardScreenshot(triggerBtn) {
-            const captureTarget = document.getElementById('dashboard-capture-target') || document.querySelector('main');
-            if (!captureTarget) return;
+        async function captureElementAsPng({ targetEl, triggerBtn, loadingLabel, filePrefix, backgroundColor, onclone, toastLabel }) {
+            if (!targetEl) return;
 
             if (typeof html2canvas === 'undefined') {
                 showScreenshotToast('Screenshot engine still loading — please retry in a moment or check internet access.', true);
@@ -4211,7 +4198,7 @@
             const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
             if (triggerBtn) {
                 triggerBtn.disabled = true;
-                triggerBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Capturing...</span>';
+                triggerBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>${loadingLabel || 'Generating...'}</span>`;
                 if (window.lucide) lucide.createIcons();
             }
 
@@ -4223,37 +4210,15 @@
                 window.scrollTo(0, 0);
                 await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
-                const isDark = document.documentElement.classList.contains('dark');
-                const bgColor = isDark ? '#050814' : '#f4f7fb';
-
-                const canvas = await html2canvas(captureTarget, {
+                const canvas = await html2canvas(targetEl, {
                     scale: 2,
                     useCORS: true,
                     allowTaint: false,
-                    backgroundColor: bgColor,
+                    backgroundColor,
                     logging: false,
                     scrollX: 0,
                     scrollY: 0,
-                    onclone: (clonedDoc) => {
-                        const banner = clonedDoc.getElementById('screenshot-brand-banner');
-                        if (banner) {
-                            banner.classList.remove('hidden');
-                            banner.style.backgroundColor = '#001b44';
-                            banner.querySelectorAll('.banner-white').forEach(el => { el.style.color = '#ffffff'; });
-                            banner.querySelectorAll('.banner-cyan').forEach(el => { el.style.color = '#67e8f9'; });
-                            banner.querySelectorAll('.banner-amber').forEach(el => { el.style.color = '#fcd34d'; });
-                            banner.querySelectorAll('.banner-sub').forEach(el => { el.style.color = '#bfdbfe'; });
-                        }
-                        const bannerTs = clonedDoc.getElementById('screenshot-banner-timestamp');
-                        if (bannerTs) {
-                            const now = new Date();
-                            bannerTs.innerText = 'As on ' + now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        }
-                        const clonedMain = clonedDoc.getElementById('dashboard-capture-target');
-                        if (clonedMain) {
-                            clonedMain.style.padding = '20px 24px';
-                        }
-                    }
+                    onclone
                 });
 
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
@@ -4264,7 +4229,7 @@
                 const now = new Date();
                 const pad = n => String(n).padStart(2, '0');
                 const fileStamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}`;
-                const fileName = `AP_TS_Correspondence_Dashboard_${fileStamp}.png`;
+                const fileName = `${filePrefix}_${fileStamp}.png`;
 
                 const downloadUrl = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -4286,14 +4251,15 @@
                     }
                 }
 
+                const label = toastLabel || 'Image';
                 if (copiedToClipboard) {
-                    showScreenshotToast('Screenshot downloaded & copied to clipboard (Ctrl+V in WhatsApp)!');
+                    showScreenshotToast(`${label} downloaded & copied to clipboard (Ctrl+V in WhatsApp)!`);
                 } else {
-                    showScreenshotToast(`Screenshot saved (${fileName}). Click "Copy Image" below to paste directly.`);
+                    showScreenshotToast(`${label} saved (${fileName}). Click "Copy Image" below to paste directly.`);
                 }
             } catch (err) {
-                console.error('Dashboard screenshot failed:', err);
-                showScreenshotToast('Could not capture screenshot automatically. Please retry or refresh.', true);
+                console.error('PNG capture failed:', err);
+                showScreenshotToast('Could not generate image automatically. Please retry or refresh.', true);
             } finally {
                 window.scrollTo(prevScrollX, prevScrollY);
                 if (triggerBtn) {
@@ -4302,6 +4268,60 @@
                     if (window.lucide) lucide.createIcons();
                 }
             }
+        }
+
+        async function captureDashboardScreenshot(triggerBtn) {
+            const captureTarget = document.getElementById('dashboard-capture-target') || document.querySelector('main');
+            const isDark = document.documentElement.classList.contains('dark');
+            await captureElementAsPng({
+                targetEl: captureTarget,
+                triggerBtn,
+                loadingLabel: 'Capturing...',
+                filePrefix: 'AP_TS_Correspondence_Dashboard',
+                backgroundColor: isDark ? '#050814' : '#f4f7fb',
+                toastLabel: 'Screenshot',
+                onclone: (clonedDoc) => {
+                    const banner = clonedDoc.getElementById('screenshot-brand-banner');
+                    if (banner) {
+                        banner.classList.remove('hidden');
+                        banner.style.backgroundColor = '#001b44';
+                        banner.querySelectorAll('.banner-white').forEach(el => { el.style.color = '#ffffff'; });
+                        banner.querySelectorAll('.banner-cyan').forEach(el => { el.style.color = '#67e8f9'; });
+                        banner.querySelectorAll('.banner-amber').forEach(el => { el.style.color = '#fcd34d'; });
+                        banner.querySelectorAll('.banner-sub').forEach(el => { el.style.color = '#bfdbfe'; });
+                    }
+                    const bannerTs = clonedDoc.getElementById('screenshot-banner-timestamp');
+                    if (bannerTs) {
+                        const now = new Date();
+                        bannerTs.innerText = 'As on ' + now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    }
+                    const clonedMain = clonedDoc.getElementById('dashboard-capture-target');
+                    if (clonedMain) {
+                        clonedMain.style.padding = '20px 24px';
+                    }
+                }
+            });
+        }
+
+        async function generateOfficerAbstractImage(triggerBtn) {
+            renderPendingAbstractModalContent();
+            const captureTarget = document.getElementById('officer-abstract-capture-target');
+            await captureElementAsPng({
+                targetEl: captureTarget,
+                triggerBtn,
+                loadingLabel: 'Generating...',
+                filePrefix: 'AP_TS_Officer_Abstract',
+                backgroundColor: '#ffffff',
+                toastLabel: 'Officer Abstract Image',
+                onclone: (clonedDoc) => {
+                    const el = clonedDoc.getElementById('officer-abstract-capture-target');
+                    if (el && el.parentElement) {
+                        el.parentElement.style.overflow = 'visible';
+                        el.parentElement.style.maxHeight = 'none';
+                        el.parentElement.style.height = 'auto';
+                    }
+                }
+            });
         }
 
         function exportFilteredCSV() {
@@ -5037,7 +5057,7 @@ INSTRUCTIONS:
                     👮 Officers & Hierarchy
                 </button>
                 <button onclick="switchGuideSection('whatsapp-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="whatsapp-guide">
-                    💬 WhatsApp Briefs
+                    📋 Officer Abstract
                 </button>
                 <button onclick="switchGuideSection('vip-guide')" class="guide-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap" data-guide-tab="vip-guide">
                     ⭐ VIP Classification
@@ -5065,7 +5085,7 @@ INSTRUCTIONS:
                             <li>Monitor officer-wise workload distribution and pending tasks</li>
                             <li>Identify VIP/critical files requiring immediate attention</li>
                             <li>Track scheduled events like Video Conferences and Meetings</li>
-                            <li>Generate WhatsApp-ready briefings for quick officer communication</li>
+                            <li>Generate printable &amp; shareable Officer Abstract statements (including Current Stage N/A &amp; Concerned Officer N/A counts)</li>
                             <li>Calculate SLA compliance and turnaround time metrics</li>
                         </ul>
                     </div>
@@ -5084,8 +5104,8 @@ INSTRUCTIONS:
                         <h4 class="text-sm font-bold text-blue-300">📱 Quick Start for New Users</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
                             <li>Open the dashboard — it loads with the <strong>Overview</strong> view showing all KPIs</li>
-                            <li>Use the <strong class="text-amber-300">Officer Abstract</strong> button (top-right workspace bar) to open the context-aware Briefing Tool</li>
-                            <li>Click <strong class="text-emerald-300">Copy WhatsApp Text</strong> to send daily briefs to officers</li>
+                            <li>Use the <strong class="text-amber-300">Officer Abstract</strong> button (top-right workspace bar) to view hierarchy-wise counts</li>
+                            <li>Click <strong class="text-emerald-300">Generate Image</strong> or <strong class="text-blue-300">Print Officer Abstract</strong> to export or print</li>
                             <li>Use the <strong>left sidebar modules</strong> to navigate between Dashboard, VIP Command, Meetings &amp; VCs, Officers, Projects, and All Records views</li>
                             <li>Click any <strong>correspondence ID</strong> (e.g., TS-COR-2026-0001) to view full file details in a popup</li>
                         </ol>
@@ -5129,7 +5149,7 @@ INSTRUCTIONS:
                                 <li>Shows files with Nature of Request = "Video Conference", "Meeting", "Workshop", "Seminar", etc.</li>
                                 <li><strong>5 Timing & Status Filters:</strong> ⏳ Upcoming / Active, 🔥 Today & Tomorrow, ⏸️ Postponed (awaiting fresh schedule), 🚫 Cancelled, and 📁 All Events</li>
                                 <li>Postponed events are highlighted with amber warning badges so officers know they are deferred</li>
-                                <li>Useful for daily readiness checks, advance preparation, and WhatsApp event briefings</li>
+                                <li>Useful for daily readiness checks, advance preparation, and executive reporting</li>
                             </ul>
                         </div>
 
@@ -5234,7 +5254,7 @@ INSTRUCTIONS:
                     <!-- Closed / Excluded -->
                     <div class="bg-rose-900/20 rounded-xl p-4 border border-rose-500/40 space-y-2">
                         <h4 class="text-sm font-bold text-rose-300">🚫 Excluded from Briefs: Closed / Excluded</h4>
-                        <p class="text-xs text-slate-300">These files are excluded from all WhatsApp briefs, VIP reports, and active tracking. They appear in the data table but are NOT counted in KPIs or officer workload.</p>
+                        <p class="text-xs text-slate-300">These files are excluded from the Officer Abstract report, VIP reports, and active tracking. They appear in the data table but are NOT counted in KPIs or officer workload.</p>
                         <div class="bg-slate-950/60 rounded-lg p-3 mt-2 flex flex-wrap gap-1.5">
                             <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">Correspondence Closed</span>
                             <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">Cancelled</span>
@@ -5299,49 +5319,27 @@ INSTRUCTIONS:
                     </div>
                 </div>
 
-                <!-- SECTION: WhatsApp Briefs -->
+                <!-- SECTION: Officer Abstract -->
                 <div id="guide-section-whatsapp-guide" class="guide-section hidden space-y-4">
-                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">💬 WhatsApp Briefs — Daily Officer Communication</h3>
-                    <p>The dashboard generates <strong class="text-white">WhatsApp-ready text</strong> that can be copied and pasted directly into WhatsApp groups for daily officer status updates.</p>
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📋 Officer Abstract — Official Print &amp; Image Report</h3>
+                    <p>The <strong class="text-white">Officer Abstract</strong> module compiles an official AP Police PCS&amp;S workload statement sorted in rank hierarchy order, ready for PNG image sharing or formal A4 printing.</p>
 
                     <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
-                        <h4 class="text-sm font-bold text-white">📍 How to Access WhatsApp Briefs</h4>
+                        <h4 class="text-sm font-bold text-white">📍 How to Generate &amp; Share Officer Abstract</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
-                            <li>Click the orange <strong class="text-amber-300">"Officer Abstract"</strong> button (top-right workspace bar)</li>
-                            <li>The <strong>Executive Briefing Tool</strong> automatically pre-selects the matching format for your active module (VIP Brief on VIP Command, Events Brief on Meetings &amp; VCs, or Short Numbers Brief elsewhere)</li>
-                            <li>Switch between all 3 brief formats anytime using the tabs inside the modal</li>
-                            <li>Click <strong class="text-emerald-300">"Copy WhatsApp Text"</strong> to copy the entire brief to clipboard</li>
-                            <li>Paste directly into your WhatsApp group</li>
+                            <li>Click the orange <strong class="text-amber-300">"Officer Abstract"</strong> button in the top-right workspace bar</li>
+                            <li>Review the summary strip showing <strong class="text-white">Total Files</strong>, <strong class="text-indigo-300">In-Progress</strong>, <strong class="text-emerald-300">Completed</strong>, <strong class="text-slate-200">Current Stage N/A</strong>, <strong class="text-rose-300">Concerned Officer N/A</strong>, and <strong class="text-amber-300">VIP Attention</strong></li>
+                            <li>Click <strong class="text-emerald-300">"Generate Image"</strong> to download a crisp high-resolution PNG of the official statement (and copy to clipboard when supported)</li>
+                            <li>Click <strong class="text-blue-300">"Print Officer Abstract"</strong> to generate a clean print-ready official Government memo</li>
                         </ol>
                     </div>
 
-                    <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-3">
-                        <h4 class="text-sm font-bold text-white">📄 Brief Formats Available</h4>
-                        
-                        <div class="bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/30 space-y-1">
-                            <h5 class="text-xs font-bold text-emerald-300">⚡ Short Numbers Brief (Default)</h5>
-                            <p class="text-[11px] text-slate-300">Quick numeric summary of officer-wise workload. Shows each officer's name, rank, total files, and [In-Prog / Completed / N/A] breakdown. Officers listed in rank hierarchy order. Includes "Kindly update the current stages" note for officers.</p>
-                        </div>
-
-                        <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/30 space-y-1">
-                            <h5 class="text-xs font-bold text-purple-300">📅 Events Brief</h5>
-                            <p class="text-[11px] text-slate-300">Lists upcoming and recent Video Conferences, Meetings, and other scheduled events. Includes date, time, subject, and assigned officer for each event.</p>
-                        </div>
-
-                        <div class="bg-amber-900/20 p-3 rounded-lg border border-amber-500/30 space-y-1">
-                            <h5 class="text-xs font-bold text-amber-300">⭐ VIP Short Brief</h5>
-                            <p class="text-[11px] text-slate-300">Focused brief covering only VIP/critical files. Shows VIP KPIs (total, In-Progress, Completed) and lists each VIP file with its status, assigned officer, and reason for VIP classification.</p>
-                        </div>
-                    </div>
-
                     <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
-                        <h4 class="text-sm font-bold text-blue-300">💡 Tips for Effective Briefing</h4>
+                        <h4 class="text-sm font-bold text-blue-300">💡 N/A Accountability Tracking</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
-                            <li>Send the <strong>Short Brief</strong> daily to keep officers updated on their workload</li>
-                            <li>Send the <strong>VIP Brief</strong> when escalation or urgent follow-up is needed</li>
-                            <li>Send the <strong>Events Brief</strong> before upcoming VCs/meetings for preparation</li>
-                            <li>The briefs also include a <strong>Print Memo</strong> button for generating official printable memos</li>
-                            <li>All briefs exclude "Closed / Excluded" files automatically</li>
+                            <li><strong>Concerned Officer N/A:</strong> Tracks reportable files that do not yet have a concerned officer assigned</li>
+                            <li><strong>Current Stage N/A:</strong> Tracks files per officer whose stage column is still marked N/A / not updated</li>
+                            <li><strong>Exclusions:</strong> All "Correspondence Closed", "Cancelled", and "Returned to concerned department" files are automatically excluded</li>
                         </ul>
                     </div>
                 </div>
@@ -5461,7 +5459,7 @@ INSTRUCTIONS:
                             <li><strong class="text-cyan-300">Morning:</strong> Open the dashboard → Check Overview KPIs → Note any new files</li>
                             <li><strong class="text-cyan-300">Check VIP:</strong> Go to VIP tab → Review files requiring urgent attention</li>
                             <li><strong class="text-cyan-300">Events Check:</strong> Go to Events tab → See today's/tomorrow's scheduled VCs/meetings</li>
-                            <li><strong class="text-cyan-300">Send Brief:</strong> Click "Officer Abstract" → Copy Short Brief → Paste to WhatsApp group</li>
+                            <li><strong class="text-cyan-300">Officer Abstract:</strong> Click "Officer Abstract" → Generate Image (to share PNG) or Print Officer Abstract</li>
                             <li><strong class="text-cyan-300">Follow-up:</strong> Review officers with pending files → Request stage updates</li>
                             <li><strong class="text-cyan-300">Update Sheet:</strong> As files progress, update the "Current Stage" column in Google Sheet</li>
                             <li><strong class="text-cyan-300">End of Day:</strong> Refresh dashboard → Verify all updates reflected → Send closing brief if needed</li>
@@ -5536,7 +5534,7 @@ INSTRUCTIONS:
     </div>
 
     <!-- SCREENSHOT READY FLOATING TOAST -->
-    <div id="screenshot-toast" data-html2canvas-ignore="true" class="hidden fixed bottom-20 left-5 sm:left-auto sm:right-5 z-50 max-w-sm rounded-xl border border-indigo-400/50 bg-[#0f172a] text-white p-3.5 shadow-2xl no-print" style="background-color: #0f172a; color: #ffffff;">
+    <div id="screenshot-toast" data-html2canvas-ignore="true" class="hidden fixed bottom-20 left-5 sm:left-auto sm:right-5 z-[70] max-w-sm rounded-xl border border-indigo-400/50 bg-[#0f172a] text-white p-3.5 shadow-2xl no-print" style="background-color: #0f172a; color: #ffffff;">
         <div class="flex items-start justify-between gap-2.5">
             <div class="flex items-start gap-2.5">
                 <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 mt-0.5">
