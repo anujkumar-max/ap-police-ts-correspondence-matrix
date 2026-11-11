@@ -1366,7 +1366,7 @@
             <!-- Action Bar (Only Generate Image + Print Officer Abstract) -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 px-3 py-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <div class="text-xs text-slate-400 font-medium">
-                    Includes <span class="text-amber-300 font-semibold">VIP 4-Pillars Inventory</span>, <span class="text-white font-semibold">Officer Workload (N/A Counts)</span> &amp; <span class="text-rose-300 font-semibold">Further Follow-Up (Yes)</span>.
+                    Includes <span class="text-white font-semibold">1. Officer-Wise Workload</span>, <span class="text-amber-300 font-semibold">2. VIP 4-Pillars Inventory</span> &amp; <span class="text-rose-300 font-semibold">3. Further Follow-Up (Yes)</span>.
                 </div>
                 <div class="flex items-center gap-2.5">
                     <button onclick="generateOfficerAbstractImage(this)" id="btn-generate-abstract-image" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
@@ -1390,7 +1390,7 @@
                             <div>
                                 <div class="text-[10px] font-bold uppercase tracking-widest" style="color: #93c5fd;">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
                                 <div class="text-sm sm:text-base font-extrabold uppercase tracking-wide" style="color: #ffffff;">POLICE COMPUTER SERVICES &amp; STANDARDIZATION (PCS&amp;S) / TECHNICAL SERVICES</div>
-                                <div class="text-xs font-semibold" style="color: #67e8f9;">Consolidated VIP, Officer-Wise &amp; Follow-Up Abstract Statement</div>
+                                <div class="text-xs font-semibold" style="color: #67e8f9;">Officer-Wise Workload, VIP 4-Pillars &amp; Follow-Up Abstract Statement</div>
                             </div>
                         </div>
                         <div class="text-right">
@@ -1399,9 +1399,9 @@
                         </div>
                     </div>
 
-                    <!-- 1. Executive Overview Abstract Strip (7 Metrics) -->
+                    <!-- Executive Overview Abstract Strip (7 Metrics) -->
                     <div>
-                        <div class="text-[11px] font-extrabold uppercase tracking-wider mb-2" style="color: #0f172a;">1. Executive Overview Abstract</div>
+                        <div class="text-[11px] font-extrabold uppercase tracking-wider mb-2" style="color: #0f172a;">Executive Overview Abstract</div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center text-xs">
                             <div class="p-2 rounded-lg border" style="background-color: #f8fafc; border-color: #e2e8f0;">
                                 <span class="text-[9.5px] font-bold uppercase block" style="color: #64748b;">Total Files</span>
@@ -1435,12 +1435,37 @@
                         </div>
                     </div>
 
-                    <!-- 2. Dedicated VIP Correspondence Inventory (FIRST REPORT TABLE) -->
+                    <!-- 1. Officer-Wise Workload Summary -->
+                    <div class="space-y-1.5">
+                        <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #0f172a;">1. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A)</div>
+                        <div class="overflow-x-auto rounded-lg border" style="border-color: #cbd5e1;">
+                            <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                                <thead>
+                                    <tr style="background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-12" style="color: #334155;">S.No</th>
+                                        <th class="py-2 px-3 font-bold uppercase tracking-wider" style="color: #334155;">Concerned Officer (PRO-ID &amp; Rank)</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #334155;">Total Files</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #065f46;">Completed</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #334155;">Current Stage N/A</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="abstract-officer-summary-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                                <tfoot id="abstract-officer-summary-tfoot">
+                                    <!-- Totals row populated dynamically -->
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown) -->
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #92400e;">2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown)</div>
-                                <div class="text-[10px]" style="color: #64748b;">Scope: Follow-Up Required, Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages only</div>
+                                <div class="text-[10px]" style="color: #64748b;">Scope: Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages only (Excludes Follow-Up Required, Completed &amp; Closed)</div>
                             </div>
                             <span id="abs-vip-inventory-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fffbeb; border-color: #fcd34d; color: #92400e;">0 Files</span>
                         </div>
@@ -1465,37 +1490,12 @@
                         </div>
                     </div>
 
-                    <!-- 3. Officer-Wise Workload Summary (AFTER VIP REPORT) -->
-                    <div class="space-y-1.5">
-                        <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #0f172a;">3. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A)</div>
-                        <div class="overflow-x-auto rounded-lg border" style="border-color: #cbd5e1;">
-                            <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
-                                <thead>
-                                    <tr style="background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
-                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-12" style="color: #334155;">S.No</th>
-                                        <th class="py-2 px-3 font-bold uppercase tracking-wider" style="color: #334155;">Concerned Officer (PRO-ID &amp; Rank)</th>
-                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #334155;">Total Files</th>
-                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
-                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #065f46;">Completed</th>
-                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #334155;">Current Stage N/A</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="abstract-officer-summary-tbody">
-                                    <!-- Populated dynamically -->
-                                </tbody>
-                                <tfoot id="abstract-officer-summary-tfoot">
-                                    <!-- Totals row populated dynamically -->
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- 4. Separate Report Table: Further Follow-Up Required with Concerned Department (Yes) -->
+                    <!-- 3. Further Follow-Up Required with Concerned Department (Yes) -->
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
-                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #991b1b;">4. Further Follow-Up Required with Concerned Department (Yes)</div>
-                                <div class="text-[10px]" style="color: #64748b;">Separate report of all reportable tasks flagged Yes for department liaison &amp; follow-up</div>
+                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #991b1b;">3. Further Follow-Up Required with Concerned Department (Yes)</div>
+                                <div class="text-[10px]" style="color: #64748b;">Dedicated report of all reportable tasks flagged Yes for department liaison &amp; follow-up</div>
                             </div>
                             <span id="abs-followup-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fef2f2; border-color: #fca5a5; color: #991b1b;">0 Tasks</span>
                         </div>
@@ -1552,9 +1552,9 @@
             </div>
         </div>
 
-        <!-- 1. Executive Overview Table -->
+        <!-- Executive Overview Table -->
         <div class="mb-4">
-            <div class="text-xs font-bold uppercase mb-1">1. Executive Overview Abstract:</div>
+            <div class="text-xs font-bold uppercase mb-1">Executive Overview Abstract:</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1582,35 +1582,9 @@
             </table>
         </div>
 
-        <!-- 2. Dedicated VIP Correspondence Inventory (FIRST REPORT TABLE) -->
-        <div class="mb-4" id="print-section-vip">
-            <div class="flex items-center justify-between mb-1">
-                <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</div>
-                <span class="text-[10px] font-mono font-bold" id="print-vip-inventory-count">0 Files</span>
-            </div>
-            <div class="text-[10px] text-slate-600 mb-1">Scope: Only Follow-Up Required, Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages (Excludes Completed &amp; Closed).</div>
-            <table class="w-full text-xs">
-                <thead>
-                    <tr>
-                        <th class="text-center w-10">S.No</th>
-                        <th class="w-28">File ID &amp; Project</th>
-                        <th class="w-20">Recv Date</th>
-                        <th class="w-40">Initiating Authority &amp; Pillars</th>
-                        <th>Subject / Work Description</th>
-                        <th class="w-32">Concerned Officer</th>
-                        <th class="w-28 text-center">Current Stage</th>
-                        <th class="w-16 text-right">Age</th>
-                    </tr>
-                </thead>
-                <tbody id="print-vip-inventory-tbody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 3. Officer-Wise Workload Summary Table (AFTER VIP REPORT) -->
+        <!-- 1. Officer-Wise Workload Summary Table -->
         <div class="mb-4" id="print-section-officers">
-            <div class="text-xs font-bold uppercase mb-1">3. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1">1. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1631,10 +1605,36 @@
             </table>
         </div>
 
-        <!-- 4. Further Follow-Up Required with Concerned Department (Yes) -->
+        <!-- 2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown) -->
+        <div class="mb-4" id="print-section-vip">
+            <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</div>
+                <span class="text-[10px] font-mono font-bold" id="print-vip-inventory-count">0 Files</span>
+            </div>
+            <div class="text-[10px] text-slate-600 mb-1">Scope: Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages only (Excludes Follow-Up Required, Completed &amp; Closed).</div>
+            <table class="w-full text-xs">
+                <thead>
+                    <tr>
+                        <th class="text-center w-10">S.No</th>
+                        <th class="w-28">File ID &amp; Project</th>
+                        <th class="w-20">Recv Date</th>
+                        <th class="w-40">Initiating Authority &amp; Pillars</th>
+                        <th>Subject / Work Description</th>
+                        <th class="w-32">Concerned Officer</th>
+                        <th class="w-28 text-center">Current Stage</th>
+                        <th class="w-16 text-right">Age</th>
+                    </tr>
+                </thead>
+                <tbody id="print-vip-inventory-tbody">
+                    <!-- Populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. Further Follow-Up Required with Concerned Department (Yes) -->
         <div class="mb-4" id="print-section-followup">
             <div class="flex items-center justify-between mb-1">
-                <div class="text-xs font-bold uppercase">4. Further Follow-Up Required with Concerned Department (Yes):</div>
+                <div class="text-xs font-bold uppercase">3. Further Follow-Up Required with Concerned Department (Yes):</div>
                 <span class="text-[10px] font-mono font-bold" id="print-followup-count">0 Tasks</span>
             </div>
             <table class="w-full text-xs">
@@ -1651,27 +1651,6 @@
                     </tr>
                 </thead>
                 <tbody id="print-followup-tbody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 5. Detailed Active Correspondence Inventory Table -->
-        <div class="mb-5">
-            <div class="text-xs font-bold uppercase mb-1" id="print-inventory-title">5. Detailed Active Correspondence Inventory (In-Progress &amp; Current Stage N/A):</div>
-            <table class="w-full text-xs">
-                <thead>
-                    <tr>
-                        <th class="w-24">File ID</th>
-                        <th class="w-20">Recv Date</th>
-                        <th class="w-40">Project (ID & Name)</th>
-                        <th>Subject / Work Description</th>
-                        <th class="w-36">Officer-in-Charge</th>
-                        <th class="w-28 text-center">Stage & Status</th>
-                        <th class="w-16 text-right">Age</th>
-                    </tr>
-                </thead>
-                <tbody id="print-detailed-inventory-tbody">
                     <!-- Populated dynamically -->
                 </tbody>
             </table>
@@ -3200,11 +3179,11 @@
             return raw === 'yes' || raw === 'y' || raw === 'true';
         }
 
-        /** Scope filter for VIP 4 Pillars Inventory: only Follow-Up Required, Pending, In Progress, On Hold, Unassigned, N/A, Postponed, Letter Sent. */
+        /** Scope filter for VIP 4 Pillars Inventory: only Pending, In Progress, On Hold, Unassigned, N/A, Postponed, Letter Sent (excludes Follow-Up Required tasks shown in Table 3). */
         function isVipInventoryReportRecord(r) {
             if (!r || !r.is_vip) return false;
             if (r.status_group === 'Closed / Excluded') return false;
-            if (isFollowupRequiredRecord(r)) return true;
+            if (isFollowupRequiredRecord(r)) return false;
 
             const stageLower = String(r['Current Stage'] || '').trim().toLowerCase().replace(/\s+/g, ' ');
             if (stageLower === 'completed') return false;
@@ -3772,8 +3751,7 @@
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             document.getElementById('print-date-display').innerText = `Date: ${dateStr}`;
-            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON VIP, OFFICER-WISE WORKLOAD & FOLLOW-UP CORRESPONDENCE ABSTRACT";
-            document.getElementById('print-inventory-title').innerText = "5. Detailed Active Correspondence Inventory (In-Progress & Current Stage N/A):";
+            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON OFFICER-WISE WORKLOAD, VIP & FOLLOW-UP CORRESPONDENCE ABSTRACT";
 
             const summary = buildOfficerAbstractReportRows();
             document.getElementById('print-kpi-total').innerText = summary.totalFiles;
@@ -3800,23 +3778,9 @@
             const fuSec = document.getElementById('print-section-followup');
             if (fuSec) fuSec.style.display = '';
 
-            renderVipInventoryTable('print-vip-inventory-tbody', summary.vipInventoryRows, true);
             renderOfficerAbstractTable('print-officer-summary-tbody', 'print-officer-summary-tfoot', summary, true);
+            renderVipInventoryTable('print-vip-inventory-tbody', summary.vipInventoryRows, true);
             renderFollowupRequiredTable('print-followup-tbody', summary.followupRequiredRows, true);
-
-            const detailedTbody = document.getElementById('print-detailed-inventory-tbody');
-            const activeFiles = rawData.records.filter(r => r.status_group !== 'Completed' && r.status_group !== 'Closed / Excluded');
-            detailedTbody.innerHTML = activeFiles.map((r) => `
-                <tr>
-                    <td class="font-mono font-bold whitespace-nowrap">${escapeHtml(r.ID)}${r.is_vip ? ' ⭐' : ''}</td>
-                    <td class="font-mono whitespace-nowrap">${escapeHtml(r['Date Received to office'] || 'N/A')}</td>
-                    <td class="font-semibold">${escapeHtml(r.project_label || 'Miscellaneous')}</td>
-                    <td class="leading-snug">${escapeHtml(r['Subject / Work Description'] || '—')}</td>
-                    <td>${escapeHtml(r.officer_label || 'Concerned Officer N/A')}</td>
-                    <td class="text-center font-semibold">${escapeHtml(r['Current Stage'] || 'N/A')}</td>
-                    <td class="text-right font-mono font-bold">${escapeHtml(r.display_time_metric || '—')}</td>
-                </tr>
-            `).join('');
 
             window.print();
         }
@@ -5207,7 +5171,7 @@ INSTRUCTIONS:
                             <li>Monitor officer-wise workload distribution, <strong class="text-white">Current Stage N/A</strong> &amp; <strong class="text-rose-300">Concerned Officer N/A</strong> counts</li>
                             <li>Identify VIP/critical files &amp; <strong class="text-amber-300">Further Follow-Up Required (Yes)</strong> tasks requiring immediate liaison</li>
                             <li>Track scheduled events like Video Conferences and Meetings</li>
-                            <li>Generate consolidated printable &amp; PNG <strong class="text-white">Officer Abstract</strong> statements (Overview → VIP 4-Pillars → Officer-Wise Workload → Follow-Up Required)</li>
+                            <li>Generate consolidated printable &amp; PNG <strong class="text-white">Officer Abstract</strong> statements (1. Officer-Wise Workload → 2. VIP 4-Pillars → 3. Follow-Up Required)</li>
                             <li>Calculate SLA compliance and turnaround time metrics</li>
                         </ul>
                     </div>
@@ -5441,25 +5405,23 @@ INSTRUCTIONS:
 
                 <!-- SECTION: Officer Abstract -->
                 <div id="guide-section-whatsapp-guide" class="guide-section hidden space-y-4">
-                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📋 Officer Abstract — Consolidated VIP, Workload &amp; Follow-Up Report</h3>
-                    <p>The <strong class="text-white">Officer Abstract</strong> module (available on the Dashboard top bar) compiles one unified official AP Police PCS&amp;S report ready for high-resolution PNG export or A4 formal printing.</p>
+                    <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📋 Officer Abstract — Official Reports Summary</h3>
+                    <p>The <strong class="text-white">Officer Abstract</strong> module (available on the Dashboard top bar) compiles the Executive Overview Strip and <strong class="text-white">3 report tables in strict order</strong> for both PNG image export and A4 printing.</p>
 
                     <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
-                        <h4 class="text-sm font-bold text-white">📑 Consolidated Report Sections (Exact Order)</h4>
+                        <h4 class="text-sm font-bold text-white">📑 Report Sections (Exact Order Only)</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
-                            <li><strong class="text-white">Executive Overview Abstract:</strong> 7 live counts — Total Files, In-Progress, Completed, <strong class="text-slate-200">Current Stage N/A</strong>, <strong class="text-rose-300">Concerned Officer N/A</strong>, VIP Priority, and <strong class="text-amber-300">Follow-Up Required (Yes)</strong>.</li>
-                            <li><strong class="text-amber-300">Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</strong> Appears as the <strong>first report table</strong>, strictly filtered to VIP files that are <strong class="text-white">Follow-Up Required (Yes)</strong> or in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (excluding Completed &amp; Closed).</li>
-                            <li><strong class="text-indigo-300">Officer-Wise Workload Summary:</strong> Shown <strong>after</strong> the VIP report in official AP Police rank hierarchy order, displaying Total, In-Progress, Completed, <strong class="text-white">Current Stage N/A</strong>, and the dedicated <strong class="text-rose-300">Concerned Officer N/A</strong> row.</li>
+                            <li><strong class="text-indigo-300">Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</strong> Official AP Police rank hierarchy workload table plus explicit N/A accountability row.</li>
+                            <li><strong class="text-amber-300">Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</strong> Strictly filtered to active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
                             <li><strong class="text-rose-300">Further Follow-Up Required with Concerned Department (Yes):</strong> Dedicated separate report table listing all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
-                            <li><strong class="text-slate-200">Detailed Active Correspondence Inventory (Print Memo):</strong> Full open file listing appended in the A4 print layout.</li>
                         </ol>
                     </div>
 
                     <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
                         <h4 class="text-sm font-bold text-blue-300">🖨️ Export Options</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
-                            <li><strong>Generate Image:</strong> Captures a crisp white-background PNG containing all consolidated executive sections (1–4) and copies to clipboard when supported.</li>
-                            <li><strong>Print Officer Abstract:</strong> Formats the complete consolidated statement (1–5) for official A4 printing or PDF archival.</li>
+                            <li><strong>Generate Image:</strong> Captures a crisp white-background PNG containing the Executive Overview and Sections 1–3, copying to clipboard when supported.</li>
+                            <li><strong>Print Officer Abstract:</strong> Formats the exact same Executive Overview and Sections 1–3 for official A4 printing or PDF archival.</li>
                             <li><strong>Exclusions:</strong> All "Correspondence Closed", "Cancelled", and "Returned to concerned department" records are automatically excluded.</li>
                         </ul>
                     </div>
@@ -5504,7 +5466,7 @@ INSTRUCTIONS:
                         <h4 class="text-sm font-bold text-white">📊 VIP Command List View &amp; Report Rules</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
                             <li><strong class="text-white">Unified List View:</strong> The VIP Command module displays all VIP files in a clean sortable table layout matching All Records — click any row for full 21-column history.</li>
-                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>Dedicated VIP Correspondence Inventory (4 Pillars Breakdown)</em> table inside <strong>Officer Abstract</strong> shows only VIP files that have <strong class="text-white">Follow-Up Required = Yes</strong> or are in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (excluding Completed &amp; Closed).</li>
+                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown)</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Follow-Up Required (Yes)</strong> tasks (shown separately in Section 3), Completed &amp; Closed.</li>
                         </ul>
                     </div>
                 </div>
