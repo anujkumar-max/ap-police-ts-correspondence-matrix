@@ -73,6 +73,8 @@
             #print-executive-memo { display: block !important; }
             main, header, #record-modal, #pending-abstract-modal, #help-guide-modal { display: none !important; }
             table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
+            thead { display: table-header-group; }
+            tr { break-inside: avoid; page-break-inside: avoid; }
             th, td { border: 1px solid #333333 !important; padding: 4px 6px !important; color: #000000 !important; font-size: 9pt !important; }
             th { background-color: #f1f5f9 !important; font-weight: bold !important; text-transform: uppercase !important; }
             .page-break { page-break-after: always; }
@@ -84,10 +86,10 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #060b19;
         }
         ::-webkit-scrollbar-thumb {
-            background: #253966;
+            background: #334155;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -127,7 +129,59 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
+        /* ================= DARK MODE COMPREHENSIVE THEME ================= */
+        html.dark {
+            color-scheme: dark;
+        }
+        html.dark body {
+            background-color: #060b19 !important;
+            color: #e2e8f0 !important;
+        }
+        html.dark .ricochet-topbar {
+            background-color: #09132a !important;
+            border-bottom: 1px solid #1e293b !important;
+        }
+        html.dark .ricochet-sidebar {
+            background: linear-gradient(180deg, #0b1633 0%, #071024 100%) !important;
+            border-right: 1px solid #1e293b !important;
+        }
+        html.dark .glass-card {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.94) 0%, rgba(13, 20, 38, 0.92) 100%) !important;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.75) !important;
+            box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.45) !important;
+        }
+        html.dark #executive-sitrep-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(23, 37, 84, 0.5) 100%) !important;
+            border-color: rgba(59, 130, 246, 0.35) !important;
+        }
+        html.dark .kpi-icon-emerald {
+            background-color: rgba(16, 185, 129, 0.14) !important;
+            border: 1px solid rgba(16, 185, 129, 0.32) !important;
+        }
+        html.dark .kpi-icon-blue {
+            background-color: rgba(59, 130, 246, 0.14) !important;
+            border: 1px solid rgba(59, 130, 246, 0.32) !important;
+        }
+        html.dark .kpi-icon-rose {
+            background-color: rgba(244, 63, 94, 0.14) !important;
+            border: 1px solid rgba(244, 63, 94, 0.32) !important;
+        }
+        html.dark .kpi-icon-amber {
+            background-color: rgba(245, 158, 11, 0.14) !important;
+            border: 1px solid rgba(245, 158, 11, 0.32) !important;
+        }
+        html.dark ::-webkit-scrollbar-track {
+            background: #060b19;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+
         /* ================= LIGHT MODE COMPREHENSIVE THEME ================= */
+        html.light {
+            color-scheme: light;
+        }
         html.light body {
             background-color: #f4f7fb !important;
             color: #1e293b !important;
@@ -173,40 +227,40 @@
             color: #0f172a !important;
         }
 
-        /* High-contrast text colors in Light Theme (Ensures readability on light cards) */
-        html.light .text-amber-200,
-        html.light .text-amber-300,
-        html.light .text-amber-400:not(button *):not(header *) {
+        /* High-contrast text colors in Light Theme (Ensures readability on light cards while preserving dark header/sidebar/white reports) */
+        html.light .text-amber-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-amber-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-amber-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #92400e !important; /* amber-800 */
         }
-        html.light .text-cyan-200,
-        html.light .text-cyan-300,
-        html.light .text-cyan-400:not(button *):not(header *) {
+        html.light .text-cyan-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-cyan-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-cyan-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #0369a1 !important; /* sky-700 */
         }
-        html.light .text-blue-200,
-        html.light .text-blue-300,
-        html.light .text-blue-400:not(button *):not(header *) {
+        html.light .text-blue-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-blue-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-blue-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #1d4ed8 !important; /* blue-700 */
         }
-        html.light .text-indigo-200,
-        html.light .text-indigo-300,
-        html.light .text-indigo-400:not(button *):not(header *) {
+        html.light .text-indigo-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-indigo-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-indigo-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #3730a3 !important; /* indigo-800 */
         }
-        html.light .text-emerald-200,
-        html.light .text-emerald-300,
-        html.light .text-emerald-400:not(button *):not(header *) {
+        html.light .text-emerald-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-emerald-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-emerald-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #047857 !important; /* emerald-700 */
         }
-        html.light .text-rose-200,
-        html.light .text-rose-300,
-        html.light .text-rose-400:not(button *):not(header *) {
+        html.light .text-rose-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-rose-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-rose-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #be123c !important; /* rose-700 */
         }
-        html.light .text-purple-200,
-        html.light .text-purple-300,
-        html.light .text-purple-400:not(button *):not(header *) {
+        html.light .text-purple-200:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-purple-300:not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *),
+        html.light .text-purple-400:not(button *):not(header *):not(#app-sidebar *):not(#screenshot-brand-banner *):not(#officer-abstract-capture-target *) {
             color: #6b21a8 !important; /* purple-700 */
         }
 
@@ -451,7 +505,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 bg-[#f4f7fb] flex flex-col selection:bg-blue-600 selection:text-white">
+<body class="min-h-screen text-slate-800 dark:text-slate-100 bg-[#f4f7fb] dark:bg-[#060b19] flex flex-col selection:bg-blue-600 selection:text-white">
 
     <!-- TOP NAVY BAR -->
     <header class="sticky top-0 z-50 ricochet-topbar h-14 px-4 flex items-center justify-between shadow-md no-print">
@@ -576,7 +630,7 @@
             <!-- WORKSPACE HEADER: TITLE + PRIMARY ACTIONS -->
             <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
                 <div>
-                    <h1 id="page-main-title" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Performance Report</h1>
+                    <h1 id="page-main-title" class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Performance Report</h1>
                 </div>
 
                 <div id="workspace-dashboard-actions" class="flex items-center flex-wrap gap-2.5">
@@ -594,12 +648,12 @@
                     </button>
 
                     <!-- Live Google Sheet Direct Link -->
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Source Google Sheet" class="glass-card px-3.5 py-1.5 rounded-md flex items-center gap-3 hover:border-blue-400 transition">
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Source Google Sheet" class="glass-card px-3.5 py-1.5 rounded-md flex items-center gap-3 hover:border-blue-400 dark:hover:border-cyan-400/60 transition">
                         <div>
                             <div class="text-[9.5px] text-slate-400 font-semibold uppercase leading-none">Google Sheet Source</div>
-                            <div class="text-xs font-bold text-slate-700 mt-0.5 flex items-center gap-1.5">
+                            <div class="text-xs font-bold text-slate-700 dark:text-slate-100 mt-0.5 flex items-center gap-1.5">
                                 <span>FY 2026 Live Matrix</span>
-                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 dark:text-cyan-300"></i>
                             </div>
                         </div>
                     </a>
@@ -613,80 +667,80 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
                     
                     <!-- Card 1: Total Reportable Correspondence -->
-                    <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div onclick="filterByStatusGroup('All')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md dark:hover:border-emerald-500/45 transition flex items-center justify-between">
                         <div>
-                            <div class="text-2xl font-extrabold text-slate-800" id="kpi-total">--</div>
+                            <div class="text-2xl font-extrabold text-slate-800 dark:text-white" id="kpi-total">--</div>
                             <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                                 <span>Total active & completed</span>
-                                <span class="text-emerald-600 font-bold">100%</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-bold">100%</span>
                             </div>
                         </div>
-                        <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                        <div class="kpi-icon-emerald w-12 h-12 rounded-lg bg-[#eefaf2] dark:bg-emerald-500/20 dark:border dark:border-emerald-500/30 flex items-center justify-center text-emerald-500 dark:text-emerald-400 flex-shrink-0">
                             <i data-lucide="trending-up" class="w-6 h-6"></i>
                         </div>
                     </div>
 
                     <!-- Card 2: In-Progress -->
-                    <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div onclick="filterByStatusGroup('In-Progress')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md dark:hover:border-blue-500/45 transition flex items-center justify-between">
                         <div>
-                            <div class="text-2xl font-extrabold text-slate-800" id="kpi-inprogress">--</div>
+                            <div class="text-2xl font-extrabold text-slate-800 dark:text-white" id="kpi-inprogress">--</div>
                             <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                                 <span>In-Progress stage</span>
-                                <span id="kpi-inprogress-pct" class="text-blue-600 font-bold">--%</span>
+                                <span id="kpi-inprogress-pct" class="text-blue-600 dark:text-blue-400 font-bold">--%</span>
                             </div>
                         </div>
-                        <div class="w-12 h-12 rounded-lg bg-[#f1f5f9] flex items-center justify-center text-blue-600 flex-shrink-0">
+                        <div class="kpi-icon-blue w-12 h-12 rounded-lg bg-[#f1f5f9] dark:bg-blue-500/20 dark:border dark:border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i data-lucide="move-right" class="w-6 h-6"></i>
                         </div>
                     </div>
 
                     <!-- Card 3: Completed -->
-                    <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div onclick="filterByStatusGroup('Completed')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md dark:hover:border-emerald-500/45 transition flex items-center justify-between">
                         <div>
                             <div class="flex items-baseline gap-2">
-                                <span class="text-2xl font-extrabold text-slate-800" id="kpi-completed">--</span>
-                                <span class="text-xs font-bold text-amber-600 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
+                                <span class="text-2xl font-extrabold text-slate-800 dark:text-white" id="kpi-completed">--</span>
+                                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 cursor-pointer" onclick="event.stopPropagation(); switchTab('vip')">(⭐ VIP: <span id="kpi-vip">--</span>)</span>
                             </div>
                             <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                                 <span>Completed category</span>
-                                <span id="kpi-completed-pct" class="text-emerald-600 font-bold">+--%</span>
+                                <span id="kpi-completed-pct" class="text-emerald-600 dark:text-emerald-400 font-bold">+--%</span>
                                 <span id="kpi-critical" class="hidden">--</span>
                                 <span id="kpi-tat" class="hidden">--</span>
                             </div>
                         </div>
-                        <div class="w-12 h-12 rounded-lg bg-[#eefaf2] flex items-center justify-center text-emerald-500 flex-shrink-0">
+                        <div class="kpi-icon-emerald w-12 h-12 rounded-lg bg-[#eefaf2] dark:bg-emerald-500/20 dark:border dark:border-emerald-500/30 flex items-center justify-center text-emerald-500 dark:text-emerald-400 flex-shrink-0">
                             <i data-lucide="trending-up" class="w-6 h-6"></i>
                         </div>
                     </div>
 
                     <!-- Card 4: Stage N/A (Not Updated Stage) -->
-                    <div onclick="filterByStatusGroup('Stage N/A')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div onclick="filterByStatusGroup('Stage N/A')" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md dark:hover:border-rose-500/45 transition flex items-center justify-between">
                         <div>
                             <div class="flex items-baseline gap-2">
-                                <span class="text-2xl font-extrabold text-slate-800" id="kpi-onhold">--</span>
+                                <span class="text-2xl font-extrabold text-slate-800 dark:text-white" id="kpi-onhold">--</span>
                                 <span class="hidden" id="kpi-pending">0</span>
                             </div>
                             <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                                 <span>Stage N/A (Not updated)</span>
-                                <span id="kpi-onhold-pct" class="text-rose-500 font-bold">--%</span>
+                                <span id="kpi-onhold-pct" class="text-rose-500 dark:text-rose-400 font-bold">--%</span>
                                 <span id="kpi-pending-pct" class="hidden">--%</span>
                             </div>
                         </div>
-                        <div class="w-12 h-12 rounded-lg bg-[#fef1f2] flex items-center justify-center text-rose-500 flex-shrink-0">
+                        <div class="kpi-icon-rose w-12 h-12 rounded-lg bg-[#fef1f2] dark:bg-rose-500/20 dark:border dark:border-rose-500/30 flex items-center justify-center text-rose-500 dark:text-rose-400 flex-shrink-0">
                             <i data-lucide="trending-down" class="w-6 h-6"></i>
                         </div>
                     </div>
 
                     <!-- Card 5: Further Follow-Up Required with Concerned Department (Yes) -->
-                    <div onclick="filterByFollowup()" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md transition flex items-center justify-between">
+                    <div onclick="filterByFollowup()" class="glass-card rounded-xl p-4 cursor-pointer hover:shadow-md dark:hover:border-amber-500/45 transition flex items-center justify-between">
                         <div>
-                            <div class="text-2xl font-extrabold text-amber-600" id="kpi-followup">--</div>
+                            <div class="text-2xl font-extrabold text-amber-600 dark:text-amber-400" id="kpi-followup">--</div>
                             <div class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                                 <span>Follow-Up Required</span>
-                                <span id="kpi-followup-pct" class="text-amber-600 font-bold">--%</span>
+                                <span id="kpi-followup-pct" class="text-amber-600 dark:text-amber-400 font-bold">--%</span>
                             </div>
                         </div>
-                        <div class="w-12 h-12 rounded-lg bg-[#fffbeb] flex items-center justify-center text-amber-600 flex-shrink-0">
+                        <div class="kpi-icon-amber w-12 h-12 rounded-lg bg-[#fffbeb] dark:bg-amber-500/20 dark:border dark:border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 flex-shrink-0">
                             <i data-lucide="bell-ring" class="w-6 h-6"></i>
                         </div>
                     </div>
@@ -700,7 +754,7 @@
                     <div class="lg:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between">
                         <div class="flex items-start justify-between mb-2">
                             <div>
-                                <h2 class="text-sm font-bold text-slate-800">Stage Breakdown</h2>
+                                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100">Stage Breakdown</h2>
                                 <p class="text-xs text-slate-400 mt-0.5"><span id="donut-subtitle-total">--</span> Total correspondence files</p>
                             </div>
                         </div>
@@ -710,7 +764,7 @@
                             <div class="sm:col-span-6 relative h-52 flex items-center justify-center">
                                 <canvas id="chart-channels"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span id="donut-center-total" class="text-xl font-extrabold text-slate-800">--</span>
+                                    <span id="donut-center-total" class="text-xl font-extrabold text-slate-800 dark:text-white">--</span>
                                     <span class="text-[11px] text-slate-400">Total files</span>
                                 </div>
                             </div>
@@ -725,7 +779,7 @@
                     <div class="lg:col-span-7 glass-card rounded-xl p-5 flex flex-col justify-between">
                         <div class="flex items-start justify-between mb-2">
                             <div>
-                                <h2 class="text-sm font-bold text-slate-800">Officer Workloads (Hierarchy Order)</h2>
+                                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100">Officer Workloads (Hierarchy Order)</h2>
                                 <p class="text-xs text-slate-400 mt-0.5">Active vs Completed files across concerned officers</p>
                             </div>
                             <button onclick="switchTab('officers')" class="text-xs font-semibold text-blue-500 hover:text-blue-400 flex items-center gap-1 transition whitespace-nowrap">
@@ -743,7 +797,7 @@
                 <div class="glass-card rounded-xl p-5">
                     <div class="flex items-start justify-between mb-3">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-800">Technical Projects Matrix (PRJ-IDs)</h2>
+                            <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100">Technical Projects Matrix (PRJ-IDs)</h2>
                             <p class="text-xs text-slate-400 mt-0.5">Total correspondence & active workload across technical projects</p>
                         </div>
                         <button onclick="switchTab('projects')" class="text-xs font-semibold text-blue-500 hover:text-blue-400 flex items-center gap-1 transition whitespace-nowrap">
@@ -763,13 +817,13 @@
                     <div id="executive-sitrep-card" class="lg:col-span-7 glass-card rounded-xl p-5 flex flex-col justify-between space-y-4">
                         <div class="space-y-2.5">
                             <div class="flex flex-wrap items-center justify-between gap-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-700 border border-blue-500/30 flex items-center gap-1.5">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 flex items-center gap-1.5">
                                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                                     Executive Situation Report
                                 </span>
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <span id="executive-narrative-timestamp" class="text-[11px] text-slate-400 font-mono">--</span>
-                                    <span id="executive-narrative-alert-tag" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-600 border border-rose-500/30">
+                                    <span id="executive-narrative-alert-tag" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/30">
                                         🚨 Action Required
                                     </span>
                                     <button onclick="copyExecutiveSitrepText(this)" id="copy-sitrep-btn" data-html2canvas-ignore="true" title="Copy Executive Report Text for WhatsApp / Email" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1.5 transition shadow-sm active:scale-95">
@@ -778,7 +832,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div id="executive-narrative-text" class="text-xs sm:text-[13px] font-medium text-slate-700 leading-relaxed pt-1 space-y-2">
+                            <div id="executive-narrative-text" class="text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 leading-relaxed pt-1 space-y-2">
                                 Initializing real-time executive situation brief...
                             </div>
                         </div>
@@ -786,11 +840,11 @@
                         <div class="grid grid-cols-2 gap-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800">
                             <div class="sitrep-metric-tile bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
                                 <div class="text-[10px] font-bold text-slate-400 uppercase">SLA Compliance (15-Day)</div>
-                                <div class="text-lg font-black text-emerald-600 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
+                                <div class="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
                             </div>
                             <div class="sitrep-metric-tile bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
                                 <div class="text-[10px] font-bold text-slate-400 uppercase">Avg Turnaround Time</div>
-                                <div class="text-lg font-black text-blue-600 font-mono mt-0.5" id="sitrep-avg-tat">-- Days</div>
+                                <div class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono mt-0.5" id="sitrep-avg-tat">-- Days</div>
                             </div>
                         </div>
                     </div>
@@ -799,7 +853,7 @@
                     <div class="lg:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between">
                         <div class="flex items-center justify-between mb-2">
                             <div>
-                                <h2 class="text-sm font-bold text-slate-800">Pending Aging</h2>
+                                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100">Pending Aging</h2>
                                 <p class="text-[11px] text-slate-400">Open files by age bucket</p>
                             </div>
                         </div>
@@ -934,7 +988,7 @@
             <div id="vip-table-container" class="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
                 <div class="overflow-x-auto max-h-[600px]">
                     <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+                        <thead class="bg-slate-950/90 backdrop-blur-md sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
                             <tr>
                                 <th class="py-3 px-3">File ID</th>
                                 <th class="py-3 px-2.5">Received</th>
@@ -1128,7 +1182,7 @@
             <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
                 <div class="overflow-x-auto max-h-[600px]">
                     <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/95 sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+                        <thead class="bg-slate-950/90 backdrop-blur-md sticky top-0 z-10 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
                             <tr>
                                 <th class="py-3 px-3">ID</th>
                                 <th class="py-3 px-2.5">Received Date</th>
@@ -1366,7 +1420,7 @@
             <!-- Action Bar (Only Generate Image + Print Officer Abstract) -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 px-3 py-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <div class="text-xs text-slate-400 font-medium">
-                    Includes <span class="text-white font-semibold">1. Officer-Wise Workload</span>, <span class="text-amber-300 font-semibold">2. VIP 4-Pillars Inventory</span> &amp; <span class="text-rose-300 font-semibold">3. Further Follow-Up (Yes)</span>.
+                    Includes <span class="text-white font-semibold">1. Officer-Wise</span>, <span class="text-cyan-300 font-semibold">2. Project-Wise</span>, <span class="text-blue-300 font-semibold">3. Upcoming VCs</span>, <span class="text-amber-300 font-semibold">4. VIP Inventory</span> &amp; <span class="text-rose-300 font-semibold">5. Follow-Up Depts</span>.
                 </div>
                 <div class="flex items-center gap-2.5">
                     <button onclick="generateOfficerAbstractImage(this)" id="btn-generate-abstract-image" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
@@ -1390,7 +1444,7 @@
                             <div>
                                 <div class="text-[10px] font-bold uppercase tracking-widest" style="color: #93c5fd;">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
                                 <div class="text-sm sm:text-base font-extrabold uppercase tracking-wide" style="color: #ffffff;">POLICE COMPUTER SERVICES &amp; STANDARDIZATION (PCS&amp;S) / TECHNICAL SERVICES</div>
-                                <div class="text-xs font-semibold" style="color: #67e8f9;">Officer-Wise Workload, VIP 4-Pillars &amp; Follow-Up Abstract Statement</div>
+                                <div class="text-xs font-semibold" style="color: #67e8f9;">Consolidated Correspondence, Project, Upcoming VC, VIP &amp; Follow-Up Abstract Statement</div>
                             </div>
                         </div>
                         <div class="text-right">
@@ -1399,10 +1453,10 @@
                         </div>
                     </div>
 
-                    <!-- Executive Overview Abstract Strip (7 Metrics) -->
+                    <!-- Executive Overview Abstract Strip (8 Metrics) -->
                     <div>
                         <div class="text-[11px] font-extrabold uppercase tracking-wider mb-2" style="color: #0f172a;">Executive Overview Abstract</div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center text-xs">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 text-center text-xs">
                             <div class="p-2 rounded-lg border" style="background-color: #f8fafc; border-color: #e2e8f0;">
                                 <span class="text-[9.5px] font-bold uppercase block" style="color: #64748b;">Total Files</span>
                                 <span id="abs-kpi-total" class="text-lg font-black font-mono mt-0.5 block" style="color: #0f172a;">--</span>
@@ -1424,6 +1478,10 @@
                                 <span class="text-[9.5px] font-bold uppercase block" style="color: #be123c;">Concerned Officer N/A</span>
                                 <span id="abs-kpi-officer-na" class="text-lg font-black font-mono mt-0.5 block" style="color: #9f1239;">--</span>
                             </div>
+                            <div class="p-2 rounded-lg border" style="background-color: #eff6ff; border-color: #bfdbfe;">
+                                <span class="text-[9.5px] font-bold uppercase block" style="color: #1d4ed8;">Upcoming VCs</span>
+                                <span id="abs-kpi-upcoming-vc" class="text-lg font-black font-mono mt-0.5 block" style="color: #1e40af;">--</span>
+                            </div>
                             <div class="p-2 rounded-lg border" style="background-color: #fffbeb; border-color: #fde68a;">
                                 <span class="text-[9.5px] font-bold uppercase block" style="color: #b45309;">VIP Priority</span>
                                 <span id="abs-kpi-vip" class="text-lg font-black font-mono mt-0.5 block" style="color: #92400e;">--</span>
@@ -1437,7 +1495,7 @@
 
                     <!-- 1. Officer-Wise Workload Summary -->
                     <div class="space-y-1.5">
-                        <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #0f172a;">1. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A)</div>
+                        <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #0f172a;">1. OFFICER-WISE WORKLOAD SUMMARY</div>
                         <div class="overflow-x-auto rounded-lg border" style="border-color: #cbd5e1;">
                             <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
                                 <thead>
@@ -1460,12 +1518,72 @@
                         </div>
                     </div>
 
-                    <!-- 2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown) -->
+                    <!-- 2. Project-Wise Task Abstract -->
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
-                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #92400e;">2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown)</div>
-                                <div class="text-[10px]" style="color: #64748b;">Scope: Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages only (Excludes Follow-Up Required, Completed &amp; Closed)</div>
+                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #0e7490;">2. PROJECT-WISE TASK ABSTRACT</div>
+                                <div class="text-[10px]" style="color: #64748b;">Correspondence workload distribution grouped by standardized Technical Project (PRJ-ID)</div>
+                            </div>
+                            <span id="abs-project-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #ecfeff; border-color: #a5f3fc; color: #155e75;">0 Projects</span>
+                        </div>
+                        <div class="overflow-x-auto rounded-lg border" style="border-color: #a5f3fc;">
+                            <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                                <thead>
+                                    <tr style="background-color: #ecfeff; border-bottom: 2px solid #67e8f9;">
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-12" style="color: #164e63;">S.No</th>
+                                        <th class="py-2 px-3 font-bold uppercase tracking-wider" style="color: #164e63;">Project (PRJ-ID &amp; Name)</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #164e63;">Total Files</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #065f46;">Completed</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #92400e;">Current Stage N/A</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="abstract-project-summary-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                                <tfoot id="abstract-project-summary-tfoot">
+                                    <!-- Totals row populated dynamically -->
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 3. Upcoming Video Conferences -->
+                    <div class="space-y-1.5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #1e40af;">3. UPCOMING VIDEO CONFERENCES</div>
+                                <div class="text-[10px]" style="color: #64748b;">Active scheduled Video Conferences (VC) — excludes Postponed, Completed &amp; Cancelled entries</div>
+                            </div>
+                            <span id="abs-upcoming-vc-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #eff6ff; border-color: #93c5fd; color: #1e40af;">0 VCs</span>
+                        </div>
+                        <div class="overflow-x-auto rounded-lg border" style="border-color: #bfdbfe;">
+                            <table class="w-full text-[11px] text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                                <thead>
+                                    <tr style="background-color: #eff6ff; border-bottom: 2px solid #93c5fd;">
+                                        <th class="py-2 px-2 text-center font-bold uppercase w-10" style="color: #1e3a8a;">S.No</th>
+                                        <th class="py-2 px-2 font-bold uppercase w-28" style="color: #1e3a8a;">File ID &amp; Project</th>
+                                        <th class="py-2 px-2 font-bold uppercase w-28" style="color: #1e3a8a;">VC Date &amp; Timing</th>
+                                        <th class="py-2 px-2 font-bold uppercase" style="color: #1e3a8a;">Subject / VC Agenda</th>
+                                        <th class="py-2 px-2 font-bold uppercase w-32" style="color: #1e3a8a;">Concerned Officer</th>
+                                        <th class="py-2 px-2 text-center font-bold uppercase w-24" style="color: #1e3a8a;">Current Stage</th>
+                                        <th class="py-2 px-2 font-bold uppercase w-36" style="color: #1e3a8a;">VC Link / Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="abstract-upcoming-vc-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 4. Dedicated VIP Correspondence Inventory -->
+                    <div class="space-y-1.5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #92400e;">4. DEDICATED VIP CORRESPONDENCE INVENTORY</div>
+                                <div class="text-[10px]" style="color: #64748b;">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages (Excludes Follow-Up Required, Completed &amp; Closed)</div>
                             </div>
                             <span id="abs-vip-inventory-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fffbeb; border-color: #fcd34d; color: #92400e;">0 Files</span>
                         </div>
@@ -1490,11 +1608,11 @@
                         </div>
                     </div>
 
-                    <!-- 3. Further Follow-Up Required with Concerned Department (Yes) -->
+                    <!-- 5. Further Follow-Up Required with Concerned Departments -->
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
-                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #991b1b;">3. Further Follow-Up Required with Concerned Department (Yes)</div>
+                                <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #991b1b;">5. FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS</div>
                                 <div class="text-[10px]" style="color: #64748b;">Dedicated report of all reportable tasks flagged Yes for department liaison &amp; follow-up</div>
                             </div>
                             <span id="abs-followup-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fef2f2; border-color: #fca5a5; color: #991b1b;">0 Tasks</span>
@@ -1545,7 +1663,7 @@
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
-            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON CORRESPONDENCE WORKLOAD - OFFICER-WISE ABSTRACT</div>
+            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON OFFICER-WISE, PROJECT-WISE, UPCOMING VC, VIP &amp; FOLLOW-UP ABSTRACT</div>
             <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
                 <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
                 <span id="print-date-display">Date: 30-09-2026</span>
@@ -1563,6 +1681,7 @@
                         <th class="text-center">Completed</th>
                         <th class="text-center">Current Stage N/A</th>
                         <th class="text-center">Concerned Officer N/A</th>
+                        <th class="text-center">Upcoming VCs</th>
                         <th class="text-center">VIP Priority</th>
                         <th class="text-center">Follow-Up Req (Yes)</th>
                     </tr>
@@ -1574,6 +1693,7 @@
                         <td id="print-kpi-done" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-na" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-officer-na" class="text-center font-bold text-sm">--</td>
+                        <td id="print-kpi-upcoming-vc" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-vip" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-followup" class="text-center font-bold text-sm">--</td>
                         <td id="print-kpi-pending" class="hidden">0</td>
@@ -1584,7 +1704,7 @@
 
         <!-- 1. Officer-Wise Workload Summary Table -->
         <div class="mb-4" id="print-section-officers">
-            <div class="text-xs font-bold uppercase mb-1">1. Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</div>
+            <div class="text-xs font-bold uppercase mb-1">1. OFFICER-WISE WORKLOAD SUMMARY:</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1605,13 +1725,63 @@
             </table>
         </div>
 
-        <!-- 2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown) -->
+        <!-- 2. Project-Wise Task Abstract Table -->
+        <div class="mb-4" id="print-section-projects">
+            <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-bold uppercase">2. PROJECT-WISE TASK ABSTRACT:</div>
+                <span class="text-[10px] font-mono font-bold" id="print-project-count">0 Projects</span>
+            </div>
+            <table class="w-full text-xs">
+                <thead>
+                    <tr>
+                        <th class="text-center w-12">S.No</th>
+                        <th>Project (PRJ-ID &amp; Name)</th>
+                        <th class="text-center w-24">Total Files</th>
+                        <th class="text-center w-24">In-Progress</th>
+                        <th class="text-center w-24">Completed</th>
+                        <th class="text-center w-28">Current Stage N/A</th>
+                    </tr>
+                </thead>
+                <tbody id="print-project-summary-tbody">
+                    <!-- Populated dynamically -->
+                </tbody>
+                <tfoot id="print-project-summary-tfoot">
+                    <!-- Totals row populated dynamically -->
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- 3. Upcoming Video Conferences Table -->
+        <div class="mb-4" id="print-section-vc">
+            <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-bold uppercase">3. UPCOMING VIDEO CONFERENCES:</div>
+                <span class="text-[10px] font-mono font-bold" id="print-upcoming-vc-count">0 VCs</span>
+            </div>
+            <table class="w-full text-xs">
+                <thead>
+                    <tr>
+                        <th class="text-center w-10">S.No</th>
+                        <th class="w-28">File ID &amp; Project</th>
+                        <th class="w-28">VC Date &amp; Timing</th>
+                        <th>Subject / VC Agenda</th>
+                        <th class="w-32">Concerned Officer</th>
+                        <th class="w-24 text-center">Current Stage</th>
+                        <th class="w-36">VC Link / Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="print-upcoming-vc-tbody">
+                    <!-- Populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Dedicated VIP Correspondence Inventory -->
         <div class="mb-4" id="print-section-vip">
             <div class="flex items-center justify-between mb-1">
-                <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</div>
+                <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">4. DEDICATED VIP CORRESPONDENCE INVENTORY:</div>
                 <span class="text-[10px] font-mono font-bold" id="print-vip-inventory-count">0 Files</span>
             </div>
-            <div class="text-[10px] text-slate-600 mb-1">Scope: Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages only (Excludes Follow-Up Required, Completed &amp; Closed).</div>
+            <div class="text-[10px] text-slate-600 mb-1">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A, Postponed &amp; Letter Sent stages (Excludes Follow-Up Required, Completed &amp; Closed).</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
@@ -1631,10 +1801,10 @@
             </table>
         </div>
 
-        <!-- 3. Further Follow-Up Required with Concerned Department (Yes) -->
+        <!-- 5. Further Follow-Up Required with Concerned Departments -->
         <div class="mb-4" id="print-section-followup">
             <div class="flex items-center justify-between mb-1">
-                <div class="text-xs font-bold uppercase">3. Further Follow-Up Required with Concerned Department (Yes):</div>
+                <div class="text-xs font-bold uppercase">5. FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS:</div>
                 <span class="text-[10px] font-mono font-bold" id="print-followup-count">0 Tasks</span>
             </div>
             <table class="w-full text-xs">
@@ -2597,10 +2767,11 @@
         // Charts Rendering (Ricochet360 Enterprise Palette & Layout)
         function renderCharts() {
             const isLight = document.documentElement.classList.contains('light');
-            const gridColor = isLight ? '#f1f5f9' : '#1e293b';
-            const tickColor = isLight ? '#64748b' : '#94a3b8';
+            const gridColor = isLight ? '#f1f5f9' : 'rgba(148, 163, 184, 0.14)';
+            const tickColor = isLight ? '#64748b' : '#cbd5e1';
             const borderColor = isLight ? '#ffffff' : '#0f172a';
-            const tooltipBg = isLight ? '#0f172a' : '#0f172a';
+            const tooltipBg = isLight ? '#0f172a' : '#020617';
+            const tooltipBorder = isLight ? 'transparent' : '#334155';
 
             Chart.defaults.color = tickColor;
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
@@ -2717,7 +2888,7 @@
                 }).join('');
 
                 const topChans = (rawData.channels || []).slice(0, 3).map(c =>
-                    `<span class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400 font-medium">${c.channel}: <strong class="text-white">${c.count}</strong></span>`
+                    `<span class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700/80 text-slate-300 font-medium">${c.channel}: <strong class="text-white">${c.count}</strong></span>`
                 ).join(' ');
 
                 legendListEl.innerHTML = stageRowsHtml + (topChans ? `<div class="pt-2 flex flex-wrap gap-1.5">${topChans}</div>` : '');
@@ -2730,7 +2901,7 @@
                     datasets: [{
                         data: stageItems.map(s => s.count),
                         backgroundColor: stageItems.map(s => s.color),
-                        borderWidth: 3,
+                        borderWidth: 2,
                         borderColor: borderColor,
                         hoverOffset: 4
                     }]
@@ -2741,7 +2912,7 @@
                     cutout: '72%',
                     plugins: {
                         legend: { display: false },
-                        tooltip: { backgroundColor: tooltipBg }
+                        tooltip: { backgroundColor: tooltipBg, borderColor: tooltipBorder, borderWidth: 1 }
                     }
                 }
             });
@@ -3179,7 +3350,7 @@
             return raw === 'yes' || raw === 'y' || raw === 'true';
         }
 
-        /** Scope filter for VIP 4 Pillars Inventory: only Pending, In Progress, On Hold, Unassigned, N/A, Postponed, Letter Sent (excludes Follow-Up Required tasks shown in Table 3). */
+        /** Scope filter for VIP 4 Pillars Inventory: only Pending, In Progress, On Hold, Unassigned, N/A, Postponed, Letter Sent (excludes Follow-Up Required tasks shown in Table 5). */
         function isVipInventoryReportRecord(r) {
             if (!r || !r.is_vip) return false;
             if (r.status_group === 'Closed / Excluded') return false;
@@ -3205,10 +3376,33 @@
             return allowedStages.some(st => stageLower === st || stageLower.includes(st));
         }
 
-        /** Builds hierarchy-ordered officer rows plus VIP inventory, Follow-Up Required (Yes), and N/A counts. */
+        function isVideoConferenceEvent(e) {
+            if (!e) return false;
+            const nLow = (e.nature_of_request || '').toLowerCase();
+            return nLow.includes('vc') || nLow.includes('video') || nLow.includes('conference') || nLow.includes('coference') || nLow.includes('confrence');
+        }
+
+        function isUpcomingVideoConferenceEvent(e) {
+            if (!isVideoConferenceEvent(e)) return false;
+            const sg = e.status_group || categorizeStage(e.current_stage);
+            if (sg === 'Completed' || sg === 'Closed / Excluded') return false;
+            if (isEventPostponed(e)) return false;
+            return e.event_delta_days >= 0;
+        }
+
+        /** Builds hierarchy-ordered officer rows, project abstract rows, upcoming VCs, VIP inventory, Follow-Up Required (Yes), and N/A counts. */
         function buildOfficerAbstractReportRows() {
             const reportableRecords = (rawData?.records || []).filter(r => r.status_group !== 'Closed / Excluded');
             const officers = (rawData?.officers || []).filter(o => o.total > 0);
+            const projectRows = (rawData?.projects || [])
+                .filter(p => p.total > 0)
+                .slice()
+                .sort((a, b) => {
+                    if (b.total !== a.total) return b.total - a.total;
+                    if (b.inprogress !== a.inprogress) return b.inprogress - a.inprogress;
+                    return String(a.project || '').localeCompare(String(b.project || ''));
+                });
+            const upcomingVcRows = (rawData?.scheduled_events || []).filter(isUpcomingVideoConferenceEvent);
             const officerNaRecords = reportableRecords.filter(isOfficerUnassignedRecord);
             const vipInventoryRows = reportableRecords.filter(isVipInventoryReportRecord);
             const followupRequiredRows = reportableRecords.filter(isFollowupRequiredRecord);
@@ -3245,6 +3439,10 @@
             const kpis = rawData?.kpis || {};
             return {
                 rows,
+                projectRows,
+                projectCount: projectRows.length,
+                upcomingVcRows,
+                upcomingVcCount: upcomingVcRows.length,
                 officerNaCount: officerNaRecords.length,
                 stageNaCount: kpis.onhold_closed !== undefined ? kpis.onhold_closed : reportableRecords.filter(r => r.status_group === 'Stage N/A').length,
                 totalFiles: kpis.total !== undefined ? kpis.total : reportableRecords.length,
@@ -3255,6 +3453,120 @@
                 followupRequiredRows,
                 followupCount: followupRequiredRows.length
             };
+        }
+
+        function renderProjectAbstractTable(tbodyId, tfootId, summary, isPrintMode) {
+            const tbody = document.getElementById(tbodyId);
+            const tfoot = document.getElementById(tfootId);
+            if (!tbody) return;
+
+            const rows = summary.projectRows || [];
+            if (rows.length === 0) {
+                tbody.innerHTML = isPrintMode
+                    ? `<tr><td colspan="6" class="text-center py-3 text-slate-600">No active project tasks found.</td></tr>`
+                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #cffafe;"><td colspan="6" class="py-3 text-center" style="color: #64748b;">No active project tasks found.</td></tr>`;
+                if (tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            tbody.innerHTML = rows.map((p, idx) => {
+                const stageNa = p.onhold || 0;
+                if (isPrintMode) {
+                    return `
+                        <tr>
+                            <td class="text-center font-mono font-bold">${idx + 1}</td>
+                            <td class="font-semibold">${escapeHtml(p.project)}</td>
+                            <td class="text-center font-bold font-mono">${p.total}</td>
+                            <td class="text-center font-bold font-mono">${p.inprogress}</td>
+                            <td class="text-center font-bold font-mono">${p.completed}</td>
+                            <td class="text-center font-bold font-mono">${stageNa}</td>
+                        </tr>
+                    `;
+                }
+                const bgStyle = idx % 2 === 1
+                    ? 'background-color: #f0fdff; border-bottom: 1px solid #cffafe;'
+                    : 'background-color: #ffffff; border-bottom: 1px solid #cffafe;';
+                const naBadgeStyle = stageNa > 0 ? 'color: #b45309; font-weight: 800;' : 'color: #64748b; font-weight: 600;';
+                return `
+                    <tr style="${bgStyle}">
+                        <td class="py-2 px-3 text-center font-mono font-bold" style="color: #155e75;">${idx + 1}</td>
+                        <td class="py-2 px-3 font-semibold" style="color: #0f172a;">${escapeHtml(p.project)}</td>
+                        <td class="py-2 px-3 text-center font-extrabold font-mono" style="color: #0f172a;">${p.total}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #3730a3;">${p.inprogress}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #065f46;">${p.completed}</td>
+                        <td class="py-2 px-3 text-center font-mono" style="${naBadgeStyle}">${stageNa}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (tfoot) {
+                tfoot.innerHTML = isPrintMode
+                    ? `
+                        <tr class="font-extrabold bg-slate-100">
+                            <td class="text-center font-mono">—</td>
+                            <td>GRAND TOTAL (${summary.projectCount} Projects)</td>
+                            <td class="text-center font-mono">${summary.totalFiles}</td>
+                            <td class="text-center font-mono">${summary.inprogressTotal}</td>
+                            <td class="text-center font-mono">${summary.completedTotal}</td>
+                            <td class="text-center font-mono">${summary.stageNaCount}</td>
+                        </tr>
+                    `
+                    : `
+                        <tr style="background-color: #cffafe; border-top: 2px solid #22d3ee; color: #0f172a;">
+                            <td class="py-2.5 px-3 text-center font-mono font-extrabold">—</td>
+                            <td class="py-2.5 px-3 font-extrabold">GRAND TOTAL <span class="text-[10.5px] font-semibold ml-1" style="color: #155e75;">(${summary.projectCount} Projects)</span></td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono">${summary.totalFiles}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #3730a3;">${summary.inprogressTotal}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #065f46;">${summary.completedTotal}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #92400e;">${summary.stageNaCount}</td>
+                        </tr>
+                    `;
+            }
+        }
+
+        function renderUpcomingVcTable(tbodyId, rows, isPrintMode) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = isPrintMode
+                    ? `<tr><td colspan="7" class="text-center py-3 text-slate-600">No upcoming video conferences currently scheduled.</td></tr>`
+                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #bfdbfe;"><td colspan="7" class="py-3 text-center" style="color: #64748b;">No upcoming video conferences currently scheduled.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = rows.map((ev, idx) => {
+                const timingBadge = ev.event_timing_label && ev.event_timing_label !== '—' ? ev.event_timing_label : 'Schedule TBA';
+                const vcDateText = escapeHtml(ev.due_date_raw || 'Schedule Pending / TBA');
+                const stageText = escapeHtml(ev.current_stage || 'Pending');
+                const remarksText = escapeHtml(ev.remarks || '—');
+                if (isPrintMode) {
+                    return `
+                        <tr>
+                            <td class="text-center font-mono font-bold">${idx + 1}</td>
+                            <td class="leading-snug"><span class="font-mono font-bold">${escapeHtml(ev.id)}${ev.is_vip ? ' ⭐' : ''}</span><br/><span class="text-[10px]">${escapeHtml(ev.project || 'Misc')}</span></td>
+                            <td class="font-mono leading-snug"><strong>${vcDateText}</strong><br/><span class="text-[10px]">${escapeHtml(timingBadge)}</span></td>
+                            <td class="leading-snug">${escapeHtml(ev.subject || '—')}</td>
+                            <td>${escapeHtml(ev.officer || 'Concerned Officer N/A')}</td>
+                            <td class="text-center font-semibold">${stageText}</td>
+                            <td class="text-[10px] break-all">${remarksText}</td>
+                        </tr>
+                    `;
+                }
+                const bgStyle = idx % 2 === 1
+                    ? 'background-color: #eff6ff; border-bottom: 1px solid #bfdbfe;'
+                    : 'background-color: #ffffff; border-bottom: 1px solid #bfdbfe;';
+                const timingColor = ev.event_delta_days === 0 ? '#be123c' : (ev.event_delta_days === 1 ? '#b45309' : '#1d4ed8');
+                return `
+                    <tr style="${bgStyle}">
+                        <td class="py-2 px-2 text-center font-mono font-bold" style="color: #1e3a8a;">${idx + 1}</td>
+                        <td class="py-2 px-2 leading-snug"><span class="font-mono font-bold" style="color: #1e40af;">${escapeHtml(ev.id)}${ev.is_vip ? ' ⭐' : ''}</span><div class="text-[10px]" style="color: #475569;">${escapeHtml(ev.project || 'Misc')}</div></td>
+                        <td class="py-2 px-2 font-mono leading-snug"><div class="font-semibold" style="color: #0f172a;">${vcDateText}</div><div class="text-[10px] font-bold" style="color: ${timingColor};">${escapeHtml(timingBadge)}</div></td>
+                        <td class="py-2 px-2 leading-snug" style="color: #1e293b;">${escapeHtml(ev.subject || '—')}</td>
+                        <td class="py-2 px-2" style="color: #1e293b;">${escapeHtml(ev.officer || 'Concerned Officer N/A')}</td>
+                        <td class="py-2 px-2 text-center font-semibold" style="color: #1e293b;">${stageText}</td>
+                        <td class="py-2 px-2 text-[10px] break-all" style="color: #334155;">${remarksText}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function getVipPillarTagsText(r) {
@@ -3449,17 +3761,25 @@
             document.getElementById('abs-kpi-na').innerText = summary.stageNaCount;
             const absOffNaEl = document.getElementById('abs-kpi-officer-na');
             if (absOffNaEl) absOffNaEl.innerText = summary.officerNaCount;
+            const absVcEl = document.getElementById('abs-kpi-upcoming-vc');
+            if (absVcEl) absVcEl.innerText = summary.upcomingVcCount;
             document.getElementById('abs-kpi-vip').innerText = summary.vipTotal;
             const absFuEl = document.getElementById('abs-kpi-followup');
             if (absFuEl) absFuEl.innerText = summary.followupCount;
 
+            const absProjCntEl = document.getElementById('abs-project-count');
+            if (absProjCntEl) absProjCntEl.innerText = `${summary.projectCount} Projects`;
+            const absVcCntEl = document.getElementById('abs-upcoming-vc-count');
+            if (absVcCntEl) absVcCntEl.innerText = `${summary.upcomingVcCount} VCs`;
             const absVipCntEl = document.getElementById('abs-vip-inventory-count');
             if (absVipCntEl) absVipCntEl.innerText = `${summary.vipInventoryRows.length} Files`;
             const absFuCntEl = document.getElementById('abs-followup-count');
             if (absFuCntEl) absFuCntEl.innerText = `${summary.followupCount} Tasks`;
 
-            renderVipInventoryTable('abstract-vip-inventory-tbody', summary.vipInventoryRows, false);
             renderOfficerAbstractTable('abstract-officer-summary-tbody', 'abstract-officer-summary-tfoot', summary, false);
+            renderProjectAbstractTable('abstract-project-summary-tbody', 'abstract-project-summary-tfoot', summary, false);
+            renderUpcomingVcTable('abstract-upcoming-vc-tbody', summary.upcomingVcRows, false);
+            renderVipInventoryTable('abstract-vip-inventory-tbody', summary.vipInventoryRows, false);
             renderFollowupRequiredTable('abstract-followup-tbody', summary.followupRequiredRows, false);
         }
 
@@ -3533,7 +3853,7 @@
 
                 if (nature) {
                     const nLow = (e.nature_of_request || '').toLowerCase();
-                    if (nature === 'vc' && !nLow.includes('vc') && !nLow.includes('video') && !nLow.includes('conference')) return false;
+                    if (nature === 'vc' && !isVideoConferenceEvent(e)) return false;
                     if (nature === 'physical' && !nLow.includes('physical') && !nLow.includes('meeting') && !nLow.includes('review')) return false;
                     if (nature === 'workshop' && !nLow.includes('workshop') && !nLow.includes('seminar')) return false;
                     if (nature === 'training' && !nLow.includes('training') && !nLow.includes('course')) return false;
@@ -3751,7 +4071,7 @@
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             document.getElementById('print-date-display').innerText = `Date: ${dateStr}`;
-            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON OFFICER-WISE WORKLOAD, VIP & FOLLOW-UP CORRESPONDENCE ABSTRACT";
+            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON OFFICER-WISE, PROJECT-WISE, UPCOMING VC, VIP & FOLLOW-UP ABSTRACT";
 
             const summary = buildOfficerAbstractReportRows();
             document.getElementById('print-kpi-total').innerText = summary.totalFiles;
@@ -3762,23 +4082,29 @@
             document.getElementById('print-kpi-na').innerText = summary.stageNaCount;
             const pOffNa = document.getElementById('print-kpi-officer-na');
             if (pOffNa) pOffNa.innerText = summary.officerNaCount;
+            const pVc = document.getElementById('print-kpi-upcoming-vc');
+            if (pVc) pVc.innerText = summary.upcomingVcCount;
             document.getElementById('print-kpi-vip').innerText = summary.vipTotal;
             const pFu = document.getElementById('print-kpi-followup');
             if (pFu) pFu.innerText = summary.followupCount;
 
+            const pProjCnt = document.getElementById('print-project-count');
+            if (pProjCnt) pProjCnt.innerText = `${summary.projectCount} Projects`;
+            const pVcCnt = document.getElementById('print-upcoming-vc-count');
+            if (pVcCnt) pVcCnt.innerText = `${summary.upcomingVcCount} VCs`;
             const pVipCnt = document.getElementById('print-vip-inventory-count');
             if (pVipCnt) pVipCnt.innerText = `${summary.vipInventoryRows.length} Files`;
             const pFuCnt = document.getElementById('print-followup-count');
             if (pFuCnt) pFuCnt.innerText = `${summary.followupCount} Tasks`;
 
-            const vipSec = document.getElementById('print-section-vip');
-            if (vipSec) vipSec.style.display = '';
-            const offSec = document.getElementById('print-section-officers');
-            if (offSec) offSec.style.display = '';
-            const fuSec = document.getElementById('print-section-followup');
-            if (fuSec) fuSec.style.display = '';
+            ['print-section-officers', 'print-section-projects', 'print-section-vc', 'print-section-vip', 'print-section-followup'].forEach(secId => {
+                const sec = document.getElementById(secId);
+                if (sec) sec.style.display = '';
+            });
 
             renderOfficerAbstractTable('print-officer-summary-tbody', 'print-officer-summary-tfoot', summary, true);
+            renderProjectAbstractTable('print-project-summary-tbody', 'print-project-summary-tfoot', summary, true);
+            renderUpcomingVcTable('print-upcoming-vc-tbody', summary.upcomingVcRows, true);
             renderVipInventoryTable('print-vip-inventory-tbody', summary.vipInventoryRows, true);
             renderFollowupRequiredTable('print-followup-tbody', summary.followupRequiredRows, true);
 
@@ -4331,7 +4657,7 @@
                 triggerBtn,
                 loadingLabel: 'Capturing...',
                 filePrefix: 'AP_TS_Correspondence_Dashboard',
-                backgroundColor: isDark ? '#050814' : '#f4f7fb',
+                backgroundColor: isDark ? '#060b19' : '#f4f7fb',
                 toastLabel: 'Screenshot',
                 onclone: (clonedDoc) => {
                     const banner = clonedDoc.getElementById('screenshot-brand-banner');
@@ -5171,7 +5497,7 @@ INSTRUCTIONS:
                             <li>Monitor officer-wise workload distribution, <strong class="text-white">Current Stage N/A</strong> &amp; <strong class="text-rose-300">Concerned Officer N/A</strong> counts</li>
                             <li>Identify VIP/critical files &amp; <strong class="text-amber-300">Further Follow-Up Required (Yes)</strong> tasks requiring immediate liaison</li>
                             <li>Track scheduled events like Video Conferences and Meetings</li>
-                            <li>Generate consolidated printable &amp; PNG <strong class="text-white">Officer Abstract</strong> statements (1. Officer-Wise Workload → 2. VIP 4-Pillars → 3. Follow-Up Required)</li>
+                            <li>Generate consolidated printable &amp; PNG <strong class="text-white">Officer Abstract</strong> statements (1. Officer-Wise Workload → 2. Project-Wise Task Abstract → 3. Upcoming VCs → 4. VIP Inventory → 5. Follow-Up Depts)</li>
                             <li>Calculate SLA compliance and turnaround time metrics</li>
                         </ul>
                     </div>
@@ -5406,22 +5732,24 @@ INSTRUCTIONS:
                 <!-- SECTION: Officer Abstract -->
                 <div id="guide-section-whatsapp-guide" class="guide-section hidden space-y-4">
                     <h3 class="text-lg font-extrabold text-cyan-400 flex items-center gap-2">📋 Officer Abstract — Official Reports Summary</h3>
-                    <p>The <strong class="text-white">Officer Abstract</strong> module (available on the Dashboard top bar) compiles the Executive Overview Strip and <strong class="text-white">3 report tables in strict order</strong> for both PNG image export and A4 printing.</p>
+                    <p>The <strong class="text-white">Officer Abstract</strong> module (available on the Dashboard top bar) compiles the Executive Overview Strip and <strong class="text-white">5 official report tables in strict order</strong> for both PNG image export and A4 printing.</p>
 
                     <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
                         <h4 class="text-sm font-bold text-white">📑 Report Sections (Exact Order Only)</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
-                            <li><strong class="text-indigo-300">Officer-Wise Workload Summary (In-Progress / Completed / Current Stage N/A &amp; Concerned Officer N/A):</strong> Official AP Police rank hierarchy workload table plus explicit N/A accountability row.</li>
-                            <li><strong class="text-amber-300">Dedicated VIP Correspondence Inventory (4 Pillars Breakdown):</strong> Strictly filtered to active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
-                            <li><strong class="text-rose-300">Further Follow-Up Required with Concerned Department (Yes):</strong> Dedicated separate report table listing all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
+                            <li><strong class="text-indigo-300">OFFICER-WISE WORKLOAD SUMMARY:</strong> Official AP Police rank hierarchy workload table (Total, In-Progress, Completed, Current Stage N/A) plus explicit Concerned Officer N/A accountability row.</li>
+                            <li><strong class="text-cyan-300">PROJECT-WISE TASK ABSTRACT:</strong> Standardized Technical Project (PRJ-ID) task distribution across Total, In-Progress, Completed, and Current Stage N/A counts.</li>
+                            <li><strong class="text-blue-300">UPCOMING VIDEO CONFERENCES:</strong> Active scheduled Video Conferences with date, timing badge, agenda, concerned officer, stage, and VC link/remarks (excludes postponed, completed &amp; cancelled).</li>
+                            <li><strong class="text-amber-300">DEDICATED VIP CORRESPONDENCE INVENTORY:</strong> Strictly filtered to 4-Pillars active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
+                            <li><strong class="text-rose-300">FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS:</strong> Dedicated separate report table listing all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
                         </ol>
                     </div>
 
                     <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
                         <h4 class="text-sm font-bold text-blue-300">🖨️ Export Options</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
-                            <li><strong>Generate Image:</strong> Captures a crisp white-background PNG containing the Executive Overview and Sections 1–3, copying to clipboard when supported.</li>
-                            <li><strong>Print Officer Abstract:</strong> Formats the exact same Executive Overview and Sections 1–3 for official A4 printing or PDF archival.</li>
+                            <li><strong>Generate Image:</strong> Captures a crisp white-background PNG containing the Executive Overview and Sections 1–5, copying to clipboard when supported.</li>
+                            <li><strong>Print Officer Abstract:</strong> Formats the exact same Executive Overview and Sections 1–5 for official A4 printing or PDF archival.</li>
                             <li><strong>Exclusions:</strong> All "Correspondence Closed", "Cancelled", and "Returned to concerned department" records are automatically excluded.</li>
                         </ul>
                     </div>
@@ -5466,7 +5794,7 @@ INSTRUCTIONS:
                         <h4 class="text-sm font-bold text-white">📊 VIP Command List View &amp; Report Rules</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
                             <li><strong class="text-white">Unified List View:</strong> The VIP Command module displays all VIP files in a clean sortable table layout matching All Records — click any row for full 21-column history.</li>
-                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>2. Dedicated VIP Correspondence Inventory (4 Pillars Breakdown)</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Follow-Up Required (Yes)</strong> tasks (shown separately in Section 3), Completed &amp; Closed.</li>
+                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>4. DEDICATED VIP CORRESPONDENCE INVENTORY</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, Postponed, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Follow-Up Required (Yes)</strong> tasks (shown separately in Section 5), Completed &amp; Closed.</li>
                         </ul>
                     </div>
                 </div>
