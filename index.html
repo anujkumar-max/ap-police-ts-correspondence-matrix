@@ -71,7 +71,7 @@
             .no-print { display: none !important; }
             body { background: #ffffff !important; color: #000000 !important; font-size: 10pt; }
             #print-executive-memo { display: block !important; }
-            main, header, footer, #record-modal, #pending-abstract-modal, #help-guide-modal { display: none !important; }
+            main, header, #record-modal, #pending-abstract-modal, #help-guide-modal { display: none !important; }
             table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
             th, td { border: 1px solid #333333 !important; padding: 4px 6px !important; color: #000000 !important; font-size: 9pt !important; }
             th { background-color: #f1f5f9 !important; font-weight: bold !important; text-transform: uppercase !important; }
@@ -125,36 +125,6 @@
             color: #ffffff !important;
             font-weight: 700;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-        .ricochet-subtab {
-            padding: 0.65rem 1.1rem;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: #64748b;
-            border-bottom: 2.5px solid transparent;
-            transition: all 0.18s ease;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-        }
-        .ricochet-subtab:hover {
-            color: #1e293b;
-        }
-        .ricochet-subtab.active {
-            color: #2563eb !important;
-            border-bottom-color: #2563eb !important;
-            font-weight: 700;
-        }
-        html.dark .ricochet-subtab {
-            color: #94a3b8;
-        }
-        html.dark .ricochet-subtab:hover {
-            color: #f8fafc;
-        }
-        html.dark .ricochet-subtab.active {
-            color: #60a5fa !important;
-            border-bottom-color: #3b82f6 !important;
         }
 
         /* ================= LIGHT MODE COMPREHENSIVE THEME ================= */
@@ -307,7 +277,7 @@
         html.light .bg-slate-900\/80,
         html.light .bg-slate-900\/70,
         html.light .bg-slate-900\/60,
-        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-detailed-btn):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn),
+        html.light .bg-slate-950:not(header *):not(#whatsapp-textarea):not(#tab-short-btn):not(#tab-events-format-btn):not(#tab-vip-format-btn),
         html.light .bg-slate-950\/95,
         html.light .bg-slate-950\/90,
         html.light .bg-slate-950\/80,
@@ -392,13 +362,8 @@
             background-color: rgba(15, 23, 42, 0.75) !important;
             border-color: rgba(51, 65, 85, 0.85) !important;
         }
-        html.dark #executive-sitrep-card .sitrep-metric-vip {
-            background-color: rgba(120, 53, 15, 0.25) !important;
-            border-color: rgba(245, 158, 11, 0.35) !important;
-        }
         html.light #sla-compliance-pct { color: #059669 !important; }
-        html.light #clearance-rate-pct { color: #0284c7 !important; }
-        html.light #active-vip-count { color: #d97706 !important; }
+        html.light #sitrep-avg-tat { color: #0284c7 !important; }
 
         /* ================= EXECUTIVE AI COPILOT WINDOW IN LIGHT MODE ================= */
         html.light #ai-chat-window {
@@ -493,41 +458,26 @@
 </head>
 <body class="min-h-screen text-slate-800 bg-[#f4f7fb] flex flex-col selection:bg-blue-600 selection:text-white">
 
-    <!-- TOP NAVY BAR (RICOCHET360 STYLE) -->
+    <!-- TOP NAVY BAR -->
     <header class="sticky top-0 z-50 ricochet-topbar h-14 px-4 flex items-center justify-between shadow-md no-print">
-        <!-- Left: Hamburger + Brand -->
+        <!-- Left: Sidebar Toggle + Official Brand -->
         <div class="flex items-center gap-3.5">
-            <button onclick="toggleSidebar()" class="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition" title="Toggle Navigation Sidebar">
+            <button onclick="toggleSidebar()" class="text-white/85 hover:text-white px-2 py-1.5 rounded-lg hover:bg-white/10 transition flex items-center gap-1.5" title="Toggle Navigation Sidebar">
                 <i data-lucide="menu" class="w-5 h-5"></i>
+                <span class="lg:hidden text-xs font-semibold">Menu</span>
             </button>
             <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('overview')">
                 <img src="Police logo.jpeg" alt="AP Police Emblem" class="w-8 h-8 rounded-lg object-contain bg-white p-0.5 shadow" />
-                <div class="flex items-baseline gap-1.5">
+                <div class="flex items-baseline gap-2">
                     <span class="text-white font-black tracking-wider text-sm sm:text-base uppercase">AP POLICE • PCS&S</span>
-                    <span class="text-[10px] font-extrabold text-cyan-400 tracking-widest uppercase">360°</span>
+                    <span class="hidden sm:inline text-[10px] font-bold text-cyan-300 tracking-widest uppercase">TS Correspondence Matrix</span>
                 </div>
             </div>
         </div>
 
-        <!-- Right: Topbar Action Icons & Status Pill -->
-        <div class="flex items-center gap-2 sm:gap-3">
-            <!-- Quick Calendar / Events Icon -->
-            <button onclick="switchTab('events')" title="Meetings & VC Schedule" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition relative">
-                <i data-lucide="calendar" class="w-4 h-4"></i>
-            </button>
-            <!-- Quick Officers Icon -->
-            <button onclick="switchTab('officers')" title="Officer Workloads" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition">
-                <i data-lucide="users" class="w-4 h-4"></i>
-            </button>
-            <!-- Quick VIP Alert Bell -->
-            <button onclick="switchTab('vip')" title="VIP Command Center" class="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition relative">
-                <i data-lucide="bell" class="w-4 h-4"></i>
-                <span class="w-2 h-2 rounded-full bg-amber-400 absolute top-1.5 right-1.5"></span>
-            </button>
-
-            <!-- Profile / Live Sync Pill -->
+        <!-- Right: Live Sync Status Pill -->
+        <div class="flex items-center">
             <div class="flex items-center gap-2 bg-[#0a2b63] border border-blue-400/30 rounded-lg px-2.5 py-1 text-xs text-white">
-                <img src="Police logo.jpeg" alt="Avatar" class="w-5 h-5 rounded-full object-contain bg-white p-0.5" />
                 <span id="sync-status-badge" class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <span>Live Sync</span>
@@ -551,49 +501,48 @@
     <!-- APP SHELL: LEFT DEEP-BLUE SIDEBAR + RIGHT MAIN WORKSPACE -->
     <div class="flex flex-1 min-h-[calc(100vh-3.5rem)] relative no-print">
 
-        <!-- LEFT DEEP-BLUE NAVIGATION SIDEBAR -->
+        <!-- LEFT DEEP-BLUE NAVIGATION SIDEBAR (SINGLE PRIMARY NAVIGATION) -->
         <aside id="app-sidebar" class="ricochet-sidebar w-60 flex-shrink-0 hidden lg:flex flex-col justify-between py-4 px-3 select-none z-40 transition-all duration-200">
             <div class="space-y-5">
                 <!-- Primary Navigation Modules -->
                 <div class="space-y-1">
+                    <div class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-blue-200/60">MODULES</div>
                     <button onclick="switchTab('overview')" id="side-btn-overview" class="sidebar-nav-item active">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                        <span>Dashboard</span>
+                        <span class="flex-1">Dashboard</span>
                     </button>
                     <button onclick="switchTab('vip')" id="side-btn-vip" class="sidebar-nav-item">
                         <i data-lucide="star" class="w-4 h-4 text-amber-300"></i>
                         <span class="flex-1">VIP Command</span>
-                        <span id="side-vip-badge" class="text-[10px] font-mono bg-white/15 px-1.5 py-0.5 rounded text-white">--</span>
+                        <span id="side-vip-badge" class="text-[10px] font-mono bg-amber-500/25 text-amber-200 px-1.5 py-0.5 rounded">--</span>
                     </button>
                     <button onclick="switchTab('events')" id="side-btn-events" class="sidebar-nav-item">
                         <i data-lucide="calendar-clock" class="w-4 h-4"></i>
                         <span class="flex-1">Meetings & VCs</span>
+                        <span id="side-events-badge" class="text-[10px] font-mono bg-blue-400/20 text-blue-100 px-1.5 py-0.5 rounded">--</span>
                     </button>
                     <button onclick="switchTab('officers')" id="side-btn-officers" class="sidebar-nav-item">
                         <i data-lucide="user-check" class="w-4 h-4"></i>
-                        <span>Officers</span>
+                        <span class="flex-1">Officers</span>
                     </button>
                     <button onclick="switchTab('projects')" id="side-btn-projects" class="sidebar-nav-item">
                         <i data-lucide="folder-kanban" class="w-4 h-4"></i>
-                        <span>Projects</span>
+                        <span class="flex-1">Projects</span>
                     </button>
                     <button onclick="switchTab('explorer')" id="side-btn-explorer" class="sidebar-nav-item">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                        <span>All Records</span>
+                        <span class="flex-1">All Records</span>
+                        <span id="side-records-badge" class="text-[10px] font-mono bg-white/15 text-white px-1.5 py-0.5 rounded">--</span>
                     </button>
                 </div>
 
-                <!-- Settings & Reports Section (Ricochet360 Style) -->
+                <!-- Reports & Tools Section -->
                 <div class="pt-3 border-t border-white/10 space-y-1">
                     <div class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-blue-200/60">REPORTS & TOOLS</div>
                     
                     <button onclick="exportFilteredCSV()" class="sidebar-nav-item">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span>Export CSV Report</span>
-                    </button>
-                    <button onclick="captureDashboardScreenshot(this)" class="sidebar-nav-item">
-                        <i data-lucide="camera" class="w-4 h-4 text-emerald-300"></i>
-                        <span>Screenshot Dashboard</span>
                     </button>
                     <button onclick="openHelpGuideModal()" class="sidebar-nav-item">
                         <i data-lucide="book-open" class="w-4 h-4 text-cyan-300"></i>
@@ -602,12 +551,10 @@
                 </div>
             </div>
 
-            <!-- Bottom Active Report Pill (Matches 'Performance report' highlight in screenshot) -->
-            <div class="pt-4 border-t border-white/10 space-y-2">
-                <button onclick="switchTab('overview')" class="w-full py-2 px-3 rounded-lg bg-[#1652a7] text-white font-bold text-xs flex items-center justify-between shadow">
-                    <span>Performance Report</span>
-                    <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-                </button>
+            <!-- Official Portal Attribution -->
+            <div class="pt-3 border-t border-white/10 px-3">
+                <div class="text-[10px] font-semibold text-blue-200/70 uppercase tracking-wider">Technical Services Wing</div>
+                <div class="text-[10px] text-blue-200/50 mt-0.5">AP Police HQ, Mangalagiri</div>
             </div>
         </aside>
 
@@ -631,62 +578,37 @@
                 </div>
             </div>
 
-            <!-- PAGE TITLE BAR + RIGHT CTA & PERIOD BOX (RICOCHET360 HEADER MODEL) -->
-            <div class="flex flex-wrap items-center justify-between gap-3">
+            <!-- WORKSPACE HEADER: TITLE + PRIMARY ACTIONS -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
                 <div>
                     <h1 id="page-main-title" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Performance Report</h1>
                 </div>
 
                 <div class="flex items-center flex-wrap gap-2.5">
-                    <!-- 1-Click Dashboard Screenshot Button -->
+                    <!-- 1-Click Dashboard Screenshot Button (Single Primary Location) -->
                     <button id="btn-screenshot-dashboard" onclick="captureDashboardScreenshot(this)" data-html2canvas-ignore="true" title="Capture & Download High-Res Dashboard Screenshot" class="px-3.5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95">
                         <i data-lucide="camera" class="w-4 h-4 text-white"></i>
                         <span class="text-white">Screenshot</span>
                     </button>
 
-                    <!-- Orange Primary CTA Button (Matches '+ Add Chart' button in screenshot) -->
+                    <!-- Context-Aware Officer Abstract & Briefing Modal CTA -->
                     <button id="cta-abstract-btn" onclick="openPendingAbstractModal()" class="px-4 py-2 text-xs font-bold bg-[#f97316] hover:bg-[#ea580c] text-white rounded-md flex items-center gap-2 transition shadow-sm active:scale-95">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
                         <span>Officer Abstract</span>
                         <span id="header-pending-count" class="px-1.5 py-0.5 rounded bg-black/20 text-white text-[10px] font-mono font-bold">--</span>
                     </button>
 
-                    <!-- Period / Live Sync Box (Matches 'Period 03/27/21 - 04/07/21' box in screenshot) -->
-                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" class="glass-card px-3.5 py-1.5 rounded-md flex items-center gap-3 hover:border-blue-400 transition">
+                    <!-- Live Google Sheet Direct Link -->
+                    <a href="https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing" target="_blank" title="Open Source Google Sheet" class="glass-card px-3.5 py-1.5 rounded-md flex items-center gap-3 hover:border-blue-400 transition">
                         <div>
-                            <div class="text-[9.5px] text-slate-400 font-semibold uppercase leading-none">Data Source Period</div>
+                            <div class="text-[9.5px] text-slate-400 font-semibold uppercase leading-none">Google Sheet Source</div>
                             <div class="text-xs font-bold text-slate-700 mt-0.5 flex items-center gap-1.5">
                                 <span>FY 2026 Live Matrix</span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
                             </div>
                         </div>
                     </a>
                 </div>
-            </div>
-
-            <!-- HORIZONTAL UNDERLINE SUB-TABS -->
-            <div class="border-b border-slate-200 dark:border-slate-800 flex items-center gap-1 sm:gap-4 overflow-x-auto">
-                <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn ricochet-subtab active">
-                    <span>Overview</span>
-                </button>
-                <button onclick="switchTab('vip')" id="tab-btn-vip" class="tab-btn ricochet-subtab">
-                    <span>VIP Command</span>
-                    <span id="tab-vip-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-amber-500/15 text-amber-700 font-mono font-bold">--</span>
-                </button>
-                <button onclick="switchTab('events')" id="tab-btn-events" class="tab-btn ricochet-subtab">
-                    <span>Meetings & VCs</span>
-                    <span id="tab-events-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-blue-500/15 text-blue-700 font-mono font-bold">--</span>
-                </button>
-                <button onclick="switchTab('officers')" id="tab-btn-officers" class="tab-btn ricochet-subtab">
-                    <span>Officers</span>
-                </button>
-                <button onclick="switchTab('projects')" id="tab-btn-projects" class="tab-btn ricochet-subtab">
-                    <span>Projects</span>
-                </button>
-                <button onclick="switchTab('explorer')" id="tab-btn-explorer" class="tab-btn ricochet-subtab">
-                    <span>All Records</span>
-                    <span id="tab-records-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-slate-200 text-slate-700 font-mono font-bold">--</span>
-                </button>
             </div>
 
             <!-- ================= TAB 1: EXECUTIVE ANALYTICS (RICOCHET360 CHART CARDS) ================= -->
@@ -769,22 +691,8 @@
                     <div class="lg:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between">
                         <div class="flex items-start justify-between mb-2">
                             <div>
-                                <div class="flex items-center gap-1.5">
-                                    <h2 class="text-sm font-bold text-slate-800">Stage Breakdown</h2>
-                                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
-                                </div>
+                                <h2 class="text-sm font-bold text-slate-800">Stage Breakdown</h2>
                                 <p class="text-xs text-slate-400 mt-0.5"><span id="donut-subtitle-total">--</span> Total correspondence files</p>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="switchTab('explorer')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Filter Records">
-                                    <i data-lucide="filter" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="openPendingAbstractModal()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Abstract">
-                                    <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="printExecutiveMemo()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Print Memo">
-                                    <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
-                                </button>
                             </div>
                         </div>
 
@@ -808,24 +716,13 @@
                     <div class="lg:col-span-7 glass-card rounded-xl p-5 flex flex-col justify-between">
                         <div class="flex items-start justify-between mb-2">
                             <div>
-                                <div class="flex items-center gap-1.5">
-                                    <h2 class="text-sm font-bold text-slate-800">Officer Workloads (Hierarchy Order)</h2>
-                                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
-                                </div>
+                                <h2 class="text-sm font-bold text-slate-800">Officer Workloads (Hierarchy Order)</h2>
                                 <p class="text-xs text-slate-400 mt-0.5">Active vs Completed files across concerned officers</p>
                             </div>
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="switchTab('officers')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition relative" title="View Officers">
-                                    <i data-lucide="filter" class="w-3.5 h-3.5"></i>
-                                    <span class="w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[9px] font-bold flex items-center justify-center absolute -top-1.5 -right-1.5">✓</span>
-                                </button>
-                                <button onclick="switchTab('officers')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Officers Tab">
-                                    <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="openPendingAbstractModal()" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Officer Abstract">
-                                    <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
-                                </button>
-                            </div>
+                            <button onclick="switchTab('officers')" class="text-xs font-semibold text-blue-500 hover:text-blue-400 flex items-center gap-1 transition whitespace-nowrap">
+                                <span>View All</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
                         <div class="relative h-60 w-full">
                             <canvas id="chart-officers"></canvas>
@@ -837,23 +734,13 @@
                 <div class="glass-card rounded-xl p-5">
                     <div class="flex items-start justify-between mb-3">
                         <div>
-                            <div class="flex items-center gap-1.5">
-                                <h2 class="text-sm font-bold text-slate-800">Technical Projects Matrix (PRJ-IDs)</h2>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
-                            </div>
+                            <h2 class="text-sm font-bold text-slate-800">Technical Projects Matrix (PRJ-IDs)</h2>
                             <p class="text-xs text-slate-400 mt-0.5">Total correspondence & active workload across technical projects</p>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <button onclick="switchTab('projects')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Filter Projects">
-                                <i data-lucide="filter" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="switchTab('projects')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="Expand Projects">
-                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="switchTab('explorer')" class="p-1.5 rounded border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition" title="More Options">
-                                <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
+                        <button onclick="switchTab('projects')" class="text-xs font-semibold text-blue-500 hover:text-blue-400 flex items-center gap-1 transition whitespace-nowrap">
+                            <span>View All</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
                     </div>
                     <div class="relative h-56 w-full">
                         <canvas id="chart-projects"></canvas>
@@ -887,19 +774,14 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                        <div class="grid grid-cols-2 gap-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800">
                             <div class="sitrep-metric-tile bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
-                                <div class="text-[10px] font-bold text-slate-400 uppercase">SLA Compliance</div>
+                                <div class="text-[10px] font-bold text-slate-400 uppercase">SLA Compliance (15-Day)</div>
                                 <div class="text-lg font-black text-emerald-600 font-mono mt-0.5" id="sla-compliance-pct">--%</div>
                             </div>
                             <div class="sitrep-metric-tile bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 text-center">
-                                <div class="text-[10px] font-bold text-slate-400 uppercase">Clearance</div>
-                                <div class="text-lg font-black text-blue-600 font-mono mt-0.5" id="clearance-rate-pct">--%</div>
-                                <div class="text-[9px] text-slate-400 hidden" id="clearance-rate-sub">--</div>
-                            </div>
-                            <div onclick="switchTab('vip')" class="sitrep-metric-vip bg-amber-50/80 p-2.5 rounded-lg border border-amber-200 cursor-pointer text-center hover:bg-amber-100/70 transition">
-                                <div class="text-[10px] font-bold text-amber-700 uppercase">Active VIP</div>
-                                <div class="text-lg font-black text-amber-600 font-mono mt-0.5" id="active-vip-count">--</div>
+                                <div class="text-[10px] font-bold text-slate-400 uppercase">Avg Turnaround Time</div>
+                                <div class="text-lg font-black text-blue-600 font-mono mt-0.5" id="sitrep-avg-tat">-- Days</div>
                             </div>
                         </div>
                     </div>
@@ -942,15 +824,11 @@
                 <div>
                     <h2 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
                         <i data-lucide="star" class="w-5 h-5 text-amber-400"></i>
-                        ⭐ VIP & High Priority Correspondence Command Center
+                        VIP & High Priority Correspondence Command Center
                     </h2>
                     <p class="text-xs text-slate-400">Dedicated executive monitoring for high-level files based on 4 VIP Pillars (DGP, High Court, Govt of AP, Follow-Up Required & Senior Authorities)</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="openVipAbstractModal()" class="px-3.5 py-1.5 text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95">
-                        <i data-lucide="share-2" class="w-4 h-4"></i>
-                        <span>WhatsApp VIP Brief</span>
-                    </button>
                     <button onclick="printVipExecutiveMemo()" class="px-3.5 py-1.5 text-xs font-semibold bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/40 rounded-xl flex items-center gap-1.5 transition">
                         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                         <span>Print VIP Memo</span>
@@ -964,7 +842,7 @@
                 <!-- Pillar 1: VIP Departments -->
                 <div onclick="filterVipPillar('dept')" id="vip-tile-dept" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-amber-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-blue-500">
                     <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                        <span class="text-blue-300 font-bold flex items-center gap-1">🏛️ VIP Depts</span>
+                        <span class="text-blue-300 font-bold flex items-center gap-1">VIP Depts</span>
                         <i data-lucide="building-2" class="w-4 h-4 text-blue-400"></i>
                     </div>
                     <div class="text-2xl font-black text-white" id="vip-pillar-dept-count">--</div>
@@ -976,7 +854,7 @@
                 <!-- Pillar 2: Govt & DGP Stages -->
                 <div onclick="filterVipPillar('stage')" id="vip-tile-stage" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-amber-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-amber-500">
                     <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                        <span class="text-amber-300 font-bold flex items-center gap-1">📜 Govt / DGP Stage</span>
+                        <span class="text-amber-300 font-bold flex items-center gap-1">Govt / DGP Stage</span>
                         <i data-lucide="file-check" class="w-4 h-4 text-amber-400"></i>
                     </div>
                     <div class="text-2xl font-black text-amber-300" id="vip-pillar-stage-count">--</div>
@@ -988,7 +866,7 @@
                 <!-- Pillar 3: Urgent Follow-Up Required -->
                 <div onclick="filterVipPillar('followup')" id="vip-tile-followup" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-rose-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-rose-500">
                     <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                        <span class="text-rose-400 font-bold flex items-center gap-1">🚨 Urgent Follow-Up</span>
+                        <span class="text-rose-400 font-bold flex items-center gap-1">Urgent Follow-Up</span>
                         <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
                     </div>
                     <div class="text-2xl font-black text-rose-400" id="vip-pillar-followup-count">--</div>
@@ -1000,7 +878,7 @@
                 <!-- Pillar 4: VIP Dignitary Designations -->
                 <div onclick="filterVipPillar('desig')" id="vip-tile-desig" class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-purple-500/60 cursor-pointer transition transform hover:-translate-y-0.5 border-l-4 border-l-purple-500">
                     <div class="flex items-center justify-between text-slate-400 text-[11px] font-medium mb-1">
-                        <span class="text-purple-300 font-bold flex items-center gap-1">🎖️ High Dignitaries</span>
+                        <span class="text-purple-300 font-bold flex items-center gap-1">High Dignitaries</span>
                         <i data-lucide="award" class="w-4 h-4 text-purple-400"></i>
                     </div>
                     <div class="text-2xl font-black text-purple-300" id="vip-pillar-desig-count">--</div>
@@ -1049,10 +927,10 @@
                     <div>
                         <select id="filter-vip-status" onchange="applyVipFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
                             <option value="">All VIP Statuses (Active & Completed)</option>
-                            <option value="active">⚡ Active VIP Files Only (Pending, In-Progress & Stage N/A)</option>
-                            <option value="pending">🟡 Pending Action Only</option>
-                            <option value="inprogress">🔵 In-Progress Only</option>
-                            <option value="completed">🟢 Completed / Dispatched</option>
+                            <option value="active">Active VIP Files Only (Pending, In-Progress & Stage N/A)</option>
+                            <option value="pending">Pending Action Only</option>
+                            <option value="inprogress">In-Progress Only</option>
+                            <option value="completed">Completed / Dispatched</option>
                         </select>
                     </div>
                     <div>
@@ -1106,23 +984,17 @@
                     </h2>
                     <p class="text-xs text-slate-400">Track scheduled video conferences, physical reviews, workshops, training sessions, and key calendar milestones</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="openEventsAbstractModal()" class="px-3.5 py-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95">
-                        <i data-lucide="share-2" class="w-4 h-4"></i>
-                        <span>WhatsApp Event Brief</span>
-                    </button>
-                </div>
             </div>
 
             <!-- Event Filters & Timing Switcher Toolbar -->
             <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3 shadow-lg">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     
-                    <!-- Timing Switcher (Upcoming vs Today/Tomorrow vs Cancelled vs All) -->
+                    <!-- Timing Switcher (Upcoming vs Today/Tomorrow vs Postponed vs Cancelled vs All) -->
                     <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 flex-wrap">
                         <button onclick="filterEventsTiming('upcoming')" id="event-timing-btn-upcoming" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
                             <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                            <span>⏳ Upcoming / Active (<span id="event-count-upcoming">--</span>)</span>
+                            <span>Upcoming / Active (<span id="event-count-upcoming">--</span>)</span>
                         </button>
                         <button onclick="filterEventsTiming('urgent')" id="event-timing-btn-urgent" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i>
@@ -1130,15 +1002,15 @@
                         </button>
                         <button onclick="filterEventsTiming('postponed')" id="event-timing-btn-postponed" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-amber-400"></i>
-                            <span>⏸️ Postponed (<span id="event-count-postponed">--</span>)</span>
+                            <span>Postponed (<span id="event-count-postponed">--</span>)</span>
                         </button>
                         <button onclick="filterEventsTiming('cancelled')" id="event-timing-btn-cancelled" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="x-circle" class="w-3.5 h-3.5 text-rose-400"></i>
-                            <span>🚫 Cancelled (<span id="event-count-cancelled">--</span>)</span>
+                            <span>Cancelled (<span id="event-count-cancelled">--</span>)</span>
                         </button>
                         <button onclick="filterEventsTiming('all')" id="event-timing-btn-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                             <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-                            <span>📁 All Events (Incl. Past) (<span id="event-count-all">--</span>)</span>
+                            <span>All Events (Incl. Past) (<span id="event-count-all">--</span>)</span>
                         </button>
                     </div>
 
@@ -1154,10 +1026,10 @@
                     <div>
                         <select id="filter-event-nature" onchange="applyEventFilters()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500">
                             <option value="">All Event Types (VC, Workshop, Meeting, Seminar)</option>
-                            <option value="vc">💻 Video Conference (VC)</option>
-                            <option value="physical">🏢 Physical Meeting / Review</option>
-                            <option value="workshop">🎓 Workshop / Seminar</option>
-                            <option value="training">📚 Training Course</option>
+                            <option value="vc">Video Conference (VC)</option>
+                            <option value="physical">Physical Meeting / Review</option>
+                            <option value="workshop">Workshop / Seminar</option>
+                            <option value="training">Training Course</option>
                         </select>
                     </div>
                     <div>
@@ -1241,17 +1113,17 @@
                     <div class="flex gap-2">
                         <select id="filter-priority" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Priorities</option>
-                            <option value="VIP">⭐ VIP / High Priority</option>
-                            <option value="Critical">🔴 Critical Alert</option>
-                            <option value="High">🟡 High Priority</option>
-                            <option value="Normal">⚪ Normal</option>
+                            <option value="VIP">VIP / High Priority</option>
+                            <option value="Critical">Critical Alert</option>
+                            <option value="High">High Priority</option>
+                            <option value="Normal">Normal</option>
                         </select>
                         <select id="filter-status" onchange="applyFilters()" class="w-1/2 px-2 py-2 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:border-blue-500">
                             <option value="">All Statuses</option>
-                            <option value="In-Progress">🔵 In-Progress</option>
-                            <option value="Completed">🟢 Completed</option>
-                            <option value="Stage N/A">⚪ Stage N/A (Not Updated)</option>
-                            <option value="Closed / Excluded">🚫 Closed / Cancelled</option>
+                            <option value="In-Progress">In-Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Stage N/A">Stage N/A (Not Updated)</option>
+                            <option value="Closed / Excluded">Closed / Cancelled</option>
                         </select>
                     </div>
                 </div>
@@ -1262,10 +1134,6 @@
                         <button id="reset-filters-btn" onclick="resetFilters()" class="hidden text-xs text-blue-400 hover:text-blue-300 underline ml-2">Reset Filters</button>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button onclick="exportFilteredCSV()" class="px-3 py-1 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg flex items-center gap-1.5 transition active:scale-95" title="Export current filtered view to CSV">
-                            <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
-                            <span>Export CSV</span>
-                        </button>
                         <span class="text-[11px] text-slate-500 hidden sm:inline">Click any row for complete 21-column history</span>
                     </div>
                 </div>
@@ -1517,19 +1385,19 @@
                     <span id="abs-kpi-pending" class="hidden">0</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5">
-                    <span class="text-indigo-400 text-[10px] block font-semibold">🔵 In-Progress</span>
+                    <span class="text-indigo-400 text-[10px] block font-semibold">In-Progress</span>
                     <span id="abs-kpi-inprog" class="text-base font-bold text-indigo-400">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
-                    <span class="text-emerald-400 text-[10px] block font-semibold">🟢 Completed</span>
+                    <span class="text-emerald-400 text-[10px] block font-semibold">Completed</span>
                     <span id="abs-kpi-done" class="text-base font-bold text-emerald-400">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700 bg-slate-800/40">
-                    <span class="text-slate-300 text-[10px] block font-semibold">⚪ Stage N/A (Not Updated)</span>
+                    <span class="text-slate-300 text-[10px] block font-semibold">Stage N/A (Not Updated)</span>
                     <span id="abs-kpi-na" class="text-base font-bold text-slate-300">--</span>
                 </div>
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-amber-400/30 bg-amber-500/10">
-                    <span class="text-amber-300 text-[10px] block font-bold">⭐ VIP Attention</span>
+                    <span class="text-amber-300 text-[10px] block font-bold">VIP Attention</span>
                     <span id="abs-kpi-vip" class="text-base font-black text-amber-300">--</span>
                 </div>
             </div>
@@ -1540,15 +1408,15 @@
                 <div class="flex items-center flex-wrap gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
                     <button onclick="switchAbstractFormat('short')" id="tab-short-btn" class="px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
                         <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                        <span>⚡ Short Numbers Brief</span>
+                        <span>Short Numbers Brief</span>
                     </button>
                     <button onclick="switchAbstractFormat('events')" id="tab-events-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>📅 Events Brief</span>
+                        <span>Events Brief</span>
                     </button>
                     <button onclick="switchAbstractFormat('vip')" id="tab-vip-format-btn" class="px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>⭐ VIP Short Brief</span>
+                        <span>VIP Short Brief</span>
                     </button>
                 </div>
 
@@ -1666,31 +1534,6 @@
             </table>
         </div>
     </div>
-
-    <!-- RICOCHET360 BOTTOM ACTION BAR -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-2.5 px-6 text-xs text-slate-500 no-print sticky bottom-0 z-30 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
-        <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span class="text-[11px] font-medium text-slate-400 hidden md:inline">AP Police • PCS&S Technical Services Correspondence Matrix</span>
-            <div class="flex items-center gap-6 text-xs font-semibold text-slate-300">
-                <button onclick="openPendingAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
-                    <i data-lucide="phone-call" class="w-3.5 h-3.5 text-slate-400"></i>
-                    <span>Officer Abstract</span>
-                </button>
-                <button onclick="openVIPAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
-                    <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
-                    <span>VIP Brief</span>
-                </button>
-                <button onclick="openEventsAbstractModal()" class="flex items-center gap-1.5 hover:text-blue-500 transition cursor-pointer">
-                    <i data-lucide="message-square" class="w-3.5 h-3.5 text-slate-400"></i>
-                    <span>Events / VC Brief</span>
-                </button>
-            </div>
-            <button onclick="toggleAiChat()" class="px-4 py-1.5 rounded-full text-xs font-bold text-white flex items-center gap-1.5 shadow-md transition hover:opacity-95" style="background-color:#001b44; color:#ffffff !important;">
-                <span class="w-4 h-4 rounded-full border border-white/60 flex items-center justify-center text-[10px] font-black" style="color:#ffffff !important;">?</span>
-                <span style="color:#ffffff !important;">AI Copilot Help</span>
-            </button>
-        </div>
-    </footer>
 
     <!-- JAVASCRIPT LIVE GOOGLE SHEETS SYNC & EXECUTIVE CONTROLLER -->
     <script>
@@ -2487,18 +2330,13 @@
             const compliantCount = Math.max(0, totalRecords - overdueRecords);
             const slaPct = totalRecords > 0 ? Math.round((compliantCount / totalRecords) * 100) : 100;
             const clearancePct = totalRecords > 0 ? Math.round((completedCount / totalRecords) * 100) : 0;
+            const avgTat = kpis.avg_tat_days || kpis.avg_tat || 0;
 
             const slaEl = document.getElementById('sla-compliance-pct');
             if (slaEl) slaEl.innerText = `${slaPct}%`;
 
-            const clrEl = document.getElementById('clearance-rate-pct');
-            if (clrEl) clrEl.innerText = `${clearancePct}%`;
-
-            const clrSub = document.getElementById('clearance-rate-sub');
-            if (clrSub) clrSub.innerText = `${completedCount} of ${totalRecords} Files`;
-
-            const vipActiveEl = document.getElementById('active-vip-count');
-            if (vipActiveEl) vipActiveEl.innerText = vip.active_count !== undefined ? vip.active_count : 0;
+            const sitrepTatEl = document.getElementById('sitrep-avg-tat');
+            if (sitrepTatEl) sitrepTatEl.innerText = `${avgTat} Days`;
 
             const now = new Date();
             const dateOnlyStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -2525,8 +2363,6 @@
                 const rem = (e.remarks || '').toLowerCase().trim();
                 return st === 'postponed' || rem.includes('postponed');
             }).length;
-
-            const avgTat = kpis.avg_tat_days || kpis.avg_tat || 0;
 
             const breakdownHtmlParts = [
                 `<strong>${completedCount} completed</strong>`,
@@ -2592,25 +2428,31 @@
             animateNumber('kpi-onhold', kpis.onhold_closed || 0);
             animateNumber('kpi-critical', kpis.critical);
             animateNumber('kpi-vip', kpis.vip_count || 0);
-            document.getElementById('kpi-tat').innerText = kpis.avg_tat_days || kpis.avg_tat || 0;
-            document.getElementById('header-pending-count').innerText = `${kpis.inprogress} In-Prog`;
+            const kpiTatEl = document.getElementById('kpi-tat');
+            if (kpiTatEl) kpiTatEl.innerText = kpis.avg_tat_days || kpis.avg_tat || 0;
+            const hdrPendEl = document.getElementById('header-pending-count');
+            if (hdrPendEl) hdrPendEl.innerText = `${kpis.inprogress} In-Prog`;
             updateExecutiveNarrative();
 
             const total = kpis.total || 1;
-            document.getElementById('kpi-pending-pct').innerText = Math.round((kpis.pending / total) * 100) + '%';
-            document.getElementById('kpi-inprogress-pct').innerText = Math.round((kpis.inprogress / total) * 100) + '%';
-            document.getElementById('kpi-completed-pct').innerText = Math.round((kpis.completed / total) * 100) + '%';
-            document.getElementById('kpi-onhold-pct').innerText = Math.round(((kpis.onhold_closed || 0) / total) * 100) + '%';
-            document.getElementById('tab-records-badge').innerText = total;
+            const kpiPendPct = document.getElementById('kpi-pending-pct');
+            if (kpiPendPct) kpiPendPct.innerText = Math.round((kpis.pending / total) * 100) + '%';
+            const kpiInprogPct = document.getElementById('kpi-inprogress-pct');
+            if (kpiInprogPct) kpiInprogPct.innerText = Math.round((kpis.inprogress / total) * 100) + '%';
+            const kpiDonePct = document.getElementById('kpi-completed-pct');
+            if (kpiDonePct) kpiDonePct.innerText = Math.round((kpis.completed / total) * 100) + '%';
+            const kpiOnholdPct = document.getElementById('kpi-onhold-pct');
+            if (kpiOnholdPct) kpiOnholdPct.innerText = Math.round(((kpis.onhold_closed || 0) / total) * 100) + '%';
 
-            const tabVipBadge = document.getElementById('tab-vip-badge');
-            if (tabVipBadge) tabVipBadge.innerText = `${kpis.vip_count || 0} VIP`;
+            const sideRecordsBadge = document.getElementById('side-records-badge');
+            if (sideRecordsBadge) sideRecordsBadge.innerText = kpis.total || 0;
+
             const sideVipBadge = document.getElementById('side-vip-badge');
             if (sideVipBadge) sideVipBadge.innerText = `${kpis.vip_count || 0}`;
 
             const upcomingCount = rawData.upcoming_events_count !== undefined ? rawData.upcoming_events_count : (rawData.scheduled_events ? rawData.scheduled_events.length : 0);
-            const eventsBadge = document.getElementById('tab-events-badge');
-            if (eventsBadge) eventsBadge.innerText = `${upcomingCount} Active`;
+            const sideEventsBadge = document.getElementById('side-events-badge');
+            if (sideEventsBadge) sideEventsBadge.innerText = `${upcomingCount}`;
 
             populateFilters();
             renderCharts();
@@ -3159,11 +3001,6 @@
             });
         }
 
-        function openVipAbstractModal() {
-            openPendingAbstractModal();
-            switchAbstractFormat('vip');
-        }
-
         function printVipExecutiveMemo() {
             if (!rawData) return;
             const now = new Date();
@@ -3385,8 +3222,17 @@
         }
 
         // ================= EXECUTIVE PENDING ABSTRACT & WHATSAPP LOGIC =================
-        function openPendingAbstractModal() {
+        let activeTabId = 'overview';
+        let currentAbstractFormat = 'short'; // 'short', 'events', 'vip'
+        let cachedShortWhatsappText = '';
+        let cachedEventsWhatsappText = '';
+        let cachedVipWhatsappText = '';
+        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
+
+        function openPendingAbstractModal(explicitFmt) {
             renderPendingAbstractModalContent();
+            const fmt = explicitFmt || (activeTabId === 'vip' ? 'vip' : (activeTabId === 'events' ? 'events' : 'short'));
+            switchAbstractFormat(fmt);
             document.getElementById('pending-abstract-modal').classList.remove('hidden');
             lucide.createIcons();
         }
@@ -3395,16 +3241,8 @@
             document.getElementById('pending-abstract-modal').classList.add('hidden');
         }
 
-        let currentAbstractFormat = 'short'; // 'short', 'events', 'vip'
-        let cachedDetailedWhatsappText = '';
-        let cachedShortWhatsappText = '';
-        let cachedEventsWhatsappText = '';
-        let cachedVipWhatsappText = '';
-        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1xz_SMnLauFRVSTPaoRhltL3xTiuanIZqA45x96AI25Y/edit?usp=sharing";
-
         function switchAbstractFormat(fmt) {
             currentAbstractFormat = fmt;
-            const detailedBtn = document.getElementById('tab-detailed-btn');
             const shortBtn = document.getElementById('tab-short-btn');
             const eventsBtn = document.getElementById('tab-events-format-btn');
             const vipBtn = document.getElementById('tab-vip-format-btn');
@@ -3412,31 +3250,18 @@
             const activeClass = "px-3 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
             const inactiveClass = "px-3 py-1.5 text-xs font-semibold rounded-md transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800";
 
-            if (detailedBtn) detailedBtn.className = fmt === 'detailed' ? activeClass : inactiveClass;
             if (shortBtn) shortBtn.className = fmt === 'short' ? activeClass : inactiveClass;
             if (eventsBtn) eventsBtn.className = fmt === 'events' ? activeClass : inactiveClass;
             if (vipBtn) vipBtn.className = fmt === 'vip' ? activeClass : inactiveClass;
 
-            if (fmt === 'detailed') {
-                document.getElementById('whatsapp-textarea').value = cachedDetailedWhatsappText;
-            } else if (fmt === 'short') {
-                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
-            } else if (fmt === 'events') {
+            if (fmt === 'events') {
                 document.getElementById('whatsapp-textarea').value = cachedEventsWhatsappText;
             } else if (fmt === 'vip') {
                 document.getElementById('whatsapp-textarea').value = cachedVipWhatsappText;
+            } else {
+                document.getElementById('whatsapp-textarea').value = cachedShortWhatsappText;
             }
             lucide.createIcons();
-        }
-
-        function openEventsAbstractModal() {
-            openPendingAbstractModal();
-            switchAbstractFormat('events');
-        }
-
-        function openVIPAbstractModal() {
-            openPendingAbstractModal();
-            switchAbstractFormat('vip');
         }
 
         function renderPendingAbstractModalContent() {
@@ -3568,7 +3393,6 @@
             waVip += `───────────────────────────────\n`;
             waVip += `_Generated from AP Police TS Executive Command Portal_`;
 
-            cachedDetailedWhatsappText = waShort;
             cachedShortWhatsappText = waShort;
             cachedEventsWhatsappText = waEvents;
             cachedVipWhatsappText = waVip;
@@ -4228,15 +4052,8 @@
         }
 
         function switchTab(tabId) {
+            activeTabId = tabId;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-
-            document.querySelectorAll('.ricochet-subtab').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
 
             document.querySelectorAll('#app-sidebar .sidebar-nav-item').forEach(item => {
                 if (item.id && item.id.startsWith('side-btn-')) {
@@ -4266,6 +4083,14 @@
 
             if (tabId === 'vip') {
                 renderVipTab();
+            }
+
+            if (window.innerWidth < 1024) {
+                const sidebar = document.getElementById('app-sidebar');
+                if (sidebar && !sidebar.classList.contains('hidden')) {
+                    sidebar.classList.add('hidden');
+                    sidebar.classList.remove('fixed', 'inset-y-14', 'left-0', 'z-50', 'flex');
+                }
             }
 
             lucide.createIcons();
@@ -5258,10 +5083,10 @@ INSTRUCTIONS:
                     <div class="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 space-y-2">
                         <h4 class="text-sm font-bold text-blue-300">📱 Quick Start for New Users</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
-                            <li>Open the dashboard — it loads with the <strong>Overview</strong> tab showing all KPIs</li>
-                            <li>Use the <strong class="text-amber-300">Officer Abstract</strong> button (orange, top-right) to open the Briefing Tool</li>
+                            <li>Open the dashboard — it loads with the <strong>Overview</strong> view showing all KPIs</li>
+                            <li>Use the <strong class="text-amber-300">Officer Abstract</strong> button (top-right workspace bar) to open the context-aware Briefing Tool</li>
                             <li>Click <strong class="text-emerald-300">Copy WhatsApp Text</strong> to send daily briefs to officers</li>
-                            <li>Use the <strong>sidebar tabs</strong> (left) to navigate between VIP files, Events, Officers, Projects, and Explorer views</li>
+                            <li>Use the <strong>left sidebar modules</strong> to navigate between Dashboard, VIP Command, Meetings &amp; VCs, Officers, Projects, and All Records views</li>
                             <li>Click any <strong>correspondence ID</strong> (e.g., TS-COR-2026-0001) to view full file details in a popup</li>
                         </ol>
                     </div>
@@ -5482,9 +5307,9 @@ INSTRUCTIONS:
                     <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
                         <h4 class="text-sm font-bold text-white">📍 How to Access WhatsApp Briefs</h4>
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
-                            <li>Click the orange <strong class="text-amber-300">"Officer Abstract"</strong> button (top-right of dashboard)</li>
-                            <li>The <strong>Executive Briefing Tool</strong> modal opens with the Short Brief loaded by default</li>
-                            <li>Switch between brief formats using the tabs at the top of the modal</li>
+                            <li>Click the orange <strong class="text-amber-300">"Officer Abstract"</strong> button (top-right workspace bar)</li>
+                            <li>The <strong>Executive Briefing Tool</strong> automatically pre-selects the matching format for your active module (VIP Brief on VIP Command, Events Brief on Meetings &amp; VCs, or Short Numbers Brief elsewhere)</li>
+                            <li>Switch between all 3 brief formats anytime using the tabs inside the modal</li>
                             <li>Click <strong class="text-emerald-300">"Copy WhatsApp Text"</strong> to copy the entire brief to clipboard</li>
                             <li>Paste directly into your WhatsApp group</li>
                         </ol>
@@ -5675,7 +5500,7 @@ INSTRUCTIONS:
                     <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2">
                         <h4 class="text-sm font-bold text-white">📸 1-Click Dashboard Screenshot & Executive Summary Copy</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
-                            <li>Click <strong class="text-white">"Screenshot"</strong> (top header or sidebar) to capture a full, high-resolution PNG snapshot of the active dashboard view and automatically copy it when supported.</li>
+                            <li>Click <strong class="text-white">"Screenshot"</strong> (top-right workspace bar) to capture a full, high-resolution PNG snapshot of the active dashboard view and automatically copy it when supported.</li>
                             <li>Click <strong class="text-white">"Copy Text"</strong> on the <strong class="text-white">Executive Situation Report</strong> card header to copy the formal narrative brief ready to paste below your dashboard screenshot in WhatsApp or Email.</li>
                         </ul>
                     </div>
