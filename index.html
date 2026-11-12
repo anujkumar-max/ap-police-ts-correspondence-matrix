@@ -1420,7 +1420,7 @@
             <!-- Action Bar (Only Generate Image + Print Officer Abstract) -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 px-3 py-2.5 rounded-xl border border-slate-800 flex-shrink-0">
                 <div class="text-xs text-slate-400 font-medium">
-                    Includes <span class="text-white font-semibold">1. Officer-Wise</span>, <span class="text-cyan-300 font-semibold">2. Project-Wise</span>, <span class="text-blue-300 font-semibold">3. Upcoming VCs</span>, <span class="text-amber-300 font-semibold">4. VIP Inventory</span> &amp; <span class="text-rose-300 font-semibold">5. Follow-Up Depts</span>.
+                    Includes <span class="text-white font-semibold">1. Officer-Wise</span>, <span class="text-cyan-300 font-semibold">2. Project-Wise</span>, <span class="text-blue-300 font-semibold">3. Upcoming VCs</span>, <span class="text-amber-300 font-semibold">4. VIP Abstract</span> &amp; <span class="text-rose-300 font-semibold">5. Follow-Up Depts</span>.
                 </div>
                 <div class="flex items-center gap-2.5">
                     <button onclick="generateOfficerAbstractImage(this)" id="btn-generate-abstract-image" class="px-4 py-2 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 active:scale-95">
@@ -1444,7 +1444,7 @@
                             <div>
                                 <div class="text-[10px] font-bold uppercase tracking-widest" style="color: #93c5fd;">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
                                 <div class="text-sm sm:text-base font-extrabold uppercase tracking-wide" style="color: #ffffff;">POLICE COMPUTER SERVICES &amp; STANDARDIZATION (PCS&amp;S) / TECHNICAL SERVICES</div>
-                                <div class="text-xs font-semibold" style="color: #67e8f9;">Consolidated Correspondence, Project, Upcoming VC, VIP &amp; Follow-Up Abstract Statement</div>
+                                <div class="text-xs font-semibold uppercase tracking-wide" style="color: #67e8f9;">CONSOLIDATED CORRESPONDENCE STATUS REPORT</div>
                             </div>
                         </div>
                         <div class="text-right">
@@ -1554,7 +1554,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #1e40af;">3. UPCOMING VIDEO CONFERENCES</div>
-                                <div class="text-[10px]" style="color: #64748b;">Active scheduled Video Conferences (VC) — excludes Postponed, Completed &amp; Cancelled entries</div>
+                                <div class="text-[10px]" style="color: #64748b;">Today &amp; Upcoming Video Conferences (VC) — excludes Postponed, Completed &amp; Cancelled entries</div>
                             </div>
                             <span id="abs-upcoming-vc-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #eff6ff; border-color: #93c5fd; color: #1e40af;">0 VCs</span>
                         </div>
@@ -1583,27 +1583,28 @@
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #92400e;">4. DEDICATED VIP CORRESPONDENCE INVENTORY</div>
-                                <div class="text-[10px]" style="color: #64748b;">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A &amp; Letter Sent stages (Excludes Postponed, Follow-Up Required, Completed &amp; Closed)</div>
+                                <div class="text-[10px]" style="color: #64748b;">Officer-wise VIP abstract (4 Pillars active files — excludes Postponed, Follow-Up Required, Completed &amp; Closed)</div>
                             </div>
                             <span id="abs-vip-inventory-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fffbeb; border-color: #fcd34d; color: #92400e;">0 Files</span>
                         </div>
-                        <div class="overflow-x-auto rounded-lg border" style="border-color: #cbd5e1;">
-                            <table class="w-full text-[11px] text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                        <div class="overflow-x-auto rounded-lg border" style="border-color: #fde68a;">
+                            <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
                                 <thead>
                                     <tr style="background-color: #fffbeb; border-bottom: 2px solid #fcd34d;">
-                                        <th class="py-2 px-2 text-center font-bold uppercase w-10" style="color: #78350f;">S.No</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-28" style="color: #78350f;">File ID &amp; Project</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-20" style="color: #78350f;">Recv Date</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-40" style="color: #78350f;">Initiating Authority &amp; Pillars</th>
-                                        <th class="py-2 px-2 font-bold uppercase" style="color: #78350f;">Subject / Work Description</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-32" style="color: #78350f;">Concerned Officer</th>
-                                        <th class="py-2 px-2 text-center font-bold uppercase w-28" style="color: #78350f;">Current Stage</th>
-                                        <th class="py-2 px-2 text-right font-bold uppercase w-16" style="color: #78350f;">Age</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-12" style="color: #78350f;">S.No</th>
+                                        <th class="py-2 px-3 font-bold uppercase tracking-wider" style="color: #78350f;">Concerned Officer (PRO-ID &amp; Rank)</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #78350f;">Total VIP Files</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #b45309;">Pending</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #9f1239;">Hold / Stage N/A</th>
                                     </tr>
                                 </thead>
                                 <tbody id="abstract-vip-inventory-tbody">
                                     <!-- Populated dynamically -->
                                 </tbody>
+                                <tfoot id="abstract-vip-inventory-tfoot">
+                                    <!-- Totals row populated dynamically -->
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -1613,27 +1614,28 @@
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-[11px] font-extrabold uppercase tracking-wider" style="color: #991b1b;">5. FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS</div>
-                                <div class="text-[10px]" style="color: #64748b;">Dedicated report of all reportable tasks flagged Yes for department liaison &amp; follow-up</div>
+                                <div class="text-[10px]" style="color: #64748b;">Department-wise abstract of all reportable tasks flagged Yes for department liaison &amp; follow-up</div>
                             </div>
                             <span id="abs-followup-count" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border" style="background-color: #fef2f2; border-color: #fca5a5; color: #991b1b;">0 Tasks</span>
                         </div>
                         <div class="overflow-x-auto rounded-lg border" style="border-color: #fecaca;">
-                            <table class="w-full text-[11px] text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
+                            <table class="w-full text-xs text-left border-collapse" style="background-color: #ffffff; color: #0f172a;">
                                 <thead>
                                     <tr style="background-color: #fef2f2; border-bottom: 2px solid #fca5a5;">
-                                        <th class="py-2 px-2 text-center font-bold uppercase w-10" style="color: #7f1d1d;">S.No</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-28" style="color: #7f1d1d;">File ID &amp; Project</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-20" style="color: #7f1d1d;">Recv Date</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-36" style="color: #7f1d1d;">Concerned Dept / Desig</th>
-                                        <th class="py-2 px-2 font-bold uppercase" style="color: #7f1d1d;">Subject / Work Description</th>
-                                        <th class="py-2 px-2 font-bold uppercase w-32" style="color: #7f1d1d;">Concerned Officer</th>
-                                        <th class="py-2 px-2 text-center font-bold uppercase w-28" style="color: #7f1d1d;">Current Stage</th>
-                                        <th class="py-2 px-2 text-right font-bold uppercase w-24" style="color: #7f1d1d;">Last Follow-Up</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-12" style="color: #7f1d1d;">S.No</th>
+                                        <th class="py-2 px-3 font-bold uppercase tracking-wider" style="color: #7f1d1d;">Concerned Department / Wing</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #7f1d1d;">Total Tasks</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #3730a3;">In-Progress</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-24" style="color: #065f46;">Completed</th>
+                                        <th class="py-2 px-3 text-center font-bold uppercase tracking-wider w-32" style="color: #b45309;">Current Stage N/A</th>
                                     </tr>
                                 </thead>
                                 <tbody id="abstract-followup-tbody">
                                     <!-- Populated dynamically -->
                                 </tbody>
+                                <tfoot id="abstract-followup-tfoot">
+                                    <!-- Totals row populated dynamically -->
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -1675,9 +1677,8 @@
             <div class="text-sm font-extrabold uppercase tracking-widest text-slate-800">GOVERNMENT OF ANDHRA PRADESH • POLICE DEPARTMENT</div>
             <div class="text-base font-black uppercase text-black mt-0.5">POLICE COMPUTER SERVICES & STANDARDIZATION (PCS&S) / TECHNICAL SERVICES</div>
             <div class="text-xs text-slate-600 mt-0.5">HEADQUARTERS, MANGALAGIRI, ANDHRA PRADESH</div>
-            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">STATUS REPORT ON OFFICER-WISE, PROJECT-WISE, UPCOMING VC, VIP &amp; FOLLOW-UP ABSTRACT</div>
-            <div class="w-full flex justify-between text-xs text-slate-600 mt-1 font-mono">
-                <span>Ref: APTS/PCS&S/COR-ABSTRACT/2026</span>
+            <div class="text-sm font-bold uppercase underline mt-2" id="print-memo-title">CONSOLIDATED CORRESPONDENCE STATUS REPORT</div>
+            <div class="w-full flex justify-end text-xs text-slate-600 mt-1 font-mono">
                 <span id="print-date-display">Date: 30-09-2026</span>
             </div>
         </div>
@@ -1793,23 +1794,24 @@
                 <div class="text-xs font-bold uppercase" id="print-vip-inventory-title">4. DEDICATED VIP CORRESPONDENCE INVENTORY:</div>
                 <span class="text-[10px] font-mono font-bold" id="print-vip-inventory-count">0 Files</span>
             </div>
-            <div class="text-[10px] text-slate-600 mb-1">Scope: 4 Pillars active files in Pending, In-Progress, On Hold, Unassigned, N/A &amp; Letter Sent stages (Excludes Postponed, Follow-Up Required, Completed &amp; Closed).</div>
+            <div class="text-[10px] text-slate-600 mb-1">Officer-wise VIP abstract (4 Pillars active files — excludes Postponed, Follow-Up Required, Completed &amp; Closed).</div>
             <table class="w-full text-xs">
                 <thead>
                     <tr>
-                        <th class="text-center w-10">S.No</th>
-                        <th class="w-28">File ID &amp; Project</th>
-                        <th class="w-20">Recv Date</th>
-                        <th class="w-40">Initiating Authority &amp; Pillars</th>
-                        <th>Subject / Work Description</th>
-                        <th class="w-32">Concerned Officer</th>
-                        <th class="w-28 text-center">Current Stage</th>
-                        <th class="w-16 text-right">Age</th>
+                        <th class="text-center w-12">S.No</th>
+                        <th>Concerned Officer (PRO-ID &amp; Rank)</th>
+                        <th class="text-center w-24">Total VIP Files</th>
+                        <th class="text-center w-24">Pending</th>
+                        <th class="text-center w-24">In-Progress</th>
+                        <th class="text-center w-28">Hold / Stage N/A</th>
                     </tr>
                 </thead>
                 <tbody id="print-vip-inventory-tbody">
                     <!-- Populated dynamically -->
                 </tbody>
+                <tfoot id="print-vip-inventory-tfoot">
+                    <!-- Totals row populated dynamically -->
+                </tfoot>
             </table>
         </div>
 
@@ -1822,19 +1824,20 @@
             <table class="w-full text-xs">
                 <thead>
                     <tr>
-                        <th class="text-center w-10">S.No</th>
-                        <th class="w-28">File ID &amp; Project</th>
-                        <th class="w-20">Recv Date</th>
-                        <th class="w-36">Concerned Dept / Desig</th>
-                        <th>Subject / Work Description</th>
-                        <th class="w-32">Concerned Officer</th>
-                        <th class="w-28 text-center">Current Stage</th>
-                        <th class="w-24 text-right">Last Follow-Up</th>
+                        <th class="text-center w-12">S.No</th>
+                        <th>Concerned Department / Wing</th>
+                        <th class="text-center w-24">Total Tasks</th>
+                        <th class="text-center w-24">In-Progress</th>
+                        <th class="text-center w-24">Completed</th>
+                        <th class="text-center w-28">Current Stage N/A</th>
                     </tr>
                 </thead>
                 <tbody id="print-followup-tbody">
                     <!-- Populated dynamically -->
                 </tbody>
+                <tfoot id="print-followup-tfoot">
+                    <!-- Totals row populated dynamically -->
+                </tfoot>
             </table>
         </div>
 
@@ -3459,6 +3462,96 @@
             }
             rows.push(officerNaRow);
 
+            // Build Report 4 abstract rows: VIP Inventory grouped by Concerned Officer (official hierarchy order)
+            const vipByOfficerMap = new Map();
+            const getOfficerAbstractBucketKey = (r) => {
+                if (isOfficerUnassignedRecord(r)) return '__NA__';
+                const oid = String(r.officer_id || '').toUpperCase().trim();
+                const olab = String(r.officer_label || r['Concerned Officer'] || '').toUpperCase().trim();
+                if (oid === 'ALL' || olab === 'ALL' || olab === 'ALL (COMMON TASKS)') return '__ALL__';
+                return r.officer_label || r['Concerned Officer'] || 'Unassigned';
+            };
+            let vipPendingTotal = 0;
+            let vipInprogTotal = 0;
+            let vipHoldNaTotal = 0;
+            vipInventoryRows.forEach(r => {
+                const key = getOfficerAbstractBucketKey(r);
+                if (!vipByOfficerMap.has(key)) {
+                    const matchedOff = assignedOfficers.find(o => o.officer === key);
+                    const displayLabel = key === '__NA__'
+                        ? 'Concerned Officer N/A (Unassigned)'
+                        : (key === '__ALL__' ? 'ALL (Common Tasks)' : key);
+                    vipByOfficerMap.set(key, {
+                        key,
+                        officer: displayLabel,
+                        pro_id: key === '__NA__' ? 'N/A' : (key === '__ALL__' ? 'ALL' : (matchedOff?.pro_id || r.officer_id || '')),
+                        isOfficerNaRow: key === '__NA__',
+                        isAllRow: key === '__ALL__',
+                        total: 0,
+                        pending: 0,
+                        inprogress: 0,
+                        holdNa: 0
+                    });
+                }
+                const entry = vipByOfficerMap.get(key);
+                const stageLower = String(r['Current Stage'] || '').trim().toLowerCase().replace(/\s+/g, ' ');
+                entry.total += 1;
+                if (stageLower === 'pending') {
+                    entry.pending += 1;
+                    vipPendingTotal += 1;
+                } else if (r.status_group === 'Stage N/A' || stageLower === 'on hold' || stageLower === 'n/a' || stageLower === 'na' || stageLower === 'not available' || stageLower === '') {
+                    entry.holdNa += 1;
+                    vipHoldNaTotal += 1;
+                } else {
+                    entry.inprogress += 1;
+                    vipInprogTotal += 1;
+                }
+            });
+            const vipAbstractRows = Array.from(vipByOfficerMap.values()).sort((a, b) => {
+                if (a.isOfficerNaRow !== b.isOfficerNaRow) return a.isOfficerNaRow ? 1 : -1;
+                if (a.isAllRow !== b.isAllRow) return a.isAllRow ? 1 : -1;
+                const wA = getOfficerHierarchyWeight(a);
+                const wB = getOfficerHierarchyWeight(b);
+                if (wA !== wB) return wA - wB;
+                return b.total - a.total;
+            });
+
+            // Build Report 5 abstract rows: Follow-Up Required (Yes) grouped by Concerned Department / Wing
+            const fuByDeptMap = new Map();
+            let fuInprogTotal = 0;
+            let fuCompletedTotal = 0;
+            let fuStageNaTotal = 0;
+            followupRequiredRows.forEach(r => {
+                const rawDept = String(r['Received From Department /Wing'] || r['Initiating Department / Wing'] || 'N/A').trim().replace(/\s+/g, ' ');
+                const dept = (!rawDept || rawDept.toLowerCase() === 'na') ? 'N/A' : rawDept;
+                if (!fuByDeptMap.has(dept)) {
+                    fuByDeptMap.set(dept, {
+                        department: dept,
+                        total: 0,
+                        inprogress: 0,
+                        completed: 0,
+                        stageNa: 0
+                    });
+                }
+                const entry = fuByDeptMap.get(dept);
+                entry.total += 1;
+                if (r.status_group === 'Completed') {
+                    entry.completed += 1;
+                    fuCompletedTotal += 1;
+                } else if (r.status_group === 'Stage N/A') {
+                    entry.stageNa += 1;
+                    fuStageNaTotal += 1;
+                } else {
+                    entry.inprogress += 1;
+                    fuInprogTotal += 1;
+                }
+            });
+            const followupAbstractRows = Array.from(fuByDeptMap.values()).sort((a, b) => {
+                if (b.total !== a.total) return b.total - a.total;
+                if (b.inprogress !== a.inprogress) return b.inprogress - a.inprogress;
+                return a.department.localeCompare(b.department);
+            });
+
             const kpis = rawData?.kpis || {};
             return {
                 rows,
@@ -3473,8 +3566,22 @@
                 completedTotal: kpis.completed !== undefined ? kpis.completed : reportableRecords.filter(r => r.status_group === 'Completed').length,
                 vipTotal: kpis.vip_count !== undefined ? kpis.vip_count : reportableRecords.filter(r => r.is_vip).length,
                 vipInventoryRows,
+                vipAbstractRows,
+                vipAbstractTotals: {
+                    total: vipInventoryRows.length,
+                    pending: vipPendingTotal,
+                    inprogress: vipInprogTotal,
+                    holdNa: vipHoldNaTotal
+                },
                 followupRequiredRows,
-                followupCount: followupRequiredRows.length
+                followupCount: followupRequiredRows.length,
+                followupAbstractRows,
+                followupAbstractTotals: {
+                    total: followupRequiredRows.length,
+                    inprogress: fuInprogTotal,
+                    completed: fuCompletedTotal,
+                    stageNa: fuStageNaTotal
+                }
             };
         }
 
@@ -3601,97 +3708,144 @@
             return pillars.length > 0 ? pillars.join(' • ') : 'VIP Priority';
         }
 
-        function renderVipInventoryTable(tbodyId, rows, isPrintMode) {
+        function renderVipInventoryTable(tbodyId, tfootId, summary, isPrintMode) {
             const tbody = document.getElementById(tbodyId);
+            const tfoot = document.getElementById(tfootId);
             if (!tbody) return;
-            if (!rows || rows.length === 0) {
+            const rows = summary?.vipAbstractRows || [];
+            const totals = summary?.vipAbstractTotals || { total: 0, pending: 0, inprogress: 0, holdNa: 0 };
+
+            if (rows.length === 0) {
                 tbody.innerHTML = isPrintMode
-                    ? `<tr><td colspan="8" class="text-center py-3 text-slate-600">No VIP correspondence matching active / follow-up stages.</td></tr>`
-                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;"><td colspan="8" class="py-3 text-center" style="color: #64748b;">No VIP correspondence matching active / follow-up stages.</td></tr>`;
+                    ? `<tr><td colspan="6" class="text-center py-3 text-slate-600">No active VIP correspondence matching scope.</td></tr>`
+                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #fde68a;"><td colspan="6" class="py-3 text-center" style="color: #64748b;">No active VIP correspondence matching scope.</td></tr>`;
+                if (tfoot) tfoot.innerHTML = '';
                 return;
             }
-            tbody.innerHTML = rows.map((r, idx) => {
-                const dept = escapeHtml(r['Received From Department /Wing'] || 'N/A');
-                const desig = escapeHtml(r['Received From Officer designation '] || '');
-                const pillars = escapeHtml(getVipPillarTagsText(r));
-                const stage = escapeHtml(r['Current Stage'] || 'N/A');
-                const isFu = isFollowupRequiredRecord(r);
-                const fuTag = isFu ? ' (Follow-Up: Yes)' : '';
+
+            tbody.innerHTML = rows.map((row, idx) => {
                 if (isPrintMode) {
+                    const rowClass = row.isOfficerNaRow ? 'bg-amber-50' : '';
                     return `
-                        <tr>
+                        <tr class="${rowClass}">
                             <td class="text-center font-mono font-bold">${idx + 1}</td>
-                            <td class="leading-snug"><span class="font-mono font-bold">⭐ ${escapeHtml(r.ID)}</span><br/><span class="text-[10px]">${escapeHtml(r.project_label || 'Misc')}</span></td>
-                            <td class="font-mono whitespace-nowrap">${escapeHtml(r['Date Received to office'] || 'N/A')}</td>
-                            <td class="leading-snug"><strong>${dept}</strong>${desig ? ` (${desig})` : ''}<br/><span class="text-[10px] font-semibold">[${pillars}]</span></td>
-                            <td class="leading-snug">${escapeHtml(r['Subject / Work Description'] || '—')}</td>
-                            <td>${escapeHtml(r.officer_label || 'Concerned Officer N/A')}</td>
-                            <td class="text-center font-semibold">${stage}${isFu ? '<br/><span class="font-bold">⚠️ Follow-Up: Yes</span>' : ''}</td>
-                            <td class="text-right font-mono font-bold whitespace-nowrap">${escapeHtml(r.display_time_metric || '—')}</td>
+                            <td class="font-semibold">${escapeHtml(row.officer)}</td>
+                            <td class="text-center font-bold font-mono">${row.total}</td>
+                            <td class="text-center font-bold font-mono">${row.pending}</td>
+                            <td class="text-center font-bold font-mono">${row.inprogress}</td>
+                            <td class="text-center font-bold font-mono">${row.holdNa}</td>
                         </tr>
                     `;
                 }
-                const bgStyle = idx % 2 === 1
-                    ? 'background-color: #fffbeb; border-bottom: 1px solid #fde68a;'
-                    : 'background-color: #ffffff; border-bottom: 1px solid #fde68a;';
+                const bgStyle = row.isOfficerNaRow
+                    ? 'background-color: #fff1f2; border-bottom: 1px solid #fecdd3;'
+                    : (idx % 2 === 1 ? 'background-color: #fffbeb; border-bottom: 1px solid #fde68a;' : 'background-color: #ffffff; border-bottom: 1px solid #fde68a;');
+                const nameColor = row.isOfficerNaRow ? '#be123c' : '#0f172a';
+                const holdStyle = row.holdNa > 0 ? 'color: #9f1239; font-weight: 800;' : 'color: #64748b; font-weight: 600;';
                 return `
                     <tr style="${bgStyle}">
-                        <td class="py-2 px-2 text-center font-mono font-bold" style="color: #78350f;">${idx + 1}</td>
-                        <td class="py-2 px-2 leading-snug"><span class="font-mono font-bold" style="color: #92400e;">⭐ ${escapeHtml(r.ID)}</span><div class="text-[10px]" style="color: #475569;">${escapeHtml(r.project_label || 'Misc')}</div></td>
-                        <td class="py-2 px-2 font-mono whitespace-nowrap" style="color: #334155;">${escapeHtml(r['Date Received to office'] || 'N/A')}</td>
-                        <td class="py-2 px-2 leading-snug"><div class="font-semibold" style="color: #0f172a;">${dept}${desig ? ` (${desig})` : ''}</div><div class="text-[10px] font-bold" style="color: #b45309;">${pillars}</div></td>
-                        <td class="py-2 px-2 leading-snug" style="color: #1e293b;">${escapeHtml(r['Subject / Work Description'] || '—')}</td>
-                        <td class="py-2 px-2" style="color: #1e293b;">${escapeHtml(r.officer_label || 'Concerned Officer N/A')}</td>
-                        <td class="py-2 px-2 text-center font-semibold" style="color: #1e293b;">${stage}${isFu ? `<div class="text-[9.5px] font-bold" style="color: #be123c;">Follow-Up${escapeHtml(fuTag ? ': Yes' : '')}</div>` : ''}</td>
-                        <td class="py-2 px-2 text-right font-mono font-bold whitespace-nowrap" style="color: #0369a1;">${escapeHtml(r.display_time_metric || '—')}</td>
+                        <td class="py-2 px-3 text-center font-mono font-bold" style="color: #92400e;">${idx + 1}</td>
+                        <td class="py-2 px-3 font-semibold" style="color: ${nameColor};">${escapeHtml(row.officer)}</td>
+                        <td class="py-2 px-3 text-center font-extrabold font-mono" style="color: #92400e;">${row.total}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #b45309;">${row.pending}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #3730a3;">${row.inprogress}</td>
+                        <td class="py-2 px-3 text-center font-mono" style="${holdStyle}">${row.holdNa}</td>
                     </tr>
                 `;
             }).join('');
+
+            if (tfoot) {
+                tfoot.innerHTML = isPrintMode
+                    ? `
+                        <tr class="font-extrabold bg-slate-100">
+                            <td class="text-center font-mono">—</td>
+                            <td>GRAND TOTAL (${rows.length} Officer Groups)</td>
+                            <td class="text-center font-mono">${totals.total}</td>
+                            <td class="text-center font-mono">${totals.pending}</td>
+                            <td class="text-center font-mono">${totals.inprogress}</td>
+                            <td class="text-center font-mono">${totals.holdNa}</td>
+                        </tr>
+                    `
+                    : `
+                        <tr style="background-color: #fef3c7; border-top: 2px solid #f59e0b; color: #0f172a;">
+                            <td class="py-2.5 px-3 text-center font-mono font-extrabold">—</td>
+                            <td class="py-2.5 px-3 font-extrabold">GRAND TOTAL <span class="text-[10.5px] font-semibold ml-1" style="color: #92400e;">(${rows.length} Officers)</span></td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #78350f;">${totals.total}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #b45309;">${totals.pending}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #3730a3;">${totals.inprogress}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #9f1239;">${totals.holdNa}</td>
+                        </tr>
+                    `;
+            }
         }
 
-        function renderFollowupRequiredTable(tbodyId, rows, isPrintMode) {
+        function renderFollowupRequiredTable(tbodyId, tfootId, summary, isPrintMode) {
             const tbody = document.getElementById(tbodyId);
+            const tfoot = document.getElementById(tfootId);
             if (!tbody) return;
-            if (!rows || rows.length === 0) {
+            const rows = summary?.followupAbstractRows || [];
+            const totals = summary?.followupAbstractTotals || { total: 0, inprogress: 0, completed: 0, stageNa: 0 };
+
+            if (rows.length === 0) {
                 tbody.innerHTML = isPrintMode
-                    ? `<tr><td colspan="8" class="text-center py-3 text-slate-600">No tasks currently marked Further Follow-Up Required = Yes.</td></tr>`
-                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #fecaca;"><td colspan="8" class="py-3 text-center" style="color: #64748b;">No tasks currently marked Further Follow-Up Required = Yes.</td></tr>`;
+                    ? `<tr><td colspan="6" class="text-center py-3 text-slate-600">No tasks currently marked Further Follow-Up Required = Yes.</td></tr>`
+                    : `<tr style="background-color: #ffffff; border-bottom: 1px solid #fecaca;"><td colspan="6" class="py-3 text-center" style="color: #64748b;">No tasks currently marked Further Follow-Up Required = Yes.</td></tr>`;
+                if (tfoot) tfoot.innerHTML = '';
                 return;
             }
-            tbody.innerHTML = rows.map((r, idx) => {
-                const dept = escapeHtml(r['Received From Department /Wing'] || 'N/A');
-                const desig = escapeHtml(r['Received From Officer designation '] || '');
-                const lastFu = escapeHtml(r['Last Follow-up Date'] || r.display_time_metric || '—');
+
+            tbody.innerHTML = rows.map((row, idx) => {
                 if (isPrintMode) {
                     return `
                         <tr>
                             <td class="text-center font-mono font-bold">${idx + 1}</td>
-                            <td class="leading-snug"><span class="font-mono font-bold">${escapeHtml(r.ID)}${r.is_vip ? ' ⭐' : ''}</span><br/><span class="text-[10px]">${escapeHtml(r.project_label || 'Misc')}</span></td>
-                            <td class="font-mono whitespace-nowrap">${escapeHtml(r['Date Received to office'] || 'N/A')}</td>
-                            <td class="leading-snug"><strong>${dept}</strong>${desig ? `<br/><span class="text-[10px]">${desig}</span>` : ''}</td>
-                            <td class="leading-snug">${escapeHtml(r['Subject / Work Description'] || '—')}</td>
-                            <td>${escapeHtml(r.officer_label || 'Concerned Officer N/A')}</td>
-                            <td class="text-center font-semibold">${escapeHtml(r['Current Stage'] || 'N/A')}</td>
-                            <td class="text-right font-mono whitespace-nowrap">${lastFu}</td>
+                            <td class="font-semibold">${escapeHtml(row.department)}</td>
+                            <td class="text-center font-bold font-mono">${row.total}</td>
+                            <td class="text-center font-bold font-mono">${row.inprogress}</td>
+                            <td class="text-center font-bold font-mono">${row.completed}</td>
+                            <td class="text-center font-bold font-mono">${row.stageNa}</td>
                         </tr>
                     `;
                 }
                 const bgStyle = idx % 2 === 1
                     ? 'background-color: #fef2f2; border-bottom: 1px solid #fecaca;'
                     : 'background-color: #ffffff; border-bottom: 1px solid #fecaca;';
+                const naStyle = row.stageNa > 0 ? 'color: #b45309; font-weight: 800;' : 'color: #64748b; font-weight: 600;';
                 return `
                     <tr style="${bgStyle}">
-                        <td class="py-2 px-2 text-center font-mono font-bold" style="color: #7f1d1d;">${idx + 1}</td>
-                        <td class="py-2 px-2 leading-snug"><span class="font-mono font-bold" style="color: #991b1b;">${escapeHtml(r.ID)}${r.is_vip ? ' ⭐' : ''}</span><div class="text-[10px]" style="color: #475569;">${escapeHtml(r.project_label || 'Misc')}</div></td>
-                        <td class="py-2 px-2 font-mono whitespace-nowrap" style="color: #334155;">${escapeHtml(r['Date Received to office'] || 'N/A')}</td>
-                        <td class="py-2 px-2 leading-snug"><div class="font-semibold" style="color: #0f172a;">${dept}</div>${desig ? `<div class="text-[10px]" style="color: #64748b;">${desig}</div>` : ''}</td>
-                        <td class="py-2 px-2 leading-snug" style="color: #1e293b;">${escapeHtml(r['Subject / Work Description'] || '—')}</td>
-                        <td class="py-2 px-2" style="color: #1e293b;">${escapeHtml(r.officer_label || 'Concerned Officer N/A')}</td>
-                        <td class="py-2 px-2 text-center font-semibold" style="color: #1e293b;">${escapeHtml(r['Current Stage'] || 'N/A')}</td>
-                        <td class="py-2 px-2 text-right font-mono font-bold whitespace-nowrap" style="color: #991b1b;">${lastFu}</td>
+                        <td class="py-2 px-3 text-center font-mono font-bold" style="color: #7f1d1d;">${idx + 1}</td>
+                        <td class="py-2 px-3 font-semibold" style="color: #0f172a;">${escapeHtml(row.department)}</td>
+                        <td class="py-2 px-3 text-center font-extrabold font-mono" style="color: #991b1b;">${row.total}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #3730a3;">${row.inprogress}</td>
+                        <td class="py-2 px-3 text-center font-bold font-mono" style="color: #065f46;">${row.completed}</td>
+                        <td class="py-2 px-3 text-center font-mono" style="${naStyle}">${row.stageNa}</td>
                     </tr>
                 `;
             }).join('');
+
+            if (tfoot) {
+                tfoot.innerHTML = isPrintMode
+                    ? `
+                        <tr class="font-extrabold bg-slate-100">
+                            <td class="text-center font-mono">—</td>
+                            <td>GRAND TOTAL (${rows.length} Departments)</td>
+                            <td class="text-center font-mono">${totals.total}</td>
+                            <td class="text-center font-mono">${totals.inprogress}</td>
+                            <td class="text-center font-mono">${totals.completed}</td>
+                            <td class="text-center font-mono">${totals.stageNa}</td>
+                        </tr>
+                    `
+                    : `
+                        <tr style="background-color: #fee2e2; border-top: 2px solid #f87171; color: #0f172a;">
+                            <td class="py-2.5 px-3 text-center font-mono font-extrabold">—</td>
+                            <td class="py-2.5 px-3 font-extrabold">GRAND TOTAL <span class="text-[10.5px] font-semibold ml-1" style="color: #991b1b;">(${rows.length} Departments)</span></td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #7f1d1d;">${totals.total}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #3730a3;">${totals.inprogress}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #065f46;">${totals.completed}</td>
+                            <td class="py-2.5 px-3 text-center font-black font-mono" style="color: #b45309;">${totals.stageNa}</td>
+                        </tr>
+                    `;
+            }
         }
 
         function renderOfficerAbstractTable(tbodyId, tfootId, summary, isPrintMode) {
@@ -3802,8 +3956,8 @@
             renderOfficerAbstractTable('abstract-officer-summary-tbody', 'abstract-officer-summary-tfoot', summary, false);
             renderProjectAbstractTable('abstract-project-summary-tbody', 'abstract-project-summary-tfoot', summary, false);
             renderUpcomingVcTable('abstract-upcoming-vc-tbody', summary.upcomingVcRows, false);
-            renderVipInventoryTable('abstract-vip-inventory-tbody', summary.vipInventoryRows, false);
-            renderFollowupRequiredTable('abstract-followup-tbody', summary.followupRequiredRows, false);
+            renderVipInventoryTable('abstract-vip-inventory-tbody', 'abstract-vip-inventory-tfoot', summary, false);
+            renderFollowupRequiredTable('abstract-followup-tbody', 'abstract-followup-tfoot', summary, false);
         }
 
         // ================= MEETINGS & EVENTS SCHEDULES LOGIC =================
@@ -4094,7 +4248,7 @@
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             document.getElementById('print-date-display').innerText = `Date: ${dateStr}`;
-            document.getElementById('print-memo-title').innerText = "STATUS REPORT ON OFFICER-WISE, PROJECT-WISE, UPCOMING VC, VIP & FOLLOW-UP ABSTRACT";
+            document.getElementById('print-memo-title').innerText = "CONSOLIDATED CORRESPONDENCE STATUS REPORT";
 
             const summary = buildOfficerAbstractReportRows();
             document.getElementById('print-kpi-total').innerText = summary.totalFiles;
@@ -4128,8 +4282,8 @@
             renderOfficerAbstractTable('print-officer-summary-tbody', 'print-officer-summary-tfoot', summary, true);
             renderProjectAbstractTable('print-project-summary-tbody', 'print-project-summary-tfoot', summary, true);
             renderUpcomingVcTable('print-upcoming-vc-tbody', summary.upcomingVcRows, true);
-            renderVipInventoryTable('print-vip-inventory-tbody', summary.vipInventoryRows, true);
-            renderFollowupRequiredTable('print-followup-tbody', summary.followupRequiredRows, true);
+            renderVipInventoryTable('print-vip-inventory-tbody', 'print-vip-inventory-tfoot', summary, true);
+            renderFollowupRequiredTable('print-followup-tbody', 'print-followup-tfoot', summary, true);
 
             window.print();
         }
@@ -5002,6 +5156,7 @@
             const records = rawData.records || [];
             const officers = rawData.officers || [];
             const events = rawData.scheduled_events || [];
+            const summary = buildOfficerAbstractReportRows();
 
             // 1. Specific File ID Lookup (e.g. TS-COR-2026-0017 or 0017)
             const idMatch = query.match(/TS-COR-2026-(\d{4})/i) || query.match(/\b(\d{4})\b/);
@@ -5012,11 +5167,11 @@
                     return `Sir, here are the live details for **${file.ID}**:\n` +
                            `• **Project:** ${file.project_label || 'Miscellaneous'}\n` +
                            `• **Sender:** ${file['Received From Department /Wing']} (${file['Received From Officer designation '] || 'N/A'})\n` +
-                           `• **Officer-in-Charge:** ${file.officer_label}\n` +
+                           `• **Officer-in-Charge:** ${file.officer_label || 'Concerned Officer N/A'}\n` +
                            `• **Current Stage:** ${file['Current Stage']} (${file.display_time_metric || '—'})\n` +
                            `• **Subject:** ${file['Subject / Work Description']}\n` +
                            (file.is_vip ? `• **VIP Priority:** Yes (⭐)\n` : '') +
-                           (file.is_vip_followup ? `• **⚠️ Warning:** Urgent department follow-up required!\n` : '') +
+                           (isFollowupRequiredRecord(file) ? `• **⚠️ Warning:** Urgent department follow-up required!\n` : '') +
                            `\n*Click the File ID above to inspect full 21-column correspondence history.*`;
                 }
             }
@@ -5032,18 +5187,19 @@
 
             if (matchedOfficer) {
                 const offName = matchedOfficer.officer;
-                const offFiles = records.filter(r => r.officer_label === offName);
-                const activeFiles = offFiles.filter(r => r.status_group === 'Pending' || r.status_group === 'In-Progress');
+                const offFiles = records.filter(r => r.officer_label === offName && r.status_group !== 'Closed / Excluded');
+                const activeFiles = offFiles.filter(r => r.status_group !== 'Completed');
                 const completedFiles = offFiles.filter(r => r.status_group === 'Completed');
+                const stageNaCount = offFiles.filter(r => r.status_group === 'Stage N/A').length;
                 const vipCount = offFiles.filter(r => r.is_vip).length;
 
                 let resp = `Sir, here is the complete work portfolio for **${offName}**:\n\n` +
-                           `• **Total Assigned:** ${offFiles.length} Files (🟢 ${completedFiles.length} Completed | 🟡 ${matchedOfficer.pending} Pending | 🔵 ${matchedOfficer.inprogress} In-Progress | ⭐ ${vipCount} VIP)\n`;
+                           `• **Total Reportable:** ${offFiles.length} Files (🟢 ${completedFiles.length} Completed | 🔵 ${matchedOfficer.inprogress} In-Progress | ⚪ ${stageNaCount} Stage N/A | ⭐ ${vipCount} VIP)\n`;
 
                 if (activeFiles.length > 0) {
                     resp += `\n### Active Works (${activeFiles.length} Files)\n`;
                     activeFiles.slice(0, 10).forEach(f => {
-                        resp += `• **${f.ID}** [${f.project_label || 'Misc'}] — *${f['Current Stage']}* (${f.display_time_metric || 'Active'}): ${f['Subject / Work Description']}\n`;
+                        resp += `• **${f.ID}** [${f.project_label || 'Misc'}] — *${f['Current Stage'] || 'N/A'}* (${f.display_time_metric || 'Active'}): ${f['Subject / Work Description']}\n`;
                     });
                     if (activeFiles.length > 10) resp += `• *...and ${activeFiles.length - 10} more active files.*\n`;
                 }
@@ -5057,49 +5213,72 @@
                 return resp;
             }
 
-            // 3. VIP / Critical Files Query
-            if (q.includes('vip') || q.includes('critical') || q.includes('urgent') || q.includes('dgp') || q.includes('high court')) {
-                const activeVip = records.filter(r => r.is_vip && r.status_group !== 'Completed');
-                if (activeVip.length === 0) {
-                    return "Sir, there are currently **no active VIP files pending resolution**. All VIP correspondence has been processed or dispatched.";
+            // 3. Follow-Up Required with Concerned Departments Query
+            if (q.includes('follow') || q.includes('fallow') || q.includes('liaison') || q.includes('concerned dept') || q.includes('department')) {
+                const fuRows = summary.followupAbstractRows || [];
+                const fuTot = summary.followupAbstractTotals || { total: 0, inprogress: 0, completed: 0, stageNa: 0 };
+                if (fuRows.length === 0) {
+                    return "Sir, there are currently **no tasks flagged 'Yes'** for Further Follow-Up Required with Concerned Departments.";
                 }
-                let resp = `Sir, there are **${activeVip.length} active VIP files** currently requiring attention:\n\n`;
-                activeVip.slice(0, 6).forEach((f, idx) => {
-                    resp += `${idx + 1}. **${f.ID}** [${f.project_label || 'Misc'}]\n` +
-                            `   • From: ${f['Received From Department /Wing']} (${f['Received From Officer designation '] || ''})\n` +
-                            `   • Stage: ${f['Current Stage']} (${f.display_time_metric})\n` +
-                            `   • Officer: ${f.officer_label}\n` +
-                            (f.is_vip_followup ? `   • 🚨 Urgent Follow-Up Required with Dept\n` : '');
+                let resp = `Sir, here is the **Department-Wise Further Follow-Up Abstract** (**${fuTot.total}** tasks — ${fuTot.inprogress} In-Progress / ${fuTot.completed} Completed / ${fuTot.stageNa} Stage N/A):\n\n`;
+                fuRows.forEach((d, idx) => {
+                    resp += `${idx + 1}. **${d.department}**: **${d.total}** (${d.inprogress} In-Prog / ${d.completed} Done / ${d.stageNa} N/A)\n`;
                 });
-                if (activeVip.length > 6) {
-                    resp += `\n*...and ${activeVip.length - 6} more VIP files. You can view all in the ⭐ VIP Command Tab.*`;
-                }
                 return resp;
             }
 
-            // 4. Meetings / Events / VC Query
-            if (q.includes('meeting') || q.includes('vc') || q.includes('event') || q.includes('seminar') || q.includes('workshop') || q.includes('tomorrow') || q.includes('today')) {
-                const upcoming = events.filter(e => e.status_group !== 'On Hold / Closed' && (e.event_delta_days >= 0 || e.status_group !== 'Completed'));
-                const cancelledEvts = events.filter(e => e.status_group === 'On Hold / Closed');
-                if (upcoming.length === 0) {
-                    return "Sir, there are **no scheduled meetings, video conferences, or workshops** listed on the calendar right now." +
-                        (cancelledEvts.length > 0 ? ` (Note: ${cancelledEvts.length} event(s) have been **cancelled**.)` : '');
+            // 4. VIP / Critical Files Query (excludes Postponed & Follow-Up=Yes in abstract inventory)
+            if (q.includes('vip') || q.includes('critical') || q.includes('urgent') || q.includes('dgp') || q.includes('high court')) {
+                const vipAbs = summary.vipAbstractRows || [];
+                const vipTot = summary.vipAbstractTotals || { total: 0, pending: 0, inprogress: 0, holdNa: 0 };
+                if (vipAbs.length === 0) {
+                    return `Sir, there are currently **no active VIP inventory files pending resolution** (Total VIP across matrix: ${summary.vipTotal}).`;
                 }
-                let resp = `Sir, here are the **upcoming scheduled meetings & VCs** (${upcoming.length} active):\n\n`;
-                upcoming.slice(0, 5).forEach((e, idx) => {
+                let resp = `Sir, here is the **Dedicated VIP Correspondence Abstract** (**${vipTot.total} active VIP files** — ${vipTot.pending} Pending / ${vipTot.inprogress} In-Progress / ${vipTot.holdNa} Hold & N/A; excludes Postponed & Follow-Up = Yes):\n\n`;
+                vipAbs.forEach((v, idx) => {
+                    resp += `${idx + 1}. **${v.officer}**: **${v.total}** (${v.pending} Pend / ${v.inprogress} In-Prog / ${v.holdNa} Hold-NA)\n`;
+                });
+                resp += `\n*Follow-Up Required = Yes tasks (${summary.followupCount}) are tracked separately under Report 5.*`;
+                return resp;
+            }
+
+            // 5. Meetings / Events / Today & Upcoming VC Query
+            if (q.includes('meeting') || q.includes('vc') || q.includes('video') || q.includes('conference') || q.includes('event') || q.includes('seminar') || q.includes('workshop') || q.includes('tomorrow') || q.includes('today')) {
+                const upcoming = events.filter(e => !isEventPostponed(e) && e.status_group !== 'Closed / Excluded' && e.status_group !== 'Completed' && e.event_delta_days >= 0);
+                const upcomingVcs = summary.upcomingVcRows || [];
+                const listToUse = (q.includes('vc') || q.includes('video') || q.includes('conference')) ? upcomingVcs : upcoming;
+                const cancelledEvts = events.filter(e => e.status_group === 'Closed / Excluded');
+                const postponedEvts = events.filter(isEventPostponed);
+                if (listToUse.length === 0) {
+                    return "Sir, there are **no Today or Upcoming scheduled Video Conferences / Meetings** on the active calendar right now." +
+                        (postponedEvts.length > 0 ? ` (${postponedEvts.length} postponed, excluded from upcoming list.)` : '');
+                }
+                let resp = `Sir, here are the **Today & Upcoming Scheduled ${(q.includes('vc') || q.includes('video')) ? 'Video Conferences' : 'Meetings & VCs'}** (${listToUse.length} active):\n\n`;
+                listToUse.slice(0, 8).forEach((e, idx) => {
                     resp += `${idx + 1}. 📅 **${e.nature_of_request || 'Event'}**: **${e.id}**\n` +
                             `   • Date: ${e.due_date_raw} (${e.event_timing_label || 'TBA'})\n` +
                             `   • Officer: ${e.officer}\n` +
                             `   • Topic: ${e.subject}\n` +
                             (e.remarks ? `   • Link/Venue: ${e.remarks}\n` : '');
                 });
-                if (cancelledEvts.length > 0) resp += `\n🚫 **${cancelledEvts.length} event(s) cancelled** — visible under the Cancelled tab in Events section.`;
+                if (cancelledEvts.length > 0) resp += `\n🚫 ${cancelledEvts.length} cancelled/closed event(s) excluded.`;
                 return resp;
             }
 
-            // 4.5 Common Tasks (ALL Officers / PRJ-038 - ALL) Query
+            // 6. Project-Wise Abstract Query
+            if (q.includes('project') || q.includes('prj-')) {
+                const projRows = summary.projectRows || [];
+                let resp = `Sir, here is the **Project-Wise Task Abstract** (${projRows.length} Active Projects | **${summary.totalFiles}** Total Files):\n\n`;
+                projRows.slice(0, 12).forEach((p, idx) => {
+                    resp += `${idx + 1}. **${p.project}**: **${p.total}** (${p.inprogress} In-Prog / ${p.completed} Done / ${p.onhold || 0} N/A)\n`;
+                });
+                if (projRows.length > 12) resp += `\n*...and ${projRows.length - 12} more projects shown in Report 2.*`;
+                return resp;
+            }
+
+            // 6.5 Common Tasks (ALL Officers / PRJ-038 - ALL) Query
             if (q.includes('common') || q.includes('all officer') || q.includes('prj-038') || q.includes('prj-037')) {
-                const commonFiles = records.filter(r => (r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL' || r.project_id === 'PRJ-038');
+                const commonFiles = records.filter(r => r.status_group !== 'Closed / Excluded' && ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL' || r.project_id === 'PRJ-038'));
                 if (commonFiles.length === 0) {
                     return "Sir, there are currently **no common tasks (assigned to ALL officers)** in the correspondence matrix.";
                 }
@@ -5111,41 +5290,30 @@
                 return resp;
             }
 
-            // 5. General Officer Workloads Query (Rank-Wise)
+            // 7. General Officer Workloads Query (Official Hierarchy Order)
             if (q.includes('officer') || q.includes('workload') || q.includes('abstract') || q.includes('short brief') || q.includes('who') || q.includes('pending') || q.includes('rank') || q.includes('dsp') || q.includes('si') || q.includes('ci')) {
-                const activeOfficers = officers.filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL' && (o.pending + o.inprogress + (o.onhold || 0)) > 0).sort((a, b) => {
-                    const wA = getOfficerHierarchyWeight(a);
-                    const wB = getOfficerHierarchyWeight(b);
-                    if (wA !== wB) return wA - wB;
-                    return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
+                let resp = `Sir, here is the **Officer-Wise Workload Abstract (Official Hierarchy Order)**\n**👮 Format:** Total Files (In-Progress / Completed / Current Stage N/A)\n\n`;
+                summary.rows.forEach((o, idx) => {
+                    resp += `${idx + 1}. **${o.officer}**: **${o.total}** (${o.inprogress} In-Prog / ${o.completed} Done / ${o.onhold || 0} N/A)\n`;
                 });
-                let resp = `Sir, here is the **Officer-Wise Active Workload (Official Hierarchy Order)**\n**👮 OFFICER WORKLOAD Current stage:** [Active = Pend / InProg / N/A]\n\n`;
-                activeOfficers.forEach((o, idx) => {
-                    const actTotal = o.pending + o.inprogress + (o.onhold || 0);
-                    resp += `${idx + 1}. **${o.officer}**: **${actTotal}** (${o.pending} / ${o.inprogress} / ${o.onhold || 0})\n`;
-                });
-                const commonActive = records.filter(r => ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL') && r.status_group !== 'Completed');
-                if (commonActive.length > 0) {
-                    resp += `\n### 📢 Common Tasks (Assigned to ALL Officers)\n`;
-                    commonActive.forEach(f => {
-                        resp += `• **${f.ID}** [${f.project_label || 'PRJ-038 - ALL'}] — *${f['Current Stage'] || 'Pending'}*: ${f['Subject / Work Description']}\n`;
-                    });
-                }
-                resp += `\n📝 *Kindly update the current stages in the Google Sheet if there are any changes.*`;
+                resp += `\n📊 **Totals:** ${summary.totalFiles} Files | ${summary.inprogressTotal} In-Prog | ${summary.completedTotal} Done | ${summary.stageNaCount} Stage N/A | ${summary.officerNaCount} Officer N/A\n`;
+                resp += `📝 *Kindly update the current stages in the Google Sheet if there are any changes.*`;
                 return resp;
             }
 
-            // 6. General Brief / Status / SLA / Default
-            const total = records.length;
-            const clearance = total > 0 ? Math.round(((kpis.completed || 0) / total) * 100) : 0;
+            // 8. General Brief / Status / SLA / Default
+            const total = summary.totalFiles || 0;
+            const clearance = total > 0 ? Math.round(((summary.completedTotal || 0) / total) * 100) : 0;
             return `Sir, here is the **Executive Status Briefing**:\n\n` +
-                   `• **Total Intake:** ${total} Correspondence Files\n` +
-                   `• **🟢 Completed / Dispatched:** ${kpis.completed} Files (${clearance}% Clearance)\n` +
-                   `• **🟡 Pending Action:** ${kpis.pending} Files\n` +
-                   `• **🔵 Active In-Progress:** ${kpis.inprogress} Files\n` +
-                   `• **⭐ VIP Files:** ${vip.total_count || 0} Files (${vip.active_count || 0} Active)\n` +
-                   `• **⚡ Average Resolution TAT:** ${kpis.avg_tat_days || kpis.avg_tat || 0} Days\n\n` +
-                   `You may ask me about any **Officer** (e.g. *Anoj*, *Kalpana*, *Mohan*), **Common Tasks (ALL)**, **File ID** (e.g. \`TS-COR-2026-0001\`), **VIP files**, or **VC meetings**.`;
+                   `• **Total Reportable Files:** ${total} Files\n` +
+                   `• **🟢 Completed:** ${summary.completedTotal} Files (${clearance}% Clearance)\n` +
+                   `• **🔵 In-Progress:** ${summary.inprogressTotal} Files\n` +
+                   `• **⚠️ Stage N/A / Officer N/A:** ${summary.stageNaCount} Stage N/A | ${summary.officerNaCount} Officer N/A\n` +
+                   `• **⭐ VIP Priority:** ${summary.vipTotal} Total (${summary.vipAbstractTotals?.total || 0} active VIP inventory excl. Postponed/Follow-Up)\n` +
+                   `• **🚨 Dept Follow-Up Required (Yes):** ${summary.followupCount} Tasks across ${summary.followupAbstractRows?.length || 0} Depts\n` +
+                   `• **📅 Today & Upcoming VCs:** ${summary.upcomingVcCount} VCs\n` +
+                   `• **⚡ Average Resolution TAT:** ${kpis.avg_tat_days || kpis.avg_tat || 0} Days (${kpis.sla_compliance_pct || 0}% SLA Compliance)\n\n` +
+                   `You may ask me about **Officer Workloads**, **Project Abstract**, **Today & Upcoming VCs**, **VIP Abstract**, **Department Follow-Ups**, or any **File ID** (e.g. \`TS-COR-2026-0001\`).`;
         }
 
         // Live Google Gemini API Caller with Full Record Context & Multi-Model Failover
@@ -5158,42 +5326,57 @@
             const kpis = rawData?.kpis || {};
             const vip = rawData?.vip_analytics || {};
             const records = rawData?.records || [];
-            const officers = rawData?.officers || [];
             const events = rawData?.scheduled_events || [];
+            const summary = buildOfficerAbstractReportRows();
 
-            // Compile ALL correspondence records so Gemini knows every single officer's works, projects, stages, and subjects
+            // Compile ALL reportable correspondence records so Gemini knows every officer's works, projects, stages, VIP & Follow-Up status
             const allRecordsText = records.map(r => 
-                `${r.ID} | Off: ${r.officer_label || 'Unassigned'} | Proj: ${r.project_label || 'PRJ-037 - Miscellaneous'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || ''} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | Followup: ${r.is_vip_followup ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
+                `${r.ID} | Off: ${r.officer_label || 'Concerned Officer N/A'} | Proj: ${r.project_label || 'PRJ-037 - Miscellaneous'} | Dept: ${r['Received From Department /Wing'] || ''} (${r['Received From Officer designation '] || ''}) | Stage: ${r['Current Stage'] || 'N/A'} [${r.status_group || ''}] | Time: ${r.display_time_metric || ''} | VIP: ${r.is_vip ? 'YES' : 'NO'} | VIP-Inventory: ${isVipInventoryReportRecord(r) ? 'YES' : 'NO'} | Followup: ${isFollowupRequiredRecord(r) ? 'YES' : 'NO'} | Subj: ${r['Subject / Work Description'] || ''}`
             ).join('\n');
 
-            const sortedOfficers = [...officers].filter(o => (o.pro_id || '').toUpperCase() !== 'ALL' && (o.officer || '').toUpperCase() !== 'ALL').sort((a, b) => {
-                const wA = getOfficerHierarchyWeight(a);
-                const wB = getOfficerHierarchyWeight(b);
-                if (wA !== wB) return wA - wB;
-                return (b.pending + b.inprogress + (b.onhold || 0)) - (a.pending + a.inprogress + (a.onhold || 0));
-            });
-            const officerList = sortedOfficers.map((o, idx) => `${idx + 1}. ${o.officer}: Active ${o.pending + o.inprogress + (o.onhold || 0)} (${o.pending} Pend / ${o.inprogress} InProg / ${o.onhold || 0} N/A) | Done: ${o.completed} | Total: ${o.total}`).join('\n');
-            const commonTasksText = records.filter(r => (r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL').map(r => `${r.ID} [${r.project_label}] — Stage: ${r['Current Stage']} — ${r['Subject / Work Description']}`).join('\n') || 'None';
-            const eventList = events.filter(e => e.status_group !== 'On Hold / Closed').slice(0, 15).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n');
+            const officerList = summary.rows.map((o, idx) => `${idx + 1}. ${o.officer}: Total ${o.total} (In-Prog: ${o.inprogress} / Done: ${o.completed} / Stage N/A: ${o.onhold || 0})`).join('\n');
+            const projectList = summary.projectRows.map((p, idx) => `${idx + 1}. ${p.project}: Total ${p.total} (In-Prog: ${p.inprogress} / Done: ${p.completed} / Stage N/A: ${p.onhold || 0})`).join('\n') || 'None';
+            const vipAbstractList = summary.vipAbstractRows.map((v, idx) => `${idx + 1}. ${v.officer}: ${v.total} VIP (Pend: ${v.pending} / In-Prog: ${v.inprogress} / Hold-NA: ${v.holdNa})`).join('\n') || 'None';
+            const followupAbstractList = summary.followupAbstractRows.map((d, idx) => `${idx + 1}. ${d.department}: ${d.total} Tasks (In-Prog: ${d.inprogress} / Done: ${d.completed} / Stage N/A: ${d.stageNa})`).join('\n') || 'None';
+            const upcomingVcText = summary.upcomingVcRows.map((e, idx) => `${idx + 1}. ${e.id} | Date: ${e.due_date_raw} (${e.event_timing_label}) | Officer: ${e.officer} | Stage: ${e.current_stage} | Agenda: ${e.subject} | Remarks: ${e.remarks || '—'}`).join('\n') || 'None';
+            const commonTasksText = records.filter(r => r.status_group !== 'Closed / Excluded' && ((r.officer_id || '').toUpperCase() === 'ALL' || (r.officer_label || '').toUpperCase() === 'ALL')).map(r => `${r.ID} [${r.project_label}] — Stage: ${r['Current Stage']} — ${r['Subject / Work Description']}`).join('\n') || 'None';
+            const eventList = events.filter(e => !isEventPostponed(e) && e.status_group !== 'Closed / Excluded' && e.status_group !== 'Completed' && e.event_delta_days >= 0).slice(0, 15).map(e => `ID: ${e.id} | Date: ${e.due_date_raw} (${e.event_timing_label}) | Nature: ${e.nature_of_request} | Officer: ${e.officer} | Topic: ${e.subject}`).join('\n') || 'None';
 
             const recentHistory = aiChatHistory.slice(-4).map(h => `Officer: ${h.q}\nCopilot: ${h.a}`).join('\n\n');
 
             const systemPrompt = `You are the Executive AI Copilot for Andhra Pradesh Police Technical Services (PCS&S) Command Portal.
 You assist senior Indian Police Service (IPS) leadership (DGP, ADGP, IGP Technical Services) with executive monitoring and decision support.
 Today's Date: ${new Date().toLocaleDateString('en-GB')}
+Portal Link: https://anujkumar-max.github.io/ap-police-ts-correspondence-matrix/
+Google Sheet Source: ${GOOGLE_SHEET_URL}
 
-PORTAL LIVE SUMMARY:
-- Total Intake: ${records.length} files | Completed: ${kpis.completed} | Pending: ${kpis.pending} | In-Progress: ${kpis.inprogress} | Hold/NA: ${kpis.onhold_closed || 0}
-- Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days
-- VIP Correspondence: Total ${vip.total_count || 0} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
+PORTAL LIVE SUMMARY (EXCLUDES CLOSED/CANCELLED/RETURNED):
+- Total Reportable Files: ${summary.totalFiles} (Raw Sheet Rows: ${records.length}) | In-Progress: ${summary.inprogressTotal} | Completed: ${summary.completedTotal} | Current Stage N/A: ${summary.stageNaCount} | Concerned Officer N/A: ${summary.officerNaCount}
+- Average Resolution TAT: ${kpis.avg_tat_days || kpis.avg_tat || 0} days | 15-Day SLA Compliance: ${kpis.sla_compliance_pct || 0}%
+- VIP Priority Overall: ${summary.vipTotal} (${vip.active_count || 0} active, ${vip.completed_count || 0} completed)
+- 4. Dedicated VIP Correspondence Abstract (Active 4 Pillars, Excludes Postponed, Follow-Up=Yes, Completed & Closed): ${summary.vipAbstractTotals.total} files
+- 5. Further Follow-Up Required with Concerned Departments (Flagged Yes): ${summary.followupCount} tasks across ${summary.followupAbstractRows.length} departments
+- 3. Today & Upcoming Video Conferences (VC, Excludes Postponed/Completed/Cancelled): ${summary.upcomingVcCount} VCs
 
-OFFICER WORKLOAD Current stage [Active = Pend / InProg / N/A] (OFFICIAL OFFICER HIERARCHY ORDER):
+1. OFFICER-WISE WORKLOAD SUMMARY (OFFICIAL HIERARCHY ORDER):
 ${officerList}
+
+2. PROJECT-WISE TASK ABSTRACT (${summary.projectCount} PROJECTS):
+${projectList}
+
+3. TODAY & UPCOMING VIDEO CONFERENCES (${summary.upcomingVcCount} VCs):
+${upcomingVcText}
+
+4. DEDICATED VIP CORRESPONDENCE ABSTRACT (BY OFFICER — EXCLUDES POSTPONED & FOLLOW-UP=YES):
+${vipAbstractList}
+
+5. FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS ABSTRACT (BY DEPARTMENT):
+${followupAbstractList}
 
 COMMON TASKS (ASSIGNED TO ALL OFFICERS / PRJ-038 - ALL):
 ${commonTasksText}
 
-SCHEDULED EVENTS & VCS (ACTIVE):
+OTHER TODAY & UPCOMING MEETINGS / EVENTS (ACTIVE):
 ${eventList}
 
 COMPLETE CORRESPONDENCE DATABASE (ALL ${records.length} FILES):
@@ -5202,10 +5385,10 @@ ${allRecordsText}
 ${recentHistory ? 'RECENT CONVERSATION CONTEXT:\n' + recentHistory + '\n' : ''}
 INSTRUCTIONS:
 1. Address the senior officer respectfully ('Sir,').
-2. Answer the exact question asked using the COMPLETE CORRESPONDENCE DATABASE above. Note that 'Anoj' or 'Anuj' refers to 'PRO-136 - T. Anoj Kumar (SI)'.
-3. When asked for Officer Workload or Short Brief, ALWAYS list officers strictly in RANK-WISE order (CI Rank officers first, then SI Rank officers, then Unassigned) in the format '1. PRO-xxx - Name (Rank): *Active* (Pend / InProg / N/A)', do NOT show a separate Rank Summary block, show Common Tasks (ALL) separately, and include a polite note asking officers to update current stages if there are any changes.
-4. Note that 'PRJ-037 - Miscellaneous' is the Miscellaneous project category and 'PRJ-038 - ALL' is for tasks spanning all projects.
-5. Always cite File IDs exactly like TS-COR-2026-XXXX so they become clickable links in the UI.`;
+2. Answer using the exact abstracts and COMPLETE CORRESPONDENCE DATABASE above. Note that 'Anoj' or 'Anuj' refers to 'PRO-136 - T. Anoj Kumar (SI)'.
+3. Match the portal's 5-section report rules strictly: (a) 'Closed / Excluded' files are excluded from workload abstracts; (b) Upcoming VCs include only Today & future active VCs (no Postponed/Completed/Cancelled); (c) VIP Inventory Abstract excludes Postponed, Follow-Up=Yes, Completed & Closed; (d) Follow-Up Required = Yes tasks are summarized separately by Concerned Department.
+4. When asked for Officer Workload or Abstract Briefs, keep officers in official rank hierarchy order (CI Rank first, then SI Rank, then ALL Common Tasks, then Concerned Officer N/A), matching format '1. PRO-xxx - Name (Rank): Total (In-Prog / Completed / Stage N/A)'.
+5. Always cite File IDs exactly like TS-COR-2026-XXXX so they become clickable links in the UI, and share the Portal Link or Google Sheet Source if requested.`;
 
             const payload = {
                 contents: [
@@ -5403,14 +5586,17 @@ INSTRUCTIONS:
             <button onclick="sendQuickPrompt('Give me a 3-bullet executive briefing of today\'s correspondence status')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-blue-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
                 📊 Executive Brief
             </button>
-            <button onclick="sendQuickPrompt('List all active VIP files pending resolution with their stages and officers')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-amber-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
-                ⭐ Overdue VIP Files
+            <button onclick="sendQuickPrompt('Give me the Dedicated VIP Correspondence abstract summary excluding postponed and follow-up tasks')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-amber-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                ⭐ VIP Abstract
             </button>
-            <button onclick="sendQuickPrompt('Which officers have the highest pending workloads right now?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-indigo-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
-                👮 Officer Workloads
+            <button onclick="sendQuickPrompt('Give me the department-wise Further Follow-Up Required summary')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-rose-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                🚨 Dept Follow-Ups
             </button>
-            <button onclick="sendQuickPrompt('Are there any scheduled meetings, workshops, or video conferences upcoming?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-emerald-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
-                📅 Scheduled VCs
+            <button onclick="sendQuickPrompt('Give me the Officer-Wise and Project-Wise workload abstract')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-indigo-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                👮 Officers &amp; Projects
+            </button>
+            <button onclick="sendQuickPrompt('List Today and Upcoming scheduled Video Conferences excluding postponed and completed')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-emerald-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
+                📅 Today &amp; Upcoming VCs
             </button>
             <button onclick="sendQuickPrompt('What is our SLA compliance rate and average turnaround time?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-cyan-600/50 text-slate-300 hover:text-white border border-slate-700 transition whitespace-nowrap">
                 ⚡ SLA Report
@@ -5426,7 +5612,7 @@ INSTRUCTIONS:
                 </div>
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-slate-200 space-y-1.5 shadow-md max-w-[85%]">
                     <p class="font-semibold text-white">Jai Hind, Sir.</p>
-                    <p>I am your <strong>Technical Services (PCS&S) AI Copilot</strong>. I have real-time visibility into all correspondence records, VIP files, officer workloads, and upcoming scheduled events.</p>
+                    <p>I am your <strong>Technical Services (PCS&S) AI Copilot</strong>. I have real-time visibility into officer workloads, project abstracts, today &amp; upcoming VCs, VIP abstract counts, and concerned department follow-ups.</p>
                     <p class="text-[11px] text-slate-400">Ask any question or tap a prompt chip above to get an instant executive answer.</p>
                     <div class="mt-2 px-3 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -5762,9 +5948,9 @@ INSTRUCTIONS:
                         <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
                             <li><strong class="text-indigo-300">OFFICER-WISE WORKLOAD SUMMARY:</strong> Official AP Police rank hierarchy workload table (Total, In-Progress, Completed, Current Stage N/A) plus explicit Concerned Officer N/A accountability row.</li>
                             <li><strong class="text-cyan-300">PROJECT-WISE TASK ABSTRACT:</strong> Standardized Technical Project (PRJ-ID) task distribution across Total, In-Progress, Completed, and Current Stage N/A counts.</li>
-                            <li><strong class="text-blue-300">UPCOMING VIDEO CONFERENCES:</strong> Active scheduled Video Conferences with date, timing badge, agenda, concerned officer, stage, and VC link/remarks (excludes postponed, completed &amp; cancelled).</li>
-                            <li><strong class="text-amber-300">DEDICATED VIP CORRESPONDENCE INVENTORY:</strong> Strictly filtered to 4-Pillars active non-follow-up VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, or Letter Sent</strong> stages (<strong class="text-rose-300">excludes Postponed, Follow-Up Required = Yes</strong> tasks, as well as Completed &amp; Closed).</li>
-                            <li><strong class="text-rose-300">FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS:</strong> Dedicated separate report table listing all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
+                            <li><strong class="text-blue-300">UPCOMING VIDEO CONFERENCES:</strong> Scheduled Today &amp; Upcoming Video Conferences with date, timing badge, agenda, concerned officer, stage, and VC link/remarks (excludes postponed, completed &amp; cancelled).</li>
+                            <li><strong class="text-amber-300">DEDICATED VIP CORRESPONDENCE INVENTORY:</strong> Officer-wise abstract table (Total VIP Files, Pending, In-Progress, Hold / Stage N/A) for 4-Pillars active non-follow-up VIP files (<strong class="text-rose-300">excludes Postponed, Follow-Up Required = Yes</strong>, Completed &amp; Closed).</li>
+                            <li><strong class="text-rose-300">FURTHER FOLLOW-UP REQUIRED WITH CONCERNED DEPARTMENTS:</strong> Department-wise abstract table (Total Tasks, In-Progress, Completed, Current Stage N/A) covering all reportable tasks flagged <strong class="text-white">Yes</strong> for department liaison.</li>
                         </ol>
                     </div>
 
@@ -5817,7 +6003,7 @@ INSTRUCTIONS:
                         <h4 class="text-sm font-bold text-white">📊 VIP Command List View &amp; Report Rules</h4>
                         <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300">
                             <li><strong class="text-white">Unified List View:</strong> The VIP Command module displays all VIP files in a clean sortable table layout matching All Records — click any row for full 21-column history.</li>
-                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>4. DEDICATED VIP CORRESPONDENCE INVENTORY</em> table inside <strong>Officer Abstract</strong> shows VIP files in <strong class="text-white">Pending, In-Progress, On Hold, Unassigned, N/A, or Letter Sent</strong> stages — <strong class="text-rose-300">excluding Postponed, Follow-Up Required (Yes)</strong> tasks (shown separately in Section 5), Completed &amp; Closed.</li>
+                            <li><strong class="text-amber-300">Officer Abstract VIP Report Scope:</strong> The <em>4. DEDICATED VIP CORRESPONDENCE INVENTORY</em> abstract table inside <strong>Officer Abstract</strong> summarizes active VIP files by officer (<strong class="text-white">Pending, In-Progress, Hold / Stage N/A</strong>) — <strong class="text-rose-300">excluding Postponed, Follow-Up Required (Yes)</strong> tasks (summarized by Concerned Department in Section 5), Completed &amp; Closed.</li>
                         </ul>
                     </div>
                 </div>
